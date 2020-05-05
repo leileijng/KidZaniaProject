@@ -1,0 +1,155 @@
+Neodynamic End User License Agreement
+Revised April 3rd, 2019 
+
+IMPORTANT: READ CAREFULLY: This Neodynamic End User License Agreement ("EULA") is a legal agreement between you (either an individual or a single entity) and Neodynamic S.R.L. (“Neodynamic”) for the materials accompanying this EULA, which may include computer software, associated media, printed materials, and "on line" or electronic documentation ("Software") and source files, resource files, project and solution files ("Source Code") for Software, collectively "THE PRODUCT". BY INSTALLING, COPYING OR OTHERWISE USING THE PRODUCT, YOU AGREE TO BE BOUND BY THE TERMS OF THIS EULA. IF YOU DO NOT AGREE TO THE TERMS OF THIS EULA, DO NOT INSTALL, COPY OR USE THE PRODUCT. 
+
+
+PRODUCT LICENSE  
+
+THE PRODUCT is protected by copyright laws and international copyright treaties, as well as other intellectual property laws and treaties. Neodynamic or its suppliers own the title, copyright and other intellectual property rights in THE PRODUCT. THE PRODUCT IS LICENSED, NOT SOLD.  
+
+DEFINITIONS
+
+•	Developer: a Developer might be a software developer, a systems administrator, report author or any other person who uses THE PRODUCT for development purposes. Each developer working with THE PRODUCT needs to be licensed.
+•	Derived Work: a software program, website, webapp, API, service, library, SDK or any other solution, work or product that incorporates or uses THE PRODUCT.
+•	Physical Location: a postal address where a Derived Work is used.
+•	Server Location: a virtual, cloud-based instance or physical server where a Derived Work is used.
+•	For Internal Use Only: the Derived Work must not be sold, rented or leased to third parties.
+•	For External Distribution: the Derived Work can be distributed, sold, rented or leased to third parties.   
+
+LICENSE TYPES
+
+1.	GRANT OF LICENSE. Neodynamic grants you the rights described in this EULA provided that you comply with all the terms and conditions of this EULA:
+
+a.	GRANT OF SOFTWARE LICENSE. Neodynamic grants the use of THE PRODUCT according to one of the following license types.
+
+i.	Developer License
+
+	GRANT OF DEVELOPMENT
+	A Developer License grants to you one (1) personal, nontransferable, nonexclusive, royalty-free Developer license to make and use copies of THE PRODUCT and install it on any number of your own computers to design, develop and test any number of Derived Work. At no time may THE PRODUCT be used by individuals other than you for development purposes, nor may THE PRODUCT be distributed for use with other than those developed by you. 
+
+	GRANT OF DEPLOYMENT
+	A Developer License allows royalty-free deployment of any number of Derived Works For Internal Use Only, to one (1) Physical Location and one (1) Server Location. 
+
+
+
+ii.	OEM Developer License
+
+	GRANT OF DEVELOPMENT
+	An OEM Developer License grants to you one (1) personal, nontransferable, nonexclusive, royalty-free Developer license to make and use copies of THE PRODUCT and install it on any number of your own computers to design, develop and test any number of Derived Work. At no time may THE PRODUCT be used by individuals other than you for development purposes, nor may THE PRODUCT be distributed for use with other than those developed by you. 
+
+	GRANT OF DEPLOYMENT
+	An OEM Developer License allows royalty-free deployment of any number of Derived Work For External Distribution, to unlimited Physical Locations and unlimited Server Locations.
+
+
+
+iii.	Team License
+
+	GRANT OF DEVELOPMENT
+	A Team License grants to your Company up to five (5) personal, nontransferable, nonexclusive, royalty-free Developer licenses to make and use copies of THE PRODUCT and install it on any number of your Company's computers to design, develop and test any number of Derived Work. At no time may THE PRODUCT be used by more than five (5) Developers at the same time for development purposes, nor may THE PRODUCT be distributed for use with Derived Work  other than those developed by your Company. 
+
+	GRANT OF DEPLOYMENT
+	A Team License allows royalty-free deployment of any number of Derived Work For Internal Use Only, up to five (5) Physical Locations and five (5) Server Locations.
+
+
+iv.	OEM Team License
+
+	GRANT OF DEVELOPMENT
+	An OEM Team License grants to your Company up to five (5) personal, nontransferable, nonexclusive, royalty-free Developer licenses to make and use copies of THE PRODUCT and install it on any number of your Company's computers to design, develop and test any number of Derived Work. At no time may THE PRODUCT be used by more than five (5) Developers at the same time for development purposes, nor may THE PRODUCT be distributed for use with Derived Work other than those developed by your Company. 
+
+	GRANT OF DEPLOYMENT
+	An OEM Team License allows royalty-free deployment of any number of Derived Work For External Distribution, to unlimited Physical Locations and unlimited Server Locations. 
+
+
+
+v.	Corporate License
+
+	GRANT OF DEVELOPMENT
+	A Corporate License grants to your Company unlimited nontransferable, nonexclusive, royalty-free Developer licenses to make and use copies of THE PRODUCT and install it on any number of your Company's computers to design, develop and test any number of Derived Work. At no time may THE PRODUCT be distributed for use with Derived Work other than those developed by your Company.
+
+	GRANT OF DEPLOYMENT
+	A Corporate License allows royalty-free deployment of any number of Derived Work For Internal Use Only, up to ten (10) Physical Locations and ten (10) Server Locations.
+
+
+vi.	OEM Corporate License
+
+	GRANT OF DEVELOPMENT
+	An OEM Corporate License grants to your Company unlimited nontransferable, nonexclusive, royalty-free Developer licenses to make and use copies of THE PRODUCT and install it on any number of your Company's computers to design, develop and test any number of Derived Work. At no time may THE PRODUCT be distributed for use with Derived Work other than those developed by your Company.
+
+	GRANT OF DEPLOYMENT
+	An OEM Corporate License allows royalty-free deployment of any number of Derived Work For External Distribution, to unlimited Physical Locations and unlimited Server Locations.
+
+
+vii.	Web App License
+
+	DEFINITION
+	A Web App is an application utilizing web and browser technologies to accomplish one or more tasks over a network such as the Internet or an intranet/extranet.
+
+	GRANT OF DEVELOPMENT
+	A Web App License grants to you or your Company a nontransferable, nonexclusive, royalty-free license to make and use copies of THE PRODUCT and install it on any number of your own computers to design, develop and test one (1) Web App. Those licenses entitled as "Unlimited" grants the aforementioned rights to Unlimited Web Apps. 
+	 
+
+	GRANT OF DEPLOYMENT
+    A Web App License allows you to deploy THE PRODUCT with one (1) single Web App. Each Web App you design or develop using THE PRODUCT requires a separate Web App License. You might have more than one Web Apps under a single domain. In this case, each Web App requires a separate license. Examples of Web Apps under a single domain are Google’s Gmail, Documents, Calendar, etc. Those licenses entitled as "Unlimited" grants the aforementioned rights to Unlimited number of Web Apps.
+
+viii. Web Server License
+
+	GRANT OF DEPLOYMENT
+    A Web Server License allows royalty-free deployment of THE PRODUCT, to one (1) Server Location. Those licenses entitled as "Unlimited" grants the aforementioned rights to Unlimited number of Server Locations.
+
+ix. Evaluation/TRIAL License
+You or your Company may install and use an unlimited number of copies of THE PRODUCT on an unlimited number of machines for testing and evaluation purposes of THE PRODUCT only. Neodynamic DOES NOT PERMIT the distribution of applications compiled with the evaluation/trial version of THE PRODUCT except for demo and testing purposes. You are free to use the evaluation/trial version of THE PRODUCT for such purposes for an unlimited period of time.
+
+b.	Font Files
+	Any font files which are part of THE PRODUCT cannot be installed nor used outside THE PRODUCT scope.
+
+c.	Redistribution. FOR ALL LICENSES:
+i.	The name "Neodynamic" must not be used to endorse or promote products derived from THE PRODUCT
+ii.	Works derived from THE PRODUCT may not be called "Neodynamic", nor may "Neodynamic" appear in their name
+iii.	Neodynamic is not obligated to provide support for works derived from THE PRODUCT 
+iv.  You are required to reasonably ensure that THE PRODUCT is not reused by or with any application other than those with which you distribute it. That's if you install THE PRODUCT along with a packaged application on a customer's workstation or server, that customer IS NOT PERMITTED to use THE PRODUCT independent of your application, and must be informed as such.
+
+d.	License Subscription Terms. Each license you buy includes free updates (minor, major or fix releases) and priority support for 1-year term.
+	License Subscription Upgrades. You can upgrade your current license any time. When this happens, your subscription is automatically renewed for 1-year term.  
+
+e.	Acknowledgment. The end-user documentation (user manual, help files, etc.) included with the derived work using THE PRODUCT, if any, must include the following acknowledgment text:
+
+•	For derived works using the Neodynamic Barcode product lines both generators and readers: "This product includes Barcode software developed by Neodynamic SRL (http://www.neodynamic.com/). All rights reserved."
+•	For derived works using the Neodynamic Imaging product lines: "This product includes Imaging software developed by Neodynamic SRL (http://www.neodynamic.com/). All rights reserved."
+•	For derived works using the Neodynamic Labeling product lines: "This product includes Barcode, Labeling and Printing software developed by Neodynamic SRL (http://www.neodynamic.com/). All rights reserved."
+•	For derived works using the Neodynamic Printing product lines: "This product includes Printing software developed by Neodynamic SRL (http://www.neodynamic.com/). All rights reserved."
+•	For derived works using the Neodynamic Emulation product lines: "This product includes Emulation software developed by Neodynamic SRL (http://www.neodynamic.com/). All rights reserved."
+
+f.	Documentation. With respect to electronic and other documentation, you may make any number of copies (either in hard copy or electronic form) provided that such copies shall be used only for internal purposes and are not republished or distributed beyond your premises.
+
+g.	Disassembly. You may not reverse engineer, decompile, disassemble or in any other way try to gain access to information regarding the construction of THE PRODUCT.
+
+h.	Reservation of Rights. Neodynamic reserves all rights not expressly granted herein.
+
+	
+
+2.	DESCRIPTION OF OTHER RIGHTS AND LIMITATIONS.
+a.	Rental. You or your Company may not rent, lease, or lend THE PRODUCT without express written permission from Neodynamic.
+
+b.	Termination. Without prejudice to any other rights, Neodynamic may terminate this EULA if you fail to comply with the terms and conditions of this EULA. In such event, you must destroy all copies of THE PRODUCT, including but not limited to the Source Code, backups and all of its component parts and derived works.
+
+c.	Consideration.  For the rights and license granted in this EULA you will pay Neodynamic the currently published price available at http://www.neodynamic.com or another mutually agreed upon amount to appear on a valid invoice.
+
+d.	Term. The term of this EULA shall continue perpetually from the date of purchase unless terminated according to the provisions in section 2(b).
+
+e.	Derived Works. You agree that you will not use THE PRODUCT to develop derived works that offer similar functionality as THE PRODUCT, expose the features of THE PRODUCT for use by an unlicensed third party. 
+
+3.	EULA UPGRADES. If this copy of THE PRODUCT is an upgrade from an earlier version of THE PRODUCT, it is provided to you on a license exchange basis. You agree by your installation and use of such copy of THE PRODUCT to voluntarily terminate your earlier EULA and that you will not continue to use the earlier version of THE PRODUCT or transfer it to another person or entity unless such transfer is otherwise valid according to the terms of this EULA.
+
+4.	INTELLECTUAL PROPERTY RIGHTS. All title and intellectual property rights in and to THE PRODUCT (including but not limited to any images, photographs, animations, video, audio, music, text and "applets" incorporated into THE PRODUCT and any copies of THE PRODUCT that you are expressly permitted to make herein) are owned by Neodynamic or its suppliers. All title and intellectual property rights in and to the content which may be accessed through use of THE PRODUCT are the property of the respective content owner and may be protected by applicable copyright or other intellectual property laws and treaties. This EULA grants you no rights to use such content. All title and intellectual property rights in and to your modifications to THE PRODUCT are owned by you provided that such modifications are made available to Neodynamic free of charge and royalty-free for inclusion in later releases of THE PRODUCT. All rights not expressly granted are reserved by Neodynamic.
+
+5.	LIMITED WARRANTY. 
+NO WARRANTIES. Neodynamic expressly disclaims any warranty for THE PRODUCT. THE PRODUCT and any related documentation are provided "as is" without warranty of any kind, either expressed or implied, including, without limitation, the implied warranties of merchantability, fitness for a particular purpose, or non-infringement. The entire risk arising out of use or performance of THE PRODUCT remains with you.
+
+6.	LIMITATION OF LIABILITY.
+NO LIABILITY FOR CONSEQUENTIAL DAMAGES. In no event shall Neodynamic or its distributors be liable for any damages whatsoever (including, without limitation, damages for loss of business profits, business interruption, loss of business information, or any other pecuniary loss) arising out of the use of or inability to use this Neodynamic product (THE PRODUCT) and related materials, even if Neodynamic has been advised of the possibility of such damages.
+
+7.	GOVERNING LAW. This EULA will be governed and construed in accordance with the Argentinean Laws and the parties submit to the non-exclusive jurisdiction of the Argentinean Courts. 
+
+8.	ENTIRE AGREEMENT. This EULA is the entire agreement between you and Neodynamic relating to THE PRODUCT and the support services (if any) and it supersedes all prior or contemporaneous oral or written communications, proposals and representations with respect to THE PRODUCT or any other subject matter covered by this EULA. To the extent the terms of any Neodynamic policies or programs for support services conflict with the terms of this EULA, the terms of this EULA shall control.
+

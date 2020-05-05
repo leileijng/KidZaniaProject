@@ -1,0 +1,2 @@
+C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\obj\Debug\PhotoBoothPortal.csprojAssemblyReference.cache
+C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\obj\Debug\PhotoBoothPortal.csproj.CoreCompileInputs.cache
