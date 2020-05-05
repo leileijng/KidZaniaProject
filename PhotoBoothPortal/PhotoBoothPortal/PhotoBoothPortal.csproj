@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dropbox.Api, Version=4.0.0.0, Culture=neutral, PublicKeyToken=310f0e82fbb45d01, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dropbox.Api.4.10.0\lib\net45\Dropbox.Api.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MySql.Data, Version=8.0.20.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="Neodynamic.SDK.WebClientPrint, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -173,45 +176,45 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\Test\PrintESCPOSHandler.ashx.cs">
+    <Compile Include="Views\Home\PrintESCPOSHandler.ashx.cs">
       <DependentUpon>PrintESCPOSHandler.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Test\payment_onsite.aspx.cs">
+    <Compile Include="Views\Home\payment_onsite.aspx.cs">
       <DependentUpon>payment_onsite.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Views\Test\payment_onsite.aspx.designer.cs">
+    <Compile Include="Views\Home\payment_onsite.aspx.designer.cs">
       <DependentUpon>payment_onsite.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Test\photoupload.aspx.cs">
+    <Compile Include="Views\Home\photoupload.aspx.cs">
       <DependentUpon>photoupload.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Views\Test\photoupload.aspx.designer.cs">
+    <Compile Include="Views\Home\photoupload.aspx.designer.cs">
       <DependentUpon>photoupload.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Test\profile.aspx.cs">
+    <Compile Include="Views\Home\profile.aspx.cs">
       <DependentUpon>profile.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Views\Test\profile.aspx.designer.cs">
+    <Compile Include="Views\Home\profile.aspx.designer.cs">
       <DependentUpon>profile.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Test\selection.aspx.cs">
+    <Compile Include="Views\Home\selection.aspx.cs">
       <DependentUpon>selection.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Views\Test\selection.aspx.designer.cs">
+    <Compile Include="Views\Home\selection.aspx.designer.cs">
       <DependentUpon>selection.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Test\summary.aspx.cs">
+    <Compile Include="Views\Home\summary.aspx.cs">
       <DependentUpon>summary.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Views\Test\summary.aspx.designer.cs">
+    <Compile Include="Views\Home\summary.aspx.designer.cs">
       <DependentUpon>summary.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Views\Test\WebClientPrintAPI.ashx.cs">
+    <Compile Include="Views\Home\WebClientPrintAPI.ashx.cs">
       <DependentUpon>WebClientPrintAPI.ashx</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -251,11 +254,11 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Views\Test\payment_onsite.aspx" />
-    <Content Include="Views\Test\photoupload.aspx" />
-    <Content Include="Views\Test\profile.aspx" />
-    <Content Include="Views\Test\selection.aspx" />
-    <Content Include="Views\Test\summary.aspx" />
+    <Content Include="Views\Home\payment_onsite.aspx" />
+    <Content Include="Views\Home\photoupload.aspx" />
+    <Content Include="Views\Home\profile.aspx" />
+    <Content Include="Views\Home\selection.aspx" />
+    <Content Include="Views\Home\summary.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -270,12 +273,13 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Test\PrintESCPOSHandler.ashx" />
-    <Content Include="Views\Test\WebClientPrintAPI.ashx" />
+    <Content Include="Views\Home\PrintESCPOSHandler.ashx" />
+    <Content Include="Views\Home\WebClientPrintAPI.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

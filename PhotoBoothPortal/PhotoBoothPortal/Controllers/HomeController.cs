@@ -14,5 +14,35 @@ namespace PhotoBoothPortal.Controllers
 
             return View();
         }
+        public ActionResult profile()
+        {
+            ViewBag.Title = "Home Page";
+
+            return View();
+        }
+        public ActionResult payment_onsite()
+        {
+            ViewBag.Title = "Home Page";
+
+            return View();
+        }
+        public ActionResult photoupload()
+        {
+            ViewBag.Title = "Home Page";
+
+            return View();
+        }
+        public ActionResult selection()
+        {
+            ViewBag.Title = "Home Page";
+
+            return View();
+        }
+        public ActionResult summary()
+        {
+            ViewBag.Title = "Home Page";
+
+            return View();
+        }
     }
 }
