@@ -17,6 +17,8 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
+using System.Data;
+using PhotoBoothPortal.Models;
 
 namespace PhotoBoothPortal.Views.Test
 {
@@ -24,6 +26,8 @@ namespace PhotoBoothPortal.Views.Test
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            getProduct();
+
             /*
             bool onsite = false;
             try
@@ -36,9 +40,9 @@ namespace PhotoBoothPortal.Views.Test
                 //Response.Redirect("/");
             }
             */
-
-
+            
             string profile_id = "";
+
             /*
             Dictionary<string, string> photoprofile = new Dictionary<string, string>();
             string alert_message = "";
@@ -315,6 +319,48 @@ namespace PhotoBoothPortal.Views.Test
             MySqlCommand cmd = new MySqlCommand(query, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
+        }
+
+        protected List<Product> getProduct()
+        {
+            string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
+            List<Product> products = new List<Product>();
+            MySqlConnection conn = null;
+            try
+            {
+                conn = new MySqlConnection(connstring);
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT * FROM kidzania.product where pro_visibility = 1;", conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        products.Add(new Product()
+                        {
+                            ProductId = Convert.ToInt32(reader["pro_id"]),
+                            ProductName = reader["pro_name"].ToString(),
+                            ProductPrice = Decimal.Parse(reader["pro_price"].ToString()),
+                            ProductGST = Decimal.Parse(reader["pro_gst"].ToString()),
+                            ProductImage = reader["pro_image"].ToString(),
+                            ProductDescription = reader["pro_description"].ToString()
+                        });
+                        Debug.WriteLine(reader["pro_name"]);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: {0}", e.ToString());
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+            return products;
         }
     }
 }
