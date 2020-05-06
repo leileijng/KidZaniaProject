@@ -16,6 +16,7 @@ using System.Globalization;
 using System.Net.Http;
 using Newtonsoft.Json;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 namespace PhotoBoothPortal.Views.Test
 {
@@ -23,7 +24,7 @@ namespace PhotoBoothPortal.Views.Test
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            /*
             bool onsite = false;
             try
             {
@@ -32,10 +33,13 @@ namespace PhotoBoothPortal.Views.Test
             catch (Exception ex)
             {
                 Console.Write(ex.Message);
-                Response.Redirect("/");
+                //Response.Redirect("/");
             }
+            */
+
 
             string profile_id = "";
+            /*
             Dictionary<string, string> photoprofile = new Dictionary<string, string>();
             string alert_message = "";
             if (Request.Form["pf"] != null)
@@ -77,6 +81,7 @@ namespace PhotoBoothPortal.Views.Test
             }
 
 
+  
             if (photoprofile.Count > 0)
             {
                 if (Session["CapturedImageBase64"] != null)
@@ -88,41 +93,52 @@ namespace PhotoBoothPortal.Views.Test
 
 
                 Dictionary<string, string> photomatch = photoprofile; //comment it for debugging.
-                ///COMMENT UNTIL HERE FOR DEBUGGING
+                ///COMMENT UNTIL HERE FOR DEBUGGING*/
+            ///
 
-                string currentApplicationPath = HttpContext.Current.Request.PhysicalApplicationPath;
+            Dictionary<string, string> photomatch = new Dictionary<string, string>();
+            photomatch.Add("1", "1.jpg");
+            photomatch.Add("2", "2.jpg");
+            photomatch.Add("3", "3.jpg");
+            photomatch.Add("4", "4.jpg");
 
-                Uri myuri = new Uri(System.Web.HttpContext.Current.Request.Url.AbsoluteUri);
-                string pathQuery = myuri.PathAndQuery;
-                string host = myuri.ToString().Replace(pathQuery, "") + "/";
-                host = "/";
-                if (photomatch.Count > 0)
+            string currentApplicationPath = HttpContext.Current.Request.PhysicalApplicationPath;
+            Debug.WriteLine("here" + currentApplicationPath);
+
+            Uri myuri = new Uri(System.Web.HttpContext.Current.Request.Url.AbsoluteUri);
+            string pathQuery = myuri.PathAndQuery;
+            string host = myuri.ToString().Replace(pathQuery, "") + "/";
+            host = "/";
+            if (photomatch.Count > 0)
+            {
+                int x = 1;
+                string photofullpath = "";
+                foreach (var photo in photomatch)
                 {
-                    int x = 1;
-                    string photofullpath = "";
-                    foreach (var photo in photomatch)
-                    {
-                        string photounwatermarked = photo.Key;
-                        string photowatermarked = photo.Value;
-                        string photoid = photounwatermarked.Substring(photowatermarked.LastIndexOf('/') + 1);
+                    string photounwatermarked = photo.Key;
+                    string photowatermarked = photo.Value;
+                    string photoid = photounwatermarked;
 
-                        photowatermarked = photowatermarked.Replace(@"Xeric/files/kidzania/", "");
-                        string photowatermarked_filename = photowatermarked.Replace("/", "");
+                    photowatermarked = photowatermarked.Replace(@"Xeric/files/kidzania/", "");
+                    string photowatermarked_filename = photowatermarked.Replace("/", "");
+                    Debug.WriteLine("photo path" + photowatermarked_filename);
+                    /*
                         if (!File.Exists(currentApplicationPath + "photos//" + photowatermarked_filename)) { }
                         else
                         {
                             File.Delete(currentApplicationPath + "photos//" + photowatermarked_filename);
                         }
-
+                        */
                         photo_gallery_ctn.InnerHtml += "<div id='gl_id_" + x + "' class=\"gallery\">";
-                        photo_gallery_ctn.InnerHtml += "<img class='modal_window' onclick='show_modal(this);'; id='tn_id_" + x + "' class='thumbnail' src='" + host + "photos/" + photowatermarked_filename + "'>";
+                        photo_gallery_ctn.InnerHtml += "<img class='modal_window' onclick='show_modal(this);'; id='tn_id_" + x + "' class='thumbnail' src='/Content/photos/" + photowatermarked_filename + "'>";
                         photo_gallery_ctn.InnerHtml += "<div style='margin-bottom: 15px; font-size: 10px;'>Profile ID:" + profile_id + "</div>";
                         photo_gallery_ctn.InnerHtml += "<div class='item_checkbox_grp'>";
                         photo_gallery_ctn.InnerHtml += "    <div>";
                         photo_gallery_ctn.InnerHtml += "        <input name=\"digital_cb\" id=\"dc_photo" + photoid + "\" type=\"checkbox\" checked=\"checked\" value=\"" + photoid + "\">";
                         photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"dc_photo" + photoid + "_lbl\">Digital</label>";
                         photo_gallery_ctn.InnerHtml += "    </div>";
-                        if (onsite)
+                       
+                    if (true)
                         {
                             photo_gallery_ctn.InnerHtml += "    <div>";
                             photo_gallery_ctn.InnerHtml += "        <input name=\"A5copy_cb\" id=\"a5_photo" + photoid + "\" type=\"checkbox\" value=\"" + photoid + "\">";
@@ -149,47 +165,53 @@ namespace PhotoBoothPortal.Views.Test
 
                         x++;
                         photofullpath += photo.Key + "|";
-                    }
-                    int dc_amt = 20; //Default digital copy price
-                    purchase_status.InnerHtml += "<div class='fix_corner'>";
-                    purchase_status.InnerHtml += "  <div class='fix_corner_ctn'>";
-                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='digital_copy_amt'>Digital Copy: $" + dc_amt + "</div>";
-                    if (onsite)
-                    {
-                        purchase_status.InnerHtml += "      <div class='fix_corner_item' id='a5_copy_amt'>A5 hardcopy: $0</div>";
-                        purchase_status.InnerHtml += "      <div class='fix_corner_item' id='kc_copy_amt'>Keychain: $0</div>";
-                        purchase_status.InnerHtml += "      <div class='fix_corner_item' id='ec_copy_amt'>Establishment Card: $0</div>";
-                        purchase_status.InnerHtml += "      <div class='fix_corner_item' id='mg_copy_amt'>Magnet: $0</div>";
-                        purchase_status.InnerHtml += "      <div class='fix_corner_item' id='lr_copy_amt'>Leatherette: $0</div>";
-
-                    }
-                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='Total_cost'>Total: $" + dc_amt + " SGD</div>";
-                    purchase_status.InnerHtml += "      <div class='fix_corner_item'><b>*Bold: purchase with purchase discount</b></div>";
-                    if (alert_message != "")
-                        purchase_status.InnerHtml += "     <br> <div class='fix_corner_item'><b><span style='color:red;'>ALERT!!! " + alert_message + "</span></b></div>";
-                    purchase_status.InnerHtml += "  </div>";
-                    purchase_status.InnerHtml += "</div>";
-
-                    sa.Attributes["value"] = dc_amt.ToString();
-                    dc.Attributes["value"] = (x - 1).ToString();
-                    js.Attributes["value"] = photofullpath.TrimEnd('|');
+                         
                 }
+                /*
+            int dc_amt = 20; //Default digital copy price
+                purchase_status.InnerHtml += "<div class='fix_corner'>";
+                purchase_status.InnerHtml += "  <div class='fix_corner_ctn'>";
+                purchase_status.InnerHtml += "      <div class='fix_corner_item' id='digital_copy_amt'>Digital Copy: $" + dc_amt + "</div>";
+                if (true)
+                {
+                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='a5_copy_amt'>A5 hardcopy: $0</div>";
+                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='kc_copy_amt'>Keychain: $0</div>";
+                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='ec_copy_amt'>Establishment Card: $0</div>";
+                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='mg_copy_amt'>Magnet: $0</div>";
+                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='lr_copy_amt'>Leatherette: $0</div>";
 
-                photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
-                photo_gallery_ctn.InnerHtml += "<div id=\"myModal\" class=\"modal\">";
-                photo_gallery_ctn.InnerHtml += "  <!-- The Close Button -->";
-                photo_gallery_ctn.InnerHtml += "<span class=\"close\" onclick=\"document.getElementById('myModal').style.display='none'\">&times;</span>";
-                photo_gallery_ctn.InnerHtml += "  <!-- Modal Content (The Image) -->";
-                photo_gallery_ctn.InnerHtml += "<img class=\"modal-content\" id=\"img01\">";
-                photo_gallery_ctn.InnerHtml += "  <!-- Modal Caption (Image Text) -->";
-                photo_gallery_ctn.InnerHtml += "  <div id=\"caption\"></div>";
-                photo_gallery_ctn.InnerHtml += "</div>";
-                photo_gallery_ctn.InnerHtml += "<script>";
-                photo_gallery_ctn.InnerHtml += "  modal_load();";
-                photo_gallery_ctn.InnerHtml += "</script>";
+                }
+                purchase_status.InnerHtml += "      <div class='fix_corner_item' id='Total_cost'>Total: $" + dc_amt + " SGD</div>";
+                purchase_status.InnerHtml += "      <div class='fix_corner_item'><b>*Bold: purchase with purchase discount</b></div>";
+            /*
+            if (alert_message != "")
+
+purchase_status.InnerHtml += "  </div>";
+                purchase_status.InnerHtml += "</div>";
+
+                sa.Attributes["value"] = dc_amt.ToString();
+                dc.Attributes["value"] = (x - 1).ToString();
+                js.Attributes["value"] = photofullpath.TrimEnd('|');
+            }
+
+            /*
+
+            photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
+            photo_gallery_ctn.InnerHtml += "<div id=\"myModal\" class=\"modal\">";
+            photo_gallery_ctn.InnerHtml += "  <!-- The Close Button -->";
+            photo_gallery_ctn.InnerHtml += "<span class=\"close\" onclick=\"document.getElementById('myModal').style.display='none'\">&times;</span>";
+            photo_gallery_ctn.InnerHtml += "  <!-- Modal Content (The Image) -->";
+            photo_gallery_ctn.InnerHtml += "<img class=\"modal-content\" id=\"img01\">";
+            photo_gallery_ctn.InnerHtml += "  <!-- Modal Caption (Image Text) -->";
+            photo_gallery_ctn.InnerHtml += "  <div id=\"caption\"></div>";
+            photo_gallery_ctn.InnerHtml += "</div>";
+            photo_gallery_ctn.InnerHtml += "<script>";
+            photo_gallery_ctn.InnerHtml += "  modal_load();";
+            photo_gallery_ctn.InnerHtml += "</script>";*/
                 return;
             }
         }
+        
 
         public class Post_Search_Profile
         {
