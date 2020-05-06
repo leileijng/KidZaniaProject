@@ -198,7 +198,7 @@
 
     <link rel='stylesheet'  href='/css/style.css' type='text/css' media='all' />
     <link rel='stylesheet'  href='/css/misc.css' type='text/css' media='all' />
-    <link rel="stylesheet" href="/css/jquery-ui.css">
+    <link rel="stylesheet" href="/css/jquery-ui.css"/>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script>
 		$(window).on("load", function () {
