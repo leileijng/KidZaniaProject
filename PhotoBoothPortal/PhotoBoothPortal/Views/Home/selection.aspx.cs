@@ -167,7 +167,7 @@ namespace PhotoBoothPortal.Views.Test
                         photofullpath += photo.Key + "|";
                          
                 }
-                /*
+                
             int dc_amt = 20; //Default digital copy price
                 purchase_status.InnerHtml += "<div class='fix_corner'>";
                 purchase_status.InnerHtml += "  <div class='fix_corner_ctn'>";
@@ -183,20 +183,21 @@ namespace PhotoBoothPortal.Views.Test
                 }
                 purchase_status.InnerHtml += "      <div class='fix_corner_item' id='Total_cost'>Total: $" + dc_amt + " SGD</div>";
                 purchase_status.InnerHtml += "      <div class='fix_corner_item'><b>*Bold: purchase with purchase discount</b></div>";
-            /*
-            if (alert_message != "")
 
-purchase_status.InnerHtml += "  </div>";
-                purchase_status.InnerHtml += "</div>";
+                /*
+                if (alert_message != "")
 
-                sa.Attributes["value"] = dc_amt.ToString();
-                dc.Attributes["value"] = (x - 1).ToString();
-                js.Attributes["value"] = photofullpath.TrimEnd('|');
-            }
+    purchase_status.InnerHtml += "  </div>";
+                    purchase_status.InnerHtml += "</div>";
 
-            /*
+                    sa.Attributes["value"] = dc_amt.ToString();
+                    dc.Attributes["value"] = (x - 1).ToString();
+                    js.Attributes["value"] = photofullpath.TrimEnd('|');
+                }
 
-            photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
+                */
+
+                photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
             photo_gallery_ctn.InnerHtml += "<div id=\"myModal\" class=\"modal\">";
             photo_gallery_ctn.InnerHtml += "  <!-- The Close Button -->";
             photo_gallery_ctn.InnerHtml += "<span class=\"close\" onclick=\"document.getElementById('myModal').style.display='none'\">&times;</span>";
@@ -207,7 +208,7 @@ purchase_status.InnerHtml += "  </div>";
             photo_gallery_ctn.InnerHtml += "</div>";
             photo_gallery_ctn.InnerHtml += "<script>";
             photo_gallery_ctn.InnerHtml += "  modal_load();";
-            photo_gallery_ctn.InnerHtml += "</script>";*/
+            photo_gallery_ctn.InnerHtml += "</script>";
                 return;
             }
         }
