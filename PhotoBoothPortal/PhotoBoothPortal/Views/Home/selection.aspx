@@ -181,8 +181,8 @@
             font-size:12px;
         }
 
-        .item_checkbox_grp { text-align: left !important; margin-left: 15px; margin-top: -10px;}
-        .modal_window { cursor: pointer; }
+        .item_checkbox_grp {background-color:white; text-align: left !important; margin-left: 40%; margin-right:35%; }
+        .modal_window { cursor: pointer; height:80px; width:80px;}
         .pricing_heading { text-align: center; font-size: large; }
         .pricing_table { margin: 0 auto; width: 80%; background-color: #e0f538; border-radius: 7px; -webkit-border-radius 7px; -moz-border-radius: 7px; box-shadow: 2px 2px 3px #666666; -webkit-box-shadow: 2px 2px 3px #666666; -moz-box-shadow: 2px 2px 3px #666666;}
         .pricing_subheader { margin-left: 10px; text-align: left !important; font-weight: bold;}
@@ -565,11 +565,10 @@
         }
 
         function show_modal(e) {
-            var modal = document.getElementById('myModal');
+            var modal = document.getElementById('myModala'+e);
             var modalImg = document.getElementById("img01");
             var captionText = document.getElementById("caption");
             modal.style.display = "block";
-            modalImg.src = $(e).attr("src");
         }
 
         function delete_gl(id)
@@ -582,8 +581,8 @@
             }
         }
 
-        function modal_load() {
-            var modal = document.getElementById('myModal');
+        function modal_load(e) {
+            var modal = document.getElementById('myModala'+e);
             // Get the <span> element that closes the modal
             var span = document.getElementsByClassName("close")[0];
             // When the user clicks on <span> (x), close the modal
@@ -592,204 +591,204 @@
             }
 
             
-            $("#menu_select input:checkbox").on("change", function () {
-                var dclen = $("#photo_gallery input[name='digital_cb']:checked").length;
+    //        $("#menu_select input:checkbox").on("change", function () {
+    //            var dclen = $("#photo_gallery input[name='digital_cb']:checked").length;
 
-                //Select one digital will select all digital
-                if (dclen == 0) {
-                    $("#photo_gallery input[name='digital_cb']").each(function () {
-                        $(this).prop('checked', true);
-                    })
-                }
-                else if (dclen > 1) {
-                        $("#photo_gallery input[name='digital_cb']").each(function () {
-                            $(this).prop('checked', false);
-                    })
-                }
+    //            //Select one digital will select all digital
+    //            if (dclen == 0) {
+    //                $("#photo_gallery input[name='digital_cb']").each(function () {
+    //                    $(this).prop('checked', true);
+    //                })
+    //            }
+    //            else if (dclen > 1) {
+    //                    $("#photo_gallery input[name='digital_cb']").each(function () {
+    //                        $(this).prop('checked', false);
+    //                })
+    //            }
                
-            });
+    //        });
 
-            $("#photo_gallery input:checkbox").on("change", function () {
-                var dclen = $("#photo_gallery input[name='digital_cb']:checked").length;
-                var eclen = $("#photo_gallery input[name='ECcopy_cb']:checked").length;
-                var a5len = $("#photo_gallery input[name='A5copy_cb']:checked").length;
-                var mglen = $("#photo_gallery input[name='MGcopy_cb']:checked").length;
-                var kclen = $("#photo_gallery input[name='KCcopy_cb']:checked").length;
+    //        $("#photo_gallery input:checkbox").on("change", function () {
+    //            var dclen = $("#photo_gallery input[name='digital_cb']:checked").length;
+    //            var eclen = $("#photo_gallery input[name='ECcopy_cb']:checked").length;
+    //            var a5len = $("#photo_gallery input[name='A5copy_cb']:checked").length;
+    //            var mglen = $("#photo_gallery input[name='MGcopy_cb']:checked").length;
+    //            var kclen = $("#photo_gallery input[name='KCcopy_cb']:checked").length;
 
-                var lrlen = 0;
-                $("select option:selected").each(function() {
-                    lrlen = $(this).text() + " ";
-                });
+    //            var lrlen = 0;
+    //            $("select option:selected").each(function() {
+    //                lrlen = $(this).text() + " ";
+    //            });
 
-				var totalamt_a = cal_amt(dclen, eclen, a5len, mglen, kclen);
-				var totalamt_array = totalamt_a.split(';');
-				var totalamt = totalamt_array[5];
-				var dc_result = totalamt_array[0];
-				var ec_result = totalamt_array[1];
-				var a5_result = totalamt_array[2];
-				var mg_result = totalamt_array[3];
-				var kc_result = totalamt_array[4];
+				//var totalamt_a = cal_amt(dclen, eclen, a5len, mglen, kclen);
+				//var totalamt_array = totalamt_a.split(';');
+				//var totalamt = totalamt_array[5];
+				//var dc_result = totalamt_array[0];
+				//var ec_result = totalamt_array[1];
+				//var a5_result = totalamt_array[2];
+				//var mg_result = totalamt_array[3];
+				//var kc_result = totalamt_array[4];
 				
-                if (lrlen > 0) {
-                    var lr_amt = lrlen * 15;
-                    totalamt = parseInt(lr_amt) + parseInt(totalamt);
-                }
+    //            if (lrlen > 0) {
+    //                var lr_amt = lrlen * 15;
+    //                totalamt = parseInt(lr_amt) + parseInt(totalamt);
+    //            }
 
-				$("#digital_copy_amt").html("Digital Copy: " + dc_result);
-                $("#ec_copy_amt").html("Establishment Card: " + ec_result);
-                $("#a5_copy_amt").html("A5 hardcopy: " + a5_result);
-                $("#mg_copy_amt").html("Magnet: " + mg_result);
-                $("#kc_copy_amt").html("Keychain: " + kc_result);
+				//$("#digital_copy_amt").html("Digital Copy: " + dc_result);
+    //            $("#ec_copy_amt").html("Establishment Card: " + ec_result);
+    //            $("#a5_copy_amt").html("A5 hardcopy: " + a5_result);
+    //            $("#mg_copy_amt").html("Magnet: " + mg_result);
+    //            $("#kc_copy_amt").html("Keychain: " + kc_result);
 				
-                $("#Total_cost").html("$" + totalamt + " SGD");
-				$("#dc").attr('value', dclen);
-				$("#a5").attr('value', a5len);
-                $("#ec").attr('value', eclen);
-                $("#mg").attr('value', mglen);
-                $("#kc").attr('value', kclen);
-                $("#sa").attr('value', totalamt);
-            });
-                var dc_amt = 0; var ec_amt = 0; var a5_amt = 0; var mg_amt = 0; var kc_amt = 0;
-				var dc_result = "$0;"; var ec_result = "$0;"; var a5_result = "$0;"; var mg_result = "$0;"; var kc_result = "$0;";
-				
-				
-				var rebate = false;
-				var rebate_type = "";
-				totalamt = 0;
-                if (dclen > 0) 
-				{
-					rebate = true;
-					totalamt = 20;
-					rebate_type = ";dc";
-					dc_result = "$20;";
-				}
-				else if (eclen > 0)
-				{
-					rebate = true;
-					totalamt = 25;
-					eclen = eclen - 1;
-					rebate_type = ";ec";
-					ec_result = "$25;";
-                }
-                else if (a5len > 0)
-				{
-					rebate = true;
-					totalamt = 25;
-					//a5len = a5len - 1;
-					rebate_type = ";a5";
-					a5_result = "$25;";
-				}
-				else if (kclen > 0)
-				{
-					rebate = true;
-					totalamt = 25;
-					kclen = kclen - 1;
-					rebate_type = ";kc";
-					kc_result = "$25;";
-				}
-				else if (mglen > 0)
-				{
-					rebate = true;
-					totalamt = 30;
-					mglen = mglen - 1;
-					rebate_type = ";mg";
-					mg_result = "$30;";
-				}
+    //            $("#Total_cost").html("$" + totalamt + " SGD");
+				//$("#dc").attr('value', dclen);
+				//$("#a5").attr('value', a5len);
+    //            $("#ec").attr('value', eclen);
+    //            $("#mg").attr('value', mglen);
+    //            $("#kc").attr('value', kclen);
+    //            $("#sa").attr('value', totalamt);
+    //        });
+    //            var dc_amt = 0; var ec_amt = 0; var a5_amt = 0; var mg_amt = 0; var kc_amt = 0;
+				//var dc_result = "$0;"; var ec_result = "$0;"; var a5_result = "$0;"; var mg_result = "$0;"; var kc_result = "$0;";
 				
 				
-                /*Establishment card*/
-                if (eclen > 0)
-				{
-					if (rebate)
-						ec_amt = 8 * eclen;
-					else
-						ec_amt = 25 * eclen;
+				//var rebate = false;
+				//var rebate_type = "";
+				//totalamt = 0;
+    //            if (dclen > 0) 
+				//{
+				//	rebate = true;
+				//	totalamt = 20;
+				//	rebate_type = ";dc";
+				//	dc_result = "$20;";
+				//}
+				//else if (eclen > 0)
+				//{
+				//	rebate = true;
+				//	totalamt = 25;
+				//	eclen = eclen - 1;
+				//	rebate_type = ";ec";
+				//	ec_result = "$25;";
+    //            }
+    //            else if (a5len > 0)
+				//{
+				//	rebate = true;
+				//	totalamt = 25;
+				//	//a5len = a5len - 1;
+				//	rebate_type = ";a5";
+				//	a5_result = "$25;";
+				//}
+				//else if (kclen > 0)
+				//{
+				//	rebate = true;
+				//	totalamt = 25;
+				//	kclen = kclen - 1;
+				//	rebate_type = ";kc";
+				//	kc_result = "$25;";
+				//}
+				//else if (mglen > 0)
+				//{
+				//	rebate = true;
+				//	totalamt = 30;
+				//	mglen = mglen - 1;
+				//	rebate_type = ";mg";
+				//	mg_result = "$30;";
+				//}
+				
+				
+    //            /*Establishment card*/
+    //            if (eclen > 0)
+				//{
+				//	if (rebate)
+				//		ec_amt = 8 * eclen;
+				//	else
+				//		ec_amt = 25 * eclen;
 						
-					if (rebate_type == ";ec")
-						ec_result = "$25 + <b>$" + ec_amt + "</b>;";
-					else
-						ec_result = "<b>$" + ec_amt + "</b>;";
-				}
+				//	if (rebate_type == ";ec")
+				//		ec_result = "$25 + <b>$" + ec_amt + "</b>;";
+				//	else
+				//		ec_result = "<b>$" + ec_amt + "</b>;";
+				//}
                     
-                /*A5Photo card*/
-                if (a5len > 0) {
-					if (a5len >= 3)
-					{
-						var mul_val = Math.floor(a5len / 3);
-						var mod_val = a5len % 3;
-						if (rebate)
-						{
-							a5_amt = 10 * mod_val;
-							a5_amt = a5_amt + (mul_val * 20);
-						}
-						if (rebate_type == ";a5")
-							a5_result = "$25 + <b>$" + a5_amt + "</b>;";
-						else
-						{
-							a5_result = "<b>$" + a5_amt + "</b>;";
-						}
+    //            /*A5Photo card*/
+    //            if (a5len > 0) {
+				//	if (a5len >= 3)
+				//	{
+				//		var mul_val = Math.floor(a5len / 3);
+				//		var mod_val = a5len % 3;
+				//		if (rebate)
+				//		{
+				//			a5_amt = 10 * mod_val;
+				//			a5_amt = a5_amt + (mul_val * 20);
+				//		}
+				//		if (rebate_type == ";a5")
+				//			a5_result = "$25 + <b>$" + a5_amt + "</b>;";
+				//		else
+				//		{
+				//			a5_result = "<b>$" + a5_amt + "</b>;";
+				//		}
 						
-					}
-                    else {
-						if (rebate_type == ";a5")
-                        {
-							if (a5len == 1)
-							{
-								//a5_amt = 10 * a5len;
-								a5_result = "$25;";
-							}
-							if (a5len == 2)      //total = 2
-                            {
-								a5_amt = 10 * (a5len - 1);
-								a5_result = "$25 + <b>$" + a5_amt + "</b>;";
-							}
-						}
-						else
-                        {
-							a5_amt = a5len * 10;
-                            if (rebate_type == ";a5") {
-                                a5_result = "$25 + <b>$" + a5_amt + "</b>;";
-                            }
-                            else
-                            {
-                                a5_result = "<b>$" + a5_amt + "</b>;";	
-                            }
-						}
+				//	}
+    //                else {
+				//		if (rebate_type == ";a5")
+    //                    {
+				//			if (a5len == 1)
+				//			{
+				//				//a5_amt = 10 * a5len;
+				//				a5_result = "$25;";
+				//			}
+				//			if (a5len == 2)      //total = 2
+    //                        {
+				//				a5_amt = 10 * (a5len - 1);
+				//				a5_result = "$25 + <b>$" + a5_amt + "</b>;";
+				//			}
+				//		}
+				//		else
+    //                    {
+				//			a5_amt = a5len * 10;
+    //                        if (rebate_type == ";a5") {
+    //                            a5_result = "$25 + <b>$" + a5_amt + "</b>;";
+    //                        }
+    //                        else
+    //                        {
+    //                            a5_result = "<b>$" + a5_amt + "</b>;";	
+    //                        }
+				//		}
 													
 						
-					}
-                }
-                /*Magnet card*/
-                if (mglen > 0) {
-					if (rebate)
-						mg_amt = 8 * mglen;
-					else
-						mg_amt = 30 * mglen;
+				//	}
+    //            }
+    //            /*Magnet card*/
+    //            if (mglen > 0) {
+				//	if (rebate)
+				//		mg_amt = 8 * mglen;
+				//	else
+				//		mg_amt = 30 * mglen;
 
-					if (rebate_type == ";mg")
-						mg_result = "$30 + <b>$" + mg_amt + "</b>;";
-					else
-						mg_result = "<b>$" + mg_amt + "</b>;";
-                }
+				//	if (rebate_type == ";mg")
+				//		mg_result = "$30 + <b>$" + mg_amt + "</b>;";
+				//	else
+				//		mg_result = "<b>$" + mg_amt + "</b>;";
+    //            }
 
-                /*Keychain*/
-                if (kclen > 0) {
-					if (rebate)
-						kc_amt = 8 * kclen;
-					else
-						kc_amt = 25 * kclen;
+    //            /*Keychain*/
+    //            if (kclen > 0) {
+				//	if (rebate)
+				//		kc_amt = 8 * kclen;
+				//	else
+				//		kc_amt = 25 * kclen;
 						
-					if (rebate_type == ";kc")
-						kc_result = "$25 + <b>$" + kc_amt + "</b>;";
-					else
-						kc_result = "<b>$" + kc_amt + "</b>;";	
-                }
+				//	if (rebate_type == ";kc")
+				//		kc_result = "$25 + <b>$" + kc_amt + "</b>;";
+				//	else
+				//		kc_result = "<b>$" + kc_amt + "</b>;";	
+    //            }
 
-                var totalamt = totalamt + ec_amt + a5_amt + mg_amt + kc_amt;
+    //            var totalamt = totalamt + ec_amt + a5_amt + mg_amt + kc_amt;
 				
-				var output = dc_result  + ec_result + a5_result + mg_result + kc_result + totalamt;
+				//var output = dc_result  + ec_result + a5_result + mg_result + kc_result + totalamt;
 				
-                return output;
+    //            return output;
             }
         
 
@@ -885,7 +884,7 @@
                 </div>
             </div>
         </div>
-
+        
         <!-- PRICING TABLE -->
 
         <form action="summary.aspx" method="post">

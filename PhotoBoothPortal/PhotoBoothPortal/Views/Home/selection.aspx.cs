@@ -129,46 +129,60 @@ namespace PhotoBoothPortal.Views.Test
                             File.Delete(currentApplicationPath + "photos//" + photowatermarked_filename);
                         }
                         */
-                        photo_gallery_ctn.InnerHtml += "<div id='gl_id_" + x + "' class=\"gallery\">";
-                        photo_gallery_ctn.InnerHtml += "<img class='modal_window' onclick='show_modal(this);'; id='tn_id_" + x + "' class='thumbnail' src='/Content/photos/" + photowatermarked_filename + "'>";
-                        photo_gallery_ctn.InnerHtml += "<div style='margin-bottom: 15px; font-size: 10px;'>Profile ID:" + profile_id + "</div>";
-                        photo_gallery_ctn.InnerHtml += "<div class='item_checkbox_grp'>";
-                        photo_gallery_ctn.InnerHtml += "    <div>";
-                        photo_gallery_ctn.InnerHtml += "        <input name=\"digital_cb\" id=\"dc_photo" + photoid + "\" type=\"checkbox\" checked=\"checked\" value=\"" + photoid + "\">";
-                        photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"dc_photo" + photoid + "_lbl\">Digital</label>";
-                        photo_gallery_ctn.InnerHtml += "    </div>";
-                       
-                    if (true)
-                        {
-                            photo_gallery_ctn.InnerHtml += "    <div>";
-                            photo_gallery_ctn.InnerHtml += "        <input name=\"A5copy_cb\" id=\"a5_photo" + photoid + "\" type=\"checkbox\" value=\"" + photoid + "\">";
-                            photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"a5_photo" + photoid + "_lbl\">A5 w/Folder</label>";
-                            photo_gallery_ctn.InnerHtml += "    </div>";
-                            photo_gallery_ctn.InnerHtml += "    <div>";
-                            photo_gallery_ctn.InnerHtml += "        <input name=\"KCcopy_cb\" id=\"kc_photo" + photoid + "\" type=\"checkbox\" value=\"" + photoid + "\">";
-                            photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"kc_photo" + photoid + "_lbl\">Keychain</label>";
-                            photo_gallery_ctn.InnerHtml += "    </div>";
-                            photo_gallery_ctn.InnerHtml += "    <div>";
-                            photo_gallery_ctn.InnerHtml += "        <input name=\"ECcopy_cb\" id=\"ec_photo" + photoid + "\" type=\"checkbox\" value=\"" + photoid + "\">";
-                            photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"ec_photo" + photoid + "_lbl\">Establishment Card</label>";
-                            photo_gallery_ctn.InnerHtml += "    </div>";
-                            photo_gallery_ctn.InnerHtml += "    <div>";
-                            photo_gallery_ctn.InnerHtml += "        <input name=\"MGcopy_cb\" id=\"mg_photo" + photoid + "\" type=\"checkbox\" value=\"" + photoid + "\">";
-                            photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"mg_photo" + photoid + "_lbl\">Magnet</label>";
-                            photo_gallery_ctn.InnerHtml += "    </div>";
+                    photo_gallery_ctn.InnerHtml += "<div id='gl_id_" + x + "' class=\"gallery\">";
+                    photo_gallery_ctn.InnerHtml += "<img class='modal_window' onclick='show_modal(" + photoid + ");' id='tn_id_" + x + "' class='thumbnail' src='/Content/photos/" + photowatermarked_filename + "'>";
+                    photo_gallery_ctn.InnerHtml += "<div style='margin-bottom: 15px; font-size: 10px;'>Profile ID:" + profile_id + "</div>";
+                    photo_gallery_ctn.InnerHtml += "    <div>";
+                    photo_gallery_ctn.InnerHtml += "        <input name=\"digital_cb\" id=\"dc_photo" + photoid + "\" type=\"checkbox\" checked=\"checked\" value=\"" + photoid + "\">";
+                    photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"dc_photo" + photoid + "_lbl\">Digital</label>";
+                    photo_gallery_ctn.InnerHtml += "    </div>";
 
-                        }
+                    photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
+                    photo_gallery_ctn.InnerHtml += "<div id='myModala" + photoid + "' class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">";
+                    photo_gallery_ctn.InnerHtml += "<div class=\"modal-dialog\" role=\"document\">";
 
-                        photo_gallery_ctn.InnerHtml += "</div>";
-                        photo_gallery_ctn.InnerHtml += "<div onclick='delete_gl(\"" + x + "\");' style='text-align:center;border-top: solid 1px;margin-top: 10px;cursor: pointer;padding: 5px;background-color: indianred;'><img style='width: auto !important;' src='\\img\\trash_small.png' /></div>";
-                        photo_gallery_ctn.InnerHtml += "</div>";
+                    photo_gallery_ctn.InnerHtml += "  <!-- The Close Button -->";
+                    photo_gallery_ctn.InnerHtml += "<span class=\"close\" onclick=\"document.getElementById('myModala" + photoid + "').style.display='none'\">&times;</span>";
+                    photo_gallery_ctn.InnerHtml += "  <!-- Modal Content (The Image) -->";
+                    photo_gallery_ctn.InnerHtml += "<img class=\"modal-content\" id=\"img01\" src='/Content/photos/" + photowatermarked_filename + "'> ";
+                    photo_gallery_ctn.InnerHtml += "  <!-- Modal Caption (Image Text) -->";
+                    photo_gallery_ctn.InnerHtml += "        <div class='modal-body'>";
+                    photo_gallery_ctn.InnerHtml += "<div class='item_checkbox_grp'>";
+                    photo_gallery_ctn.InnerHtml += "    <div>";
+                    photo_gallery_ctn.InnerHtml += "        <input name=\"A5copy_cb\" id=\"a5_photo" + photoid + "\" type=\"checkbox\" value=\"" + photoid + "\">";
+                    photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"a5_photo" + photoid + "_lbl\">A5 w/Folder</label>";
+                    photo_gallery_ctn.InnerHtml += "    </div>";
+                    photo_gallery_ctn.InnerHtml += "    <div>";
+                    photo_gallery_ctn.InnerHtml += "        <input name=\"KCcopy_cb\" id=\"kc_photo" + photoid + "\" type=\"checkbox\" value=\"" + photoid + "\">";
+                    photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"kc_photo" + photoid + "_lbl\">Keychain</label>";
+                    photo_gallery_ctn.InnerHtml += "    </div>";
+                    photo_gallery_ctn.InnerHtml += "    <div>";
+                    photo_gallery_ctn.InnerHtml += "        <input name=\"ECcopy_cb\" id=\"ec_photo" + photoid + "\" type=\"checkbox\" value=\"" + photoid + "\">";
+                    photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"ec_photo" + photoid + "_lbl\">Establishment Card</label>";
+                    photo_gallery_ctn.InnerHtml += "    </div>";
+                    photo_gallery_ctn.InnerHtml += "    <div>";
+                    photo_gallery_ctn.InnerHtml += "        <input name=\"MGcopy_cb\" id=\"mg_photo" + photoid + "\" type=\"checkbox\" value=\"" + photoid + "\">";
+                    photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"mg_photo" + photoid + "_lbl\">Magnet</label>";
+                    photo_gallery_ctn.InnerHtml += "    </div>";
+                    photo_gallery_ctn.InnerHtml += "    </div>";
+                    photo_gallery_ctn.InnerHtml += "</div>";
+                    photo_gallery_ctn.InnerHtml += "</div>";
 
-                        x++;
-                        photofullpath += photo.Key + "|";
-                         
+                    photo_gallery_ctn.InnerHtml += "<script>";
+                    photo_gallery_ctn.InnerHtml += "  modal_load(" + photoid + "); ";
+                    photo_gallery_ctn.InnerHtml += "</script>";
+
+
+                    photo_gallery_ctn.InnerHtml += "</div>";
+                    photo_gallery_ctn.InnerHtml += "<div onclick='delete_gl(\"" + x + "\");' style='text-align:center;border-top: solid 1px;margin-top: 10px;cursor: pointer;padding: 5px;background-color: indianred;'><img style='width: auto !important;' src='\\img\\trash_small.png' /></div>";
+                    photo_gallery_ctn.InnerHtml += "</div>";
+
+                    x++;
+                    photofullpath += photo.Key + "|";
+
                 }
-                
-            int dc_amt = 20; //Default digital copy price
+
+                int dc_amt = 20; //Default digital copy price
                 purchase_status.InnerHtml += "<div class='fix_corner'>";
                 purchase_status.InnerHtml += "  <div class='fix_corner_ctn'>";
                 purchase_status.InnerHtml += "      <div class='fix_corner_item' id='digital_copy_amt'>Digital Copy: $" + dc_amt + "</div>";
@@ -197,22 +211,11 @@ namespace PhotoBoothPortal.Views.Test
 
                 */
 
-                photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
-            photo_gallery_ctn.InnerHtml += "<div id=\"myModal\" class=\"modal\">";
-            photo_gallery_ctn.InnerHtml += "  <!-- The Close Button -->";
-            photo_gallery_ctn.InnerHtml += "<span class=\"close\" onclick=\"document.getElementById('myModal').style.display='none'\">&times;</span>";
-            photo_gallery_ctn.InnerHtml += "  <!-- Modal Content (The Image) -->";
-            photo_gallery_ctn.InnerHtml += "<img class=\"modal-content\" id=\"img01\">";
-            photo_gallery_ctn.InnerHtml += "  <!-- Modal Caption (Image Text) -->";
-            photo_gallery_ctn.InnerHtml += "  <div id=\"caption\"></div>";
-            photo_gallery_ctn.InnerHtml += "</div>";
-            photo_gallery_ctn.InnerHtml += "<script>";
-            photo_gallery_ctn.InnerHtml += "  modal_load();";
-            photo_gallery_ctn.InnerHtml += "</script>";
+
                 return;
             }
         }
-        
+
 
         public class Post_Search_Profile
         {
