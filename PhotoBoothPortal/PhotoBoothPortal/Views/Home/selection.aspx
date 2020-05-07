@@ -6,6 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+
     <style>
         .btn_default {
 	        -moz-box-shadow: 0px 10px 14px -7px #276873;
@@ -68,32 +69,87 @@
             padding: 15px;
             text-align: center;
         }
-
         /* Style the Image Used to Trigger the Modal */
         .thumbnail:hover {opacity: 0.7;}
+        
 
         /* The Modal (background) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 9999; /* Sit on top */
-            padding-top: 100px; /* Location of the box */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-        }
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 
-        /* Modal Content (Image) */
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: auto;
-            max-width: 700px;
-        }
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+.modal-dialog-centered {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    min-height: calc(100% - (.5rem * 2));
+}
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  border: none;
+  background-color: transparent;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+/* Modal Header */
+.modal-header {
+  padding: 2px 16px;
+}
+
+/* Modal Body */
+.modal-body {padding: 2px 16px;}
+
+/* Modal Footer */
+.modal-footer {
+  padding: 2px 16px;
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+
 
         /* Caption of Modal Image (Image Text) - Same Width as the Image */
         #caption {
@@ -106,7 +162,6 @@
             padding: 10px 0;
             height: 150px;
         }
-
         /* Add Animation - Zoom in the Modal */
         .modal-content, #caption { 
             -webkit-animation-name: zoom;
@@ -114,12 +169,10 @@
             animation-name: zoom;
             animation-duration: 0.6s;
         }
-
         @-webkit-keyframes zoom {
             from {-webkit-transform:scale(0)} 
             to {-webkit-transform:scale(1)}
         }
-
         @keyframes zoom {
             from {transform:scale(0)} 
             to {transform:scale(1)}
@@ -130,26 +183,22 @@
             position: absolute;
             top: 15px;
             right: 35px;
-            color: #f1f1f1;
             font-size: 40px;
             font-weight: bold;
             transition: 0.3s;
         }
-
         .close:hover,
         .close:focus {
             color: #bbb;
             text-decoration: none;
             cursor: pointer;
         }
-
         /* 100% Image Width on Smaller Screens */
         @media only screen and (max-width: 700px){
             .modal-content {
                 width: 100%;
             }
         }
-
         .fix_corner { 
             position:fixed; 
             top:25%; 
@@ -180,9 +229,8 @@
             text-align:left;
             font-size:12px;
         }
-
-        .item_checkbox_grp { text-align: left !important; margin-left: 15px; margin-top: -10px;}
-        .modal_window { cursor: pointer; }
+        .item_checkbox_grp {background-color:white; text-align: left !important; margin-left: 40%; margin-right:35%; }
+        .modal_window { cursor: pointer; height:80px; width:80px;}
         .pricing_heading { text-align: center; font-size: large; }
         .pricing_table { margin: 0 auto; width: 80%; background-color: #e0f538; border-radius: 7px; -webkit-border-radius 7px; -moz-border-radius: 7px; box-shadow: 2px 2px 3px #666666; -webkit-box-shadow: 2px 2px 3px #666666; -moz-box-shadow: 2px 2px 3px #666666;}
         .pricing_subheader { margin-left: 10px; text-align: left !important; font-weight: bold;}
@@ -199,12 +247,52 @@
     <link rel='stylesheet'  href='/css/style.css' type='text/css' media='all' />
     <link rel='stylesheet'  href='/css/misc.css' type='text/css' media='all' />
     <link rel="stylesheet" href="/css/jquery-ui.css"/>
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="/Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
+    <!-- Font Awesome -->
+
+    <link href="/Scripts/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+    <!-- Bootstrap core CSS -->
+    <link href="/Scripts/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Material Design Bootstrap -->
+    <link href="/Scripts/lib/mdb/css/mdb.min.css" rel="stylesheet" />
+    <!-- Your custom styles (optional) -->
+    <link href="/Scripts/css/site.css" rel="stylesheet" />
+
+    <link href="/Scripts/lib/noty/noty.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/Scripts/css/noty_custom.css" />
+    <link rel="stylesheet" href="/Scripts/css/sticky_footer.css" />
+    <!-- Bootsrap-table core CSS -->
+    <link href="/Scripts/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
+    <!-- jqWidget core CSS -->
+    <link href="/Scripts/lib/jqwidgets/styles/jqx.base.css" rel="stylesheet" />
+    <link href="/Scripts/lib/jqwidgets/styles/jqx.flat.css" rel="stylesheet" />
+    <!-- jQuery library-->
+    <script src="/Scripts/lib/jquery/dist/jquery.js"></script>
+
+    <!-- Bootstrap tooltips -->
+    <script src="/Scripts/lib/popper.js/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="/Scripts/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script src="/Scripts/lib/mdb/js/mdb.min.js"></script>
+    <!-- jqWidgets core JavaScript for all widgets (large JS file size)-->
+    <script src="/Scripts/lib/jqwidgets/jqx-all.js"></script>
+    <!-- jQuery validate plugin-->
+    <script src="/Scripts/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="/Scripts/lib/jquery-validation/dist/additional-methods.js"></script>
+    <!-- Boostrap table core JavaScript -->
+    <script src="/Scripts/lib/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="/Scripts/lib/noty/noty.min.js"></script>
+    <script src="/Scripts/lib/moment/moment.min.js"></script>
+    <script src="/Scripts/lib/store/store.min.js"></script>
+
+
     <script>
 		$(window).on("load", function () {
             refresh_values();
         });
-
         $(document).ready(function () {
             $("form").submit(function (e) {
                 var total = $("#photo_gallery input[name='digital_cb']:checked").length;
@@ -215,11 +303,9 @@
                 if (total == 0)
                     e.preventDefault(); //prevent from submitting
             });
-
             $("select").change(function () {
                 refresh_values();
             });
-
             function cal_amt(dclen, eclen, a5len, mglen, kclen) {
                 var dc_amt = 0; var ec_amt = 0; var a5_amt = 0; var mg_amt = 0; var kc_amt = 0;
 				var dc_result = "$0;"; var ec_result = "$0;"; var a5_result = "$0;"; var mg_result = "$0;"; var kc_result = "$0;";
@@ -329,20 +415,17 @@
 					}
 					
                 }
-
                 /*Magnet card*/
                 if (mglen > 0) {
 					if (rebate)
 						mg_amt = 8 * mglen;
 					else
 						mg_amt = 30 * mglen;
-
 					if (rebate_type == ";mg")
 						mg_result = "$30 + <b>$" + mg_amt + "</b>;";
 					else
 						mg_result = "<b>$" + mg_amt + "</b>;";
                 }
-
                 /*Keychain*/
                 if (kclen > 0) {
 					if (rebate)
@@ -355,7 +438,6 @@
 					else
 						kc_result = "<b>$" + kc_amt + "</b>;";	
                 }
-
                 
                 var totalamt = totalamt + ec_amt + a5_amt + mg_amt + kc_amt;
                 
@@ -478,20 +560,17 @@
 					}
 					
                 }
-
                 /*Magnet card*/
                 if (mglen > 0) {
 					if (rebate)
 						mg_amt = 8 * mglen;
 					else
 						mg_amt = 30 * mglen;
-
 					if (rebate_type == ";mg")
 						mg_result = "$30 + <b>$" + mg_amt + "</b>;";
 					else
 						mg_result = "<b>$" + mg_amt + "</b>;";
                 }
-
                 /*Keychain*/
                 if (kclen > 0) {
 					if (rebate)
@@ -504,7 +583,6 @@
 					else
 						kc_result = "<b>$" + kc_amt + "</b>;";	
                 }
-
                 
                 var totalamt = totalamt + ec_amt + a5_amt + mg_amt + kc_amt;
 				
@@ -512,6 +590,7 @@
 				
                 return output;
             }
+
         function refresh_values() {
             var lrlen = "";
             $("select option:selected").each(function() {
@@ -522,7 +601,6 @@
             var a5len = $("#photo_gallery input[name='A5copy_cb']:checked").length;
             var mglen = $("#photo_gallery input[name='MGcopy_cb']:checked").length;
             var kclen = $("#photo_gallery input[name='KCcopy_cb']:checked").length;
-
 			var totalamt_a = cal_amt(dclen, eclen, a5len, mglen, kclen);
 			var totalamt_array = totalamt_a.split(';');
 			var totalamt = totalamt_array[5];
@@ -531,8 +609,6 @@
 			var a5_result = totalamt_array[2];
 			var mg_result = totalamt_array[3];
 			var kc_result = totalamt_array[4];
-
-
 			$("#digital_copy_amt").html("Digital Copy: " + dc_result);
 			$("#ec_copy_amt").html("Establishment Card: " + ec_result);
 			$("#a5_copy_amt").html("A5 hardcopy: " + a5_result);
@@ -565,11 +641,10 @@
         }
 
         function show_modal(e) {
-            var modal = document.getElementById('myModal');
+            var modal = document.getElementById('myModala'+e);
             var modalImg = document.getElementById("img01");
             var captionText = document.getElementById("caption");
             modal.style.display = "block";
-            modalImg.src = $(e).attr("src");
         }
 
         function delete_gl(id)
@@ -582,217 +657,221 @@
             }
         }
 
-        function modal_load() {
-            var modal = document.getElementById('myModal');
+        function modal_load(e) {
+            var modal = document.getElementById('myModala'+e);
             // Get the <span> element that closes the modal
             var span = document.getElementsByClassName("close")[0];
             // When the user clicks on <span> (x), close the modal
             span.onclick = function () {
                 modal.style.display = "none";
             }
-
             
-            $("#menu_select input:checkbox").on("change", function () {
-                var dclen = $("#photo_gallery input[name='digital_cb']:checked").length;
-
-                //Select one digital will select all digital
-                if (dclen == 0) {
-                    $("#photo_gallery input[name='digital_cb']").each(function () {
-                        $(this).prop('checked', true);
-                    })
-                }
-                else if (dclen > 1) {
-                        $("#photo_gallery input[name='digital_cb']").each(function () {
-                            $(this).prop('checked', false);
-                    })
-                }
+    //        $("#menu_select input:checkbox").on("change", function () {
+    //            var dclen = $("#photo_gallery input[name='digital_cb']:checked").length;
+    //            //Select one digital will select all digital
+    //            if (dclen == 0) {
+    //                $("#photo_gallery input[name='digital_cb']").each(function () {
+    //                    $(this).prop('checked', true);
+    //                })
+    //            }
+    //            else if (dclen > 1) {
+    //                    $("#photo_gallery input[name='digital_cb']").each(function () {
+    //                        $(this).prop('checked', false);
+    //                })
+    //            }
                
-            });
-
-            $("#photo_gallery input:checkbox").on("change", function () {
-                var dclen = $("#photo_gallery input[name='digital_cb']:checked").length;
-                var eclen = $("#photo_gallery input[name='ECcopy_cb']:checked").length;
-                var a5len = $("#photo_gallery input[name='A5copy_cb']:checked").length;
-                var mglen = $("#photo_gallery input[name='MGcopy_cb']:checked").length;
-                var kclen = $("#photo_gallery input[name='KCcopy_cb']:checked").length;
-
-                var lrlen = 0;
-                $("select option:selected").each(function() {
-                    lrlen = $(this).text() + " ";
-                });
-
-				var totalamt_a = cal_amt(dclen, eclen, a5len, mglen, kclen);
-				var totalamt_array = totalamt_a.split(';');
-				var totalamt = totalamt_array[5];
-				var dc_result = totalamt_array[0];
-				var ec_result = totalamt_array[1];
-				var a5_result = totalamt_array[2];
-				var mg_result = totalamt_array[3];
-				var kc_result = totalamt_array[4];
+    //        });
+    //        $("#photo_gallery input:checkbox").on("change", function () {
+    //            var dclen = $("#photo_gallery input[name='digital_cb']:checked").length;
+    //            var eclen = $("#photo_gallery input[name='ECcopy_cb']:checked").length;
+    //            var a5len = $("#photo_gallery input[name='A5copy_cb']:checked").length;
+    //            var mglen = $("#photo_gallery input[name='MGcopy_cb']:checked").length;
+    //            var kclen = $("#photo_gallery input[name='KCcopy_cb']:checked").length;
+    //            var lrlen = 0;
+    //            $("select option:selected").each(function() {
+    //                lrlen = $(this).text() + " ";
+    //            });
+				//var totalamt_a = cal_amt(dclen, eclen, a5len, mglen, kclen);
+				//var totalamt_array = totalamt_a.split(';');
+				//var totalamt = totalamt_array[5];
+				//var dc_result = totalamt_array[0];
+				//var ec_result = totalamt_array[1];
+				//var a5_result = totalamt_array[2];
+				//var mg_result = totalamt_array[3];
+				//var kc_result = totalamt_array[4];
 				
-                if (lrlen > 0) {
-                    var lr_amt = lrlen * 15;
-                    totalamt = parseInt(lr_amt) + parseInt(totalamt);
-                }
-
-				$("#digital_copy_amt").html("Digital Copy: " + dc_result);
-                $("#ec_copy_amt").html("Establishment Card: " + ec_result);
-                $("#a5_copy_amt").html("A5 hardcopy: " + a5_result);
-                $("#mg_copy_amt").html("Magnet: " + mg_result);
-                $("#kc_copy_amt").html("Keychain: " + kc_result);
+    //            if (lrlen > 0) {
+    //                var lr_amt = lrlen * 15;
+    //                totalamt = parseInt(lr_amt) + parseInt(totalamt);
+    //            }
+				//$("#digital_copy_amt").html("Digital Copy: " + dc_result);
+    //            $("#ec_copy_amt").html("Establishment Card: " + ec_result);
+    //            $("#a5_copy_amt").html("A5 hardcopy: " + a5_result);
+    //            $("#mg_copy_amt").html("Magnet: " + mg_result);
+    //            $("#kc_copy_amt").html("Keychain: " + kc_result);
 				
-                $("#Total_cost").html("$" + totalamt + " SGD");
-				$("#dc").attr('value', dclen);
-				$("#a5").attr('value', a5len);
-                $("#ec").attr('value', eclen);
-                $("#mg").attr('value', mglen);
-                $("#kc").attr('value', kclen);
-                $("#sa").attr('value', totalamt);
-            });
-                var dc_amt = 0; var ec_amt = 0; var a5_amt = 0; var mg_amt = 0; var kc_amt = 0;
-				var dc_result = "$0;"; var ec_result = "$0;"; var a5_result = "$0;"; var mg_result = "$0;"; var kc_result = "$0;";
+    //            $("#Total_cost").html("$" + totalamt + " SGD");
+				//$("#dc").attr('value', dclen);
+				//$("#a5").attr('value', a5len);
+    //            $("#ec").attr('value', eclen);
+    //            $("#mg").attr('value', mglen);
+    //            $("#kc").attr('value', kclen);
+    //            $("#sa").attr('value', totalamt);
+    //        });
+    //            var dc_amt = 0; var ec_amt = 0; var a5_amt = 0; var mg_amt = 0; var kc_amt = 0;
+				//var dc_result = "$0;"; var ec_result = "$0;"; var a5_result = "$0;"; var mg_result = "$0;"; var kc_result = "$0;";
 				
 				
-				var rebate = false;
-				var rebate_type = "";
-				totalamt = 0;
-                if (dclen > 0) 
-				{
-					rebate = true;
-					totalamt = 20;
-					rebate_type = ";dc";
-					dc_result = "$20;";
-				}
-				else if (eclen > 0)
-				{
-					rebate = true;
-					totalamt = 25;
-					eclen = eclen - 1;
-					rebate_type = ";ec";
-					ec_result = "$25;";
-                }
-                else if (a5len > 0)
-				{
-					rebate = true;
-					totalamt = 25;
-					//a5len = a5len - 1;
-					rebate_type = ";a5";
-					a5_result = "$25;";
-				}
-				else if (kclen > 0)
-				{
-					rebate = true;
-					totalamt = 25;
-					kclen = kclen - 1;
-					rebate_type = ";kc";
-					kc_result = "$25;";
-				}
-				else if (mglen > 0)
-				{
-					rebate = true;
-					totalamt = 30;
-					mglen = mglen - 1;
-					rebate_type = ";mg";
-					mg_result = "$30;";
-				}
+				//var rebate = false;
+				//var rebate_type = "";
+				//totalamt = 0;
+    //            if (dclen > 0) 
+				//{
+				//	rebate = true;
+				//	totalamt = 20;
+				//	rebate_type = ";dc";
+				//	dc_result = "$20;";
+				//}
+				//else if (eclen > 0)
+				//{
+				//	rebate = true;
+				//	totalamt = 25;
+				//	eclen = eclen - 1;
+				//	rebate_type = ";ec";
+				//	ec_result = "$25;";
+    //            }
+    //            else if (a5len > 0)
+				//{
+				//	rebate = true;
+				//	totalamt = 25;
+				//	//a5len = a5len - 1;
+				//	rebate_type = ";a5";
+				//	a5_result = "$25;";
+				//}
+				//else if (kclen > 0)
+				//{
+				//	rebate = true;
+				//	totalamt = 25;
+				//	kclen = kclen - 1;
+				//	rebate_type = ";kc";
+				//	kc_result = "$25;";
+				//}
+				//else if (mglen > 0)
+				//{
+				//	rebate = true;
+				//	totalamt = 30;
+				//	mglen = mglen - 1;
+				//	rebate_type = ";mg";
+				//	mg_result = "$30;";
+				//}
 				
 				
-                /*Establishment card*/
-                if (eclen > 0)
-				{
-					if (rebate)
-						ec_amt = 8 * eclen;
-					else
-						ec_amt = 25 * eclen;
+    //            /*Establishment card*/
+    //            if (eclen > 0)
+				//{
+				//	if (rebate)
+				//		ec_amt = 8 * eclen;
+				//	else
+				//		ec_amt = 25 * eclen;
 						
-					if (rebate_type == ";ec")
-						ec_result = "$25 + <b>$" + ec_amt + "</b>;";
-					else
-						ec_result = "<b>$" + ec_amt + "</b>;";
-				}
+				//	if (rebate_type == ";ec")
+				//		ec_result = "$25 + <b>$" + ec_amt + "</b>;";
+				//	else
+				//		ec_result = "<b>$" + ec_amt + "</b>;";
+				//}
                     
-                /*A5Photo card*/
-                if (a5len > 0) {
-					if (a5len >= 3)
-					{
-						var mul_val = Math.floor(a5len / 3);
-						var mod_val = a5len % 3;
-						if (rebate)
-						{
-							a5_amt = 10 * mod_val;
-							a5_amt = a5_amt + (mul_val * 20);
-						}
-						if (rebate_type == ";a5")
-							a5_result = "$25 + <b>$" + a5_amt + "</b>;";
-						else
-						{
-							a5_result = "<b>$" + a5_amt + "</b>;";
-						}
+    //            /*A5Photo card*/
+    //            if (a5len > 0) {
+				//	if (a5len >= 3)
+				//	{
+				//		var mul_val = Math.floor(a5len / 3);
+				//		var mod_val = a5len % 3;
+				//		if (rebate)
+				//		{
+				//			a5_amt = 10 * mod_val;
+				//			a5_amt = a5_amt + (mul_val * 20);
+				//		}
+				//		if (rebate_type == ";a5")
+				//			a5_result = "$25 + <b>$" + a5_amt + "</b>;";
+				//		else
+				//		{
+				//			a5_result = "<b>$" + a5_amt + "</b>;";
+				//		}
 						
-					}
-                    else {
-						if (rebate_type == ";a5")
-                        {
-							if (a5len == 1)
-							{
-								//a5_amt = 10 * a5len;
-								a5_result = "$25;";
-							}
-							if (a5len == 2)      //total = 2
-                            {
-								a5_amt = 10 * (a5len - 1);
-								a5_result = "$25 + <b>$" + a5_amt + "</b>;";
-							}
-						}
-						else
-                        {
-							a5_amt = a5len * 10;
-                            if (rebate_type == ";a5") {
-                                a5_result = "$25 + <b>$" + a5_amt + "</b>;";
-                            }
-                            else
-                            {
-                                a5_result = "<b>$" + a5_amt + "</b>;";	
-                            }
-						}
+				//	}
+    //                else {
+				//		if (rebate_type == ";a5")
+    //                    {
+				//			if (a5len == 1)
+				//			{
+				//				//a5_amt = 10 * a5len;
+				//				a5_result = "$25;";
+				//			}
+				//			if (a5len == 2)      //total = 2
+    //                        {
+				//				a5_amt = 10 * (a5len - 1);
+				//				a5_result = "$25 + <b>$" + a5_amt + "</b>;";
+				//			}
+				//		}
+				//		else
+    //                    {
+				//			a5_amt = a5len * 10;
+    //                        if (rebate_type == ";a5") {
+    //                            a5_result = "$25 + <b>$" + a5_amt + "</b>;";
+    //                        }
+    //                        else
+    //                        {
+    //                            a5_result = "<b>$" + a5_amt + "</b>;";	
+    //                        }
+				//		}
 													
 						
-					}
-                }
-                /*Magnet card*/
-                if (mglen > 0) {
-					if (rebate)
-						mg_amt = 8 * mglen;
-					else
-						mg_amt = 30 * mglen;
-
-					if (rebate_type == ";mg")
-						mg_result = "$30 + <b>$" + mg_amt + "</b>;";
-					else
-						mg_result = "<b>$" + mg_amt + "</b>;";
-                }
-
-                /*Keychain*/
-                if (kclen > 0) {
-					if (rebate)
-						kc_amt = 8 * kclen;
-					else
-						kc_amt = 25 * kclen;
+				//	}
+    //            }
+    //            /*Magnet card*/
+    //            if (mglen > 0) {
+				//	if (rebate)
+				//		mg_amt = 8 * mglen;
+				//	else
+				//		mg_amt = 30 * mglen;
+				//	if (rebate_type == ";mg")
+				//		mg_result = "$30 + <b>$" + mg_amt + "</b>;";
+				//	else
+				//		mg_result = "<b>$" + mg_amt + "</b>;";
+    //            }
+    //            /*Keychain*/
+    //            if (kclen > 0) {
+				//	if (rebate)
+				//		kc_amt = 8 * kclen;
+				//	else
+				//		kc_amt = 25 * kclen;
 						
-					if (rebate_type == ";kc")
-						kc_result = "$25 + <b>$" + kc_amt + "</b>;";
-					else
-						kc_result = "<b>$" + kc_amt + "</b>;";	
-                }
-
-                var totalamt = totalamt + ec_amt + a5_amt + mg_amt + kc_amt;
+				//	if (rebate_type == ";kc")
+				//		kc_result = "$25 + <b>$" + kc_amt + "</b>;";
+				//	else
+				//		kc_result = "<b>$" + kc_amt + "</b>;";	
+    //            }
+    //            var totalamt = totalamt + ec_amt + a5_amt + mg_amt + kc_amt;
 				
-				var output = dc_result  + ec_result + a5_result + mg_result + kc_result + totalamt;
+				//var output = dc_result  + ec_result + a5_result + mg_result + kc_result + totalamt;
 				
-                return output;
+    //            return output;
             }
-        
 
+
+
+
+        function selectProduct(id, filename) {
+                    $('#productModal').val(id);
+            console.log(id);
+            console.log(filename);
+            $('#photoImg').attr("src", '/Content/photos/' + filename);
+                    //show the modal
+                    $('#productModal').modal("show");
+        }
+
+
+        
     </script>
     
 </head>
@@ -828,6 +907,87 @@
     </header>
     <!-- HEADER -->
 
+
+
+            <!-- The Modal --Create Lesson Type Modal-->
+        <div class="modal fade" id="productModal">
+            <div class="modal-dialog modal-dialog-centered" style="max-width:80%">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="margin-left: 20px">Choose Product</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-body p-4 pl-5">
+<div style="margin-bottom: 10px; display: flex;"><div style="width:40%;height:auto;margin-right:20px;-ms-flex: 1;flex: 1;"><img id="photoImg" style="width:100%;vertical-align:central"/></div>
+
+<form id="createTimeTableForm" style="-ms-flex: 1;flex: 1;">
+            <div class="form-group col-md-12">
+                <label for="dayInput" class="col-form-label">Choose Day of Week<span class="compulsoryInput d-inline"> *</span></label>
+                <select id="dayInput" name="dayInput" class="form-control" required>
+                    <option value="2" selected="selected">Monday</option>
+                    <option value="3">Tuesday</option>
+                    <option value="4">Wednesday</option>
+                    <option value="5">Thursday</option>
+                    <option value="6">Friday</option>
+                    <option value="7">Saturday</option>
+                    <option value="1">Sunday</option>
+                </select>
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group col-md-12">
+                <label for="startTimeInput" class="col-form-label">Choose Start Time<span class="compulsoryInput d-inline"> *</span></label>
+                <input type="time" value="09:00" name="startTimeInput" id="startTimeInput" class="form-control" required />
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group col-md-12">
+                <label for="endTimeInput" class="col-form-label">Choose End Time<span class="compulsoryInput d-inline"> *</span></label>
+                <input type="time" value="18:00" name="endTimeInput" id="endTimeInput" class="form-control" required />
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group col-md-12">
+                <label class="col-form-label" for="rateStartDate">Pick a Start Date<span class="compulsoryInput d-inline"> *</span></label>
+                <div>
+                    <input type="text" id="startDateInput" class="form-control effectiveDate"
+                           data-toggle="datepicker" name="startDateInput" placeholder="dd/MM/YYYY" required />
+                    <div class="invalid-feedback"></div>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <label class="col-form-label" for="rateEndDate">Pick an End Date<span class="compulsoryInput d-inline"> *</span></label>
+                <div>
+                    <input type="text" id="endDateInput" class="form-control effectiveDate"
+                           data-toggle="datepicker" name="endDateInput" placeholder="dd/MM/YYYY" required />
+                    <div class="invalid-feedback"></div>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <p>Visibility<span class="compulsoryInput d-inline"> *</span></p>
+                <!-- Rounded switch -->
+                <input type="checkbox" id="visibilityInput" checked data-toggle="toggle" data-style="ios">
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="newTimeTableSubmitBtn">Submit</button>
+                <button id="resetBtn" class="btn btn-grey">Reset</button>
+                <a id="backBtn" class="goToManageTB btn btn-grey">Back</a>
+            </div>
+        </form>
+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
     <div>
         <div style="width: 100%; height: 150px; text-align:center;margin:0 auto;" id="heading">
             <span class="heading1">Photo Selection</span>
@@ -849,7 +1009,7 @@
                 <div class="pricing_grp">
                     <div class="pricing_item">
                         <span class="pricing_header">Digital</span>
-                        <br /><span class="pricing"><b>$20</b>
+                        <br /><span class="pricing"><b>$20</b></span>
                     </div>
                     <div class="pricing_item">
                         <span class="pricing_header">Hardcopy</span>
@@ -885,7 +1045,7 @@
                 </div>
             </div>
         </div>
-
+        
         <!-- PRICING TABLE -->
 
         <form action="summary.aspx" method="post">

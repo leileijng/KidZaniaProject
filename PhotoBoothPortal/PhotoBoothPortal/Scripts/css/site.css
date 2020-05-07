@@ -1,0 +1,23 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
+for details on configuring this project to bundle and minify static web assets. */
+body {
+    padding-top: 80px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+/* Due to Bootstrap 4, have to force the label to be right aligned. Boostrap 3 no issue*/
+    @media (min-width: 1200px) {
+        .container {
+            max-width: 1100px;
+        }
+        .form-group.row > .col-form-label {
+            text-align: right;
+        }
+    }
+}
