@@ -191,10 +191,9 @@
     </style>
 
 
-    <link rel='stylesheet'  href='/css/style.css' type='text/css' media='all' />
-    <link rel='stylesheet'  href='/css/misc.css' type='text/css' media='all' />
-<<<<<<< HEAD
-    <link rel="stylesheet" href="/css/jquery-ui.css"/>
+    <link rel='stylesheet'  href='/Scripts/css/style.css' type='text/css' media='all' />
+    <link rel='stylesheet'  href='/Scripts/css/misc.css' type='text/css' media='all' />
+    <link rel="stylesheet" href="/Scripts/css/jquery-ui.css"/>
 
     <script type="text/javascript" src="/Scripts/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
