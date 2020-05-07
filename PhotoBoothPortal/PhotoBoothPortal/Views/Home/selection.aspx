@@ -235,7 +235,7 @@
             width: 80%;
             background-color: #e0f538;
             border-radius: 7px;
-            -webkit-border-radius 7px;
+            -webkit-border-radius: 7px;
             -moz-border-radius: 7px;
             box-shadow: 2px 2px 3px #666666;
             -webkit-box-shadow: 2px 2px 3px #666666;

@@ -1,0 +1,154 @@
+.btn_default {
+    -moz-box-shadow: 0px 10px 14px -7px #276873;
+    -webkit-box-shadow: 0px 10px 14px -7px #276873;
+    box-shadow: 0px 10px 14px -7px #276873;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #F07621), color-stop(1, #F07621));
+    background: -moz-linear-gradient(top, #F07621 5%, #F07621 100%);
+    background: -webkit-linear-gradient(top, #F07621 5%, #F07621 100%);
+    background: -o-linear-gradient(top, #F07621 5%, #F07621 100%);
+    background: -ms-linear-gradient(top, #F07621 5%, #F07621 100%);
+    background: linear-gradient(to bottom, #F07621 5%, #F07621 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F07621', endColorstr='#F07621',GradientType=0);
+    background-color: #F07621;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 13px 32px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #3d768a;
+}
+    .btn_default:hover {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #F07621), color-stop(1, #F07621));
+        background: -moz-linear-gradient(top, #F07621 5%, #F07621 100%);
+        background: -webkit-linear-gradient(top, #F07621 5%, #F07621 100%);
+        background: -o-linear-gradient(top, #F07621 5%, #F07621 100%);
+        background: -ms-linear-gradient(top, #F07621 5%, #F07621 100%);
+        background: linear-gradient(to bottom, #F07621 5%, #F07621 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F07621', endColorstr='#F07621',GradientType=0);
+        background-color: #F07621;
+        text-decoration: none;
+    }
+
+		
+		.btn_snap {
+			-moz-box-shadow: 0px 10px 14px -7px #276873 !important;
+			-webkit-box-shadow: 0px 10px 14px -7px #276873 !important;
+			box-shadow: 0px 10px 14px -7px #276873 !important;
+			background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #F07621), color-stop(1, #408c99)) !important;
+			background:-moz-linear-gradient(top, #F07621 5%, #408c99 100%) !important;
+			background:-webkit-linear-gradient(top, #F07621 5%, #408c99 100%) !important;
+			background:-o-linear-gradient(top, #F07621 5%, #408c99 100%) !important;
+			background:-ms-linear-gradient(top, #F07621 5%, #408c99 100%) !important;
+			background:linear-gradient(to bottom, #F07621 5%, #408c99 100%) !important;
+			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F07621', endColorstr='#408c99',GradientType=0) !important;
+			background-color:#F07621 !important;
+			-moz-border-radius:8px !important;
+			-webkit-border-radius:8px !important;
+			border-radius:8px !important;
+			display:inline-block;
+			cursor:pointer !important;
+			color:#ffffff !important;
+			font-family:Arial !important;
+			font-size:20px !important;
+			font-weight:bold !important;
+			padding:16px 32px !important;
+			text-decoration:none !important;
+			text-shadow:0px 1px 0px #3d768a !important;
+		}
+		.btn_snap:hover {
+			background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #408c99), color-stop(1, #F07621)) !important;
+			background:-moz-linear-gradient(top, #408c99 5%, #F07621 100%) !important;
+			background:-webkit-linear-gradient(top, #408c99 5%, #F07621 100%) !important;
+			background:-o-linear-gradient(top, #408c99 5%, #F07621 100%) !important;
+			background:-ms-linear-gradient(top, #408c99 5%, #F07621 100%) !important;
+			background:linear-gradient(to bottom, #408c99 5%, #F07621 100%) !important;
+			filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#408c99', endColorstr='#F07621',GradientType=0) !important;
+			background-color:#408c99 !important;
+		}		
+		
+		
+        body {
+	        font-family: Arial, Helvetica, sans-serif;
+        }
+
+        table {
+	        font-size: 1em;
+        }
+
+        .ui-draggable, .ui-droppable {
+	        background-position: top;
+        }
+			
+		.file-upload {
+		-moz-box-shadow: 0px 10px 14px -7px #276873;
+		-webkit-box-shadow: 0px 10px 14px -7px #276873;
+		box-shadow: 0px 10px 14px -7px #276873;
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #F07621), color-stop(1, #408c99));
+		background:-moz-linear-gradient(top, #F07621 5%, #408c99 100%);
+		background:-webkit-linear-gradient(top, #F07621 5%, #408c99 100%);
+		background:-o-linear-gradient(top, #F07621 5%, #408c99 100%);
+		background:-ms-linear-gradient(top, #F07621 5%, #408c99 100%);
+		background:linear-gradient(to bottom, #F07621 5%, #408c99 100%);
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F07621', endColorstr='#408c99',GradientType=0);
+		background-color:#F07621;
+		-moz-border-radius:8px;
+		-webkit-border-radius:8px;
+		border-radius:8px;
+		display:inline-block;
+		cursor:pointer;
+		color:#ffffff;
+		font-family:Arial;
+		font-size:20px;
+		font-weight:bold;
+		padding:13px 32px;
+		text-decoration:none;
+		text-shadow:0px 1px 0px #3d768a;
+		}
+		.file-upload:hover {
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #408c99), color-stop(1, #F07621));
+		background:-moz-linear-gradient(top, #408c99 5%, #F07621 100%);
+		background:-webkit-linear-gradient(top, #408c99 5%, #F07621 100%);
+		background:-o-linear-gradient(top, #408c99 5%, #F07621 100%);
+		background:-ms-linear-gradient(top, #408c99 5%, #F07621 100%);
+		background:linear-gradient(to bottom, #408c99 5%, #F07621 100%);
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#408c99', endColorstr='#F07621',GradientType=0);
+		background-color:#408c99;
+		}
+		.file-upload {
+		height: 55px;
+		}
+
+		.file-upload, .file-upload span {
+			width: 150px;
+		}
+
+		.file-upload input {
+				top: 0;
+				left: 0;
+				margin: 0;
+				font-size: 11px;
+				font-weight: bold;
+				/* Loses tab index in webkit if width is set to 0 */
+				opacity: 0;
+				filter: alpha(opacity=0);
+		}
+
+		.file-upload strong {
+				font: bold 20px Arial;
+				text-align: center;
+				vertical-align: middle;
+		}
+
+		.file-upload span {
+				top: 0;
+				left: 0;
+				display: inline-block;
+				/* Adjust button text vertical alignment */
+				/* padding-top: 5px; */		
+		
