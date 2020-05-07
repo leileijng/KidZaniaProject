@@ -13,6 +13,15 @@ namespace PhotoBoothPortal.Views.Test {
     public partial class selection {
         
         /// <summary>
+        /// prods control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl prods;
+        
+        /// <summary>
         /// profile_photo control.
         /// </summary>
         /// <remarks>
