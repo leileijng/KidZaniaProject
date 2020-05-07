@@ -40,7 +40,7 @@ namespace PhotoBoothPortal.Views.Test
                 //Response.Redirect("/");
             }
             */
-            
+
             string profile_id = "";
 
             /*
@@ -127,11 +127,11 @@ namespace PhotoBoothPortal.Views.Test
                         }
                         */
                     photo_gallery_ctn.InnerHtml += "<div id='gl_id_" + x + "' class=\"gallery\">";
-<<<<<<< HEAD
-                    photo_gallery_ctn.InnerHtml += "<img class=\"modal_window\" onclick=\"selectProduct('" + photoid + "','" + photowatermarked_filename+ "');\" id=\"tn_id_" + x + "\" class=\"thumbnail\" src=\"/Content/photos/" + photowatermarked_filename + "\"/>";
-=======
-                    photo_gallery_ctn.InnerHtml += "<img class='modal_window' onclick='show_modal(" + photoid + ");' id='tn_id_" + x + "' class='thumbnail' src='/Content/photos/" + photowatermarked_filename + "'>";
->>>>>>> e18c3df9326688eea7aec10f0250cc40e44b54ed
+
+                    photo_gallery_ctn.InnerHtml += "<img class=\"modal_window\" onclick=\"selectProduct('" + photoid + "','" + photowatermarked_filename + "');\" id=\"tn_id_" + x + "\" class=\"thumbnail\" src=\"/Content/photos/" + photowatermarked_filename + "\"/>";
+
+                    //photo_gallery_ctn.InnerHtml += "<img class='modal_window' onclick='show_modal(" + photoid + ");' id='tn_id_" + x + "' class='thumbnail' src='/Content/photos/" + photowatermarked_filename + "'>";
+
                     photo_gallery_ctn.InnerHtml += "<div style='margin-bottom: 15px; font-size: 10px;'>Profile ID:" + profile_id + "</div>";
                     photo_gallery_ctn.InnerHtml += "    <div>";
                     photo_gallery_ctn.InnerHtml += "        <input name=\"digital_cb\" id=\"dc_photo" + photoid + "\" type=\"checkbox\" checked=\"checked\" value=\"" + photoid + "\">";

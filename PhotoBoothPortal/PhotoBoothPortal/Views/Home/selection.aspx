@@ -71,38 +71,9 @@
         }
         /* Style the Image Used to Trigger the Modal */
         .thumbnail:hover {opacity: 0.7;}
-<<<<<<< HEAD
+
         
 
-        /* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-}
-.modal-dialog-centered {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-align: center;
-    align-items: center;
-    min-height: calc(100% - (.5rem * 2));
-}
 /* The Close Button */
 .close {
   color: #aaa;
@@ -119,31 +90,7 @@
   text-decoration: none;
   cursor: pointer;
 }
-/* Modal Header */
-.modal-header {
-  padding: 2px 16px;
-}
 
-/* Modal Body */
-.modal-body {padding: 2px 16px;}
-
-/* Modal Footer */
-.modal-footer {
-  padding: 2px 16px;
-}
-
-/* Modal Content */
-.modal-content {
-  position: relative;
-  background-color: #fefefe;
-  margin: auto;
-  padding: 0;
-  border: 1px solid #888;
-  width: 80%;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-  animation-name: animatetop;
-  animation-duration: 0.4s
-}
 
 /* Add Animation */
 @keyframes animatetop {
@@ -151,30 +98,7 @@
   to {top: 0; opacity: 1}
 }
 
-
-=======
-        /* The Modal (background) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 9999; /* Sit on top */
-            padding-top: 100px; /* Location of the box */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-        }
-        /* Modal Content (Image) */
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: auto;
-            max-width: 700px;
-        }
->>>>>>> e18c3df9326688eea7aec10f0250cc40e44b54ed
+        
         /* Caption of Modal Image (Image Text) - Same Width as the Image */
         #caption {
             margin: auto;
@@ -313,10 +237,9 @@
     <script src="/Scripts/lib/store/store.min.js"></script>
 
 
-=======
     <link rel="stylesheet" href="/css/jquery-ui.css">
     <script type="text/javascript" src="/js/jquery.min.js"></script>
->>>>>>> e18c3df9326688eea7aec10f0250cc40e44b54ed
+
     <script>
 		$(window).on("load", function () {
             refresh_values();
@@ -681,10 +604,7 @@
                 
             }
         }
-<<<<<<< HEAD
 
-=======
->>>>>>> e18c3df9326688eea7aec10f0250cc40e44b54ed
         function modal_load(e) {
             var modal = document.getElementById('myModala'+e);
             // Get the <span> element that closes the modal
@@ -885,7 +805,7 @@
 				
     //            return output;
             }
-<<<<<<< HEAD
+
 
 
 
@@ -900,8 +820,7 @@
         }
 
 
-=======
->>>>>>> e18c3df9326688eea7aec10f0250cc40e44b54ed
+
         
     </script>
     
