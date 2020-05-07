@@ -71,6 +71,7 @@
         }
         /* Style the Image Used to Trigger the Modal */
         .thumbnail:hover {opacity: 0.7;}
+<<<<<<< HEAD
         
 
         /* The Modal (background) */
@@ -151,6 +152,29 @@
 }
 
 
+=======
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 9999; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+        /* Modal Content (Image) */
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: auto;
+            max-width: 700px;
+        }
+>>>>>>> e18c3df9326688eea7aec10f0250cc40e44b54ed
         /* Caption of Modal Image (Image Text) - Same Width as the Image */
         #caption {
             margin: auto;
@@ -177,7 +201,6 @@
             from {transform:scale(0)} 
             to {transform:scale(1)}
         }
-
         /* The Close Button */
         .close {
             position: absolute;
@@ -246,6 +269,7 @@
 
     <link rel='stylesheet'  href='/css/style.css' type='text/css' media='all' />
     <link rel='stylesheet'  href='/css/misc.css' type='text/css' media='all' />
+<<<<<<< HEAD
     <link rel="stylesheet" href="/css/jquery-ui.css"/>
 
     <script type="text/javascript" src="/Scripts/jquery-3.3.1.min.js"></script>
@@ -289,6 +313,10 @@
     <script src="/Scripts/lib/store/store.min.js"></script>
 
 
+=======
+    <link rel="stylesheet" href="/css/jquery-ui.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+>>>>>>> e18c3df9326688eea7aec10f0250cc40e44b54ed
     <script>
 		$(window).on("load", function () {
             refresh_values();
@@ -450,7 +478,6 @@
 			
             refresh_values();    
         });
-
         function cal_amt(dclen, eclen, a5len, mglen, kclen) {
                 var dc_amt = 0; var ec_amt = 0; var a5_amt = 0; var mg_amt = 0; var kc_amt = 0;
 				var dc_result = "$0;"; var ec_result = "$0;"; var a5_result = "$0;"; var mg_result = "$0;"; var kc_result = "$0;";
@@ -639,14 +666,12 @@
 			$("#kc").attr('value', kclen);
 			$("#sa").attr('value', total);
         }
-
         function show_modal(e) {
             var modal = document.getElementById('myModala'+e);
             var modalImg = document.getElementById("img01");
             var captionText = document.getElementById("caption");
             modal.style.display = "block";
         }
-
         function delete_gl(id)
 	    {
             if (confirm('Are you confirmed to remove photo?')) {
@@ -656,7 +681,10 @@
                 
             }
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> e18c3df9326688eea7aec10f0250cc40e44b54ed
         function modal_load(e) {
             var modal = document.getElementById('myModala'+e);
             // Get the <span> element that closes the modal
@@ -857,6 +885,7 @@
 				
     //            return output;
             }
+<<<<<<< HEAD
 
 
 
@@ -871,6 +900,8 @@
         }
 
 
+=======
+>>>>>>> e18c3df9326688eea7aec10f0250cc40e44b54ed
         
     </script>
     
