@@ -31,10 +31,10 @@ namespace PhotoBoothPortal.Views.Test
             {
                 string pname = product[i].ProductName;
                 pname = char.ToUpper(pname[0]) + pname.Substring(1);
-                prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in' type='checkbox' id='itembox' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' /><b style='font-size:20px;'>" + pname + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + product[i].ProductPrice + ".00 (incl. GST) </b></div><br/> ";
+                prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in' type='checkbox' id='itembox' name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId +"'/><b style='font-size:20px;'>" + pname + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + product[i].ProductPrice + ".00 (incl. GST) </b></div><br/> ";
 
             }
-
+            
 
             /*
             bool onsite = false;
@@ -106,6 +106,10 @@ namespace PhotoBoothPortal.Views.Test
             photomatch.Add("2", "2.jpg");
             photomatch.Add("3", "3.jpg");
             photomatch.Add("4", "4.jpg");
+            photomatch.Add("5", "5.jpg");
+            photomatch.Add("6", "6.jpg");
+            photomatch.Add("7", "7.jpg");
+            photomatch.Add("8", "8.jpg");
 
             string currentApplicationPath = HttpContext.Current.Request.PhysicalApplicationPath;
             Debug.WriteLine("here" + currentApplicationPath);

@@ -284,12 +284,58 @@
             margin-bottom:10%;
             
         }
+
+        .sidebar {
+  height: 690px;
+  width: 0;
+  position: fixed;
+  z-index: 5;
+  bottom: 0;
+  right: 0;
+  background: #f5f5f5 !important;
+  overflow-x: hidden;
+  transition: 0.5s;
+  margin: 0 !important;
+}
+
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  left: 25px;
+  font-size: 36px;
+  margin-right: 50px;
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+#photo_gallery {
+  transition: margin-right .5s;
+  padding: 16px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
     </style>
 
 
-    <link rel='stylesheet' href='/css/style.css' type='text/css' media='all' />
-    <link rel='stylesheet' href='/css/misc.css' type='text/css' media='all' />
-    <link rel="stylesheet" href="/css/jquery-ui.css" />
+    <link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='/Scripts/css/misc.css' type='text/css' media='all' />
+    <link rel="stylesheet" href="/Scripts/css/jquery-ui.css" />
 
     <script type="text/javascript" src="/Scripts/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
@@ -886,6 +932,35 @@
             $('#productModal').modal("show");
         }
 
+        function openCart() {
+            $("#cart").css("width", "350px");
+            $("#photo_gallery").css("width", "80%");
+            $("#photo_gallery").css("marginRight", "350px");
+        }
+
+        function closeCart() {
+            $("#cart").css("width", "0");
+            $("#photo_gallery").css("width", "90%");
+            $("#photo_gallery").css("margin", "0 auto");
+        }
+
+        function addToCart() {
+            var photoid = $('#productModal').val();
+            var photosrc = $('#photoImg').attr("src");
+            $("input:checkbox[name=product]:checked").each(function () {
+                console.log($(this).val());
+            });
+            openCart();
+        }
+
+        function loadCart(cartItem) {
+            
+        }
+
+        function CartItem(inPhotoId, inPhotoSource, inProductId, inProductName, inProductPrice) { }
+
+        
+
     </script>
 
 </head>
@@ -930,17 +1005,17 @@
         <div class="modal-dialog modal-dialog-centered" style="max-width: 80%">
             <div class="modal-content">
                 <!-- Modal Header -->
-                <div class="modal-header">
+                <div class="modal-header p-1 pt-2">
                     <h4 class="modal-title" style="margin-left: 20px">Choose Product</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="card">
-                        <div class="card-body p-4 pl-5">
+                        <div class="card-body p-2 pl-3">
                             <div style="margin-bottom: 10px; display: flex;">
                                 <div style="width: 40%; height: auto; margin-right: 20px; -ms-flex: 1; flex: 1;">
-                                    <img id="photoImg" style="width: 100%; vertical-align: central" /></div>
+                                    <img id="photoImg" style="width: 100%; vertical-align:central" /></div>
 
                                 <form id="createTimeTableForm" style="-ms-flex: 1; flex: 1;">
                                     <div class="form-group col-md-12">
@@ -949,8 +1024,8 @@
                                         </div>
                                     </div>
                                     <!-- Modal footer -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" id="newTimeTableSubmitBtn">Submit</button>
+                                    <div class="modal-footer pb-1">
+                                        <button type="button" class="btn btn-primary" id="addProductBtn" onclick="addToCart()">Submit</button>
                                         <button id="resetBtn" class="btn btn-grey">Reset</button>
                                         <a id="backBtn" class="goToManageTB btn btn-grey">Back</a>
                                     </div>
@@ -973,7 +1048,9 @@
         </div>
 
         <div style="text-align: center; margin-top: 10px; margin: 0 auto;">
-            <img src='/img/process-selection.png' /></div>
+            <img src='/img/process-selection.png' />
+
+        </div>
 
         <div style="width: 100%; text-align: center; margin-top: 10px; margin: 0 auto;" id="user_profile">
             <div id="profile_photo" runat="server"></div>
@@ -1044,6 +1121,7 @@
 
         <form action="summary.aspx" method="post">
             <div style="margin-top: -10px; width: 90%; text-align: center; margin: 0 auto;" id="photo_gallery">
+                <div class="openbtn" onclick="openCart()">☰ Open Sidebar</div>  
                 <div id="menu_select">
                     <input name="all_digital_cb" type="checkbox" checked="checked">&nbsp;<label>All Digital</label></div>
                 <div style="text-align: center;" id="photo_gallery_ctn" runat="server"></div>
@@ -1073,6 +1151,47 @@
                     <input class='btn_default' type="submit" /><input style="margin-left: 10px;" onclick='location.reload();' class='btn_default' type="reset" /></div>
                 <br />
             </div>
+            
+            <div id="cart" class="sidebar">
+                <div class="p-2 mt-1 mb-2">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="modal-title" style="margin-left: 10px">Choose Product</span>
+                    <button type="button" class="close" onclick="closeCart()">&times;</button>
+                </div>
+                <div>
+                    <div style="display: flex; background-color: white" class="m-1 p-1">
+                        <div class="p-1 pl-2" style="-ms-flex: 1; flex: 1;">
+                            <img id="p1" src="/Content/photos/2.jpg" style="width: 100%; height: auto;" />
+                        </div>
+                        <div id="p1details" class="cart-item-details p-1 pl-3" style="-ms-flex: 2; flex: 2; text-align:left">
+                            <div class="pb-2">
+                            <p class="mb-0">
+                                <b>Keychain</b>
+                            </p>
+                            <p class="mb-0" style="color:darkgrey; width:90%; font-size: 0.8rem;">
+                                SGD 9.99 
+                            <i class="far fa-trash-alt" style="float:right; font-size: 0.9rem;"></i>
+                            </p>
+                            </div>
+
+                            <div class="pb-2">
+                            <p class="mb-0">
+                                <b>Keychain</b>
+                            </p>
+                            <p class="mb-0" style="color:darkgrey; width:90%; font-size: 0.8rem;">
+                                SGD 9.99 
+                            <i class="far fa-trash-alt" style="float:right; font-size: 0.9rem;"></i>
+                            </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
         </form>
     </div>
 
