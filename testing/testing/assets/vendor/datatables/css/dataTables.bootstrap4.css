@@ -5,6 +5,7 @@ table.dataTable {
   max-width: none !important;
   border-collapse: separate !important;
   border-spacing: 0;
+  text-align: center;
 }
 table.dataTable td,
 table.dataTable th {

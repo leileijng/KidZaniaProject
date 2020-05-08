@@ -1,0 +1,82 @@
+use kidzania;
+
+CREATE TABLE `email` (
+	`uid` VARCHAR(50) NULL DEFAULT NULL,
+	`email` VARCHAR(255) NULL DEFAULT NULL
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+
+load data local infile 
+'C:/Users/Franky/Documents/GitHub/KidZaniaProject/Database/emails_sampledata.csv' 
+into table email fields terminated by ',' 
+lines terminated by '\n';
+
+
+CREATE TABLE `purchase` (
+	`purchase_id` TEXT NULL,
+	`softcopy` TEXT NULL COMMENT 'Digital Copy',
+	`eccopy` TEXT NULL COMMENT 'Establishment Card',
+	`a5copy` TEXT NULL COMMENT 'A5 Folder Hardcopy',
+	`mgcopy` TEXT NULL COMMENT 'Magnet',
+	`kccopy` TEXT NULL COMMENT 'Key Chain',
+	`lrcopy` TEXT NULL COMMENT 'Leatherette',
+	`json` TEXT NULL,
+	`total_price` INT(11) NULL DEFAULT NULL,
+	`status` TEXT NULL,
+	`type` TINYTEXT NULL,
+	`purchase_status` TINYTEXT NULL,
+	`email_status` TINYTEXT NULL,
+	`hardcopy_status` TINYTEXT NULL,
+	`magnet_status` TINYTEXT NULL,
+	`ecard_status` TINYTEXT NULL,
+	`keychain_status` TINYTEXT NULL
+)
+COLLATE='utf8_general_ci'
+ENGINE=MyISAM
+;
+
+load data local infile 
+'C:/Users/Franky/Documents/GitHub/KidZaniaProject/Database/purchase_sampledata.csv' 
+into table purchase fields terminated by ',' 
+lines terminated by '\n';
+
+CREATE TABLE `profiles` (
+	`pid` VARCHAR(50) NULL DEFAULT NULL,
+	`profile` VARCHAR(50) NULL DEFAULT NULL,
+	`status` VARCHAR(50) NULL DEFAULT NULL
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+
+load data local infile 
+'C:/Users/Franky/Documents/GitHub/KidZaniaProject/Database/profiles_sampledata.csv' 
+into table profiles fields terminated by ',' 
+lines terminated by '\n';
+
+
+CREATE TABLE `payment_status` (
+	`mid` VARCHAR(50) NULL DEFAULT NULL,
+	`transaction_id` VARCHAR(100) NULL DEFAULT NULL,
+	`order_id` VARCHAR(100) NULL DEFAULT NULL,
+	`acquirer_transaction_id` VARCHAR(50) NULL DEFAULT NULL,
+	`request_amount` FLOAT NULL DEFAULT NULL,
+	`request_ccy` VARCHAR(10) NULL DEFAULT NULL,
+	`authorized_amount` FLOAT NULL DEFAULT NULL,
+	`authorized_ccy` VARCHAR(10) NULL DEFAULT NULL,
+	`response_code` VARCHAR(10) NULL DEFAULT NULL,
+	`response_msg` VARCHAR(25) NULL DEFAULT NULL,
+	`acquirer_response_code` VARCHAR(10) NULL DEFAULT NULL,
+	`acquirer_response_msg` VARCHAR(255) NULL DEFAULT NULL,
+	`acquirer_authorization_code` VARCHAR(100) NULL DEFAULT NULL,
+	`created_timestamp` VARCHAR(50) NULL DEFAULT NULL,
+	`acquirer_created_timestamp` VARCHAR(50) NULL DEFAULT NULL,
+	`request_timestamp` VARCHAR(50) NULL DEFAULT NULL,
+	`request_mid` VARCHAR(50) NULL DEFAULT NULL,
+	`transaction_type` VARCHAR(5) NULL DEFAULT NULL
+)
+COLLATE='utf8_general_ci'
+ENGINE=MyISAM
+;
