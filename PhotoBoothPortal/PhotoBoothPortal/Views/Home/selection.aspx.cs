@@ -19,6 +19,7 @@ using MySql.Data.MySqlClient;
 using System.Diagnostics;
 using System.Data;
 using PhotoBoothPortal.Models;
+using System.Web.Services;
 
 namespace PhotoBoothPortal.Views.Test
 {
@@ -359,6 +360,45 @@ namespace PhotoBoothPortal.Views.Test
                 }
             }
             return products;
+        }
+
+        [WebMethod]
+        public static string getProductbyId()
+        {
+            string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
+            Product p = new Product();
+            MySqlConnection conn = null;
+            try
+            {
+                conn = new MySqlConnection(connstring);
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT * FROM kidzania.product where pro_visibility = 1 and pro_id = " + 1 + ";", conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        p.ProductId = Convert.ToInt32(reader["pro_id"]);
+                        p.ProductName = reader["pro_name"].ToString();
+                        p.ProductPrice = Decimal.Parse(reader["pro_price"].ToString());
+                        p.ProductGST = Decimal.Parse(reader["pro_gst"].ToString());
+                        p.ProductImage = reader["pro_image"].ToString();
+                        p.ProductDescription = reader["pro_description"].ToString();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: {0}", e.ToString());
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+            return new JavaScriptSerializer().Serialize(p);
         }
     }
 }

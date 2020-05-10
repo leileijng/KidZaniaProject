@@ -5,6 +5,54 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    
+    <link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='/Scripts/css/misc.css' type='text/css' media='all' />
+    <link rel="stylesheet" href="/Scripts/css/jquery-ui.css" />
+
+    <script type="text/javascript" src="/Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
+    <!-- Font Awesome -->
+
+    <link href="/Scripts/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+    <!-- Bootstrap core CSS -->
+    <link href="/Scripts/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Material Design Bootstrap -->
+    <link href="/Scripts/lib/mdb/css/mdb.min.css" rel="stylesheet" />
+    <!-- Your custom styles (optional) -->
+    <link href="/Scripts/css/site.css" rel="stylesheet" />
+
+    <link href="/Scripts/lib/noty/noty.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/Scripts/css/noty_custom.css" />
+    <link rel="stylesheet" href="/Scripts/css/sticky_footer.css" />
+    <!-- Bootsrap-table core CSS -->
+    <link href="/Scripts/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
+    <!-- jqWidget core CSS -->
+    <link href="/Scripts/lib/jqwidgets/styles/jqx.base.css" rel="stylesheet" />
+    <link href="/Scripts/lib/jqwidgets/styles/jqx.flat.css" rel="stylesheet" />
+    <!-- jQuery library-->
+    <script src="/Scripts/lib/jquery/dist/jquery.js"></script>
+
+    <!-- Bootstrap tooltips -->
+    <script src="/Scripts/lib/popper.js/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="/Scripts/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script src="/Scripts/lib/mdb/js/mdb.min.js"></script>
+    <!-- jqWidgets core JavaScript for all widgets (large JS file size)-->
+    <script src="/Scripts/lib/jqwidgets/jqx-all.js"></script>
+    <!-- jQuery validate plugin-->
+    <script src="/Scripts/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="/Scripts/lib/jquery-validation/dist/additional-methods.js"></script>
+    <!-- Boostrap table core JavaScript -->
+    <script src="/Scripts/lib/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="/Scripts/lib/noty/noty.min.js"></script>
+    <script src="/Scripts/lib/moment/moment.min.js"></script>
+    <script src="/Scripts/lib/store/store.min.js"></script>
+
+
+    <link rel="stylesheet" href="/css/jquery-ui.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
     <title></title>
 
     <style>
@@ -333,58 +381,15 @@
     </style>
 
 
-    <link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' />
-    <link rel='stylesheet' href='/Scripts/css/misc.css' type='text/css' media='all' />
-    <link rel="stylesheet" href="/Scripts/css/jquery-ui.css" />
-
-    <script type="text/javascript" src="/Scripts/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
-    <!-- Font Awesome -->
-
-    <link href="/Scripts/lib/font-awesome/css/all.min.css" rel="stylesheet" />
-    <!-- Bootstrap core CSS -->
-    <link href="/Scripts/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Material Design Bootstrap -->
-    <link href="/Scripts/lib/mdb/css/mdb.min.css" rel="stylesheet" />
-    <!-- Your custom styles (optional) -->
-    <link href="/Scripts/css/site.css" rel="stylesheet" />
-
-    <link href="/Scripts/lib/noty/noty.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/Scripts/css/noty_custom.css" />
-    <link rel="stylesheet" href="/Scripts/css/sticky_footer.css" />
-    <!-- Bootsrap-table core CSS -->
-    <link href="/Scripts/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
-    <!-- jqWidget core CSS -->
-    <link href="/Scripts/lib/jqwidgets/styles/jqx.base.css" rel="stylesheet" />
-    <link href="/Scripts/lib/jqwidgets/styles/jqx.flat.css" rel="stylesheet" />
-    <!-- jQuery library-->
-    <script src="/Scripts/lib/jquery/dist/jquery.js"></script>
-
-    <!-- Bootstrap tooltips -->
-    <script src="/Scripts/lib/popper.js/umd/popper.min.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <script src="/Scripts/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
-    <!-- MDB core JavaScript -->
-    <script src="/Scripts/lib/mdb/js/mdb.min.js"></script>
-    <!-- jqWidgets core JavaScript for all widgets (large JS file size)-->
-    <script src="/Scripts/lib/jqwidgets/jqx-all.js"></script>
-    <!-- jQuery validate plugin-->
-    <script src="/Scripts/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="/Scripts/lib/jquery-validation/dist/additional-methods.js"></script>
-    <!-- Boostrap table core JavaScript -->
-    <script src="/Scripts/lib/bootstrap-table/bootstrap-table.min.js"></script>
-    <script src="/Scripts/lib/noty/noty.min.js"></script>
-    <script src="/Scripts/lib/moment/moment.min.js"></script>
-    <script src="/Scripts/lib/store/store.min.js"></script>
-
-
-    <link rel="stylesheet" href="/css/jquery-ui.css">
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-
+    
     <script>
+
+        var CartItems = [];
+
         $(window).on("load", function () {
             refresh_values();
         });
+
         $(document).ready(function () {
             $("form").submit(function (e) {
                 var total = $("#photo_gallery input[name='digital_cb']:checked").length;
@@ -398,6 +403,9 @@
             $("select").change(function () {
                 refresh_values();
             });
+
+            //server side
+            //change of formulas e.g. Ajax call to server for calculation (no. of products), then get the return of total money
             function cal_amt(dclen, eclen, a5len, mglen, kclen) {
                 var dc_amt = 0; var ec_amt = 0; var a5_amt = 0; var mg_amt = 0; var kc_amt = 0;
                 var dc_result = "$0;"; var ec_result = "$0;"; var a5_result = "$0;"; var mg_result = "$0;"; var kc_result = "$0;";
@@ -530,6 +538,7 @@
 
             refresh_values();
         });
+
         function cal_amt(dclen, eclen, a5len, mglen, kclen) {
             var dc_amt = 0; var ec_amt = 0; var a5_amt = 0; var mg_amt = 0; var kc_amt = 0;
             var dc_result = "$0;"; var ec_result = "$0;"; var a5_result = "$0;"; var mg_result = "$0;"; var kc_result = "$0;";
@@ -706,12 +715,14 @@
             $("#kc").attr('value', kclen);
             $("#sa").attr('value', total);
         }
+
         function show_modal(e) {
             var modal = document.getElementById('myModala' + e);
             var modalImg = document.getElementById("img01");
             var captionText = document.getElementById("caption");
             modal.style.display = "block";
         }
+
         function delete_gl(id) {
             if (confirm('Are you confirmed to remove photo?')) {
                 $("#gl_id_" + id).remove();
@@ -933,6 +944,8 @@
         }
 
         function openCart() {
+            $('#cart-items').html('');
+            loadCart();
             $("#cart").css("width", "350px");
             $("#photo_gallery").css("width", "80%");
             $("#photo_gallery").css("marginRight", "350px");
@@ -948,20 +961,79 @@
             var photoid = $('#productModal').val();
             var photosrc = $('#photoImg').attr("src");
             $("input:checkbox[name=product]:checked").each(function () {
-                console.log($(this).val());
+
+                var existPhoto = false;
+                for (i = 0; i < CartItems.length; i++) {
+                    if (CartItems[i].photoId == photoid) {
+                        CartItems[i].productId.push($(this).val());
+                        existPhoto = true;
+                    }
+                }
+                if (!existPhoto) {
+                    var productIds = [];
+                    productIds.push($(this).val());
+                    var newCartItem = new CartItem(photoid, photosrc, productIds);
+                    CartItems.push(newCartItem);
+                }
+
+                console.log(CartItems);
             });
             openCart();
         }
 
-        function loadCart(cartItem) {
-            
+        function loadCart() {
+            let $divElement = null;
+            let $divPhoto = null;
+            let $divProducts = null;
+            let $imgPhoto = null;
+            let $divItem = null;
+
+            var i; 
+            for (i = 0; i < CartItems.length; i++) {
+                $divElement = $('<div style="display: flex; background-color: white" class="m-1 p-1"></div>');
+
+                $divPhoto = $('<div class="p-1 pl-2" style="-ms-flex: 1; flex: 1;"></div>');
+                $imgPhoto = $(`<img id="p1" src=${CartItems[i].photoSource} style="width: 100%; height: auto;"/>`);
+                $divPhoto.append($imgPhoto);
+
+                $divProducts = $(`<div class="p-1 pl-3" style="-ms-flex: 2; flex: 2; text-align: left"></div>`);
+                var n;
+                for (n = 0; n < CartItems[i].productId.length; n++) {
+                    $divItem = $(`<div class="pb-2"></div>`);
+                    $.ajax({
+                        type: "POST",
+                        async: false,
+                        url: '/selection.aspx/getProductbyId',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (XMLHttpRequest, textStatus, errorThrown) {
+                            console.log("product info:");
+                            console.log(response);
+                        },
+                        error: function (response) {
+                            //alert(response.d);
+                        }
+                    });  
+                }
+
+
+                $divElement.append($divPhoto);
+                $divElement.append($divProducts);
+            }
+
+            $('#cart-items').append($divElement);
         }
 
-        function CartItem(inPhotoId, inPhotoSource, inProductId, inProductName, inProductPrice) { }
+        function CartItem(inPhotoId, inPhotoSource, inProductId) {
+            this.photoId = inPhotoId;
+            this.photoSource = inPhotoSource;
+            this.productId = inProductId;
+        }
 
         
 
     </script>
+
 
 </head>
 <body>
@@ -1025,7 +1097,7 @@
                                     </div>
                                     <!-- Modal footer -->
                                     <div class="modal-footer pb-1">
-                                        <button type="button" class="btn btn-primary" id="addProductBtn" onclick="addToCart()">Submit</button>
+                                        <button type="button" class="btn btn-primary" id="addProductBtn" onclick="addToCart()" runat="server">Submit</button>
                                         <button id="resetBtn" class="btn btn-grey">Reset</button>
                                         <a id="backBtn" class="goToManageTB btn btn-grey">Back</a>
                                     </div>
@@ -1123,7 +1195,7 @@
             <div style="margin-top: -10px; width: 90%; text-align: center; margin: 0 auto;" id="photo_gallery">
                 <div class="openbtn" onclick="openCart()">☰ Open Sidebar</div>  
                 <div id="menu_select">
-                    <input name="all_digital_cb" type="checkbox" checked="checked">&nbsp;<label>All Digital</label></div>
+                    <input name="all_digital_cb" type="checkbox" checked="checked"/>&nbsp;<label>All Digital</label></div>
                 <div style="text-align: center;" id="photo_gallery_ctn" runat="server"></div>
                 <br />
 
@@ -1155,37 +1227,38 @@
             <div id="cart" class="sidebar">
                 <div class="p-2 mt-1 mb-2">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="modal-title" style="margin-left: 10px">Choose Product</span>
+                    <span class="modal-title" style="margin-left: 10px">My Cart</span>
                     <button type="button" class="close" onclick="closeCart()">&times;</button>
                 </div>
-                <div>
+
+
+                <div id="cart-items">
+
                     <div style="display: flex; background-color: white" class="m-1 p-1">
                         <div class="p-1 pl-2" style="-ms-flex: 1; flex: 1;">
                             <img id="p1" src="/Content/photos/2.jpg" style="width: 100%; height: auto;" />
                         </div>
-                        <div id="p1details" class="cart-item-details p-1 pl-3" style="-ms-flex: 2; flex: 2; text-align:left">
+                        <div id="p1details" class="p-1 pl-3" style="-ms-flex: 2; flex: 2; text-align: left">
                             <div class="pb-2">
-                            <p class="mb-0">
-                                <b>Keychain</b>
-                            </p>
-                            <p class="mb-0" style="color:darkgrey; width:90%; font-size: 0.8rem;">
-                                SGD 9.99 
-                            <i class="far fa-trash-alt" style="float:right; font-size: 0.9rem;"></i>
-                            </p>
+                                <p class="mb-0">
+                                    <b>Keychain</b>
+                                </p>
+                                <p class="mb-0" style="color: darkgrey; width: 90%; font-size: 0.8rem;">
+                                    SGD 9.99 
+                            <i class="far fa-trash-alt" style="float: right; font-size: 0.9rem;"></i>
+                                </p>
                             </div>
 
                             <div class="pb-2">
-                            <p class="mb-0">
-                                <b>Keychain</b>
-                            </p>
-                            <p class="mb-0" style="color:darkgrey; width:90%; font-size: 0.8rem;">
-                                SGD 9.99 
-                            <i class="far fa-trash-alt" style="float:right; font-size: 0.9rem;"></i>
-                            </p>
+                                <p class="mb-0">
+                                    <b>Keychain</b>
+                                </p>
+                                <p class="mb-0" style="color: darkgrey; width: 90%; font-size: 0.8rem;">
+                                    SGD 9.99 
+                            <i class="far fa-trash-alt" style="float: right; font-size: 0.9rem;"></i>
+                                </p>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -1294,7 +1367,6 @@
     </footer>
 
     <!-- FOOTER -->
-
-
+    
 </body>
 </html>

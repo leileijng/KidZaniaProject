@@ -390,3 +390,5 @@ C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\PhotoBoothPortal\PhotoBoothP
 C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\obj\Debug\PhotoBoothPortal.dll
 C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\obj\Debug\PhotoBoothPortal.pdb
 C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\obj\Debug\PhotoBoothPortal.csprojAssemblyReference.cache
+C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\bin\Microsoft.AspNet.FriendlyUrls.dll
+C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\bin\Microsoft.AspNet.FriendlyUrls.xml
