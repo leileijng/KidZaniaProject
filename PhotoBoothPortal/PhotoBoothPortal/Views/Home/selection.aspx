@@ -5,7 +5,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    
+    <script type="text/javascript" src="Scripts/jquery-1.4.1.js"></script>
+    <script type="text/javascript" src="Scripts/jquery-1.4.1.min.js"></script>
     <link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' />
     <link rel='stylesheet' href='/Scripts/css/misc.css' type='text/css' media='all' />
     <link rel="stylesheet" href="/Scripts/css/jquery-ui.css" />
@@ -324,64 +325,70 @@
             color: blue;
             text-decoration: underline;
         }
-        #prods{
-            margin-top:5%;
-            margin-left:20%;
+
+        #prods {
+            margin-top: 5%;
+            margin-left: 20%;
         }
-        #something{
-            margin-bottom:10%;
-            
+
+        #something {
+            margin-bottom: 10%;
         }
 
         .sidebar {
-  height: 690px;
-  width: 0;
-  position: fixed;
-  z-index: 5;
-  bottom: 0;
-  right: 0;
-  background: #f5f5f5 !important;
-  overflow-x: hidden;
-  transition: 0.5s;
-  margin: 0 !important;
-}
+            height: 690px;
+            width: 0;
+            position: fixed;
+            z-index: 5;
+            bottom: 0;
+            right: 0;
+            background: #f5f5f5 !important;
+            overflow-x: hidden;
+            transition: 0.5s;
+            margin: 0 !important;
+        }
 
 
-.sidebar .closebtn {
-  position: absolute;
-  top: 0;
-  left: 25px;
-  font-size: 36px;
-  margin-right: 50px;
-}
+            .sidebar .closebtn {
+                position: absolute;
+                top: 0;
+                left: 25px;
+                font-size: 36px;
+                margin-right: 50px;
+            }
 
-.openbtn {
-  font-size: 20px;
-  cursor: pointer;
-  background-color: #111;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-}
+        .openbtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #111;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+        }
 
-.openbtn:hover {
-  background-color: #444;
-}
+            .openbtn:hover {
+                background-color: #444;
+            }
 
-#photo_gallery {
-  transition: margin-right .5s;
-  padding: 16px;
-}
+        #photo_gallery {
+            transition: margin-right .5s;
+            padding: 16px;
+        }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-  .sidebar {padding-top: 15px;}
-  .sidebar a {font-size: 18px;}
-}
+        /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+        @media screen and (max-height: 450px) {
+            .sidebar {
+                padding-top: 15px;
+            }
+
+                .sidebar a {
+                    font-size: 18px;
+                }
+        }
     </style>
 
 
-    
+
     <script>
 
         var CartItems = [];
@@ -988,7 +995,7 @@
             let $imgPhoto = null;
             let $divItem = null;
 
-            var i; 
+            var i;
             for (i = 0; i < CartItems.length; i++) {
                 $divElement = $('<div style="display: flex; background-color: white" class="m-1 p-1"></div>');
 
@@ -1002,18 +1009,32 @@
                     $divItem = $(`<div class="pb-2"></div>`);
                     $.ajax({
                         type: "POST",
-                        async: false,
-                        url: '/selection.aspx/getProductbyId',
-                        contentType: 'application/json; charset=utf-8',
-                        dataType: 'json',
-                        success: function (XMLHttpRequest, textStatus, errorThrown) {
-                            console.log("product info:");
-                            console.log(response);
+                        url: "selection.aspx/GetProduct1",
+                        data: "{}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (msg) {
+                            // Do something interesting with msg.d here.
+                            console.log(msg);
                         },
                         error: function (response) {
+                            console.log(response);
+                        }
+                    });
+                    $.ajax({
+                        type: 'GET',
+                        url: "selection.aspx/GetProductbyId",
+
+                        success: function (data) {
+                            console.log("product info:");
+                            console.log(data);
+                        },
+                        error: function (response) {
+                            console.log(response);
+
                             //alert(response.d);
                         }
-                    });  
+                    });
                 }
 
 
@@ -1030,7 +1051,7 @@
             this.productId = inProductId;
         }
 
-        
+
 
     </script>
 
@@ -1087,12 +1108,12 @@
                         <div class="card-body p-2 pl-3">
                             <div style="margin-bottom: 10px; display: flex;">
                                 <div style="width: 40%; height: auto; margin-right: 20px; -ms-flex: 1; flex: 1;">
-                                    <img id="photoImg" style="width: 100%; vertical-align:central" /></div>
+                                    <img id="photoImg" style="width: 100%; vertical-align: central" />
+                                </div>
 
                                 <form id="createTimeTableForm" style="-ms-flex: 1; flex: 1;">
                                     <div class="form-group col-md-12">
                                         <div id="prods" runat="server">
-                                            
                                         </div>
                                     </div>
                                     <!-- Modal footer -->
@@ -1193,9 +1214,10 @@
 
         <form action="summary.aspx" method="post">
             <div style="margin-top: -10px; width: 90%; text-align: center; margin: 0 auto;" id="photo_gallery">
-                <div class="openbtn" onclick="openCart()">☰ Open Sidebar</div>  
+                <div class="openbtn" onclick="openCart()">☰ Open Sidebar</div>
                 <div id="menu_select">
-                    <input name="all_digital_cb" type="checkbox" checked="checked"/>&nbsp;<label>All Digital</label></div>
+                    <input name="all_digital_cb" type="checkbox" checked="checked" />&nbsp;<label>All Digital</label>
+                </div>
                 <div style="text-align: center;" id="photo_gallery_ctn" runat="server"></div>
                 <br />
 
@@ -1220,10 +1242,11 @@
                 <input type="hidden" id="lr" value="0" runat="server" />
                 <input type="hidden" id="js" value="0" runat="server" />
                 <div>
-                    <input class='btn_default' type="submit" /><input style="margin-left: 10px;" onclick='location.reload();' class='btn_default' type="reset" /></div>
+                    <input class='btn_default' type="submit" /><input style="margin-left: 10px;" onclick='location.reload();' class='btn_default' type="reset" />
+                </div>
                 <br />
             </div>
-            
+
             <div id="cart" class="sidebar">
                 <div class="p-2 mt-1 mb-2">
                     <i class="fas fa-shopping-cart"></i>
@@ -1367,6 +1390,6 @@
     </footer>
 
     <!-- FOOTER -->
-    
+
 </body>
 </html>

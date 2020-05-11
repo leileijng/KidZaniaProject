@@ -209,7 +209,11 @@ namespace PhotoBoothPortal.Views.Test
             }
         }
 
-
+        [WebMethod]
+        public static string GetProduct1()
+        {
+            return "Hi!";
+        }
         public class Post_Search_Profile
         {
             public List<string> groups { get; set; }
@@ -363,7 +367,7 @@ namespace PhotoBoothPortal.Views.Test
         }
 
         [WebMethod]
-        public static string getProductbyId()
+        public static string GetProductbyId()
         {
             string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
             Product p = new Product();

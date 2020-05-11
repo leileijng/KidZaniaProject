@@ -1,4 +1,3 @@
-C:\Users\Franky\Documents\GitHub\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\obj\Debug\PhotoBoothPortal.csprojAssemblyReference.cache
 C:\Users\Franky\Documents\GitHub\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\obj\Debug\PhotoBoothPortal.csproj.CoreCompileInputs.cache
 C:\Users\Franky\Documents\GitHub\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\bin\PhotoBoothPortal.dll.config
 C:\Users\Franky\Documents\GitHub\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\bin\PhotoBoothPortal.dll
@@ -392,3 +391,7 @@ C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\PhotoBoothPortal\PhotoBoothP
 C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\obj\Debug\PhotoBoothPortal.csprojAssemblyReference.cache
 C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\bin\Microsoft.AspNet.FriendlyUrls.dll
 C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\bin\Microsoft.AspNet.FriendlyUrls.xml
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\bin\Microsoft.AspNet.FriendlyUrls.dll
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\bin\Microsoft.AspNet.FriendlyUrls.xml
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\obj\Debug\PhotoBoothPortal.csprojAssemblyReference.cache
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\PhotoBoothPortal\PhotoBoothPortal\bin\AjaxControlToolkit.dll

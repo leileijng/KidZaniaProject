@@ -35,7 +35,7 @@ namespace PhotoBoothPortal.Controllers
         public ActionResult selection()
         {
             ViewBag.Title = "Home Page";
-
+            
             return View();
         }
         public ActionResult summary()

@@ -13,10 +13,6 @@ namespace PhotoBoothPortal
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.Ignore("{page}.aspx/{*webmethod}");
-            routes.IgnoreRoute("{*allaspx}", new { allaspx = @".*\.aspx(/.*)?" });
-            routes.Ignore("{*allaspx}", new { allaspx = @".*\.aspx(/.*)?" });
-            routes.IgnoreRoute("{page}.aspx/{*webmethod}");
 
             routes.MapRoute(
                 name: "Default",
