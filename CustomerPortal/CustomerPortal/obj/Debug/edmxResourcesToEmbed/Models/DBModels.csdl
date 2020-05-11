@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="kidzaniaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="email">
+    <Key>
+      <PropertyRef Name="uid" />
+    </Key>
+    <Property Name="uid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="email1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="payment_status">
+    <Key>
+      <PropertyRef Name="mid" />
+    </Key>
+    <Property Name="mid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="transaction_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="order_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="acquirer_transaction_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="request_amount" Type="Single" />
+    <Property Name="request_ccy" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="authorized_amount" Type="Single" />
+    <Property Name="authorized_ccy" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="response_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="response_msg" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="acquirer_response_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="acquirer_response_msg" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="acquirer_authorization_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="created_timestamp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="acquirer_created_timestamp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="request_timestamp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="request_mid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="transaction_type" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="pro_id" />
+    </Key>
+    <Property Name="pro_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="pro_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="pro_price" Type="Decimal" Nullable="false" />
+    <Property Name="pro_gst" Type="Decimal" Nullable="false" />
+    <Property Name="pro_description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="pro_image" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="pro_visibility" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="profile">
+    <Key>
+      <PropertyRef Name="profile1" />
+    </Key>
+    <Property Name="pid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="profile1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="purchase">
+    <Key>
+      <PropertyRef Name="purchase_id" />
+    </Key>
+    <Property Name="purchase_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="softcopy" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+    <Property Name="eccopy" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+    <Property Name="a5copy" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+    <Property Name="mgcopy" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+    <Property Name="kccopy" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+    <Property Name="lrcopy" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+    <Property Name="json" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+    <Property Name="total_price" Type="Int32" />
+    <Property Name="status" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+    <Property Name="type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="purchase_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="email_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="hardcopy_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="magnet_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="ecard_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="keychain_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="test">
+    <Key>
+      <PropertyRef Name="idtest" />
+    </Key>
+    <Property Name="idtest" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="member" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="DBModels" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="emails" EntityType="Self.email" />
+    <EntitySet Name="payment_status" EntityType="Self.payment_status" />
+    <EntitySet Name="products" EntityType="Self.product" />
+    <EntitySet Name="profiles" EntityType="Self.profile" />
+    <EntitySet Name="purchases" EntityType="Self.purchase" />
+    <EntitySet Name="tests" EntityType="Self.test" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="kidzaniaModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="email">
+          <Key>
+            <PropertyRef Name="uid" />
+          </Key>
+          <Property Name="uid" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="payment_status">
+          <Key>
+            <PropertyRef Name="mid" />
+          </Key>
+          <Property Name="mid" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="transaction_id" Type="varchar" MaxLength="100" />
+          <Property Name="order_id" Type="varchar" MaxLength="100" />
+          <Property Name="acquirer_transaction_id" Type="varchar" MaxLength="50" />
+          <Property Name="request_amount" Type="float" />
+          <Property Name="request_ccy" Type="varchar" MaxLength="10" />
+          <Property Name="authorized_amount" Type="float" />
+          <Property Name="authorized_ccy" Type="varchar" MaxLength="10" />
+          <Property Name="response_code" Type="varchar" MaxLength="10" />
+          <Property Name="response_msg" Type="varchar" MaxLength="25" />
+          <Property Name="acquirer_response_code" Type="varchar" MaxLength="10" />
+          <Property Name="acquirer_response_msg" Type="varchar" MaxLength="255" />
+          <Property Name="acquirer_authorization_code" Type="varchar" MaxLength="100" />
+          <Property Name="created_timestamp" Type="varchar" MaxLength="50" />
+          <Property Name="acquirer_created_timestamp" Type="varchar" MaxLength="50" />
+          <Property Name="request_timestamp" Type="varchar" MaxLength="50" />
+          <Property Name="request_mid" Type="varchar" MaxLength="50" />
+          <Property Name="transaction_type" Type="varchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="pro_id" />
+          </Key>
+          <Property Name="pro_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pro_name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="pro_price" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="pro_gst" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="pro_description" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="pro_image" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="pro_visibility" Type="bool" Nullable="false" />
+        </EntityType>
+        <EntityType Name="profiles">
+          <Key>
+            <PropertyRef Name="profile" />
+          </Key>
+          <Property Name="pid" Type="varchar" MaxLength="50" />
+          <Property Name="profile" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="purchase">
+          <Key>
+            <PropertyRef Name="purchase_id" />
+          </Key>
+          <Property Name="purchase_id" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="softcopy" Type="text" />
+          <Property Name="eccopy" Type="text" />
+          <Property Name="a5copy" Type="text" />
+          <Property Name="mgcopy" Type="text" />
+          <Property Name="kccopy" Type="text" />
+          <Property Name="lrcopy" Type="text" />
+          <Property Name="json" Type="text" />
+          <Property Name="total_price" Type="int" />
+          <Property Name="status" Type="text" />
+          <Property Name="type" Type="tinytext" />
+          <Property Name="purchase_status" Type="tinytext" />
+          <Property Name="email_status" Type="tinytext" />
+          <Property Name="hardcopy_status" Type="tinytext" />
+          <Property Name="magnet_status" Type="tinytext" />
+          <Property Name="ecard_status" Type="tinytext" />
+          <Property Name="keychain_status" Type="tinytext" />
+        </EntityType>
+        <EntityType Name="test">
+          <Key>
+            <PropertyRef Name="idtest" />
+          </Key>
+          <Property Name="idtest" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="member" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityContainer Name="kidzaniaModelStoreContainer">
+          <EntitySet Name="email" EntityType="Self.email" Schema="kidzania" store:Type="Tables" />
+          <EntitySet Name="payment_status" EntityType="Self.payment_status" Schema="kidzania" store:Type="Tables" />
+          <EntitySet Name="product" EntityType="Self.product" Schema="kidzania" store:Type="Tables" />
+          <EntitySet Name="profiles" EntityType="Self.profiles" Schema="kidzania" store:Type="Tables" />
+          <EntitySet Name="purchase" EntityType="Self.purchase" Schema="kidzania" store:Type="Tables" />
+          <EntitySet Name="test" EntityType="Self.test" Schema="kidzania" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="kidzaniaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="email">
+          <Key>
+            <PropertyRef Name="uid" />
+          </Key>
+          <Property Name="uid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="payment_status">
+          <Key>
+            <PropertyRef Name="mid" />
+          </Key>
+          <Property Name="mid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="transaction_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="order_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="acquirer_transaction_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="request_amount" Type="Single" />
+          <Property Name="request_ccy" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="authorized_amount" Type="Single" />
+          <Property Name="authorized_ccy" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="response_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="response_msg" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="acquirer_response_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="acquirer_response_msg" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="acquirer_authorization_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="created_timestamp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="acquirer_created_timestamp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="request_timestamp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="request_mid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="transaction_type" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="pro_id" />
+          </Key>
+          <Property Name="pro_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pro_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pro_price" Type="Decimal" Nullable="false" />
+          <Property Name="pro_gst" Type="Decimal" Nullable="false" />
+          <Property Name="pro_description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pro_image" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pro_visibility" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="profile">
+          <Key>
+            <PropertyRef Name="profile1" />
+          </Key>
+          <Property Name="pid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="profile1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="purchase">
+          <Key>
+            <PropertyRef Name="purchase_id" />
+          </Key>
+          <Property Name="purchase_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="softcopy" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="eccopy" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="a5copy" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="mgcopy" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="kccopy" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="lrcopy" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="json" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="total_price" Type="Int32" />
+          <Property Name="status" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="purchase_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="email_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="hardcopy_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="magnet_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ecard_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="keychain_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="test">
+          <Key>
+            <PropertyRef Name="idtest" />
+          </Key>
+          <Property Name="idtest" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="member" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="DBModels" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="emails" EntityType="Self.email" />
+          <EntitySet Name="payment_status" EntityType="Self.payment_status" />
+          <EntitySet Name="products" EntityType="Self.product" />
+          <EntitySet Name="profiles" EntityType="Self.profile" />
+          <EntitySet Name="purchases" EntityType="Self.purchase" />
+          <EntitySet Name="tests" EntityType="Self.test" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="kidzaniaModelStoreContainer" CdmEntityContainer="DBModels">
+          <EntitySetMapping Name="emails">
+            <EntityTypeMapping TypeName="kidzaniaModel.email">
+              <MappingFragment StoreEntitySet="email">
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="email1" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payment_status">
+            <EntityTypeMapping TypeName="kidzaniaModel.payment_status">
+              <MappingFragment StoreEntitySet="payment_status">
+                <ScalarProperty Name="mid" ColumnName="mid" />
+                <ScalarProperty Name="transaction_id" ColumnName="transaction_id" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="acquirer_transaction_id" ColumnName="acquirer_transaction_id" />
+                <ScalarProperty Name="request_amount" ColumnName="request_amount" />
+                <ScalarProperty Name="request_ccy" ColumnName="request_ccy" />
+                <ScalarProperty Name="authorized_amount" ColumnName="authorized_amount" />
+                <ScalarProperty Name="authorized_ccy" ColumnName="authorized_ccy" />
+                <ScalarProperty Name="response_code" ColumnName="response_code" />
+                <ScalarProperty Name="response_msg" ColumnName="response_msg" />
+                <ScalarProperty Name="acquirer_response_code" ColumnName="acquirer_response_code" />
+                <ScalarProperty Name="acquirer_response_msg" ColumnName="acquirer_response_msg" />
+                <ScalarProperty Name="acquirer_authorization_code" ColumnName="acquirer_authorization_code" />
+                <ScalarProperty Name="created_timestamp" ColumnName="created_timestamp" />
+                <ScalarProperty Name="acquirer_created_timestamp" ColumnName="acquirer_created_timestamp" />
+                <ScalarProperty Name="request_timestamp" ColumnName="request_timestamp" />
+                <ScalarProperty Name="request_mid" ColumnName="request_mid" />
+                <ScalarProperty Name="transaction_type" ColumnName="transaction_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="kidzaniaModel.product">
+              <MappingFragment StoreEntitySet="product">
+                <ScalarProperty Name="pro_id" ColumnName="pro_id" />
+                <ScalarProperty Name="pro_name" ColumnName="pro_name" />
+                <ScalarProperty Name="pro_price" ColumnName="pro_price" />
+                <ScalarProperty Name="pro_gst" ColumnName="pro_gst" />
+                <ScalarProperty Name="pro_description" ColumnName="pro_description" />
+                <ScalarProperty Name="pro_image" ColumnName="pro_image" />
+                <ScalarProperty Name="pro_visibility" ColumnName="pro_visibility" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="profiles">
+            <EntityTypeMapping TypeName="kidzaniaModel.profile">
+              <MappingFragment StoreEntitySet="profiles">
+                <ScalarProperty Name="pid" ColumnName="pid" />
+                <ScalarProperty Name="profile1" ColumnName="profile" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="purchases">
+            <EntityTypeMapping TypeName="kidzaniaModel.purchase">
+              <MappingFragment StoreEntitySet="purchase">
+                <ScalarProperty Name="purchase_id" ColumnName="purchase_id" />
+                <ScalarProperty Name="softcopy" ColumnName="softcopy" />
+                <ScalarProperty Name="eccopy" ColumnName="eccopy" />
+                <ScalarProperty Name="a5copy" ColumnName="a5copy" />
+                <ScalarProperty Name="mgcopy" ColumnName="mgcopy" />
+                <ScalarProperty Name="kccopy" ColumnName="kccopy" />
+                <ScalarProperty Name="lrcopy" ColumnName="lrcopy" />
+                <ScalarProperty Name="json" ColumnName="json" />
+                <ScalarProperty Name="total_price" ColumnName="total_price" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="purchase_status" ColumnName="purchase_status" />
+                <ScalarProperty Name="email_status" ColumnName="email_status" />
+                <ScalarProperty Name="hardcopy_status" ColumnName="hardcopy_status" />
+                <ScalarProperty Name="magnet_status" ColumnName="magnet_status" />
+                <ScalarProperty Name="ecard_status" ColumnName="ecard_status" />
+                <ScalarProperty Name="keychain_status" ColumnName="keychain_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tests">
+            <EntityTypeMapping TypeName="kidzaniaModel.test">
+              <MappingFragment StoreEntitySet="test">
+                <ScalarProperty Name="idtest" ColumnName="idtest" />
+                <ScalarProperty Name="member" ColumnName="member" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

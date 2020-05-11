@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="kidzaniaModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="email">
+    <Key>
+      <PropertyRef Name="uid" />
+    </Key>
+    <Property Name="uid" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="payment_status">
+    <Key>
+      <PropertyRef Name="mid" />
+    </Key>
+    <Property Name="mid" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="transaction_id" Type="varchar" MaxLength="100" />
+    <Property Name="order_id" Type="varchar" MaxLength="100" />
+    <Property Name="acquirer_transaction_id" Type="varchar" MaxLength="50" />
+    <Property Name="request_amount" Type="float" />
+    <Property Name="request_ccy" Type="varchar" MaxLength="10" />
+    <Property Name="authorized_amount" Type="float" />
+    <Property Name="authorized_ccy" Type="varchar" MaxLength="10" />
+    <Property Name="response_code" Type="varchar" MaxLength="10" />
+    <Property Name="response_msg" Type="varchar" MaxLength="25" />
+    <Property Name="acquirer_response_code" Type="varchar" MaxLength="10" />
+    <Property Name="acquirer_response_msg" Type="varchar" MaxLength="255" />
+    <Property Name="acquirer_authorization_code" Type="varchar" MaxLength="100" />
+    <Property Name="created_timestamp" Type="varchar" MaxLength="50" />
+    <Property Name="acquirer_created_timestamp" Type="varchar" MaxLength="50" />
+    <Property Name="request_timestamp" Type="varchar" MaxLength="50" />
+    <Property Name="request_mid" Type="varchar" MaxLength="50" />
+    <Property Name="transaction_type" Type="varchar" MaxLength="5" />
+  </EntityType>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="pro_id" />
+    </Key>
+    <Property Name="pro_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="pro_name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="pro_price" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+    <Property Name="pro_gst" Type="decimal" Precision="2" Scale="0" Nullable="false" />
+    <Property Name="pro_description" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="pro_image" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="pro_visibility" Type="bool" Nullable="false" />
+  </EntityType>
+  <EntityType Name="profiles">
+    <Key>
+      <PropertyRef Name="profile" />
+    </Key>
+    <Property Name="pid" Type="varchar" MaxLength="50" />
+    <Property Name="profile" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="status" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="purchase">
+    <Key>
+      <PropertyRef Name="purchase_id" />
+    </Key>
+    <Property Name="purchase_id" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="softcopy" Type="text" />
+    <Property Name="eccopy" Type="text" />
+    <Property Name="a5copy" Type="text" />
+    <Property Name="mgcopy" Type="text" />
+    <Property Name="kccopy" Type="text" />
+    <Property Name="lrcopy" Type="text" />
+    <Property Name="json" Type="text" />
+    <Property Name="total_price" Type="int" />
+    <Property Name="status" Type="text" />
+    <Property Name="type" Type="tinytext" />
+    <Property Name="purchase_status" Type="tinytext" />
+    <Property Name="email_status" Type="tinytext" />
+    <Property Name="hardcopy_status" Type="tinytext" />
+    <Property Name="magnet_status" Type="tinytext" />
+    <Property Name="ecard_status" Type="tinytext" />
+    <Property Name="keychain_status" Type="tinytext" />
+  </EntityType>
+  <EntityType Name="test">
+    <Key>
+      <PropertyRef Name="idtest" />
+    </Key>
+    <Property Name="idtest" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="member" Type="varchar" MaxLength="45" />
+  </EntityType>
+  <EntityContainer Name="kidzaniaModelStoreContainer">
+    <EntitySet Name="email" EntityType="Self.email" Schema="kidzania" store:Type="Tables" />
+    <EntitySet Name="payment_status" EntityType="Self.payment_status" Schema="kidzania" store:Type="Tables" />
+    <EntitySet Name="product" EntityType="Self.product" Schema="kidzania" store:Type="Tables" />
+    <EntitySet Name="profiles" EntityType="Self.profiles" Schema="kidzania" store:Type="Tables" />
+    <EntitySet Name="purchase" EntityType="Self.purchase" Schema="kidzania" store:Type="Tables" />
+    <EntitySet Name="test" EntityType="Self.test" Schema="kidzania" store:Type="Tables" />
+  </EntityContainer>
+</Schema>
