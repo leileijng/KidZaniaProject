@@ -111,6 +111,12 @@ namespace WebForm
             photomatch.Add("6", "6.jpg");
             photomatch.Add("7", "7.jpg");
             photomatch.Add("8", "8.jpg");
+            photomatch.Add("9", "9.jpg");
+            photomatch.Add("10", "10.jpg");
+            photomatch.Add("11", "11.jpg");
+            photomatch.Add("12", "12.jpg");
+            photomatch.Add("13", "13.jpg");
+            photomatch.Add("14", "14.jpg");
 
             string currentApplicationPath = HttpContext.Current.Request.PhysicalApplicationPath;
             Debug.WriteLine("here" + currentApplicationPath);
@@ -145,11 +151,11 @@ namespace WebForm
 
                     //photo_gallery_ctn.InnerHtml += "<img class='modal_window' onclick='show_modal(" + photoid + ");' id='tn_id_" + x + "' class='thumbnail' src='/Content/photos/" + photowatermarked_filename + "'>";
 
-                    photo_gallery_ctn.InnerHtml += "<div style='margin-bottom: 15px; font-size: 10px;'>Profile ID:" + profile_id + "</div>";
-                    photo_gallery_ctn.InnerHtml += "    <div>";
-                    photo_gallery_ctn.InnerHtml += "        <input name=\"digital_cb\" id=\"dc_photo" + photoid + "\" type=\"checkbox\" checked=\"checked\" value=\"" + photoid + "\">";
-                    photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"dc_photo" + photoid + "_lbl\">Digital</label>";
-                    photo_gallery_ctn.InnerHtml += "    </div>";
+                    photo_gallery_ctn.InnerHtml += "<div style='margin-bottom: 15px; font-size: 10px;'>Profile ID:" + photoid + "</div>";
+                    //photo_gallery_ctn.InnerHtml += "    <div>";
+                    //photo_gallery_ctn.InnerHtml += "        <input name=\"digital_cb\" id=\"dc_photo" + photoid + "\" type=\"checkbox\" checked=\"checked\" value=\"" + photoid + "\">";
+                    //photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"dc_photo" + photoid + "_lbl\">Digital</label>";
+                    //photo_gallery_ctn.InnerHtml += "    </div>";
 
                     photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
                     photo_gallery_ctn.InnerHtml += "<div id='myModala" + photoid + "' class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">";
@@ -171,20 +177,20 @@ namespace WebForm
 
 
                     photo_gallery_ctn.InnerHtml += "</div>";
-                    photo_gallery_ctn.InnerHtml += "<div onclick='delete_gl(\"" + x + "\");' style='text-align:center;border-top: solid 1px;margin-top: 10px;cursor: pointer;padding: 5px;background-color: indianred;'><img style='width: auto !important;' src='\\img\\trash_small.png' /></div>";
+                    photo_gallery_ctn.InnerHtml += "<div onclick='delete_gl(\"" + x + "\");' style='text-align:center;border-top: solid 1px;margin-top: 10px;cursor: pointer;padding: 5px;background-color: indianred;'><img style='width: auto !important;' src='\\Content\\img\\trash_small.png' /></div>";
                     photo_gallery_ctn.InnerHtml += "</div>";
 
                     x++;
                     photofullpath += photo.Key + "|";
 
                 }
-                
-                int dc_amt = 20; //Default digital copy price
                 /*
+                int dc_amt = 20; //Default digital copy price
+                
                 purchase_status.InnerHtml += "<div class='fix_corner'>";
                 purchase_status.InnerHtml += "  <div class='fix_corner_ctn'>";
                 purchase_status.InnerHtml += "      <div class='fix_corner_item' id='digital_copy_amt'>Digital Copy: $" + dc_amt + "</div>";
-                */
+                
                 if (true)
                 {
                     purchase_status.InnerHtml += "      <div class='fix_corner_item' id='a5_copy_amt'>A5 hardcopy: $0</div>";
@@ -196,7 +202,7 @@ namespace WebForm
                 }
                 purchase_status.InnerHtml += "      <div class='fix_corner_item' id='Total_cost'>Total: $" + dc_amt + " SGD</div>";
                 purchase_status.InnerHtml += "      <div class='fix_corner_item'><b>*Bold: purchase with purchase discount</b></div>";
-
+                */
                 /*
                 if (alert_message != "")
     purchase_status.InnerHtml += "  </div>";

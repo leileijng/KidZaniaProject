@@ -342,7 +342,7 @@
         }
 
         .sidebar {
-            height: 690px;
+            height: 620px;
             width: 0;
             position: fixed;
             z-index: 5;
@@ -366,15 +366,9 @@
         .openbtn {
             font-size: 20px;
             cursor: pointer;
-            background-color: #111;
-            color: white;
-            padding: 10px 15px;
             border: none;
         }
 
-            .openbtn:hover {
-                background-color: #444;
-            }
 
         #photo_gallery {
             transition: margin-right .5s;
@@ -1134,13 +1128,13 @@
                 </div>
                 <div class="site-branding">
                     <a href="https://kidzania.com.sg/" rel="home">
-                        <img src="/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"/></a>
+                        <img src="/Content/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"/></a>
                 </div>
                 <!-- .site-branding -->
                 <div class="header-right">
                     <div class="btn-book-tickets">
                         <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank">
-                            <img src="/img/btn-book-tickets.png"/></a>
+                            <img src="/Content/img/btn-book-tickets.png"/></a>
                     </div>
                 </div>
             </div>
@@ -1165,14 +1159,14 @@
                 <!-- Modal body -->
                 <div class="modal-body">
                     <div class="card">
-                        <div class="card-body p-2 pl-3">
-                            <div style="margin-bottom: 10px; display: flex;">
-                                <div style="width: 40%; height: auto; margin-right: 20px; -ms-flex: 1; flex: 1;">
-                                    <img id="photoImg" style="width: 100%; vertical-align: central" />
+                        <div class="card-body p-1 pl-3">
+                            <div style="margin-bottom: 5px; display: flex;">
+                                <div style="width: 30%; height: auto; margin-right: -10px; -ms-flex: 1; flex: 1;">
+                                    <img id="photoImg" style="width: 78%; vertical-align: central; margin-left: 30px" />
                                 </div>
 
                                 <form id="createTimeTableForm" style="-ms-flex: 1; flex: 1;">
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12 ml-0">
                                         <div id="prods" runat="server">
                                         </div>
                                     </div>
@@ -1273,8 +1267,8 @@
         <!-- PRICING TABLE -->
 
         <form action="summary.aspx" method="post">
+                <div class="openbtn" onclick="openCart()">☰ Open Cart</div>
             <div style="margin-top: -10px; width: 90%; text-align: center; margin: 0 auto;" id="photo_gallery">
-                <div class="openbtn" onclick="openCart()">☰ Open Sidebar</div>
                 <div id="menu_select">
                     <input name="all_digital_cb" type="checkbox" checked="checked" />&nbsp;<label>All Digital</label>
                 </div>
