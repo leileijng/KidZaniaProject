@@ -32,7 +32,7 @@ namespace WebForm
             {
                 string pname = product[i].ProductName;
                 pname = char.ToUpper(pname[0]) + pname.Substring(1);
-                prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in' type='checkbox' id='itembox' name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + pname + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + product[i].ProductPrice + ".00 (incl. GST) </b></div><br/> ";
+                prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item"+ product[i].ProductId + "'" +" name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + pname + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + product[i].ProductPrice + ".00 (incl. GST) </b></div><br/> ";
 
             }
 
@@ -150,6 +150,7 @@ namespace WebForm
                     photo_gallery_ctn.InnerHtml += "        <input name=\"digital_cb\" id=\"dc_photo" + photoid + "\" type=\"checkbox\" checked=\"checked\" value=\"" + photoid + "\">";
                     photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"dc_photo" + photoid + "_lbl\">Digital</label>";
                     photo_gallery_ctn.InnerHtml += "    </div>";
+
                     photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
                     photo_gallery_ctn.InnerHtml += "<div id='myModala" + photoid + "' class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">";
                     photo_gallery_ctn.InnerHtml += "<div class=\"modal-dialog\" role=\"document\">";
@@ -177,11 +178,13 @@ namespace WebForm
                     photofullpath += photo.Key + "|";
 
                 }
-
+                
                 int dc_amt = 20; //Default digital copy price
+                /*
                 purchase_status.InnerHtml += "<div class='fix_corner'>";
                 purchase_status.InnerHtml += "  <div class='fix_corner_ctn'>";
                 purchase_status.InnerHtml += "      <div class='fix_corner_item' id='digital_copy_amt'>Digital Copy: $" + dc_amt + "</div>";
+                */
                 if (true)
                 {
                     purchase_status.InnerHtml += "      <div class='fix_corner_item' id='a5_copy_amt'>A5 hardcopy: $0</div>";
@@ -362,13 +365,9 @@ namespace WebForm
             return products;
         }
 
+
         [WebMethod]
-        public static string GetProductby()
-        {
-            return "Hi!";
-        }
-        [WebMethod]
-        public static string GetProductbyId()
+        public static string GetProductbyId(string id)
         {
             string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
             Product p = new Product();
@@ -377,7 +376,7 @@ namespace WebForm
             {
                 conn = new MySqlConnection(connstring);
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM kidzania.product where pro_visibility = 1 and pro_id = " + 1 + ";", conn);
+                MySqlCommand cmd = new MySqlCommand("SELECT * FROM kidzania.product where pro_visibility = 1 and pro_id = " + id + ";", conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {

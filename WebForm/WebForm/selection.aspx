@@ -94,7 +94,13 @@
                 background-color: #408c99;
             }
     </style>
+
     <style>
+        .deleteItem:hover {
+            color: darkred;
+            cursor: pointer;
+        }
+
         .heading1 {
             font-size: 30px;
             font-weight: bold;
@@ -942,16 +948,25 @@
 
         function selectProduct(id, filename) {
             $('#productModal').val(id);
-            console.log(id);
-            console.log(filename);
+            $('.itemsChk').prop("checked", false);
             $('#photoImg').attr("src", '/Content/photos/' + filename);
+            var i;
+            console.log("Modal opened");
+            console.log(CartItems);
+            for (i = 0; i < CartItems.length; i++) {
+                if (CartItems[i].photoId == id) {
+                    var n;
+                    for (n = 0; n < CartItems[i].productId.length; n++) {
+                        $(`#item${CartItems[i].productId[n]}`).prop("checked", true);
+                    }
+                }
+            }
             //show the modal
             //document.getElementById("prods").innerHTML += "<input type='checkbox' id='check" +item+ "'/>" +item + "<br>"; 
             $('#productModal').modal("show");
         }
 
         function openCart() {
-            $('#cart-items').html('');
             loadCart();
             $("#cart").css("width", "350px");
             $("#photo_gallery").css("width", "80%");
@@ -968,11 +983,20 @@
             var photoid = $('#productModal').val();
             var photosrc = $('#photoImg').attr("src");
             $("input:checkbox[name=product]:checked").each(function () {
-
                 var existPhoto = false;
+                var existProduct = false;
                 for (i = 0; i < CartItems.length; i++) {
                     if (CartItems[i].photoId == photoid) {
-                        CartItems[i].productId.push($(this).val());
+                        var x;
+                        for (x = 0; x < CartItems[i].productId.length; x++) {
+                            //check whether the product for this photo has bee added or not
+                            if (CartItems[i].productId[x] == $(this).val()) {
+                                existProduct = true;
+                            }
+                        }
+                        if (!existProduct) {
+                            CartItems[i].productId.push($(this).val());
+                        }
                         existPhoto = true;
                     }
                 }
@@ -986,72 +1010,106 @@
                 console.log(CartItems);
             });
             openCart();
+            $('#productModal').modal("hide");
         }
-
-        function loadCart() {
-            let $divElement = null;
-            let $divPhoto = null;
-            let $divProducts = null;
-            let $imgPhoto = null;
-            let $divItem = null;
-
-            var i;
-            for (i = 0; i < CartItems.length; i++) {
-                $divElement = $('<div style="display: flex; background-color: white" class="m-1 p-1"></div>');
-
-                $divPhoto = $('<div class="p-1 pl-2" style="-ms-flex: 1; flex: 1;"></div>');
-                $imgPhoto = $(`<img id="p1" src=${CartItems[i].photoSource} style="width: 100%; height: auto;"/>`);
-                $divPhoto.append($imgPhoto);
-
-                $divProducts = $(`<div class="p-1 pl-3" style="-ms-flex: 2; flex: 2; text-align: left"></div>`);
-                var n;
-                for (n = 0; n < CartItems[i].productId.length; n++) {
-                    $divItem = $(`<div class="pb-2"></div>`);
-                    $.ajax({
-                        type: "POST",
-                        url: '<%= ResolveUrl("selection.aspx/GetProductbyId") %>',
-                        dataType: 'text',
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (msg) {
-                            console.log("product info:");
-                            console.log(msg);
-
-                        },
-                        error: function (response) {
-                            console.log(response);
-                            //alert(response.d);
-                        }
-                    });
-                    $.ajax({
-                        type: "GET",
-                        url: '/selection.aspx/getProductbyId',
-                        success: function (xhml,textStatus, errorThrown) {
-                            //console.log("product info:");
-                            //console.log(xhml);
-                            //console.log(textStatus);
-                            //console.log(errorThrown);
-
-                        },
-                        error: function (response) {
-                            //alert(response.d);
-                        }
-                    });
-                }
-
-
-                $divElement.append($divPhoto);
-                $divElement.append($divProducts);
-            }
-
-            $('#cart-items').append($divElement);
-        }
+        
 
         function CartItem(inPhotoId, inPhotoSource, inProductId) {
             this.photoId = inPhotoId;
             this.photoSource = inPhotoSource;
             this.productId = inProductId;
         }
+
+
+        function deleteItem(phoId, proId) {
+            console.log("photo:" + phoId);
+            console.log("product:" + proId);
+            var i;
+            for (i = 0; i < CartItems.length; i++) {
+                if (CartItems[i].photoId == phoId) {
+                    console.log(CartItems[i].photoId);
+                    //if 1 photo only has 1 item selected
+                    if (CartItems[i].productId.length == 1 && CartItems[i].productId[0] == proId) {
+                        console.log("delete1photo");
+                        CartItems.splice(i,1);
+                    }
+
+                    //if 1 photo has multiple items selected
+                    else {
+                        var n;
+                        for (n = 0; n < CartItems[i].productId.length; n++) {
+                            if (CartItems[i].productId[n] == proId) {
+                                console.log("delete1item");
+                                CartItems[i].productId.splice(n, 1);
+                            }
+                        }
+                    }
+                }
+                loadCart();
+            }
+        }
+
+
+        function loadCart() {
+            $('#cart-items').html('');
+            var i;
+            var photoid;
+            for (i = 0; i < CartItems.length; i++) {
+
+                photoid = CartItems[i].photoId;
+                let $divElement = null;
+                let $divPhoto = null;
+                let $divProducts = null;
+                let $imgPhoto = null;
+                $divElement = $('<div style="display: flex; background-color: white" class="m-1 p-1"></div>');
+                $divPhoto = $('<div class="p-1 pl-2" style="-ms-flex: 1; flex: 1;"></div>');
+                $imgPhoto = $(`<img id="p1" src=${CartItems[i].photoSource} style="width: 100%; height: auto;"/>`);
+                $divPhoto.append($imgPhoto);
+
+                $divProducts = $(`<div class="p-1 pl-3" style="-ms-flex: 2; flex: 2; text-align: left"></div>`);
+                var n;
+                var proId;
+                for (n = 0; n < CartItems[i].productId.length; n++) {                    
+                    var dataValue = null;
+                    var productDetails = null;
+                    let $divOneProduct = null;
+                    let $proName = null;
+                    let $proPrice = null;
+
+                    proId = CartItems[i].productId[n];
+                    dataValue = { "id": proId };
+                    let $deleteIcon = (`<i class="far fa-trash-alt deleteItem" style="float: right; font-size: 0.9rem;" onclick="deleteItem('${photoid}', '${proId}');"></i>`);
+                    $.ajax({
+                        type: "POST",
+                        url: '<%= ResolveUrl("selection.aspx/GetProductbyId") %>',
+                        dataType: 'text',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: JSON.stringify(dataValue),
+                        success: function (msg) {
+                            productDetails = JSON.parse(msg.d);
+                            $divOneProduct = $(`<div class="pb-2"></div>`);
+                            $proName = $(`<p class="mb-0"><b>${productDetails.ProductName}</b></p>`);
+                            $proPrice = $(`<p class="mb-0" style="color: darkgrey; width: 90%; font-size: 0.8rem;">SGD ${productDetails.ProductPrice}</p>`);
+
+                            $proPrice.append($deleteIcon);
+                            $divOneProduct.append($proName);
+                            $divOneProduct.append($proPrice);
+                            $divProducts.append($divOneProduct);
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+                }
+                $divElement.append($divPhoto);
+                $divElement.append($divProducts);
+                $('#cart-items').append($divElement);
+            }
+        }
+        
+
+
 
 
 
@@ -1076,13 +1134,13 @@
                 </div>
                 <div class="site-branding">
                     <a href="https://kidzania.com.sg/" rel="home">
-                        <img src="/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"></a>
+                        <img src="/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"/></a>
                 </div>
                 <!-- .site-branding -->
                 <div class="header-right">
                     <div class="btn-book-tickets">
                         <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank">
-                            <img src="/img/btn-book-tickets.png"></a>
+                            <img src="/img/btn-book-tickets.png"/></a>
                     </div>
                 </div>
             </div>
@@ -1250,7 +1308,7 @@
             </div>
 
             <div id="cart" class="sidebar">
-                <div class="p-2 mt-1 mb-2">
+                <div class="p-2 mt-1 mb-2" style="text-align:center">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="modal-title" style="margin-left: 10px">My Cart</span>
                     <button type="button" class="close" onclick="closeCart()">&times;</button>
@@ -1258,33 +1316,6 @@
 
 
                 <div id="cart-items">
-
-                    <div style="display: flex; background-color: white" class="m-1 p-1">
-                        <div class="p-1 pl-2" style="-ms-flex: 1; flex: 1;">
-                            <img id="p1" src="/Content/photos/2.jpg" style="width: 100%; height: auto;" />
-                        </div>
-                        <div id="p1details" class="p-1 pl-3" style="-ms-flex: 2; flex: 2; text-align: left">
-                            <div class="pb-2">
-                                <p class="mb-0">
-                                    <b>Keychain</b>
-                                </p>
-                                <p class="mb-0" style="color: darkgrey; width: 90%; font-size: 0.8rem;">
-                                    SGD 9.99 
-                            <i class="far fa-trash-alt" style="float: right; font-size: 0.9rem;"></i>
-                                </p>
-                            </div>
-
-                            <div class="pb-2">
-                                <p class="mb-0">
-                                    <b>Keychain</b>
-                                </p>
-                                <p class="mb-0" style="color: darkgrey; width: 90%; font-size: 0.8rem;">
-                                    SGD 9.99 
-                            <i class="far fa-trash-alt" style="float: right; font-size: 0.9rem;"></i>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
