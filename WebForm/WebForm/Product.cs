@@ -9,9 +9,13 @@ namespace WebForm
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }
-        public decimal ProductPrice { get; set; }
-        public decimal ProductGST { get; set; }
         public string ProductDescription { get; set; }
         public string ProductImage { get; set; }
+        public bool ProductVisibility { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string UpdatedBy { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public bool PhotoProduct { get; set; }
     }
 }

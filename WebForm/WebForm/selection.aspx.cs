@@ -32,8 +32,15 @@ namespace WebForm
             {
                 string pname = product[i].ProductName;
                 pname = char.ToUpper(pname[0]) + pname.Substring(1);
-                prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item"+ product[i].ProductId + "'" +" name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + pname + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + product[i].ProductPrice + ".00 (incl. GST) </b></div><br/> ";
-
+                int pId = product[i].ProductId;
+                if (pId == 2)
+                {
+                    prods.InnerHtml += "<div class='productbox' rel='tooltip' title='Delete from shopping cart to uncheck!' data-selector='true' data-title='Popover Title' data-content='Content' class='wrap poptooltip' style='margin-bottom:5px;'><div class='overlap'></div><input class='form-check-input' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + pname + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + /*product[i].ProductPrice +*/ ".00 (incl. GST) </b></div><br/> ";
+                }
+                else
+                {
+                    prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + pname + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + /*product[i].ProductPrice +*/ ".00 (incl. GST) </b></div><br/> ";
+                }
             }
 
 
@@ -202,8 +209,8 @@ namespace WebForm
                 }
                 purchase_status.InnerHtml += "      <div class='fix_corner_item' id='Total_cost'>Total: $" + dc_amt + " SGD</div>";
                 purchase_status.InnerHtml += "      <div class='fix_corner_item'><b>*Bold: purchase with purchase discount</b></div>";
-                */
-                /*
+
+                
                 if (alert_message != "")
     purchase_status.InnerHtml += "  </div>";
                     purchase_status.InnerHtml += "</div>";
@@ -218,7 +225,7 @@ namespace WebForm
             }
         }
 
-        
+
         public class Post_Search_Profile
         {
             public List<string> groups { get; set; }
@@ -348,8 +355,8 @@ namespace WebForm
                         {
                             ProductId = Convert.ToInt32(reader["pro_id"]),
                             ProductName = reader["pro_name"].ToString(),
-                            ProductPrice = Decimal.Parse(reader["pro_price"].ToString()),
-                            ProductGST = Decimal.Parse(reader["pro_gst"].ToString()),
+                            //ProductPrice = Decimal.Parse(reader["pro_price"].ToString()),
+                            //ProductGST = Decimal.Parse(reader["pro_gst"].ToString()),
                             ProductImage = reader["pro_image"].ToString(),
                             ProductDescription = reader["pro_description"].ToString()
                         });
@@ -373,27 +380,45 @@ namespace WebForm
 
 
         [WebMethod]
-        public static string GetProductbyId(string id)
+        public static string GetProductbyId(string id, string checker)
         {
             string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
             Product p = new Product();
+            Price pr = new Price();
             MySqlConnection conn = null;
             try
             {
                 conn = new MySqlConnection(connstring);
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM kidzania.product where pro_visibility = 1 and pro_id = " + id + ";", conn);
-
+                MySqlCommand cmd;
+                if (id != "d")
+                {
+                    cmd = new MySqlCommand("SELECT p.*, pp.ProductPrice, pp.ProductDiscount, pp.ProductGST FROM kidzania.product p, kidzania.product_price pp where p.productId = pp.productId and productvisibility = 1 and p.productid= " + id + ";", conn);
+                }
+                else
+                {
+                    cmd = new MySqlCommand("SELECT p.*, pp.ProductPrice, pp.ProductDiscount, pp.ProductGST FROM kidzania.product p, kidzania.product_price pp where p.productId = pp.productId and productvisibility = 1 and p.productid=2;", conn);
+                }
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        p.ProductId = Convert.ToInt32(reader["pro_id"]);
-                        p.ProductName = reader["pro_name"].ToString();
-                        p.ProductPrice = Decimal.Parse(reader["pro_price"].ToString());
-                        p.ProductGST = Decimal.Parse(reader["pro_gst"].ToString());
-                        p.ProductImage = reader["pro_image"].ToString();
-                        p.ProductDescription = reader["pro_description"].ToString();
+                        p.ProductId = Convert.ToInt32(reader["ProductId"]);
+
+                        if (checker == "stage2" && id == "d")
+                        {
+                            p.ProductName = "All Digital File";
+                        }
+                        else
+                        {
+                            string pname = reader["ProductName"].ToString();
+                            p.ProductName = char.ToUpper(pname[0]) + pname.Substring(1);
+                        }
+                        p.ProductImage = reader["ProductImage"].ToString();
+                        pr.UnitPrice = Decimal.Parse(reader["unitPrice"].ToString());
+                        pr.UnitGST = Decimal.Parse(reader["UnitGST"].ToString());
+                        pr.Unit = int.Parse(reader["Unit"].ToString());
+                        p.ProductDescription = reader["ProductDescription"].ToString();
                     }
                 }
             }
