@@ -214,13 +214,18 @@
             font-weight: bold;
             transition: 0.3s;
         }
-
-            .close:hover,
-            .close:focus {
-                color: #bbb;
-                text-decoration: none;
-                cursor: pointer;
+        .close:hover,.close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
             }
+
+        .cart-img {
+            padding:10px;
+            padding-top: 0;
+        }
+
+
         /* 100% Image Width on Smaller Screens */
         @media only screen and (max-width: 700px) {
             .modal-content {
@@ -978,7 +983,7 @@
         }
 
         function openCart() {
-            loadCart();
+            load_Cart();
             $("#cart").css("width", "350px");
             $("#photo_gallery").css("width", "80%");
             $("#photo_gallery").css("marginRight", "350px");
@@ -989,43 +994,28 @@
             $("#photo_gallery").css("width", "90%");
             $("#photo_gallery").css("margin", "0 auto");
         }
+        
+        function CartItem(inPhotoId, inPhotoSource, inProductId) {            
+            this.productId = inProductId;
+            this.photoId = inPhotoId;
+            this.photoSource = inPhotoSource;
+        }
 
         function addToCart() {
             var photoid = $('#productModal').val();
             var photosrc = $('#photoImg').attr("src");
             $("input:checkbox[name=product]:checked").each(function () {
-                var existPhoto = false;
+                var exist = false;
                 console.log(checker);
-                var existProduct = false;
                 for (i = 0; i < CartItems.length; i++) {
-
-
-                    if (CartItems[i].photoId == photoid) {
-                        var x;
-                        for (x = 0; x < CartItems[i].productId.length; x++) {
-
-                            //check whether the product for this photo has bee added or not
-                            if (CartItems[i].productId[x] == $(this).val()) {
-                                existProduct = true;
-                            }
-                        }
-
-                        if (!existProduct) {
-                            CartItems[i].productId.push($(this).val());
-                        }
-                        existPhoto = true;
+                    if (CartItems[i].photoId == photoid && CartItems[i].productId == $(this).val()) {
+                        exist = true;
                     }
                 }
-
-                if (!existPhoto) {
-
-                    var productIds = [];
-                    productIds.push($(this).val());
-                    var newCartItem = new CartItem(photoid, photosrc, productIds);
+                if (!exist) {
+                    var newCartItem = new CartItem(photoid, photosrc, $(this).val());
                     CartItems.push(newCartItem);
-
                 }
-
                 console.log(CartItems);
             });
             if (checker == "stage2") {
@@ -1033,18 +1023,11 @@
             }
             openCart();
             $('#productModal').modal("hide");
-
         }
 
         function AddAllDigital() {
             var newCartItem = new CartItem("digital", "Content/photos/digital.png", "d");
             CartItems.push(newCartItem);
-        }
-
-        function CartItem(inPhotoId, inPhotoSource, inProductId) {
-            this.photoId = inPhotoId;
-            this.photoSource = inPhotoSource;
-            this.productId = inProductId;
         }
 
         function deleteDigital() {
@@ -1100,6 +1083,7 @@
                 loadCart();
             }
         }
+
         function disableCheck() {
             checker = "stage2";
             document.getElementById("all_digital").disabled = true;
@@ -1109,6 +1093,7 @@
             AddAllDigital();
             openCart();
         }
+
         function uncheckDigital() {
             checker = "stage1";
             document.getElementById("all_digital").disabled = false;
@@ -1119,43 +1104,36 @@
 
             openCart();
         }
+
         $('[rel="tooltip"]').tooltip({
             animated: 'fade',
             placement: 'bottom'
         });
-        function loadCart() {
+
+        function load_Cart() {
             $('#cart-items').html('');
-            var i;
-            var photoid;
+            var categories = [];
+            
             for (i = 0; i < CartItems.length; i++) {
-
-                photoid = CartItems[i].photoId;
-                let $divElement = null;
-                let $divPhoto = null;
-                let $divProducts = null;
-                let $imgPhoto = null;
-                $divElement = $('<div style="display: flex; background-color: white" class="m-1 p-1"></div>');
-                $divPhoto = $('<div class="p-1 pl-2" style="-ms-flex: 1; flex: 1;"></div>');
-
-                $imgPhoto = $(`<img id="p1" src=${CartItems[i].photoSource} style="width: 100%; height: auto;"/>`);
-
-                $divPhoto.append($imgPhoto);
-
-                $divProducts = $(`<div class="p-1 pl-3" style="-ms-flex: 2; flex: 2; text-align: left"></div>`);
+                var categoryExist = false;
                 var n;
-                var proId;
-                for (n = 0; n < CartItems[i].productId.length; n++) {
-                    console.log(CartItems[i].productId);
-                    console.log(CartItems[i].productId.length);
-                    var dataValue = null;
-                    var productDetails = null;
-                    let $divOneProduct = null;
-                    let $proName = null;
-                    let $proPrice = null;
-                    proId = CartItems[i].productId[n];
 
+                //check whether this product has been selected / created
+                for (n = 0; n < categories.length; n++) {
+                    if (categories[n] == CartItems[i].productId) {
+                        categoryExist = true;
+                    }
+                }
+
+                //if the product (i.e. hardcopy, keychain) not created yet
+                if (!categoryExist) {
+                    categories.push(CartItems[i].productId);
+                    let $divProduct = (`<div style="background-color: white" class="m-1 p-2"></div>`);
+                    let $divProductName = null;
+                    let $divProductPhotos = (`<div class="row p-2" id="cartphotosFor${CartItems[i].productId}"></div>`);
+                    let $divProductTotal = (`<div class="m-2 pt-1 mt-0 text-right" style="border-top: 1px solid #c3c3c3; font-size: 0.95rem" id="totalFor${CartItems[i].productId}"><b>SGD: 18.00</b></div>`);
                     dataValue = { "id": proId, "checker": checker };
-                    let $deleteIcon = (`<i class="far fa-trash-alt deleteItem" style="float: right; font-size: 0.9rem;" onclick="deleteItem('${photoid}', '${proId}');"></i>`);
+                    //get this product name
                     $.ajax({
                         type: "POST",
                         url: '<%= ResolveUrl("selection.aspx/GetProductbyId") %>',
@@ -1165,26 +1143,32 @@
                         data: JSON.stringify(dataValue),
                         success: function (msg) {
                             productDetails = JSON.parse(msg.d);
-                            $divOneProduct = $(`<div class="pb-2"></div>`);
-                            $proName = $(`<p class="mb-0"><b>${productDetails.ProductName}</b></p>`);
-                            $proPrice = $(`<p class="mb-0" style="color: darkgrey; width: 90%; font-size: 0.8rem;">SGD ${productDetails.ProductPrice}</p>`);
-
-                            $proPrice.append($deleteIcon);
-                            $divOneProduct.append($proName);
-                            $divOneProduct.append($proPrice);
-                            $divProducts.append($divOneProduct);
+                            $divProductName = $(`<div class="m-2 pb-1 mb-0" style="border-bottom: 1px solid #c3c3c3"><b>${productDetails.ProductName}</b></div>`);
+                            $divProduct.append($divProductName);
                         },
                         error: function (response) {
                             console.log(response);
                         }
                     });
+                    $divProduct.append($divProductPhotos);
+                    $divProduct.append($divProductTotal);
+                    $divProducts.append($divOneProduct);
+                    $('#cart-items').append($divProducts);
                 }
-                $divElement.append($divPhoto);
-                $divElement.append($divProducts);
-                $('#cart-items').append($divElement);
-            }
 
+                //add in selected photo to the selected product
+                let $divSelectedPro = $(`#cartphotosFor${CartItems[i].productId}`);
+                let $divsOuter = $(`<div class="col-md-4 cart-img"><div class="thumbnail"></div></div>`);
+                let $imgPhoto = $(`<img src="${CartItems[i].photoSource}" style="width: 100%" />`);
+                let $divDelete = $(`<div class="caption text-center" style="background-color: bisque"><i class="far fa-trash-alt deleteItem" style="font-size: 0.9rem;" onclick="deleteItem('${CartItems[i].photoId}', '${CartItems[i].productId}');"></i></div>`);
+
+                $divsOuter.append($imgPhoto);
+                $divsOuter.append($divDelete);
+                $divSelectedPro.append($divsOuter);
+            }
         }
+
+        
 
 
 
@@ -1229,8 +1213,6 @@
     </header>
     <!-- HEADER -->
 
-
-
     <!-- The Modal --Create Lesson Type Modal-->
     <div class="modal fade" id="productModal">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 80%">
@@ -1270,17 +1252,12 @@
     </div>
 
 
-
-
-
     <div>
         <div style="width: 100%; height: 150px; text-align: center; margin: 0 auto;" id="heading">
             <span class="heading1">Photo Selection</span>
         </div>
-
         <div style="text-align: center; margin-top: 10px; margin: 0 auto;">
             <img src='/img/process-selection.png' />
-
         </div>
 
         <div style="width: 100%; text-align: center; margin-top: 10px; margin: 0 auto;" id="user_profile">
@@ -1391,9 +1368,7 @@
                     <span class="modal-title" style="margin-left: 10px">My Cart</span>
                     <button type="button" class="close" onclick="closeCart()">&times;</button>
                 </div>
-
-
-                <div id="cart-items">
+                <div id="cart_items" style="overflow-y: scroll; overflow-x: hidden;">
                 </div>
             </div>
 
