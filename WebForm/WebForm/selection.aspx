@@ -403,6 +403,7 @@
 
 
     <script>
+        //Checker for all digital
         var checker = "stage1";
         var CartItems = [];
 
@@ -973,6 +974,7 @@
             $('#productModal').modal("show");
         }
 
+        //This will open the shopping cart
         function openCart() {
             loadCart();
             $("#cart").css("width", "350px");
@@ -980,12 +982,14 @@
             $("#photo_gallery").css("marginRight", "350px");
         }
 
+        //Closing the shopping cart
         function closeCart() {
             $("#cart").css("width", "0");
             $("#photo_gallery").css("width", "90%");
             $("#photo_gallery").css("margin", "0 auto");
         }
 
+        //When the user submitted the product, this method will load the chosen product to shopping cart
         function addToCart() {
             var photoid = $('#productModal').val();
             var photosrc = $('#photoImg').attr("src");
@@ -1024,6 +1028,7 @@
 
                 console.log(CartItems);
             });
+            //Delete digital in the shopping cart if the select all is chosen
             if (checker == "stage2") {
                 deleteDigital();
             }
@@ -1032,22 +1037,25 @@
 
         }
 
+        //When the select all digital is clicked the item will be inserted to the shopping cart
         function AddAllDigital() {
             var newCartItem = new CartItem("digital", "Content/photos/digital.png", "d");
             CartItems.push(newCartItem);
         }
 
+        //Cart Item object
         function CartItem(inPhotoId, inPhotoSource, inProductId) {
             this.photoId = inPhotoId;
             this.photoSource = inPhotoSource;
             this.productId = inProductId;
         }
 
+        //Delete all digital in the shopping cart
         function deleteDigital() {
             var i;
             for (i = 0; i < CartItems.length; i++) {
                 //if 1 photo only has 1 item selected
-                if (CartItems[i].productId.length == 1 && CartItems[i].productId[0] == "2") {
+                if (CartItems[i].productId.length == 1 && CartItems[i].productId[0] == "4") {
                     console.log("delete1photo");
                     CartItems.splice(i, 2);
                 }
@@ -1056,7 +1064,7 @@
                 else {
                     var n;
                     for (n = 0; n < CartItems[i].productId.length; n++) {
-                        if (CartItems[i].productId[n] == "2") {
+                        if (CartItems[i].productId[n] == "4") {
                             console.log("delete1item");
                             CartItems[i].productId.splice(n, 1);
                         }
@@ -1066,6 +1074,7 @@
             loadCart();
         }
 
+        //Delete a product in the shopping cart
         function deleteItem(phoId, proId) {
             console.log("photo:" + phoId);
             console.log("product:" + proId);
@@ -1096,29 +1105,36 @@
                 loadCart();
             }
         }
+
+        //This method will trigger when the select all is clicked and will disable and checked neccessary attribute and load methods
         function disableCheck() {
             checker = "stage2";
             document.getElementById("all_digital").disabled = true;
-            document.getElementById("item2").checked = true;
-            document.getElementById("item2").disabled = true;
+            document.getElementById("item4").checked = true;
+            document.getElementById("item4").disabled = true;
             deleteDigital();
             AddAllDigital();
             openCart();
         }
+
+        //Reverse the disablecheck method
         function uncheckDigital() {
             checker = "stage1";
             document.getElementById("all_digital").disabled = false;
             document.getElementById("all_digital").checked = false;
 
-            document.getElementById("item2").disabled = false;
-            document.getElementById("item2").checked = false;
+            document.getElementById("item4").disabled = false;
+            document.getElementById("item4").checked = false;
 
             openCart();
         }
+        //Tooltip
         $('[rel="tooltip"]').tooltip({
             animated: 'fade',
             placement: 'bottom'
         });
+
+        //Loading item using ajax call
         function loadCart() {
             $('#cart-items').html('');
             var i;
@@ -1160,10 +1176,11 @@
                         dataType: "json",
                         data: JSON.stringify(dataValue),
                         success: function (msg) {
-                            productDetails = JSON.parse(msg.d);
+                            productDetails = JSON.parse(msg.d.Item1);
+                            priceDetails = JSON.parse(msg.d.Item2);
                             $divOneProduct = $(`<div class="pb-2"></div>`);
                             $proName = $(`<p class="mb-0"><b>${productDetails.ProductName}</b></p>`);
-                            $proPrice = $(`<p class="mb-0" style="color: darkgrey; width: 90%; font-size: 0.8rem;">SGD ${productDetails.ProductPrice}</p>`);
+                            $proPrice = $(`<p class="mb-0" style="color: darkgrey; width: 90%; font-size: 0.8rem;">SGD ${priceDetails.UnitPrice}</p>`);
 
                             $proPrice.append($deleteIcon);
                             $divOneProduct.append($proName);

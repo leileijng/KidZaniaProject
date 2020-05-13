@@ -27,19 +27,47 @@ namespace WebForm
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            List<Product> product = getProduct();
+            //Retrieving 2 lists for product and price
+            (List<Product> product, List<Price> price) = getProduct();
+            int index = 0;
+            //First For loop to extract the list
             for (int i = 0; i < product.Count; i++)
             {
-                string pname = product[i].ProductName;
-                pname = char.ToUpper(pname[0]) + pname.Substring(1);
-                int pId = product[i].ProductId;
-                if (pId == 2)
+                //Checking for records with the same id
+                if (index == product[i].ProductId)
                 {
-                    prods.InnerHtml += "<div class='productbox' rel='tooltip' title='Delete from shopping cart to uncheck!' data-selector='true' data-title='Popover Title' data-content='Content' class='wrap poptooltip' style='margin-bottom:5px;'><div class='overlap'></div><input class='form-check-input' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + pname + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + /*product[i].ProductPrice +*/ ".00 (incl. GST) </b></div><br/> ";
+                    //Second for loop to add the price for matching id
+                    for (int x = index; x < product.Count; x++)
+                    {
+                        if (price[x].ProductId == index)
+                        {
+                            prods.InnerHtml += "</br><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + price[x].UnitPrice + " (incl. GST) per " + price[x].Unit + " unit(s) </b>";
+                        }
+                        else
+                        {
+                            index++;
+                            i = x;
+                            x = product.Count + 1;
+                        }
+                    }
                 }
                 else
                 {
-                    prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + pname + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + /*product[i].ProductPrice +*/ ".00 (incl. GST) </b></div><br/> ";
+                    //If-else to implement tooltips on only the digital product
+                    if (product[i].ProductName == "Digital")
+                    {
+                        prods.InnerHtml += "<div class='productbox' rel='tooltip' title='Delete from shopping cart to uncheck!' data-selector='true' data-title='Popover Title' data-content='Content' class='wrap poptooltip' style='margin-bottom:5px;'><div class='overlap'></div><input class='form-check-input' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + price[i].UnitPrice + " (incl. GST) per " + price[i].Unit + " unit(s) </b>";
+                    }
+                    else
+                    {
+                        prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + price[i].UnitPrice + " (incl. GST) per " + price[i].Unit + " unit(s) </b>";
+                    }
+                    index = product[i].ProductId;
+                }
+                //Finding the right place to close out the div element
+                if(i+1 == product.Count || index != product[i + 1].ProductId)
+                {
+                    prods.InnerHtml += "</div><br/>";
                 }
             }
 
@@ -336,31 +364,48 @@ namespace WebForm
             conn.Close();
         }
 
-        protected List<Product> getProduct()
+        //Return All Product in the datbase excluding showphoto=0
+        protected (List<Product>, List<Price>) getProduct()
         {
             string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
             List<Product> products = new List<Product>();
+            List<Price> prices = new List<Price>();
+
             MySqlConnection conn = null;
             try
             {
                 conn = new MySqlConnection(connstring);
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM kidzania.product where pro_visibility = 1;", conn);
+                MySqlCommand cmd = new MySqlCommand("SELECT p.*, pp.UnitPrice, pp.Unit, pp.UnitGST FROM kidzania.product p, kidzania.product_price pp where p.productId = pp.productId and p.photoproduct = 1 and productvisibility = 1;", conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
+                        //Setting the product list
                         products.Add(new Product()
                         {
-                            ProductId = Convert.ToInt32(reader["pro_id"]),
-                            ProductName = reader["pro_name"].ToString(),
+                            ProductId = Convert.ToInt32(reader["productid"]),
+                            ProductName = reader["productname"].ToString(),
                             //ProductPrice = Decimal.Parse(reader["pro_price"].ToString()),
                             //ProductGST = Decimal.Parse(reader["pro_gst"].ToString()),
-                            ProductImage = reader["pro_image"].ToString(),
-                            ProductDescription = reader["pro_description"].ToString()
+                            ProductImage = reader["productimage"].ToString(),
+                            ProductDescription = reader["productdescription"].ToString(),
+                            ProductVisibility = bool.Parse(reader["productvisibility"].ToString()),
+                            CreatedBy = reader["createdby"].ToString(),
+                            CreatedAt = DateTime.Parse(reader["createdat"].ToString()),
+                            UpdatedBy = reader["updatedby"].ToString(),
+                            UpdatedAt = DateTime.Parse(reader["updatedat"].ToString()),
+                            PhotoProduct = bool.Parse(reader["photoproduct"].ToString()),
                         });
-                        Debug.WriteLine(reader["pro_name"]);
+                        //Setting the price list
+                        prices.Add(new Price
+                        {
+                            ProductId = Convert.ToInt32(reader["productid"]),
+                            Unit = int.Parse(reader["unit"].ToString()),
+                            UnitPrice = decimal.Parse(reader["unitprice"].ToString()),
+                            UnitGST = decimal.Parse(reader["unitgst"].ToString()),
+                        });
                     }
                 }
             }
@@ -375,12 +420,12 @@ namespace WebForm
                     conn.Close();
                 }
             }
-            return products;
+            return (products, prices);
         }
 
-
+        //Retrieve lists for shopping cart
         [WebMethod]
-        public static string GetProductbyId(string id, string checker)
+        public static (string, string) GetProductbyId(string id, string checker)
         {
             string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
             Product p = new Product();
@@ -391,13 +436,14 @@ namespace WebForm
                 conn = new MySqlConnection(connstring);
                 conn.Open();
                 MySqlCommand cmd;
+                //If-else to check all digital or not
                 if (id != "d")
                 {
-                    cmd = new MySqlCommand("SELECT p.*, pp.ProductPrice, pp.ProductDiscount, pp.ProductGST FROM kidzania.product p, kidzania.product_price pp where p.productId = pp.productId and productvisibility = 1 and p.productid= " + id + ";", conn);
+                    cmd = new MySqlCommand("SELECT * from product_price pr, product p where pr.productid = p.productid and p.productid = " + id + " limit 1;", conn);
                 }
                 else
                 {
-                    cmd = new MySqlCommand("SELECT p.*, pp.ProductPrice, pp.ProductDiscount, pp.ProductGST FROM kidzania.product p, kidzania.product_price pp where p.productId = pp.productId and productvisibility = 1 and p.productid=2;", conn);
+                    cmd = new MySqlCommand("SELECT * from product_price pr, product p where pr.productid = p.productid and p.productname = 'digital' limit 1;", conn);
                 }
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -424,7 +470,8 @@ namespace WebForm
             }
             catch (Exception e)
             {
-                return "Error: " + e.ToString();
+                //Return two error strings
+                return ("Error: " + e.ToString(), "Error: " + e.ToString());
             }
             finally
             {
@@ -433,7 +480,8 @@ namespace WebForm
                     conn.Close();
                 }
             }
-            return new JavaScriptSerializer().Serialize(p);
+            //Return two strings for product and price
+            return (new JavaScriptSerializer().Serialize(p), new JavaScriptSerializer().Serialize(pr)) ;
         }
     }
 }
