@@ -1064,7 +1064,7 @@
                     }
                 }
             }
-            loadCart();
+            load_Cart();
         }
 
         //Delete a product in the shopping cart
@@ -1095,7 +1095,7 @@
                         }
                     }
                 }
-                loadCart();
+                load_Cart();
             }
         }
 
@@ -1150,7 +1150,7 @@
                     let $divProductName = null;
                     let $divProductPhotos = (`<div class="row p-2" id="cartphotosFor${CartItems[i].productId}"></div>`);
                     let $divProductTotal = (`<div class="m-2 pt-1 mt-0 text-right" style="border-top: 1px solid #c3c3c3; font-size: 0.95rem" id="totalFor${CartItems[i].productId}"><b>SGD: 18.00</b></div>`);
-                    dataValue = { "id": proId, "checker": checker };
+                    dataValue = { "id": categories, "checker": checker };
                     //get this product name
                     $.ajax({
                         type: "POST",
@@ -1162,15 +1162,6 @@
                         success: function (msg) {
                             productDetails = JSON.parse(msg.d.Item1);
                             priceDetails = JSON.parse(msg.d.Item2);
-                            $divOneProduct = $(`<div class="pb-2"></div>`);
-                            $proName = $(`<p class="mb-0"><b>${productDetails.ProductName}</b></p>`);
-                            $proPrice = $(`<p class="mb-0" style="color: darkgrey; width: 90%; font-size: 0.8rem;">SGD ${priceDetails.UnitPrice}</p>`);
-
-                            $proPrice.append($deleteIcon);
-                            $divOneProduct.append($proName);
-                            $divOneProduct.append($proPrice);
-                            $divProducts.append($divOneProduct);
-                            productDetails = JSON.parse(msg.d);
                             $divProductName = $(`<div class="m-2 pb-1 mb-0" style="border-bottom: 1px solid #c3c3c3"><b>${productDetails.ProductName}</b></div>`);
                             $divProduct.append($divProductName);
                         },
@@ -1180,8 +1171,8 @@
                     });
                     $divProduct.append($divProductPhotos);
                     $divProduct.append($divProductTotal);
-                    $divProducts.append($divOneProduct);
-                    $('#cart-items').append($divProducts);
+                    $divProduct.append($divOneProduct);
+                    $('#cart-items').append($divProduct);
                 }
 
                 //add in selected photo to the selected product
