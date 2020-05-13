@@ -41,7 +41,7 @@ namespace WebForm
                     {
                         if (price[x].ProductId == index)
                         {
-                            prods.InnerHtml += "</br><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + price[x].UnitPrice + " (incl. GST) per " + price[x].Unit + " unit(s) </b>";
+                            prods.InnerHtml += "<p style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD " + price[x].UnitPrice * price[x].Unit + " / " + price[x].Unit + " photos </p>";
                         }
                         else
                         {
@@ -56,11 +56,15 @@ namespace WebForm
                     //If-else to implement tooltips on only the digital product
                     if (product[i].ProductName == "Digital")
                     {
-                        prods.InnerHtml += "<div class='productbox' rel='tooltip' title='Delete from shopping cart to uncheck!' data-selector='true' data-title='Popover Title' data-content='Content' class='wrap poptooltip' style='margin-bottom:5px;'><div class='overlap'></div><input class='form-check-input' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + price[i].UnitPrice + " (incl. GST) per " + price[i].Unit + " unit(s) </b>";
+                        prods.InnerHtml += "<div class='productbox' rel='tooltip' title='Delete from shopping cart to uncheck!' data-selector='true' data-title='Popover Title' data-content='Content' class='wrap poptooltip' style='margin-bottom:5px;'><div class='overlap'></div><input class='form-check-input' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD " + price[i].UnitPrice + " / All Digital Copies </p>";
+                    }
+                    else if(product[i].ProductName == "Keychain")
+                    {
+                        prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD " + price[i].UnitPrice * 2 + " / 2 photos</p><p style='margin:0;margin-left:5px;color:red;font-size:16px;'>*must be an even number  </p>";
                     }
                     else
                     {
-                        prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><b style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD" + price[i].UnitPrice + " (incl. GST) per " + price[i].Unit + " unit(s) </b>";
+                        prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD " + price[i].UnitPrice * price[i].Unit + " / " + price[i].Unit + " photo </p>";
                     }
                     index = product[i].ProductId;
                 }
