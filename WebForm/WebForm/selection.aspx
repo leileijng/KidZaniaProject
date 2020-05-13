@@ -214,14 +214,15 @@
             font-weight: bold;
             transition: 0.3s;
         }
-        .close:hover,.close:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
+
+            .close:hover, .close:focus {
+                color: #bbb;
+                text-decoration: none;
+                cursor: pointer;
             }
 
         .cart-img {
-            padding:10px;
+            padding: 10px;
             padding-top: 0;
         }
 
@@ -747,7 +748,7 @@
         }
 
         function show_modal(e) {
-            var modal = document.getElementById('myModala' + e);           
+            var modal = document.getElementById('myModala' + e);
 
             var modalImg = document.getElementById("img01");
             var captionText = document.getElementById("caption");
@@ -974,7 +975,7 @@
             for (i = 0; i < CartItems.length; i++) {
                 if (CartItems[i].photoId == id) {
                     $(`#item${CartItems[i].productId}`).prop("checked", true);
-                    
+
                 }
             }
             //show the modal
@@ -996,13 +997,13 @@
             $("#photo_gallery").css("width", "90%");
             $("#photo_gallery").css("margin", "0 auto");
         }
-        
-        function CartItem(inPhotoId, inPhotoSource, inProductId) {            
+
+        function CartItem(inPhotoId, inPhotoSource, inProductId) {
             this.productId = inProductId;
             this.photoId = inPhotoId;
             this.photoSource = inPhotoSource;
         }
-        
+
 
         //When the user submitted the product, this method will load the chosen product to shopping cart
         function addToCart() {
@@ -1017,15 +1018,15 @@
                     }
                 }
                 if (!exist) {
-                    var newCartItem = new CartItem(photoid, photosrc, $(this).val());
-                    CartItems.push(newCartItem);
+                    //Delete digital in the shopping cart if the select all is chosen
+                    if (checker == "stage2" && ($(this).val() == 4)) { }
+                    else {
+                        var newCartItem = new CartItem(photoid, photosrc, $(this).val());
+                        CartItems.push(newCartItem);
+                    }
                 }
                 console.log(CartItems);
             });
-            //Delete digital in the shopping cart if the select all is chosen
-            if (checker == "stage2") {
-                deleteDigital();
-            }
             openCart();
             $('#productModal').modal("hide");
         }
@@ -1042,14 +1043,18 @@
         //Delete all digital in the shopping cart
         function deleteDigital() {
             var i;
+            console.log("Before: " +CartItems.length);
             for (i = 0; i < CartItems.length; i++) {
-                console.log("To be deleted" + CartItems[i].photoId);
+                console.log(i)
+
                 if (CartItems[i].productId == "4") {
                     CartItems.splice(i, 1);
+                    i--;
                 }
+                console.log("After: " + CartItems.length);
+                console.log(i);
             }
         }
-
         //Delete a product in the shopping cart
         function deleteItem(phoId, proId) {
             console.log("photo:" + phoId);
@@ -1061,16 +1066,19 @@
                     CartItems.splice(i, 1);
                 }
             }
-                load_Cart();
+            if (phoId == "digital") {
+                uncheckDigital();
             }
-        
+            load_Cart();
+        }
+
 
         //This method will trigger when the select all is clicked and will disable and checked neccessary attribute and load methods
         function disableCheck() {
             checker = "stage2";
-            $("#all_digital").disabled = true;
-            $("#item4").checked = true;
-            $("#item4").disabled = true;
+            document.getElementById("all_digital").disabled = true;
+            document.getElementById("item4").checked = true;
+            document.getElementById("item4").disabled = true;
             deleteDigital();
             AddAllDigital();
             openCart();
@@ -1098,7 +1106,7 @@
         function load_Cart() {
             $('#cart_items').html('');
             var categories = [];
-            
+
             for (i = 0; i < CartItems.length; i++) {
                 var categoryExist = false;
                 var n;
@@ -1118,7 +1126,7 @@
                     let $divProductName = $(`<div class="m-2 pb-1 mb-0" style="border-bottom: 1px solid #c3c3c3"><b id="cartProductName${CartItems[i].productId}"></b></div>`);
                     let $divProductPhotos = $(`<div class="row p-2" id="cartphotosFor${CartItems[i].productId}"></div>`);
                     let $divProductTotal = $(`<div class="m-2 pt-1 mt-0 text-right" style="border-top: 1px solid #c3c3c3; font-size: 0.95rem" id="totalFor${CartItems[i].productId}"><b>SGD: 18.00</b></div>`);
-                    
+
                     $divProduct.append($divProductName);
                     $divProduct.append($divProductPhotos);
                     $divProduct.append($divProductTotal);
@@ -1140,7 +1148,7 @@
                             console.log(response);
                         }
                     });
-                    
+
                 }
 
                 //add in selected photo to the selected product
@@ -1155,7 +1163,7 @@
             }
         }
 
-        
+
 
 
 
@@ -1214,7 +1222,7 @@
                     <div class="card">
                         <div class="card-body p-1 pl-3">
                             <div style="margin-bottom: 5px; display: flex;">
-                                <div style=" height: auto; margin-right: -10px; -ms-flex: 0.8; flex: 0.8;">
+                                <div style="height: auto; margin-right: -10px; -ms-flex: 0.8; flex: 0.8;">
                                     <img id="photoImg" style="width: 78%; vertical-align: central; margin-left: 30px" />
                                 </div>
 
@@ -1256,7 +1264,7 @@
         </div>
 
         <!-- PRICING TABLE -->
-        <div style="text-align: center; width: 100%; ">
+        <div style="text-align: center; width: 100%;">
             <!-- remove from display when it is onsite -->
             <div class="pricing_table">
                 <div class="pricing_heading">Pricing</div>
