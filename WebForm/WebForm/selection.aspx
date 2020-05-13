@@ -411,6 +411,8 @@
                 refresh_values();
             });
 
+
+
             //server side
             //change of formulas e.g. Ajax call to server for calculation (no. of products), then get the return of total money
             function cal_amt(dclen, eclen, a5len, mglen, kclen) {
@@ -545,6 +547,8 @@
 
             refresh_values();
         });
+
+
 
         function cal_amt(dclen, eclen, a5len, mglen, kclen) {
             var dc_amt = 0; var ec_amt = 0; var a5_amt = 0; var mg_amt = 0; var kc_amt = 0;
@@ -1209,7 +1213,7 @@
         </div>
 
         <!-- PRICING TABLE -->
-        <div style="text-align: center; width: 100%; display: none;">
+        <div style="text-align: center; width: 100%; ">
             <!-- remove from display when it is onsite -->
             <div class="pricing_table">
                 <div class="pricing_heading">Pricing</div>
