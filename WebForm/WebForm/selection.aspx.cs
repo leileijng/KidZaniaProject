@@ -41,7 +41,7 @@ namespace WebForm
                     {
                         if (price[x].ProductId == index)
                         {
-                            prods.InnerHtml += "<p style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD " + price[x].UnitPrice * price[x].Unit + " / " + price[x].Unit + " photos </p>";
+                            prods.InnerHtml += "<p style='margin:0;margin-left:5px;color:red;font-size:16px;'>SGD " + price[x].UnitPrice * price[x].Unit + " / " + price[x].Unit + " photos </p>";
                         }
                         else
                         {
@@ -56,15 +56,15 @@ namespace WebForm
                     //If-else to implement tooltips on only the digital product
                     if (product[i].ProductName == "Digital")
                     {
-                        prods.InnerHtml += "<div class='productbox' rel='tooltip' title='Delete from shopping cart to uncheck!' data-selector='true' data-title='Popover Title' data-content='Content' class='wrap poptooltip' style='margin-bottom:5px;'><div class='overlap'></div><input class='form-check-input' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD " + price[i].UnitPrice + " / All Digital Copies </p>";
+                        prods.InnerHtml += "<div class='productbox' rel='tooltip' title='Delete from shopping cart to uncheck!' data-selector='true' data-title='Popover Title' data-content='Content' class='wrap poptooltip' style='margin-bottom:5px;'><div class='overlap'></div><input class='form-check-input' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:16px;'>SGD " + price[i].UnitPrice + " / All Digital Copies </p>";
                     }
                     else if(product[i].ProductName == "Keychain")
                     {
-                        prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD " + price[i].UnitPrice * 2 + " / 2 photos</p><p style='margin:0;margin-left:5px;color:red;font-size:16px;'>*must be an even number  </p>";
+                        prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:16px;'>SGD " + price[i].UnitPrice * 2 + " / 2 photos</p><p style='margin:0;margin-left:5px;color:red;font-size:14px;'>*must be an even number  </p>";
                     }
                     else
                     {
-                        prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:18px;'>SGD " + price[i].UnitPrice * price[i].Unit + " / " + price[i].Unit + " photo </p>";
+                        prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:16px;'>SGD " + price[i].UnitPrice * price[i].Unit + " / " + price[i].Unit + " photo </p>";
                     }
                     index = product[i].ProductId;
                 }
@@ -429,7 +429,7 @@ namespace WebForm
 
         //Retrieve lists for shopping cart
         [WebMethod]
-        public static (string, string) GetProductbyId(string id, string checker)
+        public static string GetProductbyId(string id)
         {
             string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
             Product p = new Product();
@@ -441,29 +441,19 @@ namespace WebForm
                 conn.Open();
                 MySqlCommand cmd;
                 //If-else to check all digital or not
-                if (id != "d")
-                {
-                    cmd = new MySqlCommand("SELECT * from product_price pr, product p where pr.productid = p.productid and p.productid = " + id + " limit 1;", conn);
-                }
-                else
-                {
-                    cmd = new MySqlCommand("SELECT * from product_price pr, product p where pr.productid = p.productid and p.productname = 'digital' limit 1;", conn);
-                }
+
+                cmd = new MySqlCommand("SELECT * from product_price pr, product p where pr.productid = p.productid and p.productid = " + id + " limit 1;", conn);
+                
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         p.ProductId = Convert.ToInt32(reader["ProductId"]);
 
-                        if (checker == "stage2" && id == "d")
-                        {
-                            p.ProductName = "All Digital File";
-                        }
-                        else
-                        {
+                        
                             string pname = reader["ProductName"].ToString();
                             p.ProductName = char.ToUpper(pname[0]) + pname.Substring(1);
-                        }
+                        
                         p.ProductImage = reader["ProductImage"].ToString();
                         pr.UnitPrice = Decimal.Parse(reader["unitPrice"].ToString());
                         pr.UnitGST = Decimal.Parse(reader["UnitGST"].ToString());
@@ -475,7 +465,7 @@ namespace WebForm
             catch (Exception e)
             {
                 //Return two error strings
-                return ("Error: " + e.ToString(), "Error: " + e.ToString());
+                return ("Error: " + e.ToString());
             }
             finally
             {
@@ -485,7 +475,7 @@ namespace WebForm
                 }
             }
             //Return two strings for product and price
-            return (new JavaScriptSerializer().Serialize(p), new JavaScriptSerializer().Serialize(pr)) ;
+            return (new JavaScriptSerializer().Serialize(p)) ;
         }
     }
 }

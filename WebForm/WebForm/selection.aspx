@@ -747,7 +747,8 @@
         }
 
         function show_modal(e) {
-            var modal = document.getElementById('myModala' + e);
+            var modal = document.getElementById('myModala' + e);           
+
             var modalImg = document.getElementById("img01");
             var captionText = document.getElementById("caption");
             modal.style.display = "block";
@@ -972,10 +973,8 @@
             console.log(CartItems);
             for (i = 0; i < CartItems.length; i++) {
                 if (CartItems[i].photoId == id) {
-                    var n;
-                    for (n = 0; n < CartItems[i].productId.length; n++) {
-                        $(`#item${CartItems[i].productId[n]}`).prop("checked", true);
-                    }
+                    $(`#item${CartItems[i].productId}`).prop("checked", true);
+                    
                 }
             }
             //show the modal
@@ -1003,6 +1002,7 @@
             this.photoId = inPhotoId;
             this.photoSource = inPhotoSource;
         }
+        
 
         //When the user submitted the product, this method will load the chosen product to shopping cart
         function addToCart() {
@@ -1030,41 +1030,24 @@
             $('#productModal').modal("hide");
         }
 
+
         //When the select all digital is clicked the item will be inserted to the shopping cart
         function AddAllDigital() {
-            var newCartItem = new CartItem("digital", "Content/photos/digital.png", "d");
+            console.log(CartItems);
+            var newCartItem = new CartItem("digital", "Content/photos/digital.png", "4");
             CartItems.push(newCartItem);
         }
 
-        //Cart Item object
-        function CartItem(inPhotoId, inPhotoSource, inProductId) {
-            this.photoId = inPhotoId;
-            this.photoSource = inPhotoSource;
-            this.productId = inProductId;
-        }
 
         //Delete all digital in the shopping cart
         function deleteDigital() {
             var i;
             for (i = 0; i < CartItems.length; i++) {
-                //if 1 photo only has 1 item selected
-                if (CartItems[i].productId.length == 1 && CartItems[i].productId[0] == "4") {
-                    console.log("delete1photo");
-                    CartItems.splice(i, 2);
-                }
-
-                //if 1 photo has multiple items selected
-                else {
-                    var n;
-                    for (n = 0; n < CartItems[i].productId.length; n++) {
-                        if (CartItems[i].productId[n] == "4") {
-                            console.log("delete1item");
-                            CartItems[i].productId.splice(n, 1);
-                        }
-                    }
+                console.log("To be deleted" + CartItems[i].photoId);
+                if (CartItems[i].productId == "4") {
+                    CartItems.splice(i, 1);
                 }
             }
-            load_Cart();
         }
 
         //Delete a product in the shopping cart
@@ -1073,38 +1056,21 @@
             console.log("product:" + proId);
             var i;
             for (i = 0; i < CartItems.length; i++) {
-                if (CartItems[i].photoId == phoId) {
-                    console.log(CartItems[i].photoId);
+                if (CartItems[i].photoId == phoId && CartItems[i].productId == proId) {
                     //if 1 photo only has 1 item selected
-                    if (CartItems[i].productId.length == 1 && CartItems[i].productId[0] == proId) {
-                        console.log("delete1photo");
-                        if (proId == "d") {
-                            uncheckDigital();
-                        }
-                        CartItems.splice(i, 1);
-                    }
-
-                    //if 1 photo has multiple items selected
-                    else {
-                        var n;
-                        for (n = 0; n < CartItems[i].productId.length; n++) {
-                            if (CartItems[i].productId[n] == proId) {
-                                console.log("delete1item");
-                                CartItems[i].productId.splice(n, 1);
-                            }
-                        }
-                    }
+                    CartItems.splice(i, 1);
                 }
+            }
                 load_Cart();
             }
-        }
+        
 
         //This method will trigger when the select all is clicked and will disable and checked neccessary attribute and load methods
         function disableCheck() {
             checker = "stage2";
-            document.getElementById("all_digital").disabled = true;
-            document.getElementById("item4").checked = true;
-            document.getElementById("item4").disabled = true;
+            $("#all_digital").disabled = true;
+            $("#item4").checked = true;
+            $("#item4").disabled = true;
             deleteDigital();
             AddAllDigital();
             openCart();
@@ -1127,9 +1093,10 @@
             placement: 'bottom'
         });
 
+
         //Loading item using ajax call
         function load_Cart() {
-            $('#cart-items').html('');
+            $('#cart_items').html('');
             var categories = [];
             
             for (i = 0; i < CartItems.length; i++) {
@@ -1146,11 +1113,17 @@
                 //if the product (i.e. hardcopy, keychain) not created yet
                 if (!categoryExist) {
                     categories.push(CartItems[i].productId);
-                    let $divProduct = (`<div style="background-color: white" class="m-1 p-2"></div>`);
-                    let $divProductName = null;
-                    let $divProductPhotos = (`<div class="row p-2" id="cartphotosFor${CartItems[i].productId}"></div>`);
-                    let $divProductTotal = (`<div class="m-2 pt-1 mt-0 text-right" style="border-top: 1px solid #c3c3c3; font-size: 0.95rem" id="totalFor${CartItems[i].productId}"><b>SGD: 18.00</b></div>`);
-                    dataValue = { "id": categories, "checker": checker };
+
+                    let $divProduct = $(`<div style="background-color: white" class="m-1 p-2"></div>`);
+                    let $divProductName = $(`<div class="m-2 pb-1 mb-0" style="border-bottom: 1px solid #c3c3c3"><b id="cartProductName${CartItems[i].productId}"></b></div>`);
+                    let $divProductPhotos = $(`<div class="row p-2" id="cartphotosFor${CartItems[i].productId}"></div>`);
+                    let $divProductTotal = $(`<div class="m-2 pt-1 mt-0 text-right" style="border-top: 1px solid #c3c3c3; font-size: 0.95rem" id="totalFor${CartItems[i].productId}"><b>SGD: 18.00</b></div>`);
+                    
+                    $divProduct.append($divProductName);
+                    $divProduct.append($divProductPhotos);
+                    $divProduct.append($divProductTotal);
+                    $('#cart_items').append($divProduct);
+                    dataValue = { "id": CartItems[i].productId };
                     //get this product name
                     $.ajax({
                         type: "POST",
@@ -1160,19 +1133,14 @@
                         dataType: "json",
                         data: JSON.stringify(dataValue),
                         success: function (msg) {
-                            productDetails = JSON.parse(msg.d.Item1);
-                            priceDetails = JSON.parse(msg.d.Item2);
-                            $divProductName = $(`<div class="m-2 pb-1 mb-0" style="border-bottom: 1px solid #c3c3c3"><b>${productDetails.ProductName}</b></div>`);
-                            $divProduct.append($divProductName);
+                            productDetails = JSON.parse(msg.d);
+                            $(`#cartProductName${productDetails.ProductId}`).text(productDetails.ProductName);
                         },
                         error: function (response) {
                             console.log(response);
                         }
                     });
-                    $divProduct.append($divProductPhotos);
-                    $divProduct.append($divProductTotal);
-                    $divProduct.append($divOneProduct);
-                    $('#cart-items').append($divProduct);
+                    
                 }
 
                 //add in selected photo to the selected product
@@ -1246,7 +1214,7 @@
                     <div class="card">
                         <div class="card-body p-1 pl-3">
                             <div style="margin-bottom: 5px; display: flex;">
-                                <div style="width: 30%; height: auto; margin-right: -10px; -ms-flex: 1; flex: 1;">
+                                <div style=" height: auto; margin-right: -10px; -ms-flex: 0.8; flex: 0.8;">
                                     <img id="photoImg" style="width: 78%; vertical-align: central; margin-left: 30px" />
                                 </div>
 
@@ -1256,9 +1224,8 @@
                                         </div>
                                     </div>
                                     <!-- Modal footer -->
-                                    <div class="modal-footer pb-1">
+                                    <div class="modal-footer p-0 ">
                                         <button type="button" class="btn btn-primary" id="addProductBtn" onclick="addToCart()" runat="server">Submit</button>
-                                        <button id="resetBtn" class="btn btn-grey">Reset</button>
                                         <a id="backBtn" class="goToManageTB btn btn-grey">Back</a>
                                     </div>
                                 </form>
