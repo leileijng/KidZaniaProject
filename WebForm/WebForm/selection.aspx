@@ -5,8 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <script type="text/javascript" src="Scripts/jquery-1.4.1.js"></script>
-    <script type="text/javascript" src="Scripts/jquery-1.4.1.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery-3.3.1.js"></script>
     <link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' />
     <link rel='stylesheet' href='/Scripts/css/misc.css' type='text/css' media='all' />
     <link rel="stylesheet" href="/Scripts/css/jquery-ui.css" />
@@ -51,9 +50,6 @@
     <script src="/Scripts/lib/moment/moment.min.js"></script>
     <script src="/Scripts/lib/store/store.min.js"></script>
 
-
-    <link rel="stylesheet" href="/css/jquery-ui.css">
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
     <title></title>
 
     <style>
@@ -369,6 +365,23 @@
             border: none;
         }
 
+        .wrap {
+            display: inline-block;
+            position: relative;
+            margin-left: -10px;
+        }
+
+        .overlap {
+            display: none;
+        }
+
+        .poptooltip .overlap {
+            display: block;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            z-index: 1000;
+        }
 
         #photo_gallery {
             transition: margin-right .5s;
@@ -390,7 +403,7 @@
 
 
     <script>
-
+        var checker = "stage1";
         var CartItems = [];
 
         $(window).on("load", function () {
@@ -982,35 +995,51 @@
             var photosrc = $('#photoImg').attr("src");
             $("input:checkbox[name=product]:checked").each(function () {
                 var existPhoto = false;
+                console.log(checker);
                 var existProduct = false;
                 for (i = 0; i < CartItems.length; i++) {
+
+
                     if (CartItems[i].photoId == photoid) {
                         var x;
                         for (x = 0; x < CartItems[i].productId.length; x++) {
+
                             //check whether the product for this photo has bee added or not
                             if (CartItems[i].productId[x] == $(this).val()) {
                                 existProduct = true;
                             }
                         }
+
                         if (!existProduct) {
                             CartItems[i].productId.push($(this).val());
                         }
                         existPhoto = true;
                     }
                 }
+
                 if (!existPhoto) {
+
                     var productIds = [];
                     productIds.push($(this).val());
                     var newCartItem = new CartItem(photoid, photosrc, productIds);
                     CartItems.push(newCartItem);
+
                 }
 
                 console.log(CartItems);
             });
+            if (checker == "stage2") {
+                deleteDigital();
+            }
             openCart();
             $('#productModal').modal("hide");
+
         }
-        
+
+        function AddAllDigital() {
+            var newCartItem = new CartItem("digital", "Content/photos/digital.png", "d");
+            CartItems.push(newCartItem);
+        }
 
         function CartItem(inPhotoId, inPhotoSource, inProductId) {
             this.photoId = inPhotoId;
@@ -1018,6 +1047,28 @@
             this.productId = inProductId;
         }
 
+        function deleteDigital() {
+            var i;
+            for (i = 0; i < CartItems.length; i++) {
+                //if 1 photo only has 1 item selected
+                if (CartItems[i].productId.length == 1 && CartItems[i].productId[0] == "2") {
+                    console.log("delete1photo");
+                    CartItems.splice(i, 2);
+                }
+
+                //if 1 photo has multiple items selected
+                else {
+                    var n;
+                    for (n = 0; n < CartItems[i].productId.length; n++) {
+                        if (CartItems[i].productId[n] == "2") {
+                            console.log("delete1item");
+                            CartItems[i].productId.splice(n, 1);
+                        }
+                    }
+                }
+            }
+            loadCart();
+        }
 
         function deleteItem(phoId, proId) {
             console.log("photo:" + phoId);
@@ -1029,7 +1080,10 @@
                     //if 1 photo only has 1 item selected
                     if (CartItems[i].productId.length == 1 && CartItems[i].productId[0] == proId) {
                         console.log("delete1photo");
-                        CartItems.splice(i,1);
+                        if (proId == "d") {
+                            uncheckDigital();
+                        }
+                        CartItems.splice(i, 1);
                     }
 
                     //if 1 photo has multiple items selected
@@ -1046,8 +1100,29 @@
                 loadCart();
             }
         }
+        function disableCheck() {
+            checker = "stage2";
+            document.getElementById("all_digital").disabled = true;
+            document.getElementById("item2").checked = true;
+            document.getElementById("item2").disabled = true;
+            deleteDigital();
+            AddAllDigital();
+            openCart();
+        }
+        function uncheckDigital() {
+            checker = "stage1";
+            document.getElementById("all_digital").disabled = false;
+            document.getElementById("all_digital").checked = false;
 
+            document.getElementById("item2").disabled = false;
+            document.getElementById("item2").checked = false;
 
+            openCart();
+        }
+        $('[rel="tooltip"]').tooltip({
+            animated: 'fade',
+            placement: 'bottom'
+        });
         function loadCart() {
             $('#cart-items').html('');
             var i;
@@ -1061,21 +1136,25 @@
                 let $imgPhoto = null;
                 $divElement = $('<div style="display: flex; background-color: white" class="m-1 p-1"></div>');
                 $divPhoto = $('<div class="p-1 pl-2" style="-ms-flex: 1; flex: 1;"></div>');
+
                 $imgPhoto = $(`<img id="p1" src=${CartItems[i].photoSource} style="width: 100%; height: auto;"/>`);
+
                 $divPhoto.append($imgPhoto);
 
                 $divProducts = $(`<div class="p-1 pl-3" style="-ms-flex: 2; flex: 2; text-align: left"></div>`);
                 var n;
                 var proId;
-                for (n = 0; n < CartItems[i].productId.length; n++) {                    
+                for (n = 0; n < CartItems[i].productId.length; n++) {
+                    console.log(CartItems[i].productId);
+                    console.log(CartItems[i].productId.length);
                     var dataValue = null;
                     var productDetails = null;
                     let $divOneProduct = null;
                     let $proName = null;
                     let $proPrice = null;
-
                     proId = CartItems[i].productId[n];
-                    dataValue = { "id": proId };
+
+                    dataValue = { "id": proId, "checker": checker };
                     let $deleteIcon = (`<i class="far fa-trash-alt deleteItem" style="float: right; font-size: 0.9rem;" onclick="deleteItem('${photoid}', '${proId}');"></i>`);
                     $.ajax({
                         type: "POST",
@@ -1104,8 +1183,9 @@
                 $divElement.append($divProducts);
                 $('#cart-items').append($divElement);
             }
+
         }
-        
+
 
 
 
@@ -1132,13 +1212,13 @@
                 </div>
                 <div class="site-branding">
                     <a href="https://kidzania.com.sg/" rel="home">
-                        <img src="/Content/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"/></a>
+                        <img src="/Content/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!" /></a>
                 </div>
                 <!-- .site-branding -->
                 <div class="header-right">
                     <div class="btn-book-tickets">
                         <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank">
-                            <img src="/Content/img/btn-book-tickets.png"/></a>
+                            <img src="/Content/img/btn-book-tickets.png" /></a>
                     </div>
                 </div>
             </div>
@@ -1271,10 +1351,10 @@
         <!-- PRICING TABLE -->
 
         <form action="summary.aspx" method="post">
-                <div class="openbtn" onclick="openCart()">☰ Open Cart</div>
+            <div class="openbtn" onclick="openCart()">☰ Open Cart</div>
             <div style="margin-top: -10px; width: 90%; text-align: center; margin: 0 auto;" id="photo_gallery">
                 <div id="menu_select">
-                    <input name="all_digital_cb" type="checkbox" checked="checked" />&nbsp;<label>All Digital</label>
+                    <input name="all_digital_cb" onclick="disableCheck()" id="all_digital" type="checkbox" />&nbsp;<label>All Digital</label>
                 </div>
                 <div style="text-align: center;" id="photo_gallery_ctn" runat="server"></div>
                 <br />
@@ -1306,7 +1386,7 @@
             </div>
 
             <div id="cart" class="sidebar">
-                <div class="p-2 mt-1 mb-2" style="text-align:center">
+                <div class="p-2 mt-1 mb-2" style="text-align: center">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="modal-title" style="margin-left: 10px">My Cart</span>
                     <button type="button" class="close" onclick="closeCart()">&times;</button>
