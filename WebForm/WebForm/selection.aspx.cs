@@ -56,7 +56,7 @@ namespace WebForm
                     //If-else to implement tooltips on only the digital product
                     if (product[i].ProductName == "Digital")
                     {
-                        prods.InnerHtml += "<div class='productbox' rel='tooltip' title='Delete from shopping cart to uncheck!' data-selector='true' data-title='Popover Title' data-content='Content' class='wrap poptooltip' style='margin-bottom:5px;'><div class='overlap'></div><input class='form-check-input' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:16px;'>SGD " + price[i].UnitPrice + " / All Digital Copies </p>";
+                        prods.InnerHtml += "<div class='productbox' rel='tooltip' title='Delete from shopping cart to uncheck!' data-selector='true' data-title='Popover Title' data-content='Content' class='wrap poptooltip' style='margin-bottom:5px;'><div class='overlap'></div><input class='form-check-input itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:16px;'>SGD " + price[i].UnitPrice + " / All Digital Copies </p>";
                     }
                     else if(product[i].ProductName == "Keychain")
                     {
@@ -369,7 +369,7 @@ namespace WebForm
         }
 
         //Return All Product in the datbase excluding showphoto=0
-        protected (List<Product>, List<Price>) getProduct()
+        protected static (List<Product>, List<Price>) getProduct()
         {
             string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
             List<Product> products = new List<Product>();
@@ -427,7 +427,8 @@ namespace WebForm
             return (products, prices);
         }
 
-        //Retrieve lists for shopping cart
+
+        //Retrieve product information for shopping cart
         [WebMethod]
         public static string GetProductbyId(string id)
         {
@@ -477,5 +478,76 @@ namespace WebForm
             //Return two strings for product and price
             return (new JavaScriptSerializer().Serialize(p)) ;
         }
-    }
+
+        [WebMethod]
+        public static string CalculateCostForOneProduct(string id, string unitsOfPhoto)
+        {
+            (List<Product> product, List<Price> price) = getProduct();
+            List<Price> foundPrice = new List<Price>();
+            decimal CostForProduct = 0;
+            int units = int.Parse(unitsOfPhoto);
+
+            foreach (Price p in price)
+            {
+                if(p.ProductId == int.Parse(id))
+                {
+                    foundPrice.Add(p);
+                }
+            }
+
+            
+            //if the product has multiple pricing strategies (e.g. hardscopy)
+            if (foundPrice.Count > 1)
+            {
+                decimal suitablePrice = 0;
+                foundPrice = foundPrice.OrderBy(o => o.Unit).ToList();
+                foreach (Price priceStrategy in foundPrice)
+                {
+                    if(units >= priceStrategy.Unit)
+                    {
+                        suitablePrice = priceStrategy.UnitPrice;
+                    }
+                }
+                CostForProduct = suitablePrice * units;
+            }
+
+            // if the product only have 1 pricing condition
+            else
+            {
+                //regualar pricing method.
+                if(foundPrice[0].Unit == 1)
+                {
+                    CostForProduct = foundPrice[0].UnitPrice * units;
+                }
+
+                //the same price for the product, no matter how many photos selected (i.e. digital)
+                else if (foundPrice[0].Unit == 0)
+                {
+                    CostForProduct = foundPrice[0].UnitPrice;
+                }
+
+                //special requirement, quantity must be even number (keychain)
+                else if (foundPrice[0].Unit == 2)
+                {
+                    if(units % 2 == 0)
+                    {
+                        CostForProduct = foundPrice[0].UnitPrice * units;
+                    }
+
+                    //the user didnt select even number of photos
+                    else
+                    {
+                        CostForProduct = -1;
+                    }
+                }
+            }
+            String result = CostForProduct.ToString();
+            if (result == "-1")
+            {
+                result = "N.A.";
+            }
+
+            return (new JavaScriptSerializer().Serialize(result));
+        }
+        }
 }

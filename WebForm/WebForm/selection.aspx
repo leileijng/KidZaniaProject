@@ -975,7 +975,6 @@
             for (i = 0; i < CartItems.length; i++) {
                 if (CartItems[i].photoId == id) {
                     $(`#item${CartItems[i].productId}`).prop("checked", true);
-
                 }
             }
             //show the modal
@@ -1045,8 +1044,7 @@
             var i;
             console.log("Before: " +CartItems.length);
             for (i = 0; i < CartItems.length; i++) {
-                console.log(i)
-
+                console.log(i);
                 if (CartItems[i].productId == "4") {
                     CartItems.splice(i, 1);
                     i--;
@@ -1055,6 +1053,7 @@
                 console.log(i);
             }
         }
+
         //Delete a product in the shopping cart
         function deleteItem(phoId, proId) {
             console.log("photo:" + phoId);
@@ -1096,6 +1095,7 @@
             openCart();
         }
         //Tooltip
+
         $('[rel="tooltip"]').tooltip({
             animated: 'fade',
             placement: 'bottom'
@@ -1156,6 +1156,36 @@
                 let $divsOuter = $(`<div class="col-md-4 cart-img"><div class="thumbnail"></div></div>`);
                 let $imgPhoto = $(`<img src="${CartItems[i].photoSource}" style="width: 100%" />`);
                 let $divDelete = $(`<div class="caption text-center" style="background-color: bisque"><i class="far fa-trash-alt deleteItem" style="font-size: 0.9rem;" onclick="deleteItem('${CartItems[i].photoId}', '${CartItems[i].productId}');"></i></div>`);
+
+
+                //calculate price for this particular product e.g. hardcopy, softcopy
+                var noOfPhotos = 0;
+                var x;
+                for (x = 0; x < CartItems.length; x++) {
+                    if (CartItems[x].productId == CartItems[i].productId) {
+                        noOfPhotos++;
+                    }
+                }
+                console.log("There are " + noOfPhotos + "for id:" + CartItems[i].productId);
+
+                var calculateProductCost= { "id": CartItems[i].productId, "unitsOfPhoto": noOfPhotos};
+                    //get this product name
+                    $.ajax({
+                        type: "POST",
+                        url: '<%= ResolveUrl("selection.aspx/CalculateCostForOneProduct") %>',
+                        dataType: 'text',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: JSON.stringify(calculateProductCost),
+                        success: function (msg) {
+                            console.log(JSON.parse(msg.d));
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+
+
 
                 $divsOuter.append($imgPhoto);
                 $divsOuter.append($divDelete);
@@ -1264,7 +1294,7 @@
         </div>
 
         <!-- PRICING TABLE -->
-        <div style="text-align: center; width: 100%;">
+        <div style="text-align: center; width: 100%; display: none; ">
             <!-- remove from display when it is onsite -->
             <div class="pricing_table">
                 <div class="pricing_heading">Pricing</div>
@@ -1322,7 +1352,6 @@
         <!-- PRICING TABLE -->
 
         <form action="summary.aspx" method="post">
-            <div class="openbtn" onclick="openCart()">☰ Open Cart</div>
             <div style="margin-top: -10px; width: 90%; text-align: center; margin: 0 auto;" id="photo_gallery">
                 <div id="menu_select">
                     <input name="all_digital_cb" onclick="disableCheck()" id="all_digital" type="checkbox" />&nbsp;<label>All Digital</label>
