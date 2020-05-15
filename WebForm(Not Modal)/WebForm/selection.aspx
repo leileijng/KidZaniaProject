@@ -78,7 +78,6 @@
             text-decoration: none;
             text-shadow: 0px 1px 0px #3d768a;
         }
-
             .btn_default:hover {
                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #408c99), color-stop(1, #599bb3));
                 background: -moz-linear-gradient(top, #408c99 5%, #599bb3 100%);
@@ -92,27 +91,23 @@
     </style>
 
     <style>
+        
         #photoProductTable td{
             padding:0.9rem !important;
         }
-
-
         .deleteItem:hover {
             color: darkred;
             cursor: pointer;
         }
-
         .heading1 {
             font-size: 30px;
             font-weight: bold;
         }
-
         .hr1 {
             height: 12px;
             border: 0;
             box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
         }
-
         div.gallery {
             margin: 5px;
             border: 1px solid #ccc;
@@ -120,16 +115,13 @@
             display: inline-block;
             width: 200px;
         }
-
             div.gallery:hover {
                 border: 1px solid #777;
             }
-
             div.gallery img {
                 width: 100%;
                 height: auto;
             }
-
         div.desc {
             padding: 15px;
             text-align: center;
@@ -138,9 +130,6 @@
         .thumbnail:hover {
             opacity: 0.7;
         }
-
-
-
         /* The Close Button */
         .close {
             color: #aaa;
@@ -150,28 +139,23 @@
             border: none;
             background-color: transparent;
         }
-
             .close:hover,
             .close:focus {
                 color: black;
                 text-decoration: none;
                 cursor: pointer;
             }
-
         /* Add Animation */
         @keyframes animatetop {
             from {
                 top: -300px;
                 opacity: 0
             }
-
             to {
                 top: 0;
                 opacity: 1
             }
         }
-
-
         /* Caption of Modal Image (Image Text) - Same Width as the Image */
         #caption {
             margin: auto;
@@ -190,22 +174,18 @@
             animation-name: zoom;
             animation-duration: 0.6s;
         }
-
         @-webkit-keyframes zoom {
             from {
                 -webkit-transform: scale(0)
             }
-
             to {
                 -webkit-transform: scale(1)
             }
         }
-
         @keyframes zoom {
             from {
                 transform: scale(0)
             }
-
             to {
                 transform: scale(1)
             }
@@ -219,26 +199,21 @@
             font-weight: bold;
             transition: 0.3s;
         }
-
             .close:hover, .close:focus {
                 color: #bbb;
                 text-decoration: none;
                 cursor: pointer;
             }
-
         .cart-img {
             padding: 10px;
             padding-top: 0;
         }
-
-
         /* 100% Image Width on Smaller Screens */
         @media only screen and (max-width: 700px) {
             .modal-content {
                 width: 100%;
             }
         }
-
         .fix_corner {
             position: fixed;
             top: 25%;
@@ -253,45 +228,37 @@
             -webkit-box-shadow: 2px 2px 3px #666666;
             -moz-box-shadow: 2px 2px 3px #666666;
         }
-
         .fix_corner_ctn {
             margin: 12px auto;
         }
-
         .fix_corner_price {
             text-align: left;
             margin-left: 20px;
         }
-
         .fix_corner_price_title {
             font-weight: bold;
             text-align: left;
             margin-left: 10px;
         }
-
         .fix_corner_price_annotation {
             text-align: left;
             font-size: 12px;
         }
-
         .item_checkbox_grp {
             background-color: white;
             text-align: left !important;
             margin-left: 40%;
             margin-right: 35%;
         }
-
         .modal_window {
             cursor: pointer;
             height: 80px;
             width: 80px;
         }
-
         .pricing_heading {
             text-align: center;
             font-size: large;
         }
-
         .pricing_table {
             margin: 0 auto;
             width: 80%;
@@ -303,34 +270,28 @@
             -webkit-box-shadow: 2px 2px 3px #666666;
             -moz-box-shadow: 2px 2px 3px #666666;
         }
-
         .pricing_subheader {
             margin-left: 10px;
             text-align: left !important;
             font-weight: bold;
         }
-
         .pricing_grp {
             margin-top: 0px;
             margin-left: 15px;
             text-align: left !important;
         }
-
         .pricing_item {
             display: inline-block;
             margin-left: 15px;
             vertical-align: top;
         }
-
         .pricing_header {
             font-weight: bold;
             margin-left: 5px;
         }
-
         .pricing {
             margin-left: 10px;
         }
-
         .pricing_header_sample {
             font-weight: bold;
             margin-left: 5px;
@@ -338,18 +299,15 @@
             color: blue;
             text-decoration: underline;
         }
-
         #prods {
             margin-top: 5%;
             margin-left: 20%;
         }
-
         #something {
             margin-bottom: 10%;
         }
-
         .sidebar {
-            height: 620px;
+            height: 546px;
             width: 0;
             position: fixed;
             z-index: 5;
@@ -357,11 +315,10 @@
             right: 0;
             background: #f5f5f5 !important;
             overflow-x: hidden;
+            overflow-y: hidden;
             transition: 0.5s;
             margin: 0 !important;
         }
-
-
             .sidebar .closebtn {
                 position: absolute;
                 top: 0;
@@ -369,23 +326,19 @@
                 font-size: 36px;
                 margin-right: 50px;
             }
-
         .openbtn {
             font-size: 20px;
             cursor: pointer;
             border: none;
         }
-
         .wrap {
             display: inline-block;
             position: relative;
             margin-left: -10px;
         }
-
         .overlap {
             display: none;
         }
-
         .poptooltip .overlap {
             display: block;
             position: absolute;
@@ -393,18 +346,15 @@
             width: 100%;
             z-index: 1000;
         }
-
         #photo_gallery {
             transition: margin-right .5s;
             padding: 16px;
         }
-
         /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
         @media screen and (max-height: 450px) {
             .sidebar {
                 padding-top: 15px;
             }
-
                 .sidebar a {
                     font-size: 18px;
                 }
@@ -417,11 +367,9 @@
         //Checker for all digital
         var checker = "stage1";
         var CartItems = [];
-
         $(window).on("load", function () {
             refresh_values();
         });
-
         $(document).ready(function () {
             $("form").submit(function (e) {
                 var total = $("#photo_gallery input[name='digital_cb']:checked").length;
@@ -435,16 +383,11 @@
             $("select").change(function () {
                 refresh_values();
             });
-
-
-
             //server side
             //change of formulas e.g. Ajax call to server for calculation (no. of products), then get the return of total money
             function cal_amt(dclen, eclen, a5len, mglen, kclen) {
                 var dc_amt = 0; var ec_amt = 0; var a5_amt = 0; var mg_amt = 0; var kc_amt = 0;
                 var dc_result = "$0;"; var ec_result = "$0;"; var a5_result = "$0;"; var mg_result = "$0;"; var kc_result = "$0;";
-
-
                 var rebate = false;
                 var rebate_type = "";
                 totalamt = 0;
@@ -482,21 +425,17 @@
                     rebate_type = ";mg";
                     mg_result = "$30;";
                 }
-
-
                 /*Establishment card*/
                 if (eclen > 0) {
                     if (rebate)
                         ec_amt = 8 * eclen;
                     else
                         ec_amt = 25 * eclen;
-
                     if (rebate_type == ";ec")
                         ec_result = "$25 + <b>$" + ec_amt + "</b>;";
                     else
                         ec_result = "<b>$" + ec_amt + "</b>;";
                 }
-
                 /*A5Photo card*/
                 if (a5len > 0) {
                     if (a5len >= 3) {
@@ -511,7 +450,6 @@
                         else {
                             a5_result = "<b>$" + a5_amt + "</b>;";
                         }
-
                     }
                     else {
                         if (rebate_type == ";a5") {
@@ -532,10 +470,7 @@
                             else
                                 a5_result = "<b>$" + a5_amt + "</b>;";
                         }
-
-
                     }
-
                 }
                 /*Magnet card*/
                 if (mglen > 0) {
@@ -554,32 +489,20 @@
                         kc_amt = 8 * kclen;
                     else
                         kc_amt = 25 * kclen;
-
                     if (rebate_type == ";kc")
                         kc_result = "$25 + <b>$" + kc_amt + "</b>;";
                     else
                         kc_result = "<b>$" + kc_amt + "</b>;";
                 }
-
                 var totalamt = totalamt + ec_amt + a5_amt + mg_amt + kc_amt;
-
                 var output = dc_result + ec_result + a5_result + mg_result + kc_result + totalamt;
-
                 return output;
             }
-
-
-
             refresh_values();
         });
-
-
-
         function cal_amt(dclen, eclen, a5len, mglen, kclen) {
             var dc_amt = 0; var ec_amt = 0; var a5_amt = 0; var mg_amt = 0; var kc_amt = 0;
             var dc_result = "$0;"; var ec_result = "$0;"; var a5_result = "$0;"; var mg_result = "$0;"; var kc_result = "$0;";
-
-
             var rebate = false;
             var rebate_type = "";
             totalamt = 0;
@@ -617,21 +540,17 @@
                 rebate_type = ";mg";
                 mg_result = "$30;";
             }
-
-
             /*Establishment card*/
             if (eclen > 0) {
                 if (rebate)
                     ec_amt = 8 * eclen;
                 else
                     ec_amt = 25 * eclen;
-
                 if (rebate_type == ";ec")
                     ec_result = "$25 + <b>$" + ec_amt + "</b>;";
                 else
                     ec_result = "<b>$" + ec_amt + "</b>;";
             }
-
             /*A5Photo card*/
             if (a5len > 0) {
                 if (a5len >= 3) {
@@ -646,7 +565,6 @@
                     else {
                         a5_result = "<b>$" + a5_amt + "</b>;";
                     }
-
                 }
                 else {
                     if (rebate_type == ";a5") {
@@ -667,10 +585,7 @@
                         else
                             a5_result = "<b>$" + a5_amt + "</b>;";
                     }
-
-
                 }
-
             }
             /*Magnet card*/
             if (mglen > 0) {
@@ -689,20 +604,15 @@
                     kc_amt = 8 * kclen;
                 else
                     kc_amt = 25 * kclen;
-
                 if (rebate_type == ";kc")
                     kc_result = "$25 + <b>$" + kc_amt + "</b>;";
                 else
                     kc_result = "<b>$" + kc_amt + "</b>;";
             }
-
             var totalamt = totalamt + ec_amt + a5_amt + mg_amt + kc_amt;
-
             var output = dc_result + ec_result + a5_result + mg_result + kc_result + totalamt;
-
             return output;
         }
-
         function refresh_values() {
             var lrlen = "";
             $("select option:selected").each(function () {
@@ -726,7 +636,6 @@
             $("#a5_copy_amt").html("A5 hardcopy: " + a5_result);
             $("#mg_copy_amt").html("Magnet: " + mg_result);
             $("#kc_copy_amt").html("Keychain: " + kc_result);
-
             var calculated_total = totalamt_array[5];
             if (lrlen > 0) {
                 var lr_amt = lrlen * 15;
@@ -743,7 +652,6 @@
                 $("#sa").attr('value', total);
                 $("#Total_cost").html("$" + total + " SGD");
             }
-
             $("#dc").attr('value', dclen);
             $("#a5").attr('value', a5len);
             $("#ec").attr('value', eclen);
@@ -751,24 +659,19 @@
             $("#kc").attr('value', kclen);
             $("#sa").attr('value', total);
         }
-
         function show_modal(e) {
             var modal = document.getElementById('myModala' + e);
-
             var modalImg = document.getElementById("img01");
             var captionText = document.getElementById("caption");
             modal.style.display = "block";
         }
-
         function delete_gl(id) {
             if (confirm('Are you confirmed to remove photo?')) {
                 $("#gl_id_" + id).remove();
                 refresh_values();
             } else {
-
             }
         }
-
         function modal_load(e) {
             var modal = document.getElementById('myModala' + e);
             // Get the <span> element that closes the modal
@@ -777,7 +680,6 @@
             span.onclick = function () {
                 modal.style.display = "none";
             }
-
             //        $("#menu_select input:checkbox").on("change", function () {
             //            var dclen = $("#photo_gallery input[name='digital_cb']:checked").length;
             //            //Select one digital will select all digital
@@ -791,7 +693,6 @@
             //                        $(this).prop('checked', false);
             //                })
             //            }
-
             //        });
             //        $("#photo_gallery input:checkbox").on("change", function () {
             //            var dclen = $("#photo_gallery input[name='digital_cb']:checked").length;
@@ -811,7 +712,6 @@
             //var a5_result = totalamt_array[2];
             //var mg_result = totalamt_array[3];
             //var kc_result = totalamt_array[4];
-
             //            if (lrlen > 0) {
             //                var lr_amt = lrlen * 15;
             //                totalamt = parseInt(lr_amt) + parseInt(totalamt);
@@ -821,7 +721,6 @@
             //            $("#a5_copy_amt").html("A5 hardcopy: " + a5_result);
             //            $("#mg_copy_amt").html("Magnet: " + mg_result);
             //            $("#kc_copy_amt").html("Keychain: " + kc_result);
-
             //            $("#Total_cost").html("$" + totalamt + " SGD");
             //$("#dc").attr('value', dclen);
             //$("#a5").attr('value', a5len);
@@ -832,8 +731,6 @@
             //        });
             //            var dc_amt = 0; var ec_amt = 0; var a5_amt = 0; var mg_amt = 0; var kc_amt = 0;
             //var dc_result = "$0;"; var ec_result = "$0;"; var a5_result = "$0;"; var mg_result = "$0;"; var kc_result = "$0;";
-
-
             //var rebate = false;
             //var rebate_type = "";
             //totalamt = 0;
@@ -876,8 +773,6 @@
             //	rebate_type = ";mg";
             //	mg_result = "$30;";
             //}
-
-
             //            /*Establishment card*/
             //            if (eclen > 0)
             //{
@@ -885,13 +780,11 @@
             //		ec_amt = 8 * eclen;
             //	else
             //		ec_amt = 25 * eclen;
-
             //	if (rebate_type == ";ec")
             //		ec_result = "$25 + <b>$" + ec_amt + "</b>;";
             //	else
             //		ec_result = "<b>$" + ec_amt + "</b>;";
             //}
-
             //            /*A5Photo card*/
             //            if (a5len > 0) {
             //	if (a5len >= 3)
@@ -909,7 +802,6 @@
             //		{
             //			a5_result = "<b>$" + a5_amt + "</b>;";
             //		}
-
             //	}
             //                else {
             //		if (rebate_type == ";a5")
@@ -936,8 +828,6 @@
             //                            a5_result = "<b>$" + a5_amt + "</b>;";	
             //                        }
             //		}
-
-
             //	}
             //            }
             //            /*Magnet card*/
@@ -957,19 +847,15 @@
             //		kc_amt = 8 * kclen;
             //	else
             //		kc_amt = 25 * kclen;
-
             //	if (rebate_type == ";kc")
             //		kc_result = "$25 + <b>$" + kc_amt + "</b>;";
             //	else
             //		kc_result = "<b>$" + kc_amt + "</b>;";	
             //            }
             //            var totalamt = totalamt + ec_amt + a5_amt + mg_amt + kc_amt;
-
             //var output = dc_result  + ec_result + a5_result + mg_result + kc_result + totalamt;
-
             //            return output;
         }
-
         function selectProduct(id, filename) {
             $('#productModal').val(id);
             $('.itemsChk').prop("checked", false);
@@ -986,7 +872,6 @@
             //document.getElementById("prods").innerHTML += "<input type='checkbox' id='check" +item+ "'/>" +item + "<br>"; 
             $('#productModal').modal("show");
         }
-
         //This will open the shopping cart
         function openCart() {
             load_Cart();
@@ -994,21 +879,17 @@
             $("#photo_gallery").css("width", "80%");
             $("#photo_gallery").css("marginRight", "350px");
         }
-
         //Closing the shopping cart
         function closeCart() {
             $("#cart").css("width", "0");
             $("#photo_gallery").css("width", "90%");
             $("#photo_gallery").css("margin", "0 auto");
         }
-
         function CartItem(inPhotoId, inPhotoSource, inProductId) {
             this.productId = inProductId;
             this.photoId = inPhotoId;
             this.photoSource = inPhotoSource;
         }
-
-
         //When the user submitted the product, this method will load the chosen product to shopping cart
         function addToCart(src, phoId, proId) {
             var photoid = $('#productModal').val();
@@ -1034,16 +915,12 @@
             openCart();
             $('#productModal').modal("hide");
         }
-
-
         //When the select all digital is clicked the item will be inserted to the shopping cart
         function AddAllDigital() {
             console.log(CartItems);
             var newCartItem = new CartItem("digital", "Content/photos/digital.png", "4");
             CartItems.push(newCartItem);
         }
-
-
         //Delete all digital in the shopping cart
         function deleteDigital() {
             var i;
@@ -1058,7 +935,6 @@
                 console.log(i);
             }
         }
-
         function checkChange(src, phoId, proId) {
             console.log("triggered:" + `#item${phoId}${proId}`);
             if ($(`#item${phoId}${proId}`).prop("checked") == true) {
@@ -1067,7 +943,6 @@
                 deleteItem(phoId, proId);
             }
         }
-
         //Delete a product in the shopping cart
         function deleteItem(phoId, proId) {
             console.log("photo:" + phoId);
@@ -1085,8 +960,6 @@
             }
             load_Cart();
         }
-
-
         //This method will trigger when the select all is clicked and will disable and checked neccessary attribute and load methods
         function disableCheck() {
             checker = "stage2";
@@ -1097,51 +970,40 @@
             AddAllDigital();
             openCart();
         }
-
         //Reverse the disablecheck method
         function uncheckDigital() {
             checker = "stage1";
             document.getElementById("all_digital").disabled = false;
             document.getElementById("all_digital").checked = false;
-
             document.getElementById("item4").disabled = false;
             document.getElementById("item4").checked = false;
-
             openCart();
         }
         //Tooltip
-
         $('[rel="tooltip"]').tooltip({
             animated: 'fade',
             placement: 'bottom'
         });
-
-
         //Loading item using ajax call
         function load_Cart() {
             $('#cart_items').html('');
             var categories = [];
-
             for (i = 0; i < CartItems.length; i++) {
                 var categoryExist = false;
                 var n;
-
                 //check whether this product has been selected / created
                 for (n = 0; n < categories.length; n++) {
                     if (categories[n] == CartItems[i].productId) {
                         categoryExist = true;
                     }
                 }
-
                 //if the product (i.e. hardcopy, keychain) not created yet
                 if (!categoryExist) {
                     categories.push(CartItems[i].productId);
-
                     let $divProduct = $(`<div style="background-color: white" class="m-1 p-2"></div>`);
                     let $divProductName = $(`<div class="m-2 pb-1 mb-0" style="border-bottom: 1px solid #c3c3c3"><b id="cartProductName${CartItems[i].productId}"></b></div>`);
                     let $divProductPhotos = $(`<div class="row p-2" id="cartphotosFor${CartItems[i].productId}"></div>`);
                     let $divProductTotal = $(`<div class="m-2 pt-1 mt-0 text-right" style="border-top: 1px solid #c3c3c3; font-size: 0.95rem" id="totalFor${CartItems[i].productId}"><b>SGD: 18.00</b></div>`);
-
                     $divProduct.append($divProductName);
                     $divProduct.append($divProductPhotos);
                     $divProduct.append($divProductTotal);
@@ -1163,16 +1025,12 @@
                             console.log(response);
                         }
                     });
-
                 }
-
                 //add in selected photo to the selected product
                 let $divSelectedPro = $(`#cartphotosFor${CartItems[i].productId}`);
                 let $divsOuter = $(`<div class="col-md-4 cart-img"><div class="thumbnail"></div></div>`);
                 let $imgPhoto = $(`<img src="${CartItems[i].photoSource}" style="width: 100%" />`);
                 let $divDelete = $(`<div class="caption text-center" style="background-color: bisque"><i class="far fa-trash-alt deleteItem" style="font-size: 0.9rem;" onclick="deleteItem('${CartItems[i].photoId}', '${CartItems[i].productId}');"></i></div>`);
-
-
                 //calculate price for this particular product e.g. hardcopy, softcopy
                 var noOfPhotos = 0;
                 var x;
@@ -1182,7 +1040,6 @@
                     }
                 }
                 console.log("There are " + noOfPhotos + "for id:" + CartItems[i].productId);
-
                 var calculateProductCost= { "id": CartItems[i].productId, "unitsOfPhoto": noOfPhotos};
                     //get this product name
                     $.ajax({
@@ -1199,22 +1056,11 @@
                             console.log(response);
                         }
                     });
-
-
-
                 $divsOuter.append($imgPhoto);
                 $divsOuter.append($divDelete);
                 $divSelectedPro.append($divsOuter);
             }
         }
-
-
-
-
-
-
-
-
     </script>
 
 
@@ -1503,7 +1349,11 @@
                     <span class="modal-title" style="margin-left: 10px">My Cart</span>
                     <button type="button" class="close" onclick="closeCart()">&times;</button>
                 </div>
-                <div id="cart_items" style="overflow-y: scroll; overflow-x: hidden;">
+                <div id="cart_items" style="height:437px; overflow-y: scroll; overflow-x: hidden;">
+                </div>
+                <div class="totalPrice" style="border:1px solid black; height:45px;">
+                    Total Price: Yes.
+                    <button>Submit</button>
                 </div>
             </div>
 
