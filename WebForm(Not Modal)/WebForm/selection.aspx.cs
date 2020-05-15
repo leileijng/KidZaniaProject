@@ -186,7 +186,7 @@ namespace WebForm
                         */
                     photo_gallery_ctn.InnerHtml += "<div id='gl_id_" + x + "' class=\"gallery\">";
 
-                    photo_gallery_ctn.InnerHtml += "<img class=\"modal_window\" onclick=\"selectProduct('" + photoid + "','" + photowatermarked_filename + "');\" id=\"tn_id_" + x + "\" class=\"thumbnail\" src=\"/Content/photos/" + photowatermarked_filename + "\"/>";
+                    photo_gallery_ctn.InnerHtml += "<img class=\"modal_window\" id=\"tn_id_" + x + "\" class=\"thumbnail\" src=\"/Content/photos/" + photowatermarked_filename + "\"/>";
 
                     //photo_gallery_ctn.InnerHtml += "<img class='modal_window' onclick='show_modal(" + photoid + ");' id='tn_id_" + x + "' class='thumbnail' src='/Content/photos/" + photowatermarked_filename + "'>";
 
@@ -214,7 +214,7 @@ namespace WebForm
                         else
                         {
                             photo_gallery_ctn.InnerHtml += "    <div style='text-align:left;margin-left:30px;'>";
-                            photo_gallery_ctn.InnerHtml += "    <input class='form-check-input filled-in itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name='product' value='" + product[i].ProductId + "'/>";
+                            photo_gallery_ctn.InnerHtml += "    <input class='form-check-input filled-in itemsChk' onclick='checkChange(\"/Content/Photos/" + photowatermarked_filename + "\",\"" + photoid + "\",\"" + product[i].ProductId + "\")' type='checkbox' id='item" + photoid + product[i].ProductId + "'" + " name='product' value='" + product[i].ProductId + "'/>";
                             photo_gallery_ctn.InnerHtml += "    &nbsp;<label style='height:20px;' name='" + product[i].ProductName + photoid + "'>" + product[i].ProductName + "</label>";
                             photo_gallery_ctn.InnerHtml += "    </div>";
                             index = product[i].ProductId;

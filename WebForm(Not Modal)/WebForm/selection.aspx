@@ -1005,22 +1005,22 @@
 
 
         //When the user submitted the product, this method will load the chosen product to shopping cart
-        function addToCart() {
+        function addToCart(src, phoId, proId) {
             var photoid = $('#productModal').val();
             var photosrc = $('#photoImg').attr("src");
             $("input:checkbox[name=product]:checked").each(function () {
                 var exist = false;
                 console.log(checker);
                 for (i = 0; i < CartItems.length; i++) {
-                    if (CartItems[i].photoId == photoid && CartItems[i].productId == $(this).val()) {
+                    if (CartItems[i].photoId == phoId && CartItems[i].productId == proId) {
                         exist = true;
                     }
                 }
                 if (!exist) {
                     //Delete digital in the shopping cart if the select all is chosen
-                    if (checker == "stage2" && ($(this).val() == 4)) { }
+                    if (checker == "stage2" && (proId == 4)) { }
                     else {
-                        var newCartItem = new CartItem(photoid, photosrc, $(this).val());
+                        var newCartItem = new CartItem(phoId, src, proId);
                         CartItems.push(newCartItem);
                     }
                 }
@@ -1053,7 +1053,13 @@
                 console.log(i);
             }
         }
-
+        function checkChange(src, phoId, proId) {
+            if (document.getElementById("item" + phoId + proId).checked) {
+                addToCart(src, phoId, proId);
+            } else {
+                deleteItem(phoId, proId);
+            }
+        }
         //Delete a product in the shopping cart
         function deleteItem(phoId, proId) {
             console.log("photo:" + phoId);
