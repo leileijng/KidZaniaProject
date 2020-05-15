@@ -92,6 +92,11 @@
     </style>
 
     <style>
+        #photoProductTable td{
+            padding:0.9rem !important;
+        }
+
+
         .deleteItem:hover {
             color: darkred;
             cursor: pointer;
@@ -1053,13 +1058,16 @@
                 console.log(i);
             }
         }
+
         function checkChange(src, phoId, proId) {
-            if (document.getElementById("item" + phoId + proId).checked) {
+            console.log("triggered:" + `#item${phoId}${proId}`);
+            if ($(`#item${phoId}${proId}`).prop("checked") == true) {
                 addToCart(src, phoId, proId);
             } else {
                 deleteItem(phoId, proId);
             }
         }
+
         //Delete a product in the shopping cart
         function deleteItem(phoId, proId) {
             console.log("photo:" + phoId);
@@ -1069,6 +1077,7 @@
                 if (CartItems[i].photoId == phoId && CartItems[i].productId == proId) {
                     //if 1 photo only has 1 item selected
                     CartItems.splice(i, 1);
+                    $(`#item${phoId}${proId}`).prop('checked', false);
                 }
             }
             if (phoId == "digital") {
@@ -1287,7 +1296,7 @@
             <span class="heading1">Photo Selection</span>
         </div>
         <div style="text-align: center; margin-top: 10px; margin: 0 auto;">
-            <img src='/img/process-selection.png' />
+            <img src='/Content/img/process-selection.png' />
         </div>
 
         <div style="width: 100%; text-align: center; margin-top: 10px; margin: 0 auto;" id="user_profile">
@@ -1359,11 +1368,108 @@
 
         <form action="summary.aspx" method="post">
             <div style="margin-top: -10px; width: 90%; text-align: center; margin: 0 auto;" id="photo_gallery">
-                <div id="menu_select">
+                <!--<div id="menu_select">
                     <input name="all_digital_cb" onclick="disableCheck()" id="all_digital" type="checkbox" />&nbsp;<label>All Digital</label>
+                </div> -->
+                <div style="text-align: center;" id="photo_gallery_ctn" runat="server">
+                    <div style="display: flex; ">
+                    <div class="card-body" id="photoProductTable" style="width:40%; -ms-flex: 0.8; flex: 0.8;">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered first">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Photo Souvenir</th>
+                                        <th>Price</th>
+                                        <th>PWP Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="m-r-10"><img src="/Content/img/keychain.jpg" alt="keychain" class="rounded" width="100"/></div>
+                                            <b>Keychain</b>
+                                        </td>
+                                        <td>Select 2 photos for it </td>
+                                        <td><b>$20.00 </b>/ Photo</td>
+                                        <td><b>$12.00 </b>/ Photo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="m-r-10">
+                                                <img src="/Content/img/magnet.jpg" alt="magnet" class="rounded" width="100" /></div>
+                                            <b>Magnet</b>
+                                        </td>
+                                        <td>balah balah balah balah </td>
+                                        <td><b>$20.00 </b>/ Photo</td>
+                                        <td><b>$8.00 </b>/ Photo</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="m-r-10">
+                                                <img src="/Content/img/card.jpg" alt="magnet" class="rounded" width="100" /></div>
+                                            <b>Establishment Card</b>
+                                        </td>
+                                        <td>balah balah balah balah </td>
+                                        <td><b>$15.00 </b>/ Photo</td>
+                                        <td><b>$8.00 </b> / Photo</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card-body" id="otherProductTable" style="width:50%;-ms-flex: 1; flex: 1; ">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered first">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Other Souvenir</th>
+                                        <th>Price</th>
+                                        <th>PWP Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="m-r-10"><img src="/Content/img/digital.jpg" alt="keychain" class="rounded" width="100"/></div>
+                                            <b>Digital</b>
+                                        </td>
+                                        <td>Select 2 photos for it </td>
+                                        <td><b>$20.00 </b>/ All photos</td>
+                                        <td>-</td>
+                                        <td><button type="button" class="btn btn-secondary ">Add</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="m-r-10">
+                                                <img src="/Content/img/leatherette.png" alt="magnet" class="rounded" width="100" />
+                                            </div>
+                                            <b>Leatherette</b>
+                                        </td>
+                                        <td>balah balah balah balah </td>
+                                        <td><b>$50.00 </b>/ leatherette</td>
+                                        <td><b>$20.00 </b>/ leatherette</td>
+                                        <td>
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Add
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="#">1</a>
+                                                <a class="dropdown-item" href="#">2</a>
+                                                <a class="dropdown-item" href="#">3</a>
+                                                <a class="dropdown-item" href="#">4</a>
+                                                <a class="dropdown-item" href="#">5</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div style="text-align: center;" id="photo_gallery_ctn" runat="server"></div>
-                <br />
+                </div>
+                <br/>
 
                 Leatherette
                 <select id="leatherette_select">

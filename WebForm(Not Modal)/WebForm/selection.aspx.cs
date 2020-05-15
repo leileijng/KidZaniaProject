@@ -142,20 +142,19 @@ namespace WebForm
             ///
 
             Dictionary<string, string> photomatch = new Dictionary<string, string>();
-            photomatch.Add("1", "1.jpg");
-            photomatch.Add("2", "2.jpg");
-            photomatch.Add("3", "3.jpg");
-            photomatch.Add("4", "4.jpg");
-            photomatch.Add("5", "5.jpg");
-            photomatch.Add("6", "6.jpg");
-            photomatch.Add("7", "7.jpg");
-            photomatch.Add("8", "8.jpg");
-            photomatch.Add("9", "9.jpg");
-            photomatch.Add("10", "10.jpg");
-            photomatch.Add("11", "11.jpg");
-            photomatch.Add("12", "12.jpg");
-            photomatch.Add("13", "13.jpg");
-            photomatch.Add("14", "14.jpg");
+            photomatch.Add("photoID1", "1.jpg");
+            photomatch.Add("photoID2", "2.jpg");
+            photomatch.Add("photoID3", "3.jpg");
+            photomatch.Add("photoID4", "4.jpg");
+            photomatch.Add("photoID5", "5.jpg");
+            photomatch.Add("photoID6", "6.jpg");
+            photomatch.Add("photoID7", "7.jpg");
+            photomatch.Add("photoID8", "8.jpg");
+            photomatch.Add("photoID9", "9.jpg");
+            photomatch.Add("photoID10", "10.jpg");
+            photomatch.Add("photoID11", "11.jpg");
+            photomatch.Add("photoID12", "12.jpg");
+            photomatch.Add("photoID13", "13.jpg");
 
             string currentApplicationPath = HttpContext.Current.Request.PhysicalApplicationPath;
             Debug.WriteLine("here" + currentApplicationPath);
@@ -222,31 +221,31 @@ namespace WebForm
                         //Finding the right place to close out the div element
                         
                     }
-                    photo_gallery_ctn.InnerHtml += "    </div>";
+                    //photo_gallery_ctn.InnerHtml += "    </div>";
 
                     //photo_gallery_ctn.InnerHtml += "    <div>";
                     //photo_gallery_ctn.InnerHtml += "        <input name=\"digital_cb\" id=\"dc_photo" + photoid + "\" type=\"checkbox\" checked=\"checked\" value=\"" + photoid + "\">";
                     //photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"dc_photo" + photoid + "_lbl\">Digital</label>";
                     //photo_gallery_ctn.InnerHtml += "    </div>";
 
-                    photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
-                    photo_gallery_ctn.InnerHtml += "<div id='myModala" + photoid + "' class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">";
-                    photo_gallery_ctn.InnerHtml += "<div class=\"modal-dialog\" role=\"document\">";
+                    //photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
+                    //photo_gallery_ctn.InnerHtml += "<div id='myModala" + photoid + "' class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">";
+                    //photo_gallery_ctn.InnerHtml += "<div class=\"modal-dialog\" role=\"document\">";
 
-                    photo_gallery_ctn.InnerHtml += "  <!-- The Close Button -->";
-                    photo_gallery_ctn.InnerHtml += "<span class=\"close\" onclick=\"document.getElementById('myModala" + photoid + "').style.display='none'\">&times;</span>";
-                    photo_gallery_ctn.InnerHtml += "  <!-- Modal Content (The Image) -->";
-                    photo_gallery_ctn.InnerHtml += "<img class=\"modal-content\" id=\"img01\" src='/Content/photos/" + photowatermarked_filename + "'> ";
-                    photo_gallery_ctn.InnerHtml += "  <!-- Modal Caption (Image Text) -->";
-                    photo_gallery_ctn.InnerHtml += "        <div class='modal-body'>";
+                    //photo_gallery_ctn.InnerHtml += "  <!-- The Close Button -->";
+                    //photo_gallery_ctn.InnerHtml += "<span class=\"close\" onclick=\"document.getElementById('myModala" + photoid + "').style.display='none'\">&times;</span>";
+                    //photo_gallery_ctn.InnerHtml += "  <!-- Modal Content (The Image) -->";
+                    //photo_gallery_ctn.InnerHtml += "<img class=\"modal-content\" id=\"img01\" src='/Content/photos/" + photowatermarked_filename + "'> ";
+                    //photo_gallery_ctn.InnerHtml += "  <!-- Modal Caption (Image Text) -->";
+                    //photo_gallery_ctn.InnerHtml += "        <div class='modal-body'>";
 
 
-                    photo_gallery_ctn.InnerHtml += "</div>";
-                    photo_gallery_ctn.InnerHtml += "</div>";
+                    //photo_gallery_ctn.InnerHtml += "</div>";
+                    //photo_gallery_ctn.InnerHtml += "</div>";
 
-                    photo_gallery_ctn.InnerHtml += "<script>";
-                    photo_gallery_ctn.InnerHtml += "  modal_load(" + photoid + "); ";
-                    photo_gallery_ctn.InnerHtml += "</script>";
+                    //photo_gallery_ctn.InnerHtml += "<script>";
+                    //photo_gallery_ctn.InnerHtml += "  modal_load(" + photoid + "); ";
+                    //photo_gallery_ctn.InnerHtml += "</script>";
                     
 
                     photo_gallery_ctn.InnerHtml += "</div>";
