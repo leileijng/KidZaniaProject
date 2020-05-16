@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Keychain, Magnet & Card</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/buttons.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/select.bootstrap4.css">
+	<link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/fixedHeader.bootstrap4.css">
+	<style>
+	.leftcol {
+	margin-right: 35px;
+    width: 35%;
+	}
+	
+	.rightcol {
+	width: 61%;
+	}
+	
+	#OD{
+	color: #3ac47d;
+	}
+	
+	#IC{
+	color: #f6b313
+	}
+	
+	.ODbox{
+	padding-left: 16px;
+	}
+	
+	.fa.fa-download.active{
+	color: #366d29;
+	}
+	
+	.fa.fa-trash.active{
+	color: #d00909;
+	}
+	.print{
+	margin-top: 11px;
+	}
+	
+	</style>
+</head>
+
+<body>
+<!-- ============================================================== -->
+    <!-- main wrapper -->
+    <!-- ============================================================== -->
+    <div class="dashboard-main-wrapper">
+        <!-- ============================================================== -->
+        <!-- navbar -->
+        <!-- ============================================================== -->
+        <div class="dashboard-header">
+            <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                <a class="navbar-brand" href="index.html"><img src="assets/images/kidzania.png" width="125" height="30"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto navbar-right-top">
+                        <li class="nav-item">
+                            <div id="custom-search" class="top-search-bar">
+                                <input class="form-control" type="text" placeholder="Search..">
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown notification">
+                            <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
+                                <li>
+                                    <div class="notification-title"> Notification</div>
+                                    <div class="notification-list">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item list-group-item-action active">
+                                                <div class="notification-info">
+                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-2.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Jeremy Rakestraw</span>accepted your invitation to join the team.
+                                                        <div class="notification-date">2 min ago</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                <div class="notification-info">
+                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-3.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">John Abraham </span>is now following you
+                                                        <div class="notification-date">2 days ago</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                <div class="notification-info">
+                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-4.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Monaan Pechi</span> is watching your main repository
+                                                        <div class="notification-date">2 min ago</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                <div class="notification-info">
+                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-5.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Jessica Caruso</span>accepted your invitation to join the team.
+                                                        <div class="notification-date">2 min ago</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="list-footer"> <a href="#">View all notifications</a></div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown connection">
+                            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-fw fa-th"></i> </a>
+                            <ul class="dropdown-menu dropdown-menu-right connection-dropdown">
+                                <li class="connection-list">
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                            <a href="#" class="connection-item"><img src="assets/images/github.png" alt="" > <span>Github</span></a>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                            <a href="#" class="connection-item"><img src="assets/images/dribbble.png" alt="" > <span>Dribbble</span></a>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                            <a href="#" class="connection-item"><img src="assets/images/dropbox.png" alt="" > <span>Dropbox</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                            <a href="#" class="connection-item"><img src="assets/images/bitbucket.png" alt=""> <span>Bitbucket</span></a>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                            <a href="#" class="connection-item"><img src="assets/images/mail_chimp.png" alt="" ><span>Mail chimp</span></a>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                            <a href="#" class="connection-item"><img src="assets/images/slack.png" alt="" > <span>Slack</span></a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="conntection-footer"><a href="#">More</a></div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown nav-user">
+                            <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
+                            <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+                                <div class="nav-user-info">
+                                    <h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
+                                    <span class="status"></span><span class="ml-2">Available</span>
+                                </div>
+                                <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end navbar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- left sidebar -->
+        <!-- ============================================================== -->
+        <div class="nav-left-sidebar">
+            <div class="menu-list">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav flex-column">
+                            <li class="nav-divider">
+                                Menu
+                            </li>
+							<li class="nav-item ">
+                                <a class="nav-link" href="ManageItems.html"  aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-table"></i>Manage Items</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="HardcopyPrinting.html"  aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-print"></i>Hardcopy Printing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-database"></i><p id="Keychain">Keychain, Magnet & Card</p> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="Paused-Orders.html" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-ban"></i>Paused Orders</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end left sidebar -->
+        <!-- ============================================================== -->
+        <!-- wrapper  -->
+        <!-- ============================================================== -->
+        <div class="dashboard-wrapper">
+            <div class="container-fluid dashboard-content">
+                <!-- ============================================================== -->
+                <!-- pageheader -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-header">
+                            <h2 class="pageheader-title">Keychain, Magnet & Card </h2>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- end pageheader -->
+                <!-- ============================================================== -->
+				
+				<div class="row">
+				
+                <div class="leftcol">
+                  
+                                <div class="card border-3 border-bottom-IC border-bottom-primary">
+								 <h5 class="card-header" id="IC">Incoming Orders</h5>
+                                   
+                                     <table class="table table-hover">
+                                       <thead>
+												 <th>Time</th>
+                                                 <th>Order Code</th>
+                                                 <th>Pause</th>                                    
+                                       </thead>
+                                       <tbody>
+                                         <tr>
+                                            <td>12:00:01</td>
+                                            <td>E34T2890</td>
+											<td><a><i class="fas fa-ban"></i><a></td>
+                                         </tr>
+										 <tr>
+                                            <td>12:00:23</td>
+                                            <td>U28M253</td>
+                                            <td><i class="fas fa-ban"></i></td>
+                                         </tr>
+										  <tr>
+                                            <td>12:01:04</td>
+                                            <td>A2343DA1</td>
+                                            <td><i class="fas fa-ban"></i></td>
+                                         </tr>
+										  <tr>
+                                            <td>12:24:34</td>
+                                            <td>MW903N2</td>
+											<td><a><i class="fas fa-ban"></i><a></td>
+                                         </tr>
+										  <tr>
+                                            <td>12:34:52</td>
+                                            <td>P99NXSL1</td>
+											<td><a><i class="fas fa-ban"></i><a></td>
+                                         </tr>
+										  <tr>
+                                            <td>12:37:21</td>
+                                            <td>USFDVS02</td>
+											<td><a><i class="fas fa-ban"></i><a></td>
+                                         </tr>
+										  <tr>
+                                            <td>12:41:02</td>
+                                            <td>32PSAXSL1</td>
+											<td><a><i class="fas fa-ban"></i><a></td>
+                                         </tr>
+										  <tr>
+                                            <td>12:42:34</td>
+                                            <td>P9DFDGQ</td>
+											<td><a><i class="fas fa-ban"></i><a></td>
+                                         </tr>
+										  <tr>
+                                            <td>12:43:01</td>
+                                            <td>XD243XSL</td>
+											<td><a><i class="fas fa-ban"></i><a></td>
+                                         </tr>
+                                       </tbody>
+                                     </table>
+                                </div>
+                </div>
+				
+				<div class="rightcol">
+
+                                <div class="card border-3 border-bottom-OD border-bottom-primary">
+								 <h5 class="card-header" id="OD">Order Detail</h5>
+                                   
+                                       <table class="table table-hover">
+                                       <thead>
+                                                 <th>Item</th>
+                                                 <th>Number</th>
+                                                 <th>Select Path</th>
+                                                 <th>Download</th>
+                                                 <th>Delete</th>
+                                                 <th>Complete</th>
+                                       </thead>
+    
+                                       <tbody>
+                                         <tr >
+                                            <td>Keychain</td>
+                                            <td>2</td>
+                                            <td>
+											
+                                              <form>
+                                                <div class="form-group">
+                                                    <select class="form-control form-control-sm" id="input-select">
+                                                      <option>--Select Path for Keychain--</option>
+                                                    </select>
+                                                </div>
+                                               </form>
+                                            
+											</td>
+											<td><i class="fa fa-download active"></i></td>
+											<td><i class="fa fa-trash active"></i></td>
+											<td><label class="custom-control custom-checkbox ODbox">
+                                                <input type="checkbox" class="custom-control-input"><span class="custom-control-label"></span>
+                                                </label>
+											</td>
+                                         </tr>
+										 <tr>
+										    <td>Magnet</td>
+                                            <td>0</td>
+                                            <td>
+											
+                                              <form>
+                                                <div class="form-group">
+                                                  
+                                                    <select class="form-control form-control-sm" id="input-select">
+                                                      <option>--Select Path for Magnet--</option>
+                                                    </select>
+                                                </div>
+                                               </form>
+                                           
+											</td>
+											<td><i class="fa fa-download"></i></td>
+											<td><i class="fa fa-trash"></i></td>
+											<td><i class="fa fa-check"></i></td>
+									     </tr>
+										 <tr>
+										    <td>Card</td>
+                                            <td>0</td>
+                                            <td>
+											
+                                              <form>
+                                                <div class="form-group">
+                                                    <select class="form-control form-control-sm" id="input-select">
+                                                      <option>--Select Path for Card--</option>
+                                                    </select>
+                                                </div>
+                                               </form>
+                                           
+											</td>
+											<td><i class="fa fa-download"></i></td>
+											<td><i class="fa fa-trash"></i></td>
+											<td><i class="fa fa-check"></i></td>
+									     </tr>
+                                       </tbody>
+                                     </table>
+                                 
+                                </div>
+                    
+				
+                                <div class="card border-3 border-bottom-KMC border-bottom-primary">
+								 
+                                   <div class="card-body">
+                            <div class="simple-card">
+                                <ul class="nav nav-tabs" id="myTab5" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active border-left-0" id="home-tab-simple" data-toggle="tab" href="#home-simple" role="tab" aria-controls="home" aria-selected="true">Print Keychain</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="profile-tab-simple" data-toggle="tab" href="#profile-simple" role="tab" aria-controls="profile" aria-selected="false">Print Magnet</a>
+                                    </li>
+                                    
+                                </ul>
+                                <div class="tab-content" id="myTabContent5">
+                                    <div class="tab-pane fade show active" id="home-simple" role="tabpanel" aria-labelledby="home-tab-simple">
+                                         <label for="input-select"></label>
+                                                <select class="form-control" id="input-select">
+                                                    <option selected disabled>--Select Printers--</option>
+													 <option>Printer 1</option>
+													 <option>Printer 2</option>
+                                                </select>
+												<div class="print">
+												<img src="assets/images/upload.png" alt="upload" style = "width:200px;">
+												<img src="assets/images/upload.png" alt="upload" style = "width:200px;">
+												<a href="#" class="btn btn-rounded btn-primary" style="margin-top: 103px; margin-left: 30px;">Print</a>
+												</div>
+                                    </div>
+                                    <div class="tab-pane fade" id="profile-simple" role="tabpanel" aria-labelledby="profile-tab-simple">
+                                          <label for="input-select"></label>
+                                                <select class="form-control" id="input-select">
+                                                    <option selected disabled>--Select Printers--</option>
+													 <option>Printer 1</option>
+													 <option>Printer 2</option>
+                                                </select>
+												<div class="print">
+												
+												<img src="assets/images/upload.png" alt="upload" style = "width:200px; margin-left: 121px;"">
+												<a href="#" class="btn btn-rounded btn-primary" style="margin-top: 103px; margin-left: 30px;">Print</a>
+												</div>
+                                    </div>
+                                  
+                                </div>
+                            </div>
+                     
+                        <!-- ============================================================== -->
+                        <!-- end simple tabs  -->
+                        <!-- ============================================================== -->
+                                    </div>
+                                </div>
+                     
+			    </div>
+				</div>
+            </div>
+			
+
+
+            
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                             Copyright © 2020 Kidzania. All rights reserved.</a>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- end main wrapper -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- end main wrapper -->
+    <!-- ============================================================== -->
+    <!-- Optional JavaScript -->
+    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <script src="assets/libs/js/main-js.js"></script>
+</body>
+ 
+</html>

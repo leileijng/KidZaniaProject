@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+ 
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/libs/css/style.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+    <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
+    <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
+    <link rel="stylesheet" href="assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/buttons.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/select.bootstrap4.css">
+	<link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/fixedHeader.bootstrap4.css">
+    <title>Hardcopy Printing</title>
+	<style>
+
+.rotate {
+    -moz-transition: all .5s linear;
+    -webkit-transition: all .5s linear;
+    transition: all .5s linear;
+	cursor: pointer;
+}
+.rotate.down {
+    -moz-transform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
+    transform:rotate(90deg);
+}
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+#rightsidebar {
+    position: fixed;
+	width: 375px;
+	right: -375px;
+    top: 68px;
+	z-index: 1032;
+    height: 100vh;
+    background: #f8f8f8;
+    color: #000000;
+    transition: all 0.3s;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+#rightsidebar.active {
+    right: 0;
+}
+
+#dismiss {
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    position: absolute;
+    top: 14px;
+    right: 10px;
+    cursor: pointer;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+#dismiss:hover {
+    background: #f8f8f8;
+    color: #7386D5;
+}
+.overlay {
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1029;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+.overlay.active {
+    display: block;
+    opacity: 1;
+}
+.sidebar-header{
+    padding-top: 8px;
+    margin-bottom: -9px;
+}
+.MP{
+    display: inline;
+	margin-right: 147px;
+	color: #71748D;
+}
+
+.MP-Available{
+    padding-left: 17px;
+    padding-top: 12px;
+    margin-bottom: 9px;
+	color: green;
+}
+
+.MP-NotAvailable{
+    padding-left: 17px;
+    padding-top: 27px;
+    margin-bottom: 9px;
+    color: red;
+}
+
+.printer{
+    border-bottom: 1px solid #e6e6f2;
+	width: 296px;
+	 margin-left: 53px;
+	 padding-bottom: 10px;
+}
+
+
+#p3{
+	display: inline;
+    margin-right: 44px;
+	color: #71748D;
+}
+
+#p2{
+	padding-top: 19px;
+}
+
+#p3-noink{
+    display: inline;
+    margin-right: 46px;
+    font-weight: bold;
+}
+
+#p4{
+	display: inline;
+    margin-right: 44px;
+	color: #71748D;
+}
+
+#p4-offline{
+    display: inline;
+    margin-right: 44px;
+    font-weight: bold;
+}
+
+</style>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- main wrapper -->
+    <!-- ============================================================== -->
+	<div class="overlay"></div>
+    <div class="dashboard-main-wrapper">
+
+	<!-- Sidebar  -->
+        <nav id="rightsidebar">
+            <div id="dismiss">
+                <i class="fas fa-times"></i>
+            </div>
+          <div class="card-header" style="background-color: #f2f2f3;">
+            <div class="sidebar-header" >
+                <h3><i class="fas fa-print" style="padding-right: 6px;"></i>Manage Printers</h3>
+            </div>
+          </div>
+         
+    
+    <h4 class="MP-Available"><i class="fas fa-check-circle"></i> Available</h4>
+	
+	<div class="printer">
+    <p class="MP"><i class="fas fa-print" style="padding-right: 6px;"></i>Printer 1</p>
+	
+	<button type="button" class="btn btn-rounded btn-primary" > Pause</button>
+	</div>
+	<div class="printer" id="p2">
+    <p class="MP"><i class="fas fa-print" style="padding-right: 6px;"></i>Printer 2</p>
+	<button type="button" class="btn btn-rounded btn-primary" > Pause</button>
+	</div>
+	
+	
+	<h4 class="MP-NotAvailable"><i class="fas fa-times-circle"></i> Not Available</h4>
+	<div class="printer">
+	<p id="p3"><i class="fas fa-print" style="padding-right: 6px;"></i>Printer 3</p>
+	<p id="p3-noink">No Ink</p>
+    <button type="button" class="btn btn-rounded btn-primary" > Resume</button>
+	</div>
+	<div class="printer" id="p2">
+	<p id="p4"><i class="fas fa-print" style="padding-right: 6px;"></i>Printer 4</p>
+	<p id="p4-offline">Offline</p>
+    <button type="button" class="btn btn-rounded btn-primary" > Resume</button>
+    </div>
+        </nav>
+        <!-- ============================================================== -->
+        <!-- navbar -->
+        <!-- ============================================================== -->
+        <div class="dashboard-header">
+            <nav class="navbar navbar-expand-lg bg-white fixed-top">
+                <a class="navbar-brand" href="index.html"><img src="assets/images/kidzania.png" width="125" height="30"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto navbar-right-top">
+                        <li class="nav-item">
+                            <div id="custom-search" class="top-search-bar">
+                                <input class="form-control" type="text" placeholder="Search..">
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown notification">
+                            <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
+                                <li>
+                                    <div class="notification-title"> Notification</div>
+                                    <div class="notification-list">
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item list-group-item-action active">
+                                                <div class="notification-info">
+                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-2.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Jeremy Rakestraw</span>accepted your invitation to join the team.
+                                                        <div class="notification-date">2 min ago</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                <div class="notification-info">
+                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-3.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">John Abraham </span>is now following you
+                                                        <div class="notification-date">2 days ago</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                <div class="notification-info">
+                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-4.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Monaan Pechi</span> is watching your main repository
+                                                        <div class="notification-date">2 min ago</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action">
+                                                <div class="notification-info">
+                                                    <div class="notification-list-user-img"><img src="assets/images/avatar-5.jpg" alt="" class="user-avatar-md rounded-circle"></div>
+                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Jessica Caruso</span>accepted your invitation to join the team.
+                                                        <div class="notification-date">2 min ago</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="list-footer"> <a href="#">View all notifications</a></div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown connection">
+                            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-fw fa-th"></i> </a>
+                            <ul class="dropdown-menu dropdown-menu-right connection-dropdown">
+                                <li class="connection-list">
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                            <a href="#" class="connection-item"><img src="assets/images/github.png" alt="" > <span>Github</span></a>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                            <a href="#" class="connection-item"><img src="assets/images/dribbble.png" alt="" > <span>Dribbble</span></a>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                            <a href="#" class="connection-item"><img src="assets/images/dropbox.png" alt="" > <span>Dropbox</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                            <a href="#" class="connection-item"><img src="assets/images/bitbucket.png" alt=""> <span>Bitbucket</span></a>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                            <a href="#" class="connection-item"><img src="assets/images/mail_chimp.png" alt="" ><span>Mail chimp</span></a>
+                                        </div>
+                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
+                                            <a href="#" class="connection-item"><img src="assets/images/slack.png" alt="" > <span>Slack</span></a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="conntection-footer"><a href="#">More</a></div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown nav-user">
+                            <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
+                            <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+                                <div class="nav-user-info">
+                                    <h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
+                                    <span class="status"></span><span class="ml-2">Available</span>
+                                </div>
+                                <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
+                                <a class="dropdown-item" href="#"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end navbar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- left sidebar -->
+        <!-- ============================================================== -->
+        <div class="nav-left-sidebar">
+            <div class="menu-list">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="d-xl-none d-lg-none" href="#">Dashboard</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav flex-column">
+                            <li class="nav-divider">
+                                Menu
+                            </li>
+							<li class="nav-item ">
+                                <a class="nav-link" href="ManageItems.html"  aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-table"></i>Manage Items</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link active" href="#"  aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-print"></i>Hardcopy Printing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="KeychainMagnet.html" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-database"></i><p id="Keychain">Keychain, Magnet & Card</p> </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="Paused-Orders.html" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-ban"></i>Paused Orders</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end left sidebar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- wrapper  -->
+        <!-- ============================================================== -->
+        <div class="dashboard-wrapper">
+                <div class="container-fluid dashboard-content ">
+                    <!-- ============================================================== -->
+                    <!-- pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">Hardcopy Printing</h2>
+								<div class="section-block">
+                                <a class="btn btn-demo" id="sidebarCollapse" data-toggle="modal" data-target="#myModal2"><i class="fa fa-print" style="padding-right: 6px;"></i>Manage Printers</a>
+                               
+                            </div>
+                                <p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
+               
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end pageheader  -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <!-- ====================================== -->
+                        <!-- justified tabs  -->
+                        <!-- ============================================================== -->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
+                            
+                            <div class="tab-regular">
+                                <ul class="nav nav-tabs" id="myTab7" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="home-tab-justify" data-toggle="tab" href="#home-justify" role="tab" aria-controls="home" aria-selected="true">Processing Orders</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="profile-tab-justify" data-toggle="tab" href="#profile-justify" role="tab" aria-controls="profile" aria-selected="false">Collected Orders</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content border-3 border-bottom-IC border-bottom-primary" id="myTabContent7"> 
+                                    <div class="tab-pane fade" id="profile-justify" role="tabpanel" aria-labelledby="profile-tab-justify">
+                                        <!--<p class="lead"> All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. </p>
+                                        <p>Phasellus non ante gravida, ultricies neque a, fermentum leo. Etiam ornare enim arcu, at venenatis odio mollis quis. Mauris fermentum elementum ligula in efficitur. Aliquam id congue lorem. Proin consectetur feugiasse platea dictumst. Pellentesque sed justo aliquet, posuere sem nec, elementum ante.</p>
+                                        <a href="#" class="btn btn-secondary">Go somewhere</a>-->
+								<table class="table table-hover">
+                                       <thead>
+									             <th></th>
+												 <th>Time</th>
+                                                 <th>Order Code</th>
+                                                 <th>Assigned Printer(s)</th>                                    
+                                       </thead>
+                                       <tbody>
+                                         <tr>
+										    <td><a data-toggle="collapse" data-target=".accordion"><i class="fa fa-chevron-right rotate"></i></a></td>
+                                            <td>12:00:07</td>
+                                            <td>E34T2890</td>
+											<td>1,4</td>
+                                         </tr>
+										 <tr class="accordion collapse">
+										    <td></td>
+                                            <td>
+                                              <div class="m-r-10"><img src="assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                              <div class="m-r-10"><img src="assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                              <div class="m-r-10"><img src="assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                            </td>
+											 <td></td>
+											  <td></td>
+									     </tr>
+										 <tr>
+										    <td><a data-toggle="collapse" data-target=".accordion2"><i class="fa fa-chevron-right rotate"></i></a></td>
+                                            <td>11:59:01</td>
+                                            <td>U28M253</td>
+                                            <td>2,3</td>
+                                         </tr>
+                                         <tr class="accordion2 collapse">
+                                            <td colspan="4">Hidden by default</td>
+                                         </tr>
+										  <tr>
+										  <td><a data-toggle="collapse" data-target=".accordion3"><i class="fa fa-chevron-right rotate"></i></a></td>
+                                            <td>11:58:37</td>
+                                            <td>A2343DA1</td>
+                                            <td>1,4</td>
+                                         </tr>
+                                         <tr class="accordion3 collapse">
+                                            <td colspan="4">Hidden by default</td>
+                                         </tr>
+										  <tr>
+										  <td><a data-toggle="collapse" data-target=".accordion4"><i class="fa fa-chevron-right rotate"></i></a></td>
+                                            <td>11:57:37</td>
+                                            <td>J93K2101</td>
+                                            <td>2,3</td>
+                                         </tr>
+                                         <tr class="accordion4 collapse">
+                                            <td colspan="4">Hidden by default</td>
+                                         </tr>
+										  <td><a data-toggle="collapse" data-target=".accordion5"><i class="fa fa-chevron-right rotate"></i></a></td>
+                                            <td>11:57:02</td>
+                                            <td>K343P011</td>
+                                            <td>1,2,4</td>
+                                         </tr>
+                                         <tr class="accordion5 collapse">
+                                            <td colspan="4">Hidden by default</td>
+                                         </tr>
+                                       </tbody>
+                                     </table>	
+                                    </div>
+                                    <div class="tab-pane fade show active" id="home-justify" role="tabpanel" aria-labelledby="home-tab-justify">
+                                     <table class="table table-hover">
+                                       <thead>
+									             <th></th>
+                                                 <th>Order Code</th>
+                                                 <th>Status</th>
+                                                 <th>Assigned Printer(s)</th>
+                                                 <th >Done/All</th>
+                                                 <th>Est. Waiting Time (min)</th>
+                                                 <th>Action</th>
+                                       </thead>
+    
+                                       <tbody>
+                                         <tr >
+										    <td><a  data-toggle="collapse" data-target=".accordion"><i class="fa fa-chevron-right rotate"></i></a></td>
+                                            <td>E34T2890</td>
+                                            <td><span class="badge badge-danger">Completed</span></td>
+                                            <td>1</td>
+											<td>1/1</td>
+											<td>-</td>
+											<td><label class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Collect</span>
+                                                </label>
+											</td>
+                                         </tr>
+										  <tr class="accordion collapse">
+                                            <td colspan="7">Hidden by default</td>
+                                         </tr>
+										 
+										 <tr>
+										    <td><a data-toggle="collapse" data-target=".accordion2"><i class="fa fa-chevron-right rotate"></i></a></td>
+                                            <td>U28M253</td>
+                                            <td><span class="badge badge-danger">Completed</span></td>
+                                            <td>2,3</td>
+											<td>2/2</td>
+											<td>-</td>
+											<td><label class="custom-control custom-checkbox">
+                                                <input type="checkbox" checked="" class="custom-control-input"><span class="custom-control-label">Collect</span>
+                                                </label>
+											</td>
+                                         </tr>
+                                         <tr class="accordion2 collapse">
+                                            <td colspan="7">Hidden by default</td>
+                                         </tr>
+										  <tr>
+										  <td><a data-toggle="collapse" data-target=".accordion3"><i class="fa fa-chevron-right rotate"></i></a></td>
+                                            <td>S2345PS3</td>
+                                            <td><span class="badge badge-success">Printing</span></td>
+                                            <td>2,3,4</td>
+											<td>1/3</td>
+											<td>-</td>
+											<td>-</td>
+                                         </tr>
+										 	 <tr colspan="7" class="accordion3 collapse">
+										    <td></td>
+                                            <td>
+                                              <div class="m-r-10"><img src="assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                            </td>
+											<td>Status: Pending</td>
+											<td>Printer 1</td>
+											<td></td>
+											<td></td>
+											<td></td>
+									     </tr>
+										 <tr colspan="7" class="accordion3 collapse">
+										    <td></td>
+                                            <td>
+                                              <div class="m-r-10"><img src="assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                            </td>
+											<td>Status: Pending</td>
+											<td>Printer 2</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											</div>
+									     </tr>
+                                        <tr colspan="7" class="accordion3 collapse">
+										    <td></td>
+                                            <td>
+                                              <div class="m-r-10"><img src="assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                            </td>
+											<td>Status: Complete</td>
+											<td>Printer 3</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											</div>
+									     </tr>
+										 <tr >
+										    <td><a  data-toggle="collapse" data-target=".accordion4"><i class="fa fa-chevron-right rotate"></i></a></td>
+                                            <td>A2343DA1</td>
+                                            <td><span class="badge badge-light">Waiting</span></td>
+                                            <td>1,4</td>
+											<td>0/2</td>
+											<td>10</td>
+											<td><label class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Pause</span>
+                                                </label>
+											</td>
+                                         </tr>
+										  <tr class="accordion4 collapse">
+                                            <td colspan="7">Hidden by default</td>
+                                         </tr>
+										 <tr >
+										    <td><a  data-toggle="collapse" data-target=".accordion4"><i class="fa fa-chevron-right rotate"></i></a></td>
+                                            <td>F23K2101</td>
+                                            <td><span class="badge badge-light">Waiting</span></td>
+                                            <td>2</td>
+											<td>0/1</td>
+											<td>15</td>
+											<td><label class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Pause</span>
+                                                </label>
+											</td>
+                                         </tr>
+										  <tr class="accordion4 collapse">
+                                            <td colspan="7">Hidden by default</td>
+                                         </tr>
+                                       </tbody>
+                                     </table>
+                                    </div>
+                                    
+                            </div>
+						  </div>
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- end justified tabs  -->
+                        <!-- ============================================================== -->
+                    </div>
+				</div>
+			
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                             Copyright © 2020 Kidzania. All rights reserved.</a>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                            <div class="text-md-right footer-links d-none d-sm-block">
+                                <a href="javascript: void(0);">About</a>
+                                <a href="javascript: void(0);">Support</a>
+                                <a href="javascript: void(0);">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- end footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- end wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- end main wrapper  -->
+    <!-- ============================================================== -->
+	
+    <!-- Optional JavaScript -->
+    <script src="assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+    <script src="assets/vendor/multi-select/js/jquery.multi-select.js"></script>
+    <script src="assets/libs/js/main-js.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="assets/vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="assets/vendor/datatables/js/buttons.bootstrap4.min.js"></script>
+    <script src="assets/vendor/datatables/js/data-table.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.0.4/js/dataTables.rowGroup.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
+ 
+<script>
+
+        $(document).ready(function () {
+            
+			 $(".rotate").click(function () {
+                $(this).toggleClass("down");
+             }) 
+
+
+            $('#dismiss, .overlay').on('click', function () {
+                $('#rightsidebar').removeClass('active');
+                $('.overlay').removeClass('active');
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#rightsidebar').addClass('active');
+                $('.overlay').addClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+</body>
+ 
+</html>
