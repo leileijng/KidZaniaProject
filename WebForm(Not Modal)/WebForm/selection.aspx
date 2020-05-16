@@ -963,7 +963,6 @@
         //This method will trigger when the select all is clicked and will disable and checked neccessary attribute and load methods
         function disableCheck() {
             checker = "stage2";
-            document.getElementById("all_digital").disabled = true;
             document.getElementById("item4").checked = true;
             document.getElementById("item4").disabled = true;
             deleteDigital();
@@ -973,8 +972,7 @@
         //Reverse the disablecheck method
         function uncheckDigital() {
             checker = "stage1";
-            document.getElementById("all_digital").disabled = false;
-            document.getElementById("all_digital").checked = false;
+            
             document.getElementById("item4").disabled = false;
             document.getElementById("item4").checked = false;
             openCart();
@@ -1281,10 +1279,10 @@
                                             <div class="m-r-10"><img src="/Content/img/digital.jpg" alt="keychain" class="rounded" width="100"/></div>
                                             <b>Digital</b>
                                         </td>
-                                        <td>Select 2 photos for it </td>
+                                        <td>Flat rate for all photos</td>
                                         <td><b>$20.00 </b>/ All photos</td>
                                         <td>-</td>
-                                        <td><button type="button" class="btn btn-secondary ">Add</button></td>
+                                        <td><button type="button" onclick="disableCheck()" class="btn btn-secondary ">Add</button></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -1343,13 +1341,13 @@
                 <br />
             </div>
 
-            <div id="cart" class="sidebar">
+            <div id="cart" style="height:546px" class="sidebar">
                 <div class="p-2 mt-1 mb-2" style="text-align: center">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="modal-title" style="margin-left: 10px">My Cart</span>
                     <button type="button" class="close" onclick="closeCart()">&times;</button>
                 </div>
-                <div id="cart_items" style="height:490px; overflow-y: scroll; overflow-x: hidden;">
+                <div id="cart_items" style="height:420px; overflow-y: scroll; overflow-x: hidden;">
                 </div>
                 <div class="totalPrice p-2 pl-3 bg-white" style="border-top: 1px solid #c3c3c3; height:60px; display: flex;">
                     <p style="-ms-flex: 1; flex: 1; font-size:1.02rem" class="mt-2">
