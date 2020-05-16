@@ -1,1 +1,0 @@
-﻿<%@ WebHandler Language="C#" CodeBehind="PrintESCPOSHandler.ashx.cs" Class="PhotoBoothPortal.Views.PrintESCPOSHandler" %>

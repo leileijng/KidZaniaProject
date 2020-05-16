@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="kidzaniaModelStoreContainer" CdmEntityContainer="DBModels">
+    <EntitySetMapping Name="emails">
+      <EntityTypeMapping TypeName="kidzaniaModel.email">
+        <MappingFragment StoreEntitySet="email">
+          <ScalarProperty Name="uid" ColumnName="uid" />
+          <ScalarProperty Name="email1" ColumnName="email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="payment_status">
+      <EntityTypeMapping TypeName="kidzaniaModel.payment_status">
+        <MappingFragment StoreEntitySet="payment_status">
+          <ScalarProperty Name="mid" ColumnName="mid" />
+          <ScalarProperty Name="transaction_id" ColumnName="transaction_id" />
+          <ScalarProperty Name="order_id" ColumnName="order_id" />
+          <ScalarProperty Name="acquirer_transaction_id" ColumnName="acquirer_transaction_id" />
+          <ScalarProperty Name="request_amount" ColumnName="request_amount" />
+          <ScalarProperty Name="request_ccy" ColumnName="request_ccy" />
+          <ScalarProperty Name="authorized_amount" ColumnName="authorized_amount" />
+          <ScalarProperty Name="authorized_ccy" ColumnName="authorized_ccy" />
+          <ScalarProperty Name="response_code" ColumnName="response_code" />
+          <ScalarProperty Name="response_msg" ColumnName="response_msg" />
+          <ScalarProperty Name="acquirer_response_code" ColumnName="acquirer_response_code" />
+          <ScalarProperty Name="acquirer_response_msg" ColumnName="acquirer_response_msg" />
+          <ScalarProperty Name="acquirer_authorization_code" ColumnName="acquirer_authorization_code" />
+          <ScalarProperty Name="created_timestamp" ColumnName="created_timestamp" />
+          <ScalarProperty Name="acquirer_created_timestamp" ColumnName="acquirer_created_timestamp" />
+          <ScalarProperty Name="request_timestamp" ColumnName="request_timestamp" />
+          <ScalarProperty Name="request_mid" ColumnName="request_mid" />
+          <ScalarProperty Name="transaction_type" ColumnName="transaction_type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="products">
+      <EntityTypeMapping TypeName="kidzaniaModel.product">
+        <MappingFragment StoreEntitySet="product">
+          <ScalarProperty Name="pro_id" ColumnName="pro_id" />
+          <ScalarProperty Name="pro_name" ColumnName="pro_name" />
+          <ScalarProperty Name="pro_price" ColumnName="pro_price" />
+          <ScalarProperty Name="pro_gst" ColumnName="pro_gst" />
+          <ScalarProperty Name="pro_description" ColumnName="pro_description" />
+          <ScalarProperty Name="pro_image" ColumnName="pro_image" />
+          <ScalarProperty Name="pro_visibility" ColumnName="pro_visibility" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="profiles">
+      <EntityTypeMapping TypeName="kidzaniaModel.profile">
+        <MappingFragment StoreEntitySet="profiles">
+          <ScalarProperty Name="pid" ColumnName="pid" />
+          <ScalarProperty Name="profile1" ColumnName="profile" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="purchases">
+      <EntityTypeMapping TypeName="kidzaniaModel.purchase">
+        <MappingFragment StoreEntitySet="purchase">
+          <ScalarProperty Name="purchase_id" ColumnName="purchase_id" />
+          <ScalarProperty Name="softcopy" ColumnName="softcopy" />
+          <ScalarProperty Name="eccopy" ColumnName="eccopy" />
+          <ScalarProperty Name="a5copy" ColumnName="a5copy" />
+          <ScalarProperty Name="mgcopy" ColumnName="mgcopy" />
+          <ScalarProperty Name="kccopy" ColumnName="kccopy" />
+          <ScalarProperty Name="lrcopy" ColumnName="lrcopy" />
+          <ScalarProperty Name="json" ColumnName="json" />
+          <ScalarProperty Name="total_price" ColumnName="total_price" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="purchase_status" ColumnName="purchase_status" />
+          <ScalarProperty Name="email_status" ColumnName="email_status" />
+          <ScalarProperty Name="hardcopy_status" ColumnName="hardcopy_status" />
+          <ScalarProperty Name="magnet_status" ColumnName="magnet_status" />
+          <ScalarProperty Name="ecard_status" ColumnName="ecard_status" />
+          <ScalarProperty Name="keychain_status" ColumnName="keychain_status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tests">
+      <EntityTypeMapping TypeName="kidzaniaModel.test">
+        <MappingFragment StoreEntitySet="test">
+          <ScalarProperty Name="idtest" ColumnName="idtest" />
+          <ScalarProperty Name="member" ColumnName="member" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
