@@ -1,0 +1,227 @@
+﻿@{
+    Layout = "~/Views/Shared/Menu.cshtml";
+}
+
+<div class="container-fluid dashboard-content">
+    <!-- ============================================================== -->
+    <!-- pageheader -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="page-header">
+                <h2 class="pageheader-title">Keychain, Magnet & Card </h2>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- end pageheader -->
+    <!-- ============================================================== -->
+
+    <div class="row">
+
+        <div class="leftcol">
+
+            <div class="card border-3 border-bottom-IC border-bottom-primary">
+                <h5 class="card-header" id="IC">Incoming Orders</h5>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Order Code</th>
+                            <th>Pause</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>12:00:01</td>
+                            <td>E34T2890</td>
+                            <td><a><i class="fas fa-ban"></i><a></td>
+                        </tr>
+                        <tr>
+                            <td>12:00:23</td>
+                            <td>U28M253</td>
+                            <td><i class="fas fa-ban"></i></td>
+                        </tr>
+                        <tr>
+                            <td>12:01:04</td>
+                            <td>A2343DA1</td>
+                            <td><i class="fas fa-ban"></i></td>
+                        </tr>
+                        <tr>
+                            <td>12:24:34</td>
+                            <td>MW903N2</td>
+                            <td><a><i class="fas fa-ban"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td>12:34:52</td>
+                            <td>P99NXSL1</td>
+                            <td><a><i class="fas fa-ban"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td>12:37:21</td>
+                            <td>USFDVS02</td>
+                            <td><a><i class="fas fa-ban"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td>12:41:02</td>
+                            <td>32PSAXSL1</td>
+                            <td><a><i class="fas fa-ban"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td>12:42:34</td>
+                            <td>P9DFDGQ</td>
+                            <td><a><i class="fas fa-ban"></i></a></td>
+                        </tr>
+                        <tr>
+                            <td>12:43:01</td>
+                            <td>XD243XSL</td>
+                            <td><a><i class="fas fa-ban"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="rightcol">
+
+            <div class="card border-3 border-bottom-OD border-bottom-primary">
+                <h5 class="card-header" id="OD">Order Detail</h5>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Number</th>
+                            <th>Select Path</th>
+                            <th>Download</th>
+                            <th>Delete</th>
+                            <th>Complete</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Keychain</td>
+                            <td>2</td>
+                            <td>
+
+                                <form>
+                                    <div class="form-group">
+                                        <select class="form-control form-control-sm" id="input-select">
+                                            <option>--Select Path for Keychain--</option>
+                                        </select>
+                                    </div>
+                                </form>
+
+                            </td>
+                            <td><i class="fa fa-download active"></i></td>
+                            <td><i class="fa fa-trash active"></i></td>
+                            <td>
+                                <label class="custom-control custom-checkbox ODbox">
+                                    <input type="checkbox" class="custom-control-input"><span class="custom-control-label"></span>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Magnet</td>
+                            <td>0</td>
+                            <td>
+
+                                <form>
+                                    <div class="form-group">
+
+                                        <select class="form-control form-control-sm" id="input-select">
+                                            <option>--Select Path for Magnet--</option>
+                                        </select>
+                                    </div>
+                                </form>
+
+                            </td>
+                            <td><i class="fa fa-download"></i></td>
+                            <td><i class="fa fa-trash"></i></td>
+                            <td><i class="fa fa-check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Card</td>
+                            <td>0</td>
+                            <td>
+
+                                <form>
+                                    <div class="form-group">
+                                        <select class="form-control form-control-sm" id="input-select">
+                                            <option>--Select Path for Card--</option>
+                                        </select>
+                                    </div>
+                                </form>
+
+                            </td>
+                            <td><i class="fa fa-download"></i></td>
+                            <td><i class="fa fa-trash"></i></td>
+                            <td><i class="fa fa-check"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <div class="card border-3 border-bottom-KMC border-bottom-primary">
+
+                <div class="card-body">
+                    <div class="simple-card">
+                        <ul class="nav nav-tabs" id="myTab5" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active border-left-0" id="home-tab-simple" data-toggle="tab" href="#home-simple" role="tab" aria-controls="home" aria-selected="true">Print Keychain</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab-simple" data-toggle="tab" href="#profile-simple" role="tab" aria-controls="profile" aria-selected="false">Print Magnet</a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content" id="myTabContent5">
+                            <div class="tab-pane fade show active" id="home-simple" role="tabpanel" aria-labelledby="home-tab-simple">
+                                <label for="input-select"></label>
+                                <select class="form-control" id="input-select">
+                                    <option selected disabled>--Select Printers--</option>
+                                    <option>Printer 1</option>
+                                    <option>Printer 2</option>
+                                </select>
+                                <div class="print">
+                                    <img src="~/assets/images/upload.png" alt="upload" style="width:200px;">
+                                    <img src="~/assets/images/upload.png" alt="upload" style="width:200px;">
+                                    <a href="#" class="btn btn-rounded btn-primary" style="margin-top: 103px; margin-left: 30px;">Print</a>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="profile-simple" role="tabpanel" aria-labelledby="profile-tab-simple">
+                                <label for="input-select"></label>
+                                <select class="form-control" id="input-select">
+                                    <option selected disabled>--Select Printers--</option>
+                                    <option>Printer 1</option>
+                                    <option>Printer 2</option>
+                                </select>
+                                <div class="print">
+
+                                    <img src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-left: 121px;" ">
+                                    <a href="#" class="btn btn-rounded btn-primary" style="margin-top: 103px; margin-left: 30px;">Print</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ============================================================== -->
+                    <!-- end simple tabs  -->
+                    <!-- ============================================================== -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.nav-link').removeClass("active");
+        $('#menuOthers').addClass("active");
+    });
+</script>
