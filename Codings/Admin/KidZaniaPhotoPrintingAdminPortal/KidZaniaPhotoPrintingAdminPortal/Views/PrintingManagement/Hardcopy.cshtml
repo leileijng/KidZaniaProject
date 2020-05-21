@@ -27,14 +27,14 @@
         <!-- justified tabs  -->
         <!-- ============================================================== -->
         <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
-            <input id="myInput" type="text" onkeyup="myFunction()" placeholder="Search..">
+            <input id="myInput" type="text" onkeyup="searchFunction()" placeholder="Search..">
             <div class="tab-regular">
                 <ul class="nav nav-tabs" id="myTab7" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="home-tab-justify" data-toggle="tab" href="#home-justify" role="tab" aria-controls="home" aria-selected="true">Processing Orders</a>
+                        <a class="nav-link active" id="home-tab-justify" data-toggle="tab" href="#home-justify" role="tab" aria-controls="home" aria-selected="true" onclick="toggleTable()">Processing Orders</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="profile-tab-justify" data-toggle="tab" href="#profile-justify" role="tab" aria-controls="profile" aria-selected="false">Collected Orders</a>
+                        <a class="nav-link" id="profile-tab-justify" data-toggle="tab" href="#profile-justify" role="tab" aria-controls="profile" aria-selected="false" onclick="toggleTable()">Collected Orders</a>
                     </li>
                 </ul>
                 <div class="tab-content border-3 border-bottom-IC border-bottom-primary" id="myTabContent7">
@@ -49,56 +49,58 @@
                                 </tr>
                             </thead>
 
-                            <tbody>
-                                <tr>
+                            <tbody id="completedOrders">
+                                <tr class="completedOrderRow">
                                     <td><i data-toggle="collapse" data-target=".accordion" class="fa fa-chevron-right rotate"></i></td>
                                     <td>12:00:07</td>
                                     <td>E34T2890</td>
-                                    <td>1,4</td>
+                                    <td>2,3,4</td>
                                 </tr>
                                 <tr class="accordion collapse">
                                     <td></td>
-                                    <td colspan="2">
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td><i data-toggle="collapse" data-target=".accordion2" class="fa fa-chevron-right rotate"></i></td>
-                                    <td>11:59:01</td>
-                                    <td>U28M253</td>
-                                    <td>2,3</td>
-                                </tr>
-                                <tr class="accordion2 collapse">
-                                    <td></td>
-                                    <td colspan="2">
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                    <td colspan="3">
+                                        <div class="m-r-10"><img src="~/Content/customerPhoto/1.jpg" alt="user" class="rounded" width="55"></div>
+                                        <div class="m-r-10"><img src="~/Content/customerPhoto/11.jpg" alt="user" class="rounded" width="55"></div>
+                                        <div class="m-r-10"><img src="~/Content/customerPhoto/3.jpg" alt="user" class="rounded" width="55"></div>
                                     </td>
                                     <td></td>
                                 </tr>
 
-                                <tr>
+                                <tr class="completedOrderRow">
+                                    <td><i data-toggle="collapse" data-target=".accordion2" class="fa fa-chevron-right rotate"></i></td>
+                                    <td>11:59:01</td>
+                                    <td>U28M253</td>
+                                    <td>2,3,4</td>
+                                </tr>
+
+                                <tr class="accordion2 collapse">
+                                    <td></td>
+                                    <td colspan="3">
+                                        <div class="m-r-10"><img src="~/Content/customerPhoto/4.jpg" alt="user" class="rounded" width="55"></div>
+                                        <div class="m-r-10"><img src="~/Content/customerPhoto/10.jpg" alt="user" class="rounded" width="55"></div>
+                                        <div class="m-r-10"><img src="~/Content/customerPhoto/9.jpg" alt="user" class="rounded" width="55"></div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+
+                                <tr class="completedOrderRow">
                                     <td><i data-toggle="collapse" data-target=".accordion3" class="fa fa-chevron-right rotate"></i></td>
                                     <td>11:58:37</td>
                                     <td>A2343DA1</td>
-                                    <td>1,4</td>
+                                    <td>1,4,3</td>
                                 </tr>
 
                                 <tr class="accordion3 collapse">
                                     <td></td>
-                                    <td colspan="2">
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                    <td colspan="3">
+                                        <div class="m-r-10"><img src="~/Content/customerPhoto/6.jpg" alt="user" class="rounded" width="55"></div>
+                                        <div class="m-r-10"><img src="~/Content/customerPhoto/3.jpg" alt="user" class="rounded" width="55"></div>
+                                        <div class="m-r-10"><img src="~/Content/customerPhoto/5.jpg" alt="user" class="rounded" width="55"></div>
                                     </td>
                                     <td></td>
                                 </tr>
 
-                                <tr>
+                                <tr class="completedOrderRow">
                                     <td><i data-toggle="collapse" data-target=".accordion4" class="fa fa-chevron-right rotate"></i></td>
                                     <td>11:57:37</td>
                                     <td>J93K2101</td>
@@ -107,27 +109,30 @@
 
                                 <tr class="accordion4 collapse">
                                     <td></td>
-                                    <td colspan="2">
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                    <td colspan="3">
+                                        <div class="m-r-10"><img src="~/Content/customerPhoto/8.jpg" alt="user" class="rounded" width="55"></div>
+                                        <div class="m-r-10"><img src="~/Content/customerPhoto/1.jpg" alt="user" class="rounded" width="55"></div>
                                     </td>
                                     <td></td>
                                 </tr>
-                                <tr>
+                                
+                                <tr class="completedOrderRow">
                                     <td><i data-toggle="collapse" data-target=".accordion5" class="fa fa-chevron-right rotate"></i></td>
                                     <td>11:57:02</td>
                                     <td>K343P011</td>
-                                    <td>1,2,4</td>
+                                    <td>1</td>
                                 </tr>
+                                
                                 <tr class="accordion5 collapse">
                                     <td></td>
-                                    <td colspan="2">
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                    <td colspan="3">
+                                        <div class="m-r-10"><img src="~/Content/customerPhoto/13.jpg" alt="user" class="rounded" width="55"></div>
                                     </td>
                                     <td></td>
+                                </tr>
+
+                                <tr style="display:none" class="noOrderFoundRow">
+                                    <td colspan="4"> No order found.</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -139,7 +144,20 @@
                                 <tr>
                                     <th></th>
                                     <th>Order Code</th>
-                                    <th>Status</th>
+                                    <th>
+                                        <div class="dropdown">
+                                            <div class="dropdown-toggle" data-toggle="dropdown">
+                                                Status
+                                                <span class="caret"></span>
+                                            </div>
+                                            <ul class="dropdown-menu p-0">
+                                                <li style="border-bottom: 1px solid rgb(230, 230, 242);" class="pb-1 pl-3 pt-1" onclick="filterOrderByStatus('orderRow')">All</li>
+                                                <li style="border-bottom: 1px solid rgb(230, 230, 242);" class="pb-1 pl-3 pt-1" onclick="filterOrderByStatus('waiting')">Waiting Orders</li>
+                                                <li style="border-bottom: 1px solid rgb(230, 230, 242);" class="pb-1 pl-3 pt-1" onclick="filterOrderByStatus('printing')">Printing Orders</li>
+                                                <li class="pl-3 pt-1 pb-1" onclick="filterOrderByStatus('completed')">Completed Orders</li>
+                                            </ul>
+                                        </div>
+                                    </th>
                                     <th>Assigned Printer(s)</th>
                                     <th>Done/All</th>
                                     <th>Est. Waiting Time (min)</th>
@@ -148,7 +166,7 @@
                             </thead>
 
                             <tbody id="myTable">
-                                <tr>
+                                <tr class="orderRow completed">
                                     <td><i data-toggle="collapse" data-target=".CollapsePhotos1" class="fa fa-chevron-right rotate"></i></td>
                                     <td>E34T2890</td>
                                     <td><span class="badge badge-danger">Completed</span></td>
@@ -161,10 +179,11 @@
                                         </label>
                                     </td>
                                 </tr>
+
                                 <tr colspan="7" class="CollapsePhotos1 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                        <img src="~/Content/customerPhoto/1.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Completed</td>
                                     <td>Printer 1</td>
@@ -174,7 +193,7 @@
                                 </tr>
 
 
-                                <tr>
+                                <tr class="orderRow completed">
                                     <td><i data-toggle="collapse" data-target=".CollapsePhotos2" class="fa fa-chevron-right rotate"></i></td>
                                     <td>U28M253</td>
                                     <td><span class="badge badge-danger">Completed</span></td>
@@ -191,7 +210,7 @@
                                 <tr colspan="7" class="CollapsePhotos2 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                       <img src="~/Content/customerPhoto/2.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Completed</td>
                                     <td>Printer 3</td>
@@ -203,7 +222,7 @@
                                 <tr colspan="7" class="CollapsePhotos2 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                       <img src="~/Content/customerPhoto/3.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Completed</td>
                                     <td>Printer 2</td>
@@ -214,7 +233,7 @@
 
 
 
-                                <tr>
+                                <tr class="orderRow printing">
                                     <td><i data-toggle="collapse" data-target=".CollapsePhotos3" class="fa fa-chevron-right rotate"></i></td>
                                     <td>S2345PS3</td>
                                     <td><span class="badge badge-success">Printing</span></td>
@@ -227,7 +246,7 @@
                                 <tr colspan="7" class="CollapsePhotos3 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                       <img src="~/Content/customerPhoto/4.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Pending</td>
                                     <td>Printer 1</td>
@@ -238,7 +257,7 @@
                                 <tr colspan="7" class="CollapsePhotos3 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                        <img src="~/Content/customerPhoto/5.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Pending</td>
                                     <td>Printer 2</td>
@@ -249,7 +268,7 @@
                                 <tr colspan="7" class="CollapsePhotos3 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                        <img src="~/Content/customerPhoto/6.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Complete</td>
                                     <td>Printer 3</td>
@@ -258,7 +277,7 @@
                                     <td></td>
                                 </tr>
 
-                                <tr>
+                                <tr class="orderRow waiting">
                                     <td><i data-toggle="collapse" data-target=".completedPhotos4" class="fa fa-chevron-right rotate"></i></td>
                                     <td>A2343DA1</td>
                                     <td><span class="badge badge-light">Waiting</span></td>
@@ -271,10 +290,10 @@
                                         </label>
                                     </td>
                                 </tr>
-                                <tr colspan="7" class="completedPhotos4 collapse">
+                                <tr class="completedPhotos4 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                        <img src="~/Content/customerPhoto/7.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Pending</td>
                                     <td>Printer 1</td>
@@ -282,10 +301,10 @@
                                     <td></td>
                                     <td></td>
                                 </tr>
-                                <tr colspan="7" class="completedPhotos4 collapse">
+                                <tr class="completedPhotos4 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                        <img src="~/Content/customerPhoto/8.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Pending</td>
                                     <td>Printer 4</td>
@@ -296,7 +315,7 @@
 
 
 
-                                <tr>
+                                <tr class="orderRow waiting">
                                     <td><i data-toggle="collapse" data-target=".completedPhotos5" class="fa fa-chevron-right rotate"></i></td>
                                     <td>F23K2101</td>
                                     <td><span class="badge badge-light">Waiting</span></td>
@@ -309,10 +328,10 @@
                                         </label>
                                     </td>
                                 </tr>
-                                <tr colspan="7" class="completedPhotos5 collapse">
+                                <tr  class="completedPhotos5 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                        <img src="~/Content/customerPhoto/9.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Pending</td>
                                     <td>Printer 2</td>
@@ -321,6 +340,9 @@
                                     <td></td>
                                 </tr>
 
+                                <tr style="display:none" class="noOrderFoundRow">
+                                    <td colspan="7"> No order found.</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -330,56 +352,129 @@
         </div>
     </div>
 </div>
-
-
-<script type="text/javascript">
-
-    function myFunction() {
-  var input, filter, table, tr, td, i;
-  var input = document.getElementById("myInput");
-  var filter = input.value.toUpperCase();
-  
-  var table = document.getElementById("myTable");
-  var trList = table.getElementsByTagName("tr");
-  
-  for (i = 0; i < trList.length; i++)
-  {
-    //don't initiate search unless user types at least 3 characters. This will greatly improve performance and usability especially with large tables.
-    if (filter.length >= 3)
-    {
-	  var match = false;
-      var tdList = trList[i].getElementsByTagName("td");
-
-	  //loop through every td
-	  for (j = 0; j < tdList.length; j++)
-	  {
-	    var td = tdList[j];
-
-        if (td)
-	    {
-          if (td.innerText.toUpperCase().indexOf(filter) > -1) {
-		    match = true;
-          }
-	    }
-      }
-	  
-	  if (match == true)
-	  {
-        trList[i].style.display = "";
-	  }
-	  else
-	  {
-		trList[i].style.display = "none";
-	  }
-	}
-    else
-    {
-      trList[i].style.display = "";
+<style>
+    .dropdown-menu {
+        min-width: 180px !important;
     }
-  }
-}
+    .dropdown-toggle:hover{
+        cursor:pointer;
+    }
+    .dropdown-menu li:hover {
+        cursor: pointer;
+        background-color:antiquewhite;
+    }
+    </style>
+<script src="~/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    var currentTable = "processingOrders";
 
+    function toggleTable() {
+        $("#myInput").val("");
+        if ($('#profile-tab-justify').hasClass("active")) {
+            currentTable = "processingOrders";
+        }
+        else if ($('#home-tab-justify').hasClass("active")) {
+            currentTable = "completedOrders";
+        }
+        console.log("currentTable is" + currentTable);
+    }
+
+
+     function filterOrderByStatus(status) {
+        var trList = $('#myTable .orderRow');
+
+ 
+
+        console.log(status);
+        trList.each(function () {
+            $(this).css("display", "");
+            if (!$(this).hasClass(status)) {
+                $(this).css("display", "none");
+            }
+        });
+        $(".fa-chevron-right").attr("aria-expanded", "false");
+        $(".fa-chevron-right").removeClass('down');
+        $('.collapse').removeClass('show');
+    }
+
+ 
+
+
+    function searchFunction() {
+        var input, filter, td, i;
+        var input = $("#myInput").val();
+        var filter = input.toUpperCase();
+        var trList;
+        if (currentTable == "processingOrders") {
+            trList = $('#myTable .orderRow');
+        }
+        else if (currentTable == "completedOrders") {
+            trList = $('#completedOrders .completedOrderRow');
+        }
+
+ 
+
+        
+        //don't initiate search unless user types at least 3 characters. This will greatly improve performance and usability especially with large tables.
+        if (filter.length >= 3) {
+            $(".fa-chevron-right").attr("aria-expanded", "false");
+            $(".fa-chevron-right").removeClass('down');
+            $('.collapse').removeClass('show');
+            var findOrder = false;
+            for (i = 0; i < trList.length; i++) {
+                var match = false;
+                var tdList = trList[i].getElementsByTagName("td");
+                //loop through every td
+                for (j = 0; j < tdList.length; j++) {
+                    var td = tdList[j];
+
+ 
+
+                    if (td) {
+                        if (td.innerText.toUpperCase().indexOf(filter) > -1) {
+                            match = true;
+                            findOrder = true;
+                        }
+                    }
+                }
+
+ 
+
+                if (match == true) {
+                    trList[i].style.display = "";
+                }
+                else {
+                    trList[i].style.display = "none";
+
+ 
+
+                }
+
+ 
+
+            }
+
+ 
+
+            if (!findOrder) {
+                $('.noOrderFoundRow').css("display", "");
+            }
+        }
+        else {
+            for (i = 0; i < trList.length; i++) {
+                trList[i].style.display = "";
+            }
+                $('.noOrderFoundRow').css("display", "none");
+            }
+        
+        
+    }
+    
     $(document).ready(function () {
         $('#menuHardcopy').addClass("active");
+
+ 
+
+
     });
 </script>

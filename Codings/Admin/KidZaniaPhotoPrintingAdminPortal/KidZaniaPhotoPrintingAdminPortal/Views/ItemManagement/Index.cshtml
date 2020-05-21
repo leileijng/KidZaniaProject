@@ -21,13 +21,16 @@
         <div id="myModal" class="modal fade">
             <div class="modal-dialog modal-confirm">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="icon-box">
-                            <i class="m-r-10 mdi mdi-close"></i>
-                        </div>
-                        <h4 class="modal-title">Are you sure?</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <div class="modal-header modal-header-delete">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Delete Item</h5>
+                        <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
                     </div>
+                    <div class="icon-box">
+                        <i class="m-r-10 mdi mdi-close"></i>
+                    </div>
+                    <h4 class="modal-title">Are you sure?</h4>
                     <div class="modal-body">
                         <p>Do you really want to delete these record?</p>
                     </div>
@@ -38,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <!-- Modal -->
+        <!-- Add Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -51,7 +54,23 @@
                     <div class="modal-body">
                         <div style="display: flex;">
                             <div style="-ms-flex:1; flex:1;">
-                                <p></p><img src="~/assets/images/upload.png" alt="upload" style="width:200px;">
+                                <img src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-top: -14px;">
+                                <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
+                                    <p>Visibility<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-6" style="float: right; margin-right: 9px;">
+                                    <p style="margin-right: -26px;">Photo Product<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
                             </div>
                             <div style="-ms-flex:1; flex:1;">
                                 <div class="form-group col-md-12">
@@ -63,22 +82,32 @@
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label for="priceInput" class="font-small font-weight-medium">
-                                        Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
+                                        Original Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
                                     </label>
                                     <input type="text" id="priceNameInput" name="priceNameInput" class="form-control" placeholder="$ e.g. 25.00" />
                                     <span></span>
                                 </div>
                                 <div class="form-group col-md-12">
-                                    <p>Visibility<span class="compulsoryInput d-inline"> *</span></p>
-                                    <!-- Rounded switch -->
-                                    <label class="switch">
-                                        <input type="checkbox">
-                                        <span class="slider round"></span>
+                                    <label for="priceInput" class="font-small font-weight-medium">
+                                        PWP Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
                                     </label>
+                                    <input type="text" id="priceNameInput" name="priceNameInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
                                 </div>
+                                <div class="form-group col-md-12">
+                                    <label for="QCInput" class="font-small font-weight-medium">
+                                        Quantity Constraints <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <select class="custom-select d-block w-100" id="input-select">
+                                        <option>--None--</option>
+                                        <option>Even Numbered units</option>
+                                        <option>Max 1 unit 1 digital</option>
+                                    </select>
+                                </div>
+
                             </div>
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12" style="margin-top: -10px;">
                             <label for="commentsInput" class="font-small font-weight-medium">
                                 Description
                             </label>
@@ -89,10 +118,90 @@
                         <div class="modal-footer">
                             <button type="reset" class="btn btn-grey">Clear</button>
                             <button type="button" class="btn btn-primary" id="SubmitBtn">Add Item</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-edit">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Edit Item</h5>
+                        <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <div style="display: flex;">
+                            <div style="-ms-flex:1; flex:1;">
+                                <img src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-top: -14px;">
+                                <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
+                                    <p>Visibility<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-6" style="float: right; margin-right: 9px;">
+                                    <p style="margin-right: -26px;">Photo Product<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div style="-ms-flex:1; flex:1;">
+                                <div class="form-group col-md-12">
+                                    <label for="ItemNameInput" class="font-small font-weight-medium">
+                                        Item Name <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="ItemNameInput" name="ItemNameInput" class="form-control" placeholder="Please key in item name" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="priceInput" class="font-small font-weight-medium">
+                                        Original Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="priceNameInput" name="priceNameInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="priceInput" class="font-small font-weight-medium">
+                                        PWP Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="priceNameInput" name="priceNameInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="QCInput" class="font-small font-weight-medium">
+                                        Quantity Constraints <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <select class="custom-select d-block w-100" id="input-select">
+                                        <option>--None--</option>
+                                        <option>Even Numbered units</option>
+                                        <option>Max 1 unit 1 digital</option>
+                                    </select>
+                                </div>
 
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12" style="margin-top: -10px;">
+                            <label for="commentsInput" class="font-small font-weight-medium">
+                                Description
+                            </label>
+                            <textarea type="text" id="commentsInput" name="commentsInput" class="form-control" placeholder="Enter Description"></textarea>
+                            <span></span>
                         </div>
 
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-grey">Clear</button>
+                            <button type="button" class="btn btn-primary" id="SubmitBtn">Save Changes</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -108,14 +217,14 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <div class="row">
-                                <div class="col-sm-3 col-md-3">
+                                <div class="col-sm-3 col-md-3" style="flex:1;">
                                     <div class="add">
                                         <button href="#exampleModal" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                             Add New Item
                                         </button>
                                     </div>
                                 </div>
-                                <div class="gst">
+                                <div class="gst" style="flex:1;">
                                     <label>GST :</label>
                                     <input type="text" class="percentage-inputmask" id="percentage-mask" placeholder="7%">
                                 </div>
@@ -124,7 +233,7 @@
                             <table id="example" class="table table-striped table-bordered second">
                                 <thead>
                                     <tr>
-                                        <th># Item ID</th>
+                                        <th>Item ID</th>
                                         <th>Image</th>
                                         <th>Item Name</th>
                                         <th>Description</th>
@@ -134,8 +243,6 @@
                                         <th>Photo Product</th>
                                         <th>Visibility</th>
                                         <th>Actions</th>
-                                        <th>Created By</th>
-                                        <th>Date Created</th>
                                         <th>Updated By</th>
                                         <th>Date Updated</th>
                                     </tr>
@@ -144,7 +251,7 @@
                                     <tr>
                                         <td>1</td>
                                         <td>
-                                            <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                            <div class="m-r-10"><img src="~/Content/ProductPhoto/magnet.jpg" alt="user" width="55"></div>
                                         </td>
                                         <td> Magnet </td>
                                         <td>Phasellus non ante gravida, ultricies neque a</td>
@@ -169,18 +276,50 @@
                                                 <span class="slider round"></span>
                                             </label>
                                         </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        <td> Admin1 </td>
-                                        <td>10 February 2020</td>
+                                        <td><a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
+
                                         <td> Admin2 </td>
                                         <td>11 February 2020</td>
                                     </tr>
                                     <tr>
                                         <td>2</td>
                                         <td>
-                                            <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                            <div class="m-r-10"><img src="~/Content/ProductPhoto/keychain.jpg" alt="user" width="55"></div>
                                         </td>
                                         <td> Keychain </td>
+                                        <td>Phasellus non ante gravida, ultricies neque a</td>
+                                        <td><span class="text-dark font-weight-bold">$30.00</span><small class="text-mute"> /$1.24 </small> </td>
+                                        <td><span class="text-dark font-weight-bold">$19.00</span><small class="text-mute"> /$1.24 </small></td>
+                                        <td>
+                                            <select class="custom-select d-block w-100" id="input-select">
+                                                <option>--None--</option>
+                                                <option>Even Numbered units</option>
+                                                <option>Max 1 unit 1 digital</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <label class="switch">
+                                                <input type="checkbox" checked>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <label class="switch">
+                                                <input type="checkbox" checked>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </td>
+                                        <td><a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
+
+                                        <td> Admin2 </td>
+                                        <td>11 February 2020</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>
+                                            <div class="m-r-10"><img src="~/Content/ProductPhoto/card.jpg" alt="user" width="55"></div>
+                                        </td>
+                                        <td> Establishment Card </td>
                                         <td>Phasellus non ante gravida, ultricies neque a</td>
                                         <td><span class="text-dark font-weight-bold">$30.00</span><small class="text-mute"> /$1.24 </small> </td>
                                         <td><span class="text-dark font-weight-bold">$19.00</span><small class="text-mute"> /$1.24 </small></td>
@@ -203,52 +342,17 @@
                                                 <span class="slider round"></span>
                                             </label>
                                         </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        <td> Admin1 </td>
-                                        <td>10 February 2020</td>
-                                        <td> Admin2 </td>
-                                        <td>11 February 2020</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>
-                                            <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        </td>
-                                        <td> Card </td>
-                                        <td>Phasellus non ante gravida, ultricies neque a</td>
-                                        <td><span class="text-dark font-weight-bold">$30.00</span><small class="text-mute"> /$1.24 </small> </td>
-                                        <td><span class="text-dark font-weight-bold">$19.00</span><small class="text-mute"> /$1.24 </small></td>
-                                        <td>
-                                            <select class="custom-select d-block w-100" id="input-select">
-                                                <option>--None--</option>
-                                                <option>Even Numbered units</option>
-                                                <option>Max 1 unit 1 digital</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        <td> Admin1 </td>
-                                        <td>10 February 2020</td>
+                                        <td><a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
+
                                         <td> Admin2 </td>
                                         <td>11 February 2020</td>
                                     </tr>
                                     <tr>
                                         <td>4</td>
                                         <td>
-                                            <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                            <div class="m-r-10"><img src="~/Content/ProductPhoto/a5.jpg" alt="user" width="55"></div>
                                         </td>
-                                        <td> Cup </td>
+                                        <td> A5 Hardcopy </td>
                                         <td>Phasellus non ante gravida, ultricies neque a</td>
                                         <td><span class="text-dark font-weight-bold">$30.00</span><small class="text-mute"> /$1.24 </small> </td>
                                         <td><span class="text-dark font-weight-bold">$10.00</span><small class="text-mute"> /$1.24 </small></td>
@@ -261,28 +365,28 @@
                                         </td>
                                         <td>
                                             <label class="switch">
-                                                <input type="checkbox">
+                                                <input type="checkbox" checked>
                                                 <span class="slider round"></span>
                                             </label>
                                         </td>
                                         <td>
                                             <label class="switch">
-                                                <input type="checkbox">
+                                                <input type="checkbox" checked>
                                                 <span class="slider round"></span>
                                             </label>
                                         </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        <td> Admin1 </td>
-                                        <td>10 February 2020</td>
+                                        <td><a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
+
                                         <td> Admin2 </td>
                                         <td>11 February 2020</td>
                                     </tr>
+
                                     <tr>
                                         <td>5</td>
                                         <td>
-                                            <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                            <div class="m-r-10"><img src="~/Content/ProductPhoto/leatherette.png" alt="user" width="55"></div>
                                         </td>
-                                        <td> Bottle </td>
+                                        <td> Leatherette </td>
                                         <td>Phasellus non ante gravida, ultricies neque a</td>
                                         <td><span class="text-dark font-weight-bold">$30.00</span><small class="text-mute"> /$1.24 </small> </td>
                                         <td><span class="text-dark font-weight-bold">$11.00</span><small class="text-mute"> /$1.24 </small></td>
@@ -301,22 +405,21 @@
                                         </td>
                                         <td>
                                             <label class="switch">
-                                                <input type="checkbox">
+                                                <input type="checkbox" checked>
                                                 <span class="slider round"></span>
                                             </label>
                                         </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        <td> Admin1 </td>
-                                        <td>10 February 2020</td>
+                                        <td><a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
+
                                         <td> Admin2 </td>
                                         <td>11 February 2020</td>
                                     </tr>
                                     <tr>
                                         <td>6</td>
                                         <td>
-                                            <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                            <div class="m-r-10"><img src="~/Content/ProductPhoto/digital.jpg" alt="user" width="55"></div>
                                         </td>
-                                        <td> Shirt </td>
+                                        <td> Digital</td>
                                         <td>Phasellus non ante gravida, ultricies neque a</td>
                                         <td><span class="text-dark font-weight-bold">$30.00</span><small class="text-mute"> /$1.24 </small> </td>
                                         <td><span class="text-dark font-weight-bold">$15.00</span><small class="text-mute"> /$1.24 </small></td>
@@ -336,219 +439,15 @@
                                         <td>
                                             <label class="switch">
                                                 <input type="checkbox">
-                                                <span class="slider round"></span>
+                                                <span class="slider round" checked></span>
                                             </label>
                                         </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        <td> Admin1 </td>
-                                        <td>10 February 2020</td>
+                                        <td><a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
+
                                         <td> Admin2 </td>
                                         <td>11 February 2020</td>
                                     </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>
-                                            <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        </td>
-                                        <td> Bag </td>
-                                        <td>Phasellus non ante gravida, ultricies neque a</td>
-                                        <td><span class="text-dark font-weight-bold">$30.00</span><small class="text-mute"> /$1.24 </small> </td>
-                                        <td><span class="text-dark font-weight-bold">$17.00</span><small class="text-mute"> /$1.24 </small></td>
-                                        <td>
-                                            <select class="custom-select d-block w-100" id="input-select">
-                                                <option>--None--</option>
-                                                <option>Even Numbered units</option>
-                                                <option>Max 1 unit 1 digital</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        <td> Admin1 </td>
-                                        <td>10 February 2020</td>
-                                        <td> Admin2 </td>
-                                        <td>11 February 2020</td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td>
-                                            <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        </td>
-                                        <td> Tote Bag </td>
-                                        <td>Phasellus non ante gravida, ultricies neque a</td>
-                                        <td><span class="text-dark font-weight-bold">$29.00</span><small class="text-mute"> /$1.24 </small> </td>
-                                        <td><span class="text-dark font-weight-bold">$19.00</span><small class="text-mute"> /$1.24 </small></td>
-                                        <td>
-                                            <select class="custom-select d-block w-100" id="input-select">
-                                                <option>--None--</option>
-                                                <option>Even Numbered units</option>
-                                                <option>Max 1 unit 1 digital</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        <td> Admin1 </td>
-                                        <td>10 February 2020</td>
-                                        <td> Admin2 </td>
-                                        <td>11 February 2020</td>
-                                    </tr>
-                                    <tr>
-                                        <td>9</td>
-                                        <td>
-                                            <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        </td>
-                                        <td> Phone Case </td>
-                                        <td>Phasellus non ante gravida, ultricies neque a</td>
-                                        <td><span class="text-dark font-weight-bold">$28.00</span><small class="text-mute"> /$1.24 </small> </td>
-                                        <td><span class="text-dark font-weight-bold">$16.00</span><small class="text-mute"> /$1.24 </small></td>
-                                        <td>
-                                            <select class="custom-select d-block w-100" id="input-select">
-                                                <option>--None--</option>
-                                                <option>Even Numbered units</option>
-                                                <option>Max 1 unit 1 digital</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        <td> Admin1 </td>
-                                        <td>10 February 2020</td>
-                                        <td> Admin2 </td>
-                                        <td>11 February 2020</td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td>
-                                            <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        </td>
-                                        <td> Pouch </td>
-                                        <td>Phasellus non ante gravida, ultricies neque a</td>
-                                        <td><span class="text-dark font-weight-bold">$25.00</span><small class="text-mute"> /$1.24 </small> </td>
-                                        <td><span class="text-dark font-weight-bold">$12.00</span><small class="text-mute"> /$1.24 </small></td>
-                                        <td>
-                                            <select class="custom-select d-block w-100" id="input-select">
-                                                <option>--None--</option>
-                                                <option>Even Numbered units</option>
-                                                <option>Max 1 unit 1 digital</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        <td> Admin1 </td>
-                                        <td>10 February 2020</td>
-                                        <td> Admin2 </td>
-                                        <td>11 February 2020</td>
-                                    </tr>
-                                    <tr>
-                                        <td>11</td>
-                                        <td>
-                                            <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        </td>
-                                        <td> Wallet </td>
-                                        <td>Phasellus non ante gravida, ultricies neque a</td>
-                                        <td><span class="text-dark font-weight-bold">$22.00</span><small class="text-mute"> /$1.24 </small> </td>
-                                        <td><span class="text-dark font-weight-bold">$14.00</span><small class="text-mute"> /$1.24 </small></td>
-                                        <td>
-                                            <select class="custom-select d-block w-100" id="input-select">
-                                                <option>--None--</option>
-                                                <option>Even Numbered units</option>
-                                                <option>Max 1 unit 1 digital</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        <td> Admin1 </td>
-                                        <td>10 February 2020</td>
-                                        <td> Admin2 </td>
-                                        <td>11 February 2020</td>
-                                    </tr>
-                                    <tr>
-                                        <td>12</td>
-                                        <td>
-                                            <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                        </td>
-                                        <td> Shoe </td>
-                                        <td>Phasellus non ante gravida, ultricies neque a</td>
-                                        <td><span class="text-dark font-weight-bold">$24.00</span><small class="text-mute"> /$1.24 </small> </td>
-                                        <td><span class="text-dark font-weight-bold">$19.00</span><small class="text-mute"> /$1.24 </small></td>
-                                        <td>
-                                            <select class="custom-select d-block w-100" id="input-select">
-                                                <option>--None--</option>
-                                                <option>Even Numbered units</option>
-                                                <option>Max 1 unit 1 digital</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td><a class="edit"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        <td> Admin1 </td>
-                                        <td>10 February 2020</td>
-                                        <td> Admin2 </td>
-                                        <td>11 February 2020</td>
-                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -582,6 +481,9 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        
         $('#menuItem').addClass("active");
+        
+        
     });
 </script>
