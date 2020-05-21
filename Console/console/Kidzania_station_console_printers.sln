@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kidzania_station_console_printers", "Kidzania_station_console_printers\Kidzania_station_console_printers.csproj", "{96E9FB89-7BCD-4F4B-A739-BD4D117C5DDB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96E9FB89-7BCD-4F4B-A739-BD4D117C5DDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96E9FB89-7BCD-4F4B-A739-BD4D117C5DDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96E9FB89-7BCD-4F4B-A739-BD4D117C5DDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96E9FB89-7BCD-4F4B-A739-BD4D117C5DDB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {49E248C1-7A61-4E38-A5F7-5AA969AAE409}
+	EndGlobalSection
+EndGlobal
