@@ -21,13 +21,16 @@
         <div id="myModal" class="modal fade">
             <div class="modal-dialog modal-confirm">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="icon-box">
-                            <i class="m-r-10 mdi mdi-close"></i>
-                        </div>
-                        <h4 class="modal-title">Are you sure?</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <div class="modal-header modal-header-delete">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Delete Item</h5>
+                        <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
                     </div>
+                    <div class="icon-box">
+                        <i class="m-r-10 mdi mdi-close"></i>
+                    </div>
+                    <h4 class="modal-title">Are you sure?</h4>
                     <div class="modal-body">
                         <p>Do you really want to delete these record?</p>
                     </div>
@@ -38,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <!-- Modal -->
+        <!-- Add Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -51,7 +54,23 @@
                     <div class="modal-body">
                         <div style="display: flex;">
                             <div style="-ms-flex:1; flex:1;">
-                                <p></p><img src="~/assets/images/upload.png" alt="upload" style="width:200px;">
+                                <img src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-top: -14px;">
+                                <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
+                                    <p>Visibility<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-6" style="float: right; margin-right: 9px;">
+                                    <p style="margin-right: -26px;">Photo Product<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
                             </div>
                             <div style="-ms-flex:1; flex:1;">
                                 <div class="form-group col-md-12">
@@ -63,22 +82,32 @@
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label for="priceInput" class="font-small font-weight-medium">
-                                        Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
+                                        Original Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
                                     </label>
                                     <input type="text" id="priceNameInput" name="priceNameInput" class="form-control" placeholder="$ e.g. 25.00" />
                                     <span></span>
                                 </div>
                                 <div class="form-group col-md-12">
-                                    <p>Visibility<span class="compulsoryInput d-inline"> *</span></p>
-                                    <!-- Rounded switch -->
-                                    <label class="switch">
-                                        <input type="checkbox">
-                                        <span class="slider round"></span>
+                                    <label for="priceInput" class="font-small font-weight-medium">
+                                        PWP Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
                                     </label>
+                                    <input type="text" id="priceNameInput" name="priceNameInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
                                 </div>
+                                <div class="form-group col-md-12">
+                                    <label for="QCInput" class="font-small font-weight-medium">
+                                        Quantity Constraints <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <select class="custom-select d-block w-100" id="input-select">
+                                        <option>--None--</option>
+                                        <option>Even Numbered units</option>
+                                        <option>Max 1 unit 1 digital</option>
+                                    </select>
+                                </div>
+
                             </div>
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12" style="margin-top: -10px;">
                             <label for="commentsInput" class="font-small font-weight-medium">
                                 Description
                             </label>
@@ -89,10 +118,90 @@
                         <div class="modal-footer">
                             <button type="reset" class="btn btn-grey">Clear</button>
                             <button type="button" class="btn btn-primary" id="SubmitBtn">Add Item</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-edit">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Edit Item</h5>
+                        <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <div style="display: flex;">
+                            <div style="-ms-flex:1; flex:1;">
+                                <img src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-top: -14px;">
+                                <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
+                                    <p>Visibility<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-6" style="float: right; margin-right: 9px;">
+                                    <p style="margin-right: -26px;">Photo Product<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div style="-ms-flex:1; flex:1;">
+                                <div class="form-group col-md-12">
+                                    <label for="ItemNameInput" class="font-small font-weight-medium">
+                                        Item Name <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="ItemNameInput" name="ItemNameInput" class="form-control" placeholder="Please key in item name" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="priceInput" class="font-small font-weight-medium">
+                                        Original Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="priceNameInput" name="priceNameInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="priceInput" class="font-small font-weight-medium">
+                                        PWP Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="priceNameInput" name="priceNameInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="QCInput" class="font-small font-weight-medium">
+                                        Quantity Constraints <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <select class="custom-select d-block w-100" id="input-select">
+                                        <option>--None--</option>
+                                        <option>Even Numbered units</option>
+                                        <option>Max 1 unit 1 digital</option>
+                                    </select>
+                                </div>
 
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12" style="margin-top: -10px;">
+                            <label for="commentsInput" class="font-small font-weight-medium">
+                                Description
+                            </label>
+                            <textarea type="text" id="commentsInput" name="commentsInput" class="form-control" placeholder="Enter Description"></textarea>
+                            <span></span>
                         </div>
 
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-grey">Clear</button>
+                            <button type="button" class="btn btn-primary" id="SubmitBtn">Save Changes</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -167,8 +276,8 @@
                                                 <span class="slider round"></span>
                                             </label>
                                         </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        
+                                        <td><a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
+
                                         <td> Admin2 </td>
                                         <td>11 February 2020</td>
                                     </tr>
@@ -200,8 +309,8 @@
                                                 <span class="slider round"></span>
                                             </label>
                                         </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        
+                                        <td><a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
+
                                         <td> Admin2 </td>
                                         <td>11 February 2020</td>
                                     </tr>
@@ -233,8 +342,8 @@
                                                 <span class="slider round"></span>
                                             </label>
                                         </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        
+                                        <td><a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
+
                                         <td> Admin2 </td>
                                         <td>11 February 2020</td>
                                     </tr>
@@ -266,8 +375,8 @@
                                                 <span class="slider round"></span>
                                             </label>
                                         </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        
+                                        <td><a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
+
                                         <td> Admin2 </td>
                                         <td>11 February 2020</td>
                                     </tr>
@@ -300,8 +409,8 @@
                                                 <span class="slider round"></span>
                                             </label>
                                         </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        
+                                        <td><a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
+
                                         <td> Admin2 </td>
                                         <td>11 February 2020</td>
                                     </tr>
@@ -333,12 +442,12 @@
                                                 <span class="slider round" checked></span>
                                             </label>
                                         </td>
-                                        <td><a class="edit" href="#"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-                                        
+                                        <td><a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
+
                                         <td> Admin2 </td>
                                         <td>11 February 2020</td>
                                     </tr>
-                                    
+
                                 </tbody>
                             </table>
                         </div>

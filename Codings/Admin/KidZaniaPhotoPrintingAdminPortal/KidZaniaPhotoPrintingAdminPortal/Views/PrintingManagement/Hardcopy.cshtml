@@ -183,7 +183,7 @@
                                 <tr colspan="7" class="CollapsePhotos1 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                        <img src="~/Content/customerPhoto/1.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Completed</td>
                                     <td>Printer 1</td>
@@ -210,7 +210,7 @@
                                 <tr colspan="7" class="CollapsePhotos2 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                       <img src="~/Content/customerPhoto/2.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Completed</td>
                                     <td>Printer 3</td>
@@ -222,7 +222,7 @@
                                 <tr colspan="7" class="CollapsePhotos2 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                       <img src="~/Content/customerPhoto/3.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Completed</td>
                                     <td>Printer 2</td>
@@ -246,7 +246,7 @@
                                 <tr colspan="7" class="CollapsePhotos3 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                       <img src="~/Content/customerPhoto/4.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Pending</td>
                                     <td>Printer 1</td>
@@ -257,7 +257,7 @@
                                 <tr colspan="7" class="CollapsePhotos3 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                        <img src="~/Content/customerPhoto/5.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Pending</td>
                                     <td>Printer 2</td>
@@ -268,7 +268,7 @@
                                 <tr colspan="7" class="CollapsePhotos3 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                        <img src="~/Content/customerPhoto/6.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Complete</td>
                                     <td>Printer 3</td>
@@ -293,7 +293,7 @@
                                 <tr class="completedPhotos4 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                        <img src="~/Content/customerPhoto/7.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Pending</td>
                                     <td>Printer 1</td>
@@ -304,7 +304,7 @@
                                 <tr class="completedPhotos4 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                        <img src="~/Content/customerPhoto/8.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Pending</td>
                                     <td>Printer 4</td>
@@ -331,7 +331,7 @@
                                 <tr  class="completedPhotos5 collapse">
                                     <td></td>
                                     <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
+                                        <img src="~/Content/customerPhoto/9.jpg" alt="user" class="rounded" width="55">
                                     </td>
                                     <td>Status: Pending</td>
                                     <td>Printer 2</td>
@@ -380,8 +380,10 @@
     }
 
 
-    function filterOrderByStatus(status) {
+     function filterOrderByStatus(status) {
         var trList = $('#myTable .orderRow');
+
+ 
 
         console.log(status);
         trList.each(function () {
@@ -389,12 +391,17 @@
             if (!$(this).hasClass(status)) {
                 $(this).css("display", "none");
             }
-        }); 
+        });
+        $(".fa-chevron-right").attr("aria-expanded", "false");
+        $(".fa-chevron-right").removeClass('down');
+        $('.collapse').removeClass('show');
     }
+
+ 
 
 
     function searchFunction() {
-        var input, filter, table, tr, td, i;
+        var input, filter, td, i;
         var input = $("#myInput").val();
         var filter = input.toUpperCase();
         var trList;
@@ -405,9 +412,14 @@
             trList = $('#completedOrders .completedOrderRow');
         }
 
+ 
+
         
         //don't initiate search unless user types at least 3 characters. This will greatly improve performance and usability especially with large tables.
         if (filter.length >= 3) {
+            $(".fa-chevron-right").attr("aria-expanded", "false");
+            $(".fa-chevron-right").removeClass('down');
+            $('.collapse').removeClass('show');
             var findOrder = false;
             for (i = 0; i < trList.length; i++) {
                 var match = false;
@@ -415,6 +427,8 @@
                 //loop through every td
                 for (j = 0; j < tdList.length; j++) {
                     var td = tdList[j];
+
+ 
 
                     if (td) {
                         if (td.innerText.toUpperCase().indexOf(filter) > -1) {
@@ -424,15 +438,23 @@
                     }
                 }
 
+ 
+
                 if (match == true) {
                     trList[i].style.display = "";
                 }
                 else {
                     trList[i].style.display = "none";
 
+ 
+
                 }
 
+ 
+
             }
+
+ 
 
             if (!findOrder) {
                 $('.noOrderFoundRow').css("display", "");
@@ -450,6 +472,8 @@
     
     $(document).ready(function () {
         $('#menuHardcopy').addClass("active");
+
+ 
 
 
     });

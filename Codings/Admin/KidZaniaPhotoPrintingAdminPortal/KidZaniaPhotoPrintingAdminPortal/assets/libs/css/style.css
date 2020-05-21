@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /**
  * Summary:
  *
@@ -273,7 +273,6 @@ ul li {}
 	.modal-header {
 		border-bottom-color: #EEEEEE;
 		background-color: #FAFAFA;
-		display: block;
 	}
 
 label {
@@ -668,7 +667,7 @@ Parsley Varifation
 }
 
 .m-r-10 {
-    margin-right: 10px;
+    margin-right: 70px;
 	display: inline-flex;
 }
 
@@ -2003,7 +2002,7 @@ Container / Wrapper
     position: relative;
     left: 0;
     margin-left: 196px;
-    min-height: 550px !important;
+    min-height: 871px !important;
 }
 
 .dashboard-content {

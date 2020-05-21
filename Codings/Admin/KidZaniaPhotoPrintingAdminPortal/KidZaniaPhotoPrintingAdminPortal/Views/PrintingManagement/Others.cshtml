@@ -22,9 +22,11 @@
         <div class="leftcol">
 
             <div class="card border-3 border-bottom-IC border-bottom-primary">
-                <h5 class="card-header" id="IC">Incoming Orders</h5>
-
-                <table class="table table-hover">
+                <h5 class="card-header" id="IC">Incoming Orders 
+                    <input type="text" id="searchCode" onkeyup="myFunction()" placeholder="Search for Order Code.." title="Type in Order Code">
+                </h5>
+                
+                <table  class="table table-hover">
                     <thead>
                         <tr>
                             <th>Time</th>
@@ -32,21 +34,21 @@
                             <th>Pause</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="myTable">
                         <tr>
                             <td>12:00:01</td>
                             <td>E34T2890</td>
-                            <td><a><i class="fas fa-ban"></i><a></td>
+                            <td><a><i class="fas fa-ban"></i></a></td>
                         </tr>
                         <tr>
                             <td>12:00:23</td>
                             <td>U28M253</td>
-                            <td><i class="fas fa-ban"></i></td>
+                            <td><a><i class="fas fa-ban"></i></a></td>
                         </tr>
                         <tr>
                             <td>12:01:04</td>
                             <td>A2343DA1</td>
-                            <td><i class="fas fa-ban"></i></td>
+                            <td><a><i class="fas fa-ban"></i></a></td>
                         </tr>
                         <tr>
                             <td>12:24:34</td>
@@ -220,6 +222,52 @@
     </div>
 </div>
 <script type="text/javascript">
+
+    function myFunction() {
+  var input, filter, table, tr, td, i;
+  var input = document.getElementById("searchCode");
+  var filter = input.value.toUpperCase();
+  
+  var table = document.getElementById("myTable");
+  var trList = table.getElementsByTagName("tr");
+  
+  for (i = 0; i < trList.length; i++)
+  {
+    //don't initiate search unless user types at least 3 characters. This will greatly improve performance and usability especially with large tables.
+    if (filter.length >= 3)
+    {
+	  var match = false;
+      var tdList = trList[i].getElementsByTagName("td");
+
+	  //loop through every td
+	  for (j = 0; j < tdList.length; j++)
+	  {
+	    var td = tdList[j];
+
+        if (td)
+	    {
+          if (td.innerText.toUpperCase().indexOf(filter) > -1) {
+		    match = true;
+          }
+	    }
+      }
+	  
+	  if (match == true)
+	  {
+        trList[i].style.display = "";
+	  }
+	  else
+	  {
+		trList[i].style.display = "none";
+	  }
+	}
+    else
+    {
+      trList[i].style.display = "";
+    }
+  }
+}
+
     $(document).ready(function () {
         $('#menuOthers').addClass("active");
     });

@@ -153,30 +153,32 @@
             margin-right: 44px;
             font-weight: bold;
         }
-        .modal-confirm {		
+   .modal-confirm {		
 		color: #636363;
 		width: 400px;
+		top: 115px;
 	}
 	.modal-confirm .modal-content {
-		padding: 20px;
 		border-radius: 5px;
 		border: none;
         text-align: center;
 		font-size: 14px;
 	}
-	.modal-confirm .modal-header {
+	.modal-confirm .modal-header-delete {
 		border-bottom: none;   
         position: relative;
 	}
 	.modal-confirm h4 {
 		text-align: center;
 		font-size: 26px;
-		margin: 30px 0 -10px;
+		/*margin: 30px 0 -10px;*/
 	}
 	.modal-confirm .close {
-        position: absolute;
 		top: -5px;
 		right: -2px;
+        color: white;
+        text-shadow: 0 1px 0 #000;
+        opacity: 2.5;
 	}
 	.modal-confirm .modal-body {
 		color: #999;
@@ -186,7 +188,7 @@
 		text-align: center;		
 		border-radius: 5px;
 		font-size: 13px;
-		padding: 10px 47px 25px;
+		padding: 10px 70px 25px;
 	}
 	.modal-confirm .modal-footer a {
 		color: #999;
@@ -238,6 +240,20 @@
 	    margin-left: 13px;
 		color: red;
 	}
+	.modal-header-delete{
+	    background-color: #f15e5e;
+        margin-bottom: 10px;
+	}
+    .modal-header-edit{
+	    background-color: cornflowerblue;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+	}
+    .modal-header-edit .close{
+        color: white;
+        text-shadow: 0 1px 0 #000;
+        opacity: 2.5;
+    }
     </style>
 </head>
 
@@ -508,6 +524,11 @@
         #myInput{
             float: right;
             margin-top: 15px;
+        }
+        #searchCode{
+           margin-left: 19px;
+           font-size: 14px;
+           font-family: 'Circular Std Regular';
         }
         .edit ,.edit:hover{
             color: blue;
