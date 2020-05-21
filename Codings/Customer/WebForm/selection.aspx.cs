@@ -154,7 +154,7 @@ namespace WebForm
             photomatch.Add("photoID10", "10.jpg");
             photomatch.Add("photoID11", "11.jpg");
             photomatch.Add("photoID12", "12.jpg");
-            photomatch.Add("photoID13", "13.jpg");
+            //photomatch.Add("photoID13", "13.jpg");
 
             string currentApplicationPath = HttpContext.Current.Request.PhysicalApplicationPath;
             Debug.WriteLine("here" + currentApplicationPath);

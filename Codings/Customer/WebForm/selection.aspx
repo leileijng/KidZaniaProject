@@ -1257,6 +1257,17 @@
                                         <td><b>$15.00 </b>/ Photo</td>
                                         <td><b>$8.00 </b> / Photo</td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="m-r-10">
+                                                <img src="/Content/img/a5.jpg" alt="magnet" class="rounded" width="100" /></div>
+                                            <b>A5 hardcopy</b>
+                                        </td>
+                                        <td>balah balah balah balah </td>
+                                        <td><b>$15.00 </b>/ Photo</td>
+                                        <td><b>$8.00 </b> / Photo</td>
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -1341,13 +1352,13 @@
                 <br />
             </div>
 
-            <div id="cart" style="height:546px" class="sidebar">
+            <div id="cart" style="height:596px" class="sidebar">
                 <div class="p-2 mt-1 mb-2" style="text-align: center">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="modal-title" style="margin-left: 10px">My Cart</span>
                     <button type="button" class="close" onclick="closeCart()">&times;</button>
                 </div>
-                <div id="cart_items" style="height:420px; overflow-y: scroll; overflow-x: hidden;">
+                <div id="cart_items" style="height:470px; overflow-y: scroll; overflow-x: hidden;">
                 </div>
                 <div class="totalPrice p-2 pl-3 bg-white" style="border-top: 1px solid #c3c3c3; height:60px; display: flex;">
                     <p style="-ms-flex: 1; flex: 1; font-size:1.02rem" class="mt-2">
