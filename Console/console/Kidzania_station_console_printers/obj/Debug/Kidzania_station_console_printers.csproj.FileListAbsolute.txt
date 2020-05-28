@@ -40,3 +40,18 @@ C:\Users\chrischan76\Downloads\~work\Kidzania_station_console_printers - Compres
 C:\Users\chrischan76\Downloads\~work\Kidzania_station_console_printers - Compressed Exe\Kidzania_station_console_printers\obj\Debug\Kidzania_station_console_printers.csproj.CopyComplete
 C:\Users\chrischan76\Downloads\~work\Kidzania_station_console_printers - Compressed Exe\Kidzania_station_console_printers\obj\Debug\Kidzania_station_console_printers.exe
 C:\Users\chrischan76\Downloads\~work\Kidzania_station_console_printers - Compressed Exe\Kidzania_station_console_printers\obj\Debug\Kidzania_station_console_printers.pdb
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\bin\Debug\Kidzania_station_console_printers.exe.config
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\bin\Debug\Kidzania_station_console_printers.exe
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\bin\Debug\Kidzania_station_console_printers.pdb
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\bin\Debug\Microsoft.WindowsAPICodePack.xml
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\bin\Debug\Microsoft.WindowsAPICodePack.Shell.xml
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\obj\Debug\Kidzania_station_console_printers.csprojAssemblyReference.cache
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\obj\Debug\Kidzania_station_console_printers.Form1.resources
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\obj\Debug\Kidzania_station_console_printers.Properties.Resources.resources
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\obj\Debug\Kidzania_station_console_printers.csproj.GenerateResource.cache
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\obj\Debug\Kidzania_station_console_printers.csproj.CoreCompileInputs.cache
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\obj\Debug\Kidzania_station_console_printers.csproj.Fody.CopyLocal.cache
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\obj\Debug\Kidzania_station_console_printers.csproj.CopyComplete
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\obj\Debug\Kidzania_station_console_printers.exe
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Console\console\Kidzania_station_console_printers\obj\Debug\Kidzania_station_console_printers.pdb
