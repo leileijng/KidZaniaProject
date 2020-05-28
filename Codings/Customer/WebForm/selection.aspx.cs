@@ -27,8 +27,9 @@ namespace WebForm
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            /*
             //Retrieving 2 lists for product and price
-            (List<Product> product, List<Price> price) = getProduct();
+            List<Product> product = getProduct();
             int index = 0;
             //First For loop to extract the list
             for (int i = 0; i < product.Count; i++)
@@ -75,7 +76,7 @@ namespace WebForm
                 }
             }
 
-
+            */
             /*
             bool onsite = false;
             try
@@ -140,7 +141,7 @@ namespace WebForm
                 Dictionary<string, string> photomatch = photoprofile; //comment it for debugging.
                 ///COMMENT UNTIL HERE FOR DEBUGGING*/
             ///
-
+            /*
             Dictionary<string, string> photomatch = new Dictionary<string, string>();
             photomatch.Add("photoID1", "1.jpg");
             photomatch.Add("photoID2", "2.jpg");
@@ -182,7 +183,7 @@ namespace WebForm
                         {
                             File.Delete(currentApplicationPath + "photos//" + photowatermarked_filename);
                         }
-                        */
+                        
                     photo_gallery_ctn.InnerHtml += "<div id='gl_id_" + x + "' class=\"gallery\">";
 
                     photo_gallery_ctn.InnerHtml += "<img class=\"modal_window\" id=\"tn_id_" + x + "\" class=\"thumbnail\" src=\"/Content/photos/" + photowatermarked_filename + "\"/>";
@@ -219,36 +220,37 @@ namespace WebForm
                             index = product[i].ProductId;
                         }
                         //Finding the right place to close out the div element
-                        
+                       
                     }
-                    //photo_gallery_ctn.InnerHtml += "    </div>";
+            /*
+           //photo_gallery_ctn.InnerHtml += "    </div>";
 
-                    //photo_gallery_ctn.InnerHtml += "    <div>";
-                    //photo_gallery_ctn.InnerHtml += "        <input name=\"digital_cb\" id=\"dc_photo" + photoid + "\" type=\"checkbox\" checked=\"checked\" value=\"" + photoid + "\">";
-                    //photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"dc_photo" + photoid + "_lbl\">Digital</label>";
-                    //photo_gallery_ctn.InnerHtml += "    </div>";
+           //photo_gallery_ctn.InnerHtml += "    <div>";
+           //photo_gallery_ctn.InnerHtml += "        <input name=\"digital_cb\" id=\"dc_photo" + photoid + "\" type=\"checkbox\" checked=\"checked\" value=\"" + photoid + "\">";
+           //photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"dc_photo" + photoid + "_lbl\">Digital</label>";
+           //photo_gallery_ctn.InnerHtml += "    </div>";
 
-                    //photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
-                    //photo_gallery_ctn.InnerHtml += "<div id='myModala" + photoid + "' class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">";
-                    //photo_gallery_ctn.InnerHtml += "<div class=\"modal-dialog\" role=\"document\">";
+           //photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
+           //photo_gallery_ctn.InnerHtml += "<div id='myModala" + photoid + "' class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">";
+           //photo_gallery_ctn.InnerHtml += "<div class=\"modal-dialog\" role=\"document\">";
 
-                    //photo_gallery_ctn.InnerHtml += "  <!-- The Close Button -->";
-                    //photo_gallery_ctn.InnerHtml += "<span class=\"close\" onclick=\"document.getElementById('myModala" + photoid + "').style.display='none'\">&times;</span>";
-                    //photo_gallery_ctn.InnerHtml += "  <!-- Modal Content (The Image) -->";
-                    //photo_gallery_ctn.InnerHtml += "<img class=\"modal-content\" id=\"img01\" src='/Content/photos/" + photowatermarked_filename + "'> ";
-                    //photo_gallery_ctn.InnerHtml += "  <!-- Modal Caption (Image Text) -->";
-                    //photo_gallery_ctn.InnerHtml += "        <div class='modal-body'>";
+           //photo_gallery_ctn.InnerHtml += "  <!-- The Close Button -->";
+           //photo_gallery_ctn.InnerHtml += "<span class=\"close\" onclick=\"document.getElementById('myModala" + photoid + "').style.display='none'\">&times;</span>";
+           //photo_gallery_ctn.InnerHtml += "  <!-- Modal Content (The Image) -->";
+           //photo_gallery_ctn.InnerHtml += "<img class=\"modal-content\" id=\"img01\" src='/Content/photos/" + photowatermarked_filename + "'> ";
+           //photo_gallery_ctn.InnerHtml += "  <!-- Modal Caption (Image Text) -->";
+           //photo_gallery_ctn.InnerHtml += "        <div class='modal-body'>";
 
 
-                    //photo_gallery_ctn.InnerHtml += "</div>";
-                    //photo_gallery_ctn.InnerHtml += "</div>";
+           //photo_gallery_ctn.InnerHtml += "</div>";
+           //photo_gallery_ctn.InnerHtml += "</div>";
 
-                    //photo_gallery_ctn.InnerHtml += "<script>";
-                    //photo_gallery_ctn.InnerHtml += "  modal_load(" + photoid + "); ";
-                    //photo_gallery_ctn.InnerHtml += "</script>";
-                    
+           //photo_gallery_ctn.InnerHtml += "<script>";
+           //photo_gallery_ctn.InnerHtml += "  modal_load(" + photoid + "); ";
+           //photo_gallery_ctn.InnerHtml += "</script>";
 
-                    photo_gallery_ctn.InnerHtml += "</div>";
+
+           photo_gallery_ctn.InnerHtml += "</div>";
                     photo_gallery_ctn.InnerHtml += "<div onclick='delete_gl(\"" + x + "\");' style='text-align:center;border-top: solid 1px;margin-top: 10px;cursor: pointer;padding: 5px;background-color: indianred;'><img style='width: auto !important;' src='\\Content\\img\\trash_small.png' /></div>";
                     photo_gallery_ctn.InnerHtml += "</div>";
 
@@ -283,11 +285,11 @@ namespace WebForm
                     dc.Attributes["value"] = (x - 1).ToString();
                     js.Attributes["value"] = photofullpath.TrimEnd('|');
                 }
-                */
+                
 
 
                 return;
-            }
+            }*/
         }
 
 
@@ -402,47 +404,48 @@ namespace WebForm
         }
 
         //Return All Product in the datbase excluding showphoto=0
-        protected static (List<Product>, List<Price>) getProduct()
+        [WebMethod]
+        public static string GetProducts()
         {
             string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
             List<Product> products = new List<Product>();
-            List<Price> prices = new List<Price>();
 
             MySqlConnection conn = null;
+            conn = new MySqlConnection(connstring);
+            conn.Open();
             try
             {
-                conn = new MySqlConnection(connstring);
-                conn.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT p.*, pp.UnitPrice, pp.Unit, pp.UnitGST FROM kidzania.product p, kidzania.product_price pp where p.productId = pp.productId and p.photoproduct = 1 and productvisibility = 1;", conn);
+                MySqlCommand cmd = new MySqlCommand("SELECT * from product ", conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
+                        Debug.Write("time");
                         //Setting the product list
                         products.Add(new Product()
                         {
-                            ProductId = Convert.ToInt32(reader["productid"]),
-                            ProductName = reader["productname"].ToString(),
-                            //ProductPrice = Decimal.Parse(reader["pro_price"].ToString()),
-                            //ProductGST = Decimal.Parse(reader["pro_gst"].ToString()),
-                            ProductImage = reader["productimage"].ToString(),
-                            ProductDescription = reader["productdescription"].ToString(),
-                            ProductVisibility = bool.Parse(reader["productvisibility"].ToString()),
-                            CreatedBy = reader["createdby"].ToString(),
-                            CreatedAt = DateTime.Parse(reader["createdat"].ToString()),
-                            UpdatedBy = reader["updatedby"].ToString(),
-                            UpdatedAt = DateTime.Parse(reader["updatedat"].ToString()),
-                            PhotoProduct = bool.Parse(reader["photoproduct"].ToString()),
+                            ProductId = reader["product_id"].ToString(),
+                            ProductName = reader["name"].ToString(),
+                            ProductImagePath = reader["image"].ToString(),
+                            ProductDescription = reader["description"].ToString(),
+                            //ProductQuantityConstraint = reader["quantity_constraint"].ToString(),
+                            OrginalPrice = Decimal.Parse(reader["original_price"].ToString()),
+                            OriginalGST = Decimal.Parse(reader["original_price"].ToString()),
+                            ProductVisibility = bool.Parse(reader["visibility"].ToString()),
+                            PhotoProduct = bool.Parse(reader["photo_product"].ToString()),
+                            UpdatedBy = reader["updated_by"].ToString(),
+                            UpdatedAt = DateTime.Parse(reader["updated_at"].ToString()).ToString("yyyy-MM-dd HH:mm:ss")
                         });
-                        //Setting the price list
-                        prices.Add(new Price
+                        if (reader["pwp_price"].ToString() != null && reader["original_GST"].ToString() != null)
                         {
-                            ProductId = Convert.ToInt32(reader["productid"]),
-                            Unit = int.Parse(reader["unit"].ToString()),
-                            UnitPrice = decimal.Parse(reader["unitprice"].ToString()),
-                            UnitGST = decimal.Parse(reader["unitgst"].ToString()),
-                        });
+                            products[products.Count-1].PwpPrice = Decimal.Parse(reader["pwp_price"].ToString());
+                            products[products.Count - 1].PwpGST = Decimal.Parse(reader["pwp_GST"].ToString());
+                        }
+                        if (reader["quantity_constraint"].ToString() != null)
+                        {
+                            products[products.Count - 1].ProductQuantityConstraint = reader["quantity_constraint"].ToString();
+                        }
                     }
                 }
             }
@@ -457,7 +460,7 @@ namespace WebForm
                     conn.Close();
                 }
             }
-            return (products, prices);
+            return new JavaScriptSerializer().Serialize(products);
         }
 
 
@@ -476,19 +479,16 @@ namespace WebForm
                 MySqlCommand cmd;
                 //If-else to check all digital or not
 
-                cmd = new MySqlCommand("SELECT * from product_price pr, product p where pr.productid = p.productid and p.productid = " + id + " limit 1;", conn);
-                
+                cmd = new MySqlCommand("SELECT * from  product p where p.productid = " + id + " limit 1;", conn);
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        p.ProductId = Convert.ToInt32(reader["ProductId"]);
 
-                        
-                            string pname = reader["ProductName"].ToString();
-                            p.ProductName = char.ToUpper(pname[0]) + pname.Substring(1);
-                        
-                        p.ProductImage = reader["ProductImage"].ToString();
+                        string pname = reader["ProductName"].ToString();
+                        p.ProductName = char.ToUpper(pname[0]) + pname.Substring(1);
+
                         pr.UnitPrice = Decimal.Parse(reader["unitPrice"].ToString());
                         pr.UnitGST = Decimal.Parse(reader["UnitGST"].ToString());
                         pr.Unit = int.Parse(reader["Unit"].ToString());
@@ -509,13 +509,14 @@ namespace WebForm
                 }
             }
             //Return two strings for product and price
-            return (new JavaScriptSerializer().Serialize(p)) ;
+            return (new JavaScriptSerializer().Serialize(p));
         }
 
+        /*
         [WebMethod]
         public static string CalculateCostForOneProduct(string id, string unitsOfPhoto)
         {
-            (List<Product> product, List<Price> price) = getProduct();
+            
             List<Price> foundPrice = new List<Price>();
             decimal CostForProduct = 0;
             int units = int.Parse(unitsOfPhoto);
@@ -582,5 +583,6 @@ namespace WebForm
 
             return (new JavaScriptSerializer().Serialize(result));
         }
-        }
+        }*/
+    }
 }

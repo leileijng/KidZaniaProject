@@ -371,6 +371,25 @@
             refresh_values();
         });
         $(document).ready(function () {
+
+            //get this product name
+                    $.ajax({
+                        type: "POST",
+                        url: '<%= ResolveUrl("selection.aspx/GetProducts") %>',
+                        dataType: 'text',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (msg) {
+                            productDetails = JSON.parse(msg.d);
+                            console.log(productDetails);
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+
+
+
             $("form").submit(function (e) {
                 var total = $("#photo_gallery input[name='digital_cb']:checked").length;
                 total += $("#photo_gallery input[name='ECcopy_cb']:checked").length;
