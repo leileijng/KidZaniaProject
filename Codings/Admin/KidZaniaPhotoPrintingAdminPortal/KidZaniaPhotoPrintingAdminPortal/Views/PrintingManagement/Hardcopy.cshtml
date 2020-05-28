@@ -146,7 +146,7 @@
                                     <th>Order Code</th>
                                     <th>
                                         <div class="dropdown">
-                                            <div class="dropdown-toggle" data-toggle="dropdown">
+                                            <div class="dropdown-toggle" data-toggle="dropdown" id="statusFilter">
                                                 Status
                                                 <span class="caret"></span>
                                             </div>
@@ -381,10 +381,8 @@
 
 
      function filterOrderByStatus(status) {
-        var trList = $('#myTable .orderRow');
-
- 
-
+         var trList = $('#myTable .orderRow');
+         $('#statusFilter').text(status);
         console.log(status);
         trList.each(function () {
             $(this).css("display", "");
