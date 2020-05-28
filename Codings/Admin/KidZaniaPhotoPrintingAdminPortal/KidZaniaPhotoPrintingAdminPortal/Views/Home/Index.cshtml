@@ -1,16 +1,6 @@
-﻿<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Login</title>
-    <link href="styles.css" rel="stylesheet">
-</head>
-
-<body class="text-center">
+﻿<body class="text-center">
     <form class="form-signin" action="ItemManagement/Index" method="post">
-        <img id="logo" src="~/assets/images/kidzania.png" alt="Kidzania logo">
+        <img src="~/assets/images/kidzania.png" style="width:99%" alt="Kidzania logo">
         <h1 class="h3 mb-3 font-weight-normal">Please Log in</h1>
         <input type="text" id="inputID" class="form-control" placeholder="User ID" required autofocus>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
@@ -25,7 +15,6 @@
         <button class="button" type="submit">Login</button>  
     </form>
 </body>
-</html>
 <style>
     html,
     body {
@@ -45,9 +34,7 @@
         margin: 0 auto;
         text-align: center;
     }
-    #logo{
-        margin-left:-82px;
-    }
+    
         .form-signin .form-control {
             position: relative;
             box-sizing: border-box;
