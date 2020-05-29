@@ -1,11 +1,14 @@
-﻿<body class="text-center">
+﻿@{
+    Layout = null;
+}
+<body class="text-center">
     <form class="form-signin" action="/ItemManagement/Index" method="post">
         <img src="~/assets/images/kidzania.png" style="width:99%" alt="Kidzania logo">
         <h1 class="h3 mb-3 font-weight-normal">Please Log in</h1>
         <input type="text" id="inputID" class="form-control" placeholder="User ID" required autofocus>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
 
-        <button class="button" type="submit" onclick="login()">Login</button>  
+        <button class="button" type="submit" onclick="login()">Login</button>
     </form>
 </body>
 <style>
@@ -27,7 +30,7 @@
         margin: 0 auto;
         text-align: center;
     }
-    
+
         .form-signin .form-control {
             position: relative;
             box-sizing: border-box;
@@ -73,4 +76,4 @@
         }
 </style>
 <script>
-    </script>
+</script>

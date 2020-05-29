@@ -77,6 +77,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 8.0.20\Assemblies\v4.5.2\MySql.Web.dll</HintPath>
     </Reference>
+    <Reference Include="Neodynamic.SDK.WebClientPrint, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Neodynamic.SDK.WebClientPrint.5.0.0\lib\netstandard2.0\Neodynamic.SDK.WebClientPrint.dll</HintPath>
+    </Reference>
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
@@ -101,6 +104,9 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.6.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.4.6.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -182,6 +188,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIs\productsController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

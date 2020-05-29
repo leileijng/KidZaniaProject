@@ -706,3 +706,6 @@ C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\Codings\Admin\KidZaniaPhotoP
 C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\System.Memory.xml
 C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\System.Numerics.Vectors.xml
 C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\Neodynamic.SDK.WebClientPrint.dll
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\System.Text.Encoding.CodePages.dll
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\System.Text.Encoding.CodePages.xml
