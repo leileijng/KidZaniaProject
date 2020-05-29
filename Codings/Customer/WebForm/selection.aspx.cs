@@ -27,56 +27,9 @@ namespace WebForm
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            /*
-            //Retrieving 2 lists for product and price
-            List<Product> product = getProduct();
-            int index = 0;
-            //First For loop to extract the list
-            for (int i = 0; i < product.Count; i++)
-            {
-                //Checking for records with the same id
-                if (index == product[i].ProductId)
-                {
-                    //Second for loop to add the price for matching id
-                    for (int x = index; x < product.Count; x++)
-                    {
-                        if (price[x].ProductId == index)
-                        {
-                            prods.InnerHtml += "<p style='margin:0;margin-left:5px;color:red;font-size:16px;'>SGD " + price[x].UnitPrice * price[x].Unit + " / " + price[x].Unit + " photos </p>";
-                        }
-                        else
-                        {
-                            index++;
-                            i = x;
-                            x = product.Count + 1;
-                        }
-                    }
-                }
-                else
-                {
-                    //If-else to implement tooltips on only the digital product
-                    if (product[i].ProductName == "Digital")
-                    {
-                        prods.InnerHtml += "<div class='productbox' rel='tooltip' title='Delete from shopping cart to uncheck!' data-selector='true' data-title='Popover Title' data-content='Content' class='wrap poptooltip' style='margin-bottom:5px;'><div class='overlap'></div><input class='form-check-input itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:16px;'>SGD " + price[i].UnitPrice + " / All Digital Copies </p>";
-                    }
-                    else if(product[i].ProductName == "Keychain")
-                    {
-                        prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:16px;'>SGD " + price[i].UnitPrice * 2 + " / 2 photos</p><p style='margin:0;margin-left:5px;color:red;font-size:14px;'>*must be an even number  </p>";
-                    }
-                    else
-                    {
-                        prods.InnerHtml += "<div class='productbox' style='margin-bottom:5px;'><input class='form-check-input filled-in itemsChk' type='checkbox' id='item" + product[i].ProductId + "'" + " name ='product' style='height:25px;width:25px;background-color:#eee;margin-left:-2.3rem;margin-top:2px;margin-right:5%;' value='" + product[i].ProductId + "'/><b style='font-size:20px;'>" + product[i].ProductName + "</b><p style='font-size:16px;margin:0;margin-left:5px;margin-bottom:0;'>" + product[i].ProductDescription + "</p><p style='margin:0;margin-left:5px;color:red;font-size:16px;'>SGD " + price[i].UnitPrice * price[i].Unit + " / " + price[i].Unit + " photo </p>";
-                    }
-                    index = product[i].ProductId;
-                }
-                //Finding the right place to close out the div element
-                if(i+1 == product.Count || index != product[i + 1].ProductId)
-                {
-                    prods.InnerHtml += "</div><br/>";
-                }
-            }
 
-            */
+
+
             /*
             bool onsite = false;
             try
@@ -141,7 +94,7 @@ namespace WebForm
                 Dictionary<string, string> photomatch = photoprofile; //comment it for debugging.
                 ///COMMENT UNTIL HERE FOR DEBUGGING*/
             ///
-            /*
+
             Dictionary<string, string> photomatch = new Dictionary<string, string>();
             photomatch.Add("photoID1", "1.jpg");
             photomatch.Add("photoID2", "2.jpg");
@@ -177,13 +130,13 @@ namespace WebForm
                     photowatermarked = photowatermarked.Replace(@"Xeric/files/kidzania/", "");
                     string photowatermarked_filename = photowatermarked.Replace("/", "");
                     Debug.WriteLine("photo path" + photowatermarked_filename);
-                    /*
-                        if (!File.Exists(currentApplicationPath + "photos//" + photowatermarked_filename)) { }
-                        else
-                        {
-                            File.Delete(currentApplicationPath + "photos//" + photowatermarked_filename);
-                        }
-                        
+
+                    if (!File.Exists(currentApplicationPath + "photos//" + photowatermarked_filename)) { }
+                    else
+                    {
+                        File.Delete(currentApplicationPath + "photos//" + photowatermarked_filename);
+                    }
+
                     photo_gallery_ctn.InnerHtml += "<div id='gl_id_" + x + "' class=\"gallery\">";
 
                     photo_gallery_ctn.InnerHtml += "<img class=\"modal_window\" id=\"tn_id_" + x + "\" class=\"thumbnail\" src=\"/Content/photos/" + photowatermarked_filename + "\"/>";
@@ -193,103 +146,91 @@ namespace WebForm
                     photo_gallery_ctn.InnerHtml += "<div style='margin-bottom: 15px; font-size: 10px;'>Profile ID:" + photoid + "</div>";
                     photo_gallery_ctn.InnerHtml += "    <div>";
 
-                    index = 0;
+                    
+                    List<Product> products = GetPhotoProducts();
                     //First For loop to extract the list
-                    for (int i = 0; i < product.Count; i++)
+                    for (int i = 0; i < products.Count; i++)
                     {
-                        //Checking for records with the same id
-                        if (index == product[i].ProductId)
-                        {
-                            //Second for loop to add the price for matching id
-                            for (x = index; x < product.Count; x++)
-                            {
-                                if (price[x].ProductId != index)
-                                {
-                                    index++;
-                                    i = x;
-                                    x = product.Count + 1;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            photo_gallery_ctn.InnerHtml += "    <div style='text-align:left;margin-left:30px;'>";
-                            photo_gallery_ctn.InnerHtml += "    <input class='form-check-input filled-in itemsChk' onclick='checkChange(\"/Content/Photos/" + photowatermarked_filename + "\",\"" + photoid + "\",\"" + product[i].ProductId + "\")' type='checkbox' id='item" + photoid + product[i].ProductId + "'" + " name='product' value='" + product[i].ProductId + "'/>";
-                            photo_gallery_ctn.InnerHtml += "    &nbsp;<label style='height:20px;' name='" + product[i].ProductName + photoid + "'>" + product[i].ProductName + "</label>";
-                            photo_gallery_ctn.InnerHtml += "    </div>";
-                            index = product[i].ProductId;
-                        }
+
+                        photo_gallery_ctn.InnerHtml += "    <div style='text-align:left;margin-left:30px;'>";
+                        photo_gallery_ctn.InnerHtml += "    <input class='form-check-input filled-in itemsChk' onclick='checkChange(\"/Content/Photos/" + photowatermarked_filename + "\",\"" + photoid + "\",\"" + products[i].ProductId + "\")' type='checkbox' id='item" + photoid + products[i].ProductId + "'" + " name='product' value='" + products[i].ProductId + "'/>";
+                        photo_gallery_ctn.InnerHtml += "    &nbsp;<label style='height:20px;' name='" + products[i].ProductName + photoid + "'>" + products[i].ProductName + "</label>";
+                        photo_gallery_ctn.InnerHtml += "    </div>";
+                        
+
                         //Finding the right place to close out the div element
-                       
+
                     }
-            /*
-           //photo_gallery_ctn.InnerHtml += "    </div>";
+                    /*
+                   //photo_gallery_ctn.InnerHtml += "    </div>";
 
-           //photo_gallery_ctn.InnerHtml += "    <div>";
-           //photo_gallery_ctn.InnerHtml += "        <input name=\"digital_cb\" id=\"dc_photo" + photoid + "\" type=\"checkbox\" checked=\"checked\" value=\"" + photoid + "\">";
-           //photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"dc_photo" + photoid + "_lbl\">Digital</label>";
-           //photo_gallery_ctn.InnerHtml += "    </div>";
+                   //photo_gallery_ctn.InnerHtml += "    <div>";
+                   //photo_gallery_ctn.InnerHtml += "        <input name=\"digital_cb\" id=\"dc_photo" + photoid + "\" type=\"checkbox\" checked=\"checked\" value=\"" + photoid + "\">";
+                   //photo_gallery_ctn.InnerHtml += "        &nbsp;<label name=\"dc_photo" + photoid + "_lbl\">Digital</label>";
+                   //photo_gallery_ctn.InnerHtml += "    </div>";
 
-           //photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
-           //photo_gallery_ctn.InnerHtml += "<div id='myModala" + photoid + "' class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">";
-           //photo_gallery_ctn.InnerHtml += "<div class=\"modal-dialog\" role=\"document\">";
+                   //photo_gallery_ctn.InnerHtml += "<!-- The Modal -->";
+                   //photo_gallery_ctn.InnerHtml += "<div id='myModala" + photoid + "' class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">";
+                   //photo_gallery_ctn.InnerHtml += "<div class=\"modal-dialog\" role=\"document\">";
 
-           //photo_gallery_ctn.InnerHtml += "  <!-- The Close Button -->";
-           //photo_gallery_ctn.InnerHtml += "<span class=\"close\" onclick=\"document.getElementById('myModala" + photoid + "').style.display='none'\">&times;</span>";
-           //photo_gallery_ctn.InnerHtml += "  <!-- Modal Content (The Image) -->";
-           //photo_gallery_ctn.InnerHtml += "<img class=\"modal-content\" id=\"img01\" src='/Content/photos/" + photowatermarked_filename + "'> ";
-           //photo_gallery_ctn.InnerHtml += "  <!-- Modal Caption (Image Text) -->";
-           //photo_gallery_ctn.InnerHtml += "        <div class='modal-body'>";
+                   //photo_gallery_ctn.InnerHtml += "  <!-- The Close Button -->";
+                   //photo_gallery_ctn.InnerHtml += "<span class=\"close\" onclick=\"document.getElementById('myModala" + photoid + "').style.display='none'\">&times;</span>";
+                   //photo_gallery_ctn.InnerHtml += "  <!-- Modal Content (The Image) -->";
+                   //photo_gallery_ctn.InnerHtml += "<img class=\"modal-content\" id=\"img01\" src='/Content/photos/" + photowatermarked_filename + "'> ";
+                   //photo_gallery_ctn.InnerHtml += "  <!-- Modal Caption (Image Text) -->";
+                   //photo_gallery_ctn.InnerHtml += "        <div class='modal-body'>";
+                   */
+
+                   //photo_gallery_ctn.InnerHtml += "</div>";
+                   //photo_gallery_ctn.InnerHtml += "</div>";
+
+                   //photo_gallery_ctn.InnerHtml += "<script>";
+                   //photo_gallery_ctn.InnerHtml += "  modal_load(" + photoid + "); ";
+                   //photo_gallery_ctn.InnerHtml += "</script>";
 
 
-           //photo_gallery_ctn.InnerHtml += "</div>";
-           //photo_gallery_ctn.InnerHtml += "</div>";
+                   photo_gallery_ctn.InnerHtml += "</div>";
+                            photo_gallery_ctn.InnerHtml += "<div onclick='delete_gl(\"" + x + "\");' style='text-align:center;border-top: solid 1px;margin-top: 10px;cursor: pointer;padding: 5px;background-color: indianred;'><img style='width: auto !important;' src='\\Content\\img\\trash_small.png' /></div>";
+                            photo_gallery_ctn.InnerHtml += "</div>";
 
-           //photo_gallery_ctn.InnerHtml += "<script>";
-           //photo_gallery_ctn.InnerHtml += "  modal_load(" + photoid + "); ";
-           //photo_gallery_ctn.InnerHtml += "</script>";
+                            x++;
+                            photofullpath += photo.Key + "|";
+
+                        }
+                        /*
+                        int dc_amt = 20; //Default digital copy price
+
+                        purchase_status.InnerHtml += "<div class='fix_corner'>";
+                        purchase_status.InnerHtml += "  <div class='fix_corner_ctn'>";
+                        purchase_status.InnerHtml += "      <div class='fix_corner_item' id='digital_copy_amt'>Digital Copy: $" + dc_amt + "</div>";
+
+                        if (true)
+                        {
+                            purchase_status.InnerHtml += "      <div class='fix_corner_item' id='a5_copy_amt'>A5 hardcopy: $0</div>";
+                            purchase_status.InnerHtml += "      <div class='fix_corner_item' id='kc_copy_amt'>Keychain: $0</div>";
+                            purchase_status.InnerHtml += "      <div class='fix_corner_item' id='ec_copy_amt'>Establishment Card: $0</div>";
+                            purchase_status.InnerHtml += "      <div class='fix_corner_item' id='mg_copy_amt'>Magnet: $0</div>";
+                            purchase_status.InnerHtml += "      <div class='fix_corner_item' id='lr_copy_amt'>Leatherette: $0</div>";
+
+                        }
+                        purchase_status.InnerHtml += "      <div class='fix_corner_item' id='Total_cost'>Total: $" + dc_amt + " SGD</div>";
+                        purchase_status.InnerHtml += "      <div class='fix_corner_item'><b>*Bold: purchase with purchase discount</b></div>";
 
 
-           photo_gallery_ctn.InnerHtml += "</div>";
-                    photo_gallery_ctn.InnerHtml += "<div onclick='delete_gl(\"" + x + "\");' style='text-align:center;border-top: solid 1px;margin-top: 10px;cursor: pointer;padding: 5px;background-color: indianred;'><img style='width: auto !important;' src='\\Content\\img\\trash_small.png' /></div>";
-                    photo_gallery_ctn.InnerHtml += "</div>";
+                        if (alert_message != "")
+            purchase_status.InnerHtml += "  </div>";
+                            purchase_status.InnerHtml += "</div>";
+                            sa.Attributes["value"] = dc_amt.ToString();
+                            dc.Attributes["value"] = (x - 1).ToString();
+                            js.Attributes["value"] = photofullpath.TrimEnd('|');
+                        }
 
-                    x++;
-                    photofullpath += photo.Key + "|";
 
-                }
-                /*
-                int dc_amt = 20; //Default digital copy price
+
+                        return;
+                    }*/
                 
-                purchase_status.InnerHtml += "<div class='fix_corner'>";
-                purchase_status.InnerHtml += "  <div class='fix_corner_ctn'>";
-                purchase_status.InnerHtml += "      <div class='fix_corner_item' id='digital_copy_amt'>Digital Copy: $" + dc_amt + "</div>";
-                
-                if (true)
-                {
-                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='a5_copy_amt'>A5 hardcopy: $0</div>";
-                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='kc_copy_amt'>Keychain: $0</div>";
-                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='ec_copy_amt'>Establishment Card: $0</div>";
-                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='mg_copy_amt'>Magnet: $0</div>";
-                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='lr_copy_amt'>Leatherette: $0</div>";
-
-                }
-                purchase_status.InnerHtml += "      <div class='fix_corner_item' id='Total_cost'>Total: $" + dc_amt + " SGD</div>";
-                purchase_status.InnerHtml += "      <div class='fix_corner_item'><b>*Bold: purchase with purchase discount</b></div>";
-
-                
-                if (alert_message != "")
-    purchase_status.InnerHtml += "  </div>";
-                    purchase_status.InnerHtml += "</div>";
-                    sa.Attributes["value"] = dc_amt.ToString();
-                    dc.Attributes["value"] = (x - 1).ToString();
-                    js.Attributes["value"] = photofullpath.TrimEnd('|');
-                }
-                
-
-
-                return;
-            }*/
+            }
         }
 
 
@@ -464,6 +405,67 @@ namespace WebForm
         }
 
 
+
+        
+        public static List<Product> GetPhotoProducts()
+        {
+            string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
+            List<Product> products = new List<Product>();
+
+            MySqlConnection conn = null;
+            conn = new MySqlConnection(connstring);
+            conn.Open();
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand("SELECT * from product where photo_product = '1'", conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Debug.Write("time");
+                        //Setting the product list
+                        products.Add(new Product()
+                        {
+                            ProductId = reader["product_id"].ToString(),
+                            ProductName = reader["name"].ToString(),
+                            ProductImagePath = reader["image"].ToString(),
+                            ProductDescription = reader["description"].ToString(),
+                            //ProductQuantityConstraint = reader["quantity_constraint"].ToString(),
+                            OrginalPrice = Decimal.Parse(reader["original_price"].ToString()),
+                            OriginalGST = Decimal.Parse(reader["original_price"].ToString()),
+                            ProductVisibility = bool.Parse(reader["visibility"].ToString()),
+                            PhotoProduct = bool.Parse(reader["photo_product"].ToString()),
+                            UpdatedBy = reader["updated_by"].ToString(),
+                            UpdatedAt = DateTime.Parse(reader["updated_at"].ToString()).ToString("yyyy-MM-dd HH:mm:ss")
+                        });
+                        if (reader["pwp_price"].ToString() != null && reader["original_GST"].ToString() != null)
+                        {
+                            products[products.Count - 1].PwpPrice = Decimal.Parse(reader["pwp_price"].ToString());
+                            products[products.Count - 1].PwpGST = Decimal.Parse(reader["pwp_GST"].ToString());
+                        }
+                        if (reader["quantity_constraint"].ToString() != null)
+                        {
+                            products[products.Count - 1].ProductQuantityConstraint = reader["quantity_constraint"].ToString();
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: {0}", e.ToString());
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+            return products;
+        }
+
+
         //Retrieve product information for shopping cart
         [WebMethod]
         public static string GetProductbyId(string id)
@@ -485,14 +487,9 @@ namespace WebForm
                 {
                     while (reader.Read())
                     {
-
                         string pname = reader["ProductName"].ToString();
                         p.ProductName = char.ToUpper(pname[0]) + pname.Substring(1);
-
-                        pr.UnitPrice = Decimal.Parse(reader["unitPrice"].ToString());
-                        pr.UnitGST = Decimal.Parse(reader["UnitGST"].ToString());
-                        pr.Unit = int.Parse(reader["Unit"].ToString());
-                        p.ProductDescription = reader["ProductDescription"].ToString();
+                        
                     }
                 }
             }

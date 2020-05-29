@@ -937,7 +937,7 @@
         //When the select all digital is clicked the item will be inserted to the shopping cart
         function AddAllDigital() {
             console.log(CartItems);
-            var newCartItem = new CartItem("digital", "Content/photos/digital.png", "4");
+            var newCartItem = new CartItem("digital", "/Content/img/digital.jpg", "4");
             CartItems.push(newCartItem);
         }
         //Delete all digital in the shopping cart
@@ -982,8 +982,8 @@
         //This method will trigger when the select all is clicked and will disable and checked neccessary attribute and load methods
         function disableCheck() {
             checker = "stage2";
-            document.getElementById("item4").checked = true;
-            document.getElementById("item4").disabled = true;
+            //document.getElementById("item4").checked = true;
+            //document.getElementById("item4").disabled = true;
             deleteDigital();
             AddAllDigital();
             openCart();
@@ -992,8 +992,8 @@
         function uncheckDigital() {
             checker = "stage1";
             
-            document.getElementById("item4").disabled = false;
-            document.getElementById("item4").checked = false;
+            //document.getElementById("item4").disabled = false;
+            //document.getElementById("item4").checked = false;
             openCart();
         }
         //Tooltip

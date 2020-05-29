@@ -1,18 +1,11 @@
 ﻿<body class="text-center">
-    <form class="form-signin" action="ItemManagement/Index" method="post">
+    <form class="form-signin" action="/ItemManagement/Index" method="post">
         <img src="~/assets/images/kidzania.png" style="width:99%" alt="Kidzania logo">
         <h1 class="h3 mb-3 font-weight-normal">Please Log in</h1>
         <input type="text" id="inputID" class="form-control" placeholder="User ID" required autofocus>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox"> Remember me
-            </label>
-        </div>
-        <div class="forgot">
-            <a href="#">Forgot your password?</a>
-        </div>
-        <button class="button" type="submit">Login</button>  
+
+        <button class="button" type="submit" onclick="login()">Login</button>  
     </form>
 </body>
 <style>
@@ -79,3 +72,5 @@
             color: #f44336;
         }
 </style>
+<script>
+    </script>
