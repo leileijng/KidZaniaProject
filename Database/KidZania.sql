@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `kidzania` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `kidzania`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
 -- Host: localhost    Database: kidzania
@@ -144,7 +142,9 @@ CREATE TABLE `printer` (
   `reason` varchar(50) DEFAULT NULL,
   `updated_at` datetime NOT NULL,
   `updated_by` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`printer_id`)
+  PRIMARY KEY (`printer_id`),
+  KEY `updated_by` (`updated_by`),
+  CONSTRAINT `printer_ibfk_1` FOREIGN KEY (`updated_by`) REFERENCES `staff` (`staff_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -180,8 +180,7 @@ CREATE TABLE `product` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`product_id`),
   KEY `updated_by` (`updated_by`),
-  CONSTRAINT `product_ibfk_1` FOREIGN KEY (`updated_by`) REFERENCES `staff` (`staff_id`),
-  CONSTRAINT `product_ibfk_2` FOREIGN KEY (`updated_by`) REFERENCES `staff` (`staff_id`)
+  CONSTRAINT `product_ibfk_1` FOREIGN KEY (`updated_by`) REFERENCES `staff` (`staff_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -191,6 +190,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES ('1','Magnet','/Content/ProductPhoto/magnet.jpg','Phasellus non ante gravida, ultricies neque a',30.00,1.24,18.00,1.24,NULL,1,1,'staff1','2020-01-19 03:14:07'),('2','Keychain	','/Content/ProductPhoto/keychain.jpg','Phasellus non ante gravida, ultricies neque a',30.00,1.24,19.00,1.24,'Even Numbered Units',1,1,'staff1','2020-01-19 03:14:07'),('3','Establishment Card	','/Content/ProductPhoto/card.jpg','Phasellus non ante gravida, ultricies neque a',30.00,1.24,19.00,1.24,NULL,1,1,'staff1','2020-01-19 03:14:07'),('4','A5 Hardcopy','/Content/ProductPhoto/a5.jpg','Phasellus non ante gravida, ultricies neque a',30.00,1.24,10.00,1.24,NULL,1,1,'staff1','2020-01-19 03:14:07'),('5','Leatherette','/Content/ProductPhoto/leatherette.png','Phasellus non ante gravida, ultricies neque a',30.00,1.24,11.00,1.24,NULL,1,0,'staff1','2020-01-19 03:14:07'),('6','Digital','/Content/ProductPhoto/digital.jpg','Phasellus non ante gravida, ultricies neque a',30.00,1.24,15.00,1.24,'Max 1 Unit 1 Digital',1,0,'staff1','2020-01-19 03:14:07');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,7 +229,7 @@ CREATE TABLE `role` (
   `role_id` int(2) NOT NULL AUTO_INCREMENT,
   `role` varchar(50) NOT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -238,6 +238,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (1,'marketing');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -266,6 +267,7 @@ CREATE TABLE `staff` (
 
 LOCK TABLES `staff` WRITE;
 /*!40000 ALTER TABLE `staff` DISABLE KEYS */;
+INSERT INTO `staff` VALUES ('staff1','john','abc','abc',1);
 /*!40000 ALTER TABLE `staff` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -278,4 +280,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-28 13:49:06
+-- Dump completed on 2020-05-30 14:52:12

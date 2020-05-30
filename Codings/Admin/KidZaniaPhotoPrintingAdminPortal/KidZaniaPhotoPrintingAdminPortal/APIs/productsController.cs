@@ -1,134 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Description;
 using KidZaniaPhotoPrintingAdminPortal.Models;
-using Database = KidZaniaPhotoPrintingAdminPortal.Models.Database;
 
 namespace KidZaniaPhotoPrintingAdminPortal.APIs
 {
-    public class productsController : ApiController
+    public class ProductsController : ApiController
     {
-        private Database db = new Database();
+        private Database database = new Database();
 
-        // GET: api/products
-        public IQueryable<product> Getproducts()
+        [HttpGet]
+        public IHttpActionResult getProducts()
         {
-            return db.products;
-        }
-
-        // GET: api/products/5
-        [ResponseType(typeof(product))]
-        public IHttpActionResult Getproduct(string id)
-        {
-            product product = db.products.Find(id);
-            if (product == null)
+            var prod = database.products.Select(x => new
             {
-                return NotFound();
+                product_id = x.product_id,
+                name = x.name,
+                image = x.image,
+                original_price = x.original_price,
+                original_GST = x.original_GST,
+                photo_product = x.photo_product,
+                visibility = x.visibility,
+                quantity_constraint = x.quantity_constraint,
+                description = x.description,
+                pwp_price = x.pwp_price,
+                pwp_GST = x.pwp_GST,
+                updated_by = x.staff.name,
+                updated_at = x.updated_at
             }
+            ).ToList();
+            
 
-            return Ok(product);
-        }
-
-        // PUT: api/products/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult Putproduct(string id, product product)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != product.product_id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(product).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!productExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/products
-        [ResponseType(typeof(product))]
-        public IHttpActionResult Postproduct(product product)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.products.Add(product);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (productExists(product.product_id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtRoute("DefaultApi", new { id = product.product_id }, product);
-        }
-
-        // DELETE: api/products/5
-        [ResponseType(typeof(product))]
-        public IHttpActionResult Deleteproduct(string id)
-        {
-            product product = db.products.Find(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            db.products.Remove(product);
-            db.SaveChanges();
-
-            return Ok(product);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool productExists(string id)
-        {
-            return db.products.Count(e => e.product_id == id) > 0;
+            //if (rateListQueryResults.Count() != 0)
+            //{
+            //    foreach (var oneRate in rateListQueryResults)
+            //    {
+            //        rateList.Add(new
+            //        {
+            //            customerAccount = oneRate.CustomerAccount.AccountName,
+            //            accountRateId = oneRate.AccountRateId,
+            //            rate = oneRate.RatePerHour,
+            //            effectiveStartDate = oneRate.EffectiveStartDate,
+            //            effectiveEndDate = oneRate.EffectiveEndDate,
+            //        });
+            //    }
+            //}
+            //else
+            //{
+            //    var customerListQueryResults = Database.CustomerAccounts.First(rate => rate.CustomerAccountId == id);
+            //    rateList.Add(new
+            //    {
+            //        customerAccount = customerListQueryResults.AccountName,
+            //        rate = "undefined"
+            //    });
+            //}
+            return Ok(prod);
         }
     }
 }
