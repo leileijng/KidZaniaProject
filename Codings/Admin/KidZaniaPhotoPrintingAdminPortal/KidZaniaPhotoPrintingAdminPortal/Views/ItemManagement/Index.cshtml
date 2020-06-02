@@ -32,11 +32,12 @@
                 </div>
                 <h4 class="modal-title">Are you sure?</h4>
                 <div class="modal-body">
-                    <p>Do you really want to delete these record?</p>
+                    <p id="deleteRec"></p>
+                    <input type="hidden" id="deleteId" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button onclick="deleteSouvenir()" type="button" class="btn btn-danger">Delete</button>
                 </div>
             </div>
         </div>
@@ -170,7 +171,7 @@
                                 <p class="p-0">Visibility<span class="compulsoryInput d-inline"> *</span></p>
                                 <!-- Rounded switch -->
                                 <label class="switch">
-                                    <input type="checkbox">
+                                    <input id="visibilityInp" type="checkbox">
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -178,57 +179,57 @@
                                 <p class="p-0" style="margin-right: -26px;">Photo Product<span class="compulsoryInput d-inline"> *</span></p>
                                 <!-- Rounded switch -->
                                 <label class="switch">
-                                    <input type="checkbox">
+                                    <input id="photoProdInp" type="checkbox">
                                     <span class="slider round"></span>
                                 </label>
                             </div>
                         </div>
                         <div style="-ms-flex:1; flex:1;">
                             <div class="form-group col-md-12">
-                                <label for="ItemNameInput" class="font-small font-weight-medium">
+                                <label for="ItemNameInp" class="font-small font-weight-medium">
                                     Item Name <span class="compulsoryInput d-inline"> *</span>
                                 </label>
-                                <input type="text" id="ItemNameInput" name="ItemNameInput" class="form-control" placeholder="Please key in item name" />
+                                <input type="text" id="ItemNameInp" name="ItemNameInp" class="form-control" placeholder="Please key in item name" />
                                 <span></span>
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="priceInput" class="font-small font-weight-medium">
+                                <label for="priceNameInp" class="font-small font-weight-medium">
                                     Original Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
                                 </label>
-                                <input type="text" id="priceNameInput" name="priceNameInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                <input type="text" id="priceNameInp" name="priceNameInp" class="form-control" placeholder="$ e.g. 25.00" />
                                 <span></span>
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="priceInput" class="font-small font-weight-medium">
+                                <label for="pwpNameInp" class="font-small font-weight-medium">
                                     PWP Price (incl.GST) <span class="compulsoryInput d-inline"> </span>
                                 </label>
-                                <input type="text" id="priceNameInput" name="priceNameInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                <input type="text" id="pwpNameInp" name="pwpNameInp" class="form-control" placeholder="$ e.g. 25.00" />
                                 <span></span>
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="QCInput" class="font-small font-weight-medium">
                                     Quantity Constraints <span class="compulsoryInput d-inline"> *</span>
                                 </label>
-                                <select class="custom-select d-block w-100" id="input-select">
+                                <select class="custom-select d-block w-100" id="inp-select">
                                     <option>--None--</option>
-                                    <option>Even Numbered units</option>
-                                    <option>Max 1 unit 1 digital</option>
+                                    <option>Even Numbered Units</option>
+                                    <option>Max 1 Unit 1 Digital</option>
                                 </select>
                             </div>
 
                         </div>
                     </div>
                     <div class="form-group col-md-12" style="margin-top: -10px;">
-                        <label for="commentsInput" class="font-small font-weight-medium">
+                        <label for="commentsInp" class="font-small font-weight-medium">
                             Description
                         </label>
-                        <textarea type="text" id="commentsInput" name="commentsInput" class="form-control" placeholder="Enter Description"></textarea>
+                        <textarea type="text" id="commentsInp" name="commentsInp" class="form-control" placeholder="Enter Description"></textarea>
                         <span></span>
                     </div>
-
+                    <input type="hidden" id="idInp" />
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-grey">Reset</button>
-                        <button type="button" class="btn btn-primary" id="SubmitBtn">Save Changes</button>
+                        <button type="button" onclick="updateSouvenir()" class="btn btn-primary" id="SubmitBtn">Save Changes</button>
                     </div>
                 </div>
             </div>
@@ -277,37 +278,7 @@
                             </thead>
                             <tbody class="souvenir">
                                 <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <div><img src="~/Content/ProductPhoto/magnet.jpg" alt="user" width="55"></div>
-                                    </td>
-                                    <td> Magnet </td>
-                                    <td>Phasellus non ante gravida, ultricies neque a</td>
-                                    <td><span class="text-dark font-weight-bold">$30.00</span><small class="text-mute"> /$1.24 </small> </td>
-                                    <td><span class="text-dark font-weight-bold">$18.00</span><small class="text-mute"> /$1.24 </small></td>
-                                    <td>
-                                        <select class="custom-select d-block w-100" id="input-select">
-                                            <option>--None--</option>
-                                            <option>Even Numbered units</option>
-                                            <option>Max 1 unit 1 digital</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <label class="switch">
-                                            <input type="checkbox" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <label class="switch">
-                                            <input type="checkbox" checked>
-                                            <span class="slider round"></span>
-                                        </label>
-                                    </td>
-                                    <td><a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a><a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a></td>
-
-                                    <td> Admin2 </td>
-                                    <td>11 February 2020</td>
+                                    Empty
                                 </tr>
                             </tbody>
                         </table>
@@ -340,7 +311,8 @@
 <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
 <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
 <script src="~/Scripts/moment.js"></script>
-
+<script src="~/Scripts/noty/jquery.noty.js"></script>
+<script src="~/Scripts/noty/layouts/center.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -399,91 +371,243 @@
     }
     function loadTable(data) {
         $('.souvenir').html('');//Clear the <tbody> element first
-        for (let x = 0; x <= data.length; x++) {
-            let record = data[x];
-            let $cellElement = null;
-            let $hyperlinkElement = null;
-            let $rowElement = $('<tr></tr>');
-            $cellElement = $(`<td>${record.product_id}</td>`);
-            $rowElement.append($cellElement);
-            $cellElement = $(`<td><div><img src="${record.image}" alt="user" width="55"></div></td>`);
-            $rowElement.append($cellElement);
-            $cellElement = $(`<td>${record.name}</td>`);
-            $rowElement.append($cellElement);
-            $cellElement = $(`<td>${record.description}</td>`);
-            $rowElement.append($cellElement);
-            $cellElement = $(`<td><span class="text-dark font-weight-bold">&#36;${record.original_price}</span><small class="text-mute"> /&#36;${record.original_GST} </small></td>`);
-            $rowElement.append($cellElement);
-            $cellElement = $(`<td><span class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small class="text-mute"> /&#36;${record.pwp_GST} </small></td>`);
-            $rowElement.append($cellElement);
-            if (record.quantity_constraint == "Even Numbered Units") {
-                $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select">
+        if (data != null || data.length > 0) {
+            for (let x = 0; x <= data.length; x++) {
+                let record = data[x];
+                let $cellElement = null;
+                let $hyperlinkElement = null;
+                let $rowElement = $('<tr></tr>');
+                $cellElement = $(`<td>${record.product_id}</td>`);
+                $rowElement.append($cellElement);
+                $cellElement = $(`<td><div><img src="${record.image}" alt="user" width="55"></div></td>`);
+                $rowElement.append($cellElement);
+                $cellElement = $(`<td>${record.name}</td>`);
+                $rowElement.append($cellElement);
+                $cellElement = $(`<td>${record.description}</td>`);
+                $rowElement.append($cellElement);
+                $cellElement = $(`<td><span class="text-dark font-weight-bold">&#36;${record.original_price}</span><small class="text-mute"> /&#36;${record.original_GST} </small></td>`);
+                $rowElement.append($cellElement);
+                $cellElement = $(`<td><span class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small class="text-mute"> /&#36;${record.pwp_GST} </small></td>`);
+                $rowElement.append($cellElement);
+                if (record.quantity_constraint == "Even Numbered Units") {
+                    $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select">
                                             <option>--None--</option>
                                             <option selected>Even Numbered units</option>
                                             <option>Max 1 unit 1 digital</option>
                                         </select></td>`);
-            }
-            else if (record.quantity_constraint == "Max 1 Unit 1 Digital") {
-                $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select">
+                }
+                else if (record.quantity_constraint == "Max 1 Unit 1 Digital") {
+                    $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select">
                                             <option>--None--</option>
                                             <option>Even Numbered units</option>
                                             <option selected>Max 1 unit 1 digital</option>
                                         </select></td>`);
-            }
-            else {
-                $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select">
+                }
+                else {
+                    $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select">
                                             <option>--None--</option>
                                             <option>Even Numbered units</option>
                                             <option>Max 1 unit 1 digital</option>
                                         </select></td>`);
-            }
-            
-            $rowElement.append($cellElement);
-            if (record.photo_product == true) {
-                $cellElement = $(`<td>
+                }
+
+                $rowElement.append($cellElement);
+                if (record.photo_product == true) {
+                    $cellElement = $(`<td>
                                        <label class="switch">
                                             <input type="checkbox" checked>
                                             <span class="slider round"></span>
                                        </label>
                                   </td>`);
-            }
-            else {
-                $cellElement = $(`<td>
+                }
+                else {
+                    $cellElement = $(`<td>
                                       <label class="switch">
                                             <input type="checkbox">
                                             <span class="slider round"></span>
                                       </label>
                                   </td>`);
-            }
-            $rowElement.append($cellElement);
-            if (record.visibility == true) {
-                $cellElement = $(`<td>
+                }
+                $rowElement.append($cellElement);
+                if (record.visibility == true) {
+                    $cellElement = $(`<td>
                                        <label class="switch">
                                             <input type="checkbox" checked>
                                             <span class="slider round"></span>
                                        </label>
                                   </td>`);
-            }
-            else {
-                $cellElement = $(`<td>
+                }
+                else {
+                    $cellElement = $(`<td>
                                       <label class="switch">
                                             <input type="checkbox">
                                             <span class="slider round"></span>
                                       </label>
                                   </td>`);
+                }
+                $rowElement.append($cellElement);
+                $cellElement = $(`<td></td>`);
+                $hyperlinkElement = $(`<a class="edit" onclick="loadEdit(${record.product_id})" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a>`);
+                $cellElement.append($hyperlinkElement);
+                $hyperlinkElement = $(`<a href="#myModal" onclick="loadDelete(${record.product_id})" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a>`);
+                $cellElement.append($hyperlinkElement);
+                $rowElement.append($cellElement);
+                $cellElement = $(`<td>${record.updated_by}</td>`);
+                $rowElement.append($cellElement);
+                $cellElement = $(`<td>${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
+                $rowElement.append($cellElement);
+                $('.souvenir').append($rowElement);
             }
-            $rowElement.append($cellElement);
-            $cellElement = $(`<td></td>`);
-            $hyperlinkElement = $(`<a class="edit" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a>`);
-            $cellElement.append($hyperlinkElement);
-            $hyperlinkElement = $(`<a href="#myModal" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a>`);
-            $cellElement.append($hyperlinkElement);
-            $rowElement.append($cellElement);
-            $cellElement = $(`<td>${record.updated_by}</td>`);
-            $rowElement.append($cellElement);
-            $cellElement = $(`<td>${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
-            $rowElement.append($cellElement);
-            $('.souvenir').append($rowElement);
         }
+        else {
+            let $cellElement = null;
+            let $rowElement = $('<tr></tr>');
+
+            $cellElement = $(`<td style="text-align:center" colspan="12">No data available in table</td>`);
+            $rowElement.append($cellElement);
+            $('#dataTableBody').append($rowElement);//inserting a new row
+        }
+    }
+    function loadEdit(id) {
+        $.ajax({
+            type: "GET",
+            url: `/api/products/${id}`,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $('#ItemNameInp').val(data.name);
+                $('#priceNameInp').val(data.original_price);
+                $('#pwpNameInp').val(data.pwp_price);
+                $('#commentsInp').val(data.description);
+                $('#idInp').val(data.product_id);
+
+                if (data.quantity_constraint != null) {
+                    $('#inp-select').val(data.quantity_constraint);
+                } else {
+                    $('#inp-select').val("--None--");
+                }
+                if (data.photo_product == true) {
+                    document.getElementById("photoProdInp").checked = true;
+                } else {
+                    document.getElementById("photoProdInp").checked = false;
+                }
+
+                if (data.visibility == true) {
+                    document.getElementById("visibilityInp").checked = true;
+                } else {
+                    document.getElementById("visibilityInp").checked = false;
+                }
+                document.getElementById("editPhoto").src = data.image;
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+    function updateSouvenir() {
+        let id = $('#idInp').val();
+        let image = document.getElementById("editPhoto").src;
+        let name = $('#ItemNameInp').val();
+        let oriPrice = $('#priceNameInp').val();
+        let pwpPrice = $('#pwpNameInp').val();
+        let description = $('#commentsInp').val();
+        let qc = $('#inp-select').val();
+        let visibility;
+        if ($('#visibilityInp').is(":checked")) {
+            visibility = true;
+        }
+        else {
+            visibility = false;
+        }
+        let photoprod;
+        if ($('#photoProdInp').is(":checked")) {
+            photoprod = true;
+        }
+        else {
+            photoprod = false;
+        }
+        let webformdata = new WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod);
+        console.log(JSON.stringify(webformdata));
+        $.ajax({
+            type: 'PUT',
+            url: `/API/products/${id}`,
+            contentType: 'application/json',
+            data: JSON.stringify(webformdata)
+        }).done(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.message,
+                layout: 'center',
+                theme: "metroui",
+                type: 'success',
+                callbacks: {
+                    onClose: function () {
+                        location.replace('/ItemManagement/Index');
+                    }
+                }
+            }).show();
+        }).fail(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.responseJSON.message,
+                theme: 'metroui',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error'
+            }).show();
+        });
+    }
+    function loadDelete(id) {
+        $.ajax({
+            type: "GET",
+            url: `/api/products/${id}`,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                document.getElementById("deleteRec").textContent = `Do you really want to delete ${data.name} record?`;
+                document.getElementById("deleteId").val = id;
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+    function deleteSouvenir() {
+        var id = document.getElementById("deleteId").val;
+        $.ajax({
+            type: "DELETE",
+            url: `/api/products/${id}`,
+            dataType: "json",
+        }).done(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.message,
+                layout: 'center',
+                theme: "metroui",
+                type: 'success',
+                callbacks: {
+                    onClose: function () {
+                        location.replace('/ItemManagement/Index');
+                    }
+                }
+            }).show();
+        }).fail(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.responseJSON.message,
+                theme: 'metroui',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error'
+            }).show();
+        });
+
+    }
+    function WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod) {
+        this.name = name;
+        this.image = image;
+        this.original_price = oriPrice;
+        this.pwp_price = pwpPrice;
+        this.description = description;
+        this.quantity_constraint = qc;
+        this.visibility = visibility;
+        this.photo_product = photoprod;
     }
 </script>
