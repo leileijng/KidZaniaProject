@@ -389,28 +389,12 @@
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td><span class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small class="text-mute"> /&#36;${record.pwp_GST} </small></td>`);
                 $rowElement.append($cellElement);
-                if (record.quantity_constraint == "Even Numbered Units") {
-                    $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select">
-                                            <option>--None--</option>
-                                            <option selected>Even Numbered units</option>
-                                            <option>Max 1 unit 1 digital</option>
-                                        </select></td>`);
-                }
-                else if (record.quantity_constraint == "Max 1 Unit 1 Digital") {
-                    $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select">
-                                            <option>--None--</option>
-                                            <option>Even Numbered units</option>
-                                            <option selected>Max 1 unit 1 digital</option>
-                                        </select></td>`);
-                }
-                else {
-                    $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select">
+                $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
                                             <option>--None--</option>
                                             <option>Even Numbered units</option>
                                             <option>Max 1 unit 1 digital</option>
                                         </select></td>`);
-                }
-
+                
                 $rowElement.append($cellElement);
                 if (record.photo_product == true) {
                     $cellElement = $(`<td>
@@ -457,6 +441,13 @@
                 $cellElement = $(`<td>${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
                 $rowElement.append($cellElement);
                 $('.souvenir').append($rowElement);
+                if (record.quantity_constraint == "Even Numbered Units") {
+                    $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
+                }
+                else if (record.quantity_constraint == "Max 1 Unit 1 Digital") {
+                    $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
+                }
+                else { }
             }
         }
         else {
@@ -487,18 +478,17 @@
                     $('#inp-select').val("--None--");
                 }
                 if (data.photo_product == true) {
-                    document.getElementById("photoProdInp").checked = true;
+                    $('#photoProdInp').prop('checked', true);
                 } else {
-                    document.getElementById("photoProdInp").checked = false;
+                    $('#photoProdInp').prop('checked', false);
                 }
 
                 if (data.visibility == true) {
-                    document.getElementById("visibilityInp").checked = true;
+                    $('#visibilityInp').prop('checked', true);
                 } else {
-                    document.getElementById("visibilityInp").checked = false;
+                    $('#visibilityInp').prop('checked', false);
                 }
-                document.getElementById("editPhoto").src = data.image;
-
+                $('#editPhoto').attr('src', data.image);
             },
             error: function (data) {
                 console.log(data);
@@ -507,7 +497,7 @@
     }
     function updateSouvenir() {
         let id = $('#idInp').val();
-        let image = document.getElementById("editPhoto").src;
+        let image = $('#editPhoto').attr('src');
         let name = $('#ItemNameInp').val();
         let oriPrice = $('#priceNameInp').val();
         let pwpPrice = $('#pwpNameInp').val();
@@ -563,8 +553,8 @@
             dataType: "json",
             success: function (data) {
                 console.log(data);
-                document.getElementById("deleteRec").textContent = `Do you really want to delete ${data.name} record?`;
-                document.getElementById("deleteId").val = id;
+                $("#deleteRec").text(`Do you really want to delete ${data.name} record?`);
+                $("#deleteId").val(id);
             },
             error: function (data) {
                 console.log(data);
@@ -572,7 +562,7 @@
         });
     }
     function deleteSouvenir() {
-        var id = document.getElementById("deleteId").val;
+        var id = $("#deleteId").val();
         $.ajax({
             type: "DELETE",
             url: `/api/products/${id}`,
@@ -600,6 +590,7 @@
         });
 
     }
+    
     function WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod) {
         this.name = name;
         this.image = image;
