@@ -164,8 +164,10 @@
                         <div style="-ms-flex:1; flex:1;">
                             <div class="imgContainer">
                                 <img src="~/Content/ProductPhoto/keychain.jpg" alt="upload" style="width:200px; margin-top: -14px;" id="editPhoto">
-
-                                <div class="editImgbutton"><a href="#"> Change Photo </a></div>
+                                <div class="editImgbutton">
+                                    Change Photo           <input type="file" id="myfile" />
+                                </div>
+                                <input id="btn1" class="btn btn-default" type="button" value="Upload" />
                             </div>
                             <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
                                 <p class="p-0">Visibility<span class="compulsoryInput d-inline"> *</span></p>
@@ -588,9 +590,31 @@
                 type: 'error'
             }).show();
         });
-
     }
-    
+    $('#btn1').click(function () {
+        if ($('#myfile').val() == '') {
+            alert('Please select file');
+            return;
+        }
+
+        var formData = new FormData();
+        var file = $('#myfile')[0];
+        formData.append('file', file.files[0]);
+        $.ajax({
+            url: '/api/products/UploadFile',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (d) {
+                console.log(d);
+                alert('file is uploaded successfully')
+            },
+            error: function () {
+                alert('Some thing went wrong');
+            }
+        });
+    });
     function WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod) {
         this.name = name;
         this.image = image;
@@ -601,4 +625,5 @@
         this.visibility = visibility;
         this.photo_product = photoprod;
     }
+
 </script>
