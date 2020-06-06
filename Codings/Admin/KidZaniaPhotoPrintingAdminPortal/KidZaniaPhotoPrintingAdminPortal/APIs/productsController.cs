@@ -58,15 +58,11 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     name = x.name,
                     image = x.image,
                     original_price = x.original_price,
-                    original_GST = x.original_GST,
                     photo_product = x.photo_product,
                     visibility = x.visibility,
                     quantity_constraint = x.quantity_constraint,
                     description = x.description,
                     pwp_price = x.pwp_price,
-                    pwp_GST = x.pwp_GST,
-                    updated_by = x.staff.name,
-                    updated_at = x.updated_at
                 }
                 ).FirstOrDefault(x => x.product_id == id);
                 return Ok(prod);
@@ -91,11 +87,16 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             var quantity_constraint = data["quantity_constraint"].ToString();
             var visibility = bool.Parse(data["visibility"].ToString());
             var photo_product = bool.Parse(data["photo_product"].ToString());
+            var gst = data["gst"].ToString();
+            var intgst = int.Parse(gst.Substring(0, 1));
             prod.name = name;
             prod.image = image;
             prod.original_price = original_price;
             prod.pwp_price = pwp_price;
             prod.description = description;
+            prod.original_GST = original_price * intgst / 100;
+            prod.pwp_GST = pwp_price * intgst / 100;
+            prod.updated_at = DateTime.Now;
             if (quantity_constraint == "--None--")
             {
                 prod.quantity_constraint = null;

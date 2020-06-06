@@ -163,7 +163,7 @@
                     <div style="display: flex;">
                         <div style="-ms-flex:1; flex:1;">
                             <div class="imgContainer">
-                                <img src="~/Content/ProductPhoto/keychain.jpg" alt="upload" style="width:200px; margin-top: -14px;" id="editPhoto">
+                                <img alt="upload" style="width:200px; margin-top: -14px;" id="editPhoto">
                                 <div class="editImgbutton">
                                     Change Photo           <input type="file" id="myfile" />
                                 </div>
@@ -247,7 +247,7 @@
 
                 <div class="card-body">
                     <div class="table-responsive">
-                        <div class="row">
+                        <div class="row" id="headerRow">
                             <div class="col-sm-3 col-md-3" style="flex:1;">
                                 <div class="add">
                                     <button href="#exampleModal" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -257,10 +257,9 @@
                             </div>
                             <div class="gst" style="flex:1;">
                                 <label>GST :</label>
-                                <input type="text" class="percentage-inputmask" id="percentage-mask" placeholder="7%">
+                                <input type="text" class="percentage-inputmask" id="gstper" value="7%">
                             </div>
                         </div>
-
                         <table id="example" class="table table-striped table-bordered second">
                             <thead>
                                 <tr>
@@ -279,9 +278,6 @@
                                 </tr>
                             </thead>
                             <tbody class="souvenir">
-                                <tr>
-                                    Empty
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -329,7 +325,9 @@
         position: relative;
     }
 
-
+    #headerRow{
+        margin-bottom: 20px;
+    }
     .editImgbutton {
         position: absolute;
         width: 200px;
@@ -387,9 +385,9 @@
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td>${record.description}</td>`);
                 $rowElement.append($cellElement);
-                $cellElement = $(`<td><span class="text-dark font-weight-bold">&#36;${record.original_price}</span><small class="text-mute"> /&#36;${record.original_GST} </small></td>`);
+                $cellElement = $(`<td><span class="text-dark font-weight-bold">&#36;${record.original_price}</span><small class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
                 $rowElement.append($cellElement);
-                $cellElement = $(`<td><span class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small class="text-mute"> /&#36;${record.pwp_GST} </small></td>`);
+                $cellElement = $(`<td><span class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
                                             <option>--None--</option>
@@ -400,35 +398,23 @@
                 $rowElement.append($cellElement);
                 if (record.photo_product == true) {
                     $cellElement = $(`<td>
-                                       <label class="switch">
-                                            <input type="checkbox" checked>
-                                            <span class="slider round"></span>
-                                       </label>
+                                        <i class="fas fa-check mr-1"></i>
                                   </td>`);
                 }
                 else {
                     $cellElement = $(`<td>
-                                      <label class="switch">
-                                            <input type="checkbox">
-                                            <span class="slider round"></span>
-                                      </label>
+                                        <i class="fas fa-times mr-1"></i>
                                   </td>`);
                 }
                 $rowElement.append($cellElement);
                 if (record.visibility == true) {
                     $cellElement = $(`<td>
-                                       <label class="switch">
-                                            <input type="checkbox" checked>
-                                            <span class="slider round"></span>
-                                       </label>
+                                        <i class="fas fa-check mr-1"></i>
                                   </td>`);
                 }
                 else {
                     $cellElement = $(`<td>
-                                      <label class="switch">
-                                            <input type="checkbox">
-                                            <span class="slider round"></span>
-                                      </label>
+                                        <i class="fas fa-times mr-1"></i>
                                   </td>`);
                 }
                 $rowElement.append($cellElement);
@@ -498,6 +484,7 @@
         });
     }
     function updateSouvenir() {
+        let gst = $('#gstper').val();
         let id = $('#idInp').val();
         let image = $('#editPhoto').attr('src');
         let name = $('#ItemNameInp').val();
@@ -519,7 +506,7 @@
         else {
             photoprod = false;
         }
-        let webformdata = new WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod);
+        let webformdata = new WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
         console.log(JSON.stringify(webformdata));
         $.ajax({
             type: 'PUT',
@@ -615,7 +602,7 @@
             }
         });
     });
-    function WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod) {
+    function WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst) {
         this.name = name;
         this.image = image;
         this.original_price = oriPrice;
@@ -624,6 +611,7 @@
         this.quantity_constraint = qc;
         this.visibility = visibility;
         this.photo_product = photoprod;
+        this.gst = gst;
     }
 
 </script>
