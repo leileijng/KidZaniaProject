@@ -133,6 +133,26 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 return BadRequest("Unable to delete product");
             }
         }
+        [Route("api/products/editGST")]
+        [HttpPut]
+        public IHttpActionResult editGST(decimal gst)
+        {
+            try
+            {
+                List<product> prod = database.products.ToList();
+                foreach (product oneprod in prod)
+                {
+                    oneprod.original_GST = oneprod.original_price * gst / 100;
+                    oneprod.pwp_GST = oneprod.pwp_price * gst / 100;
+                }
+                database.SaveChanges();
+            } catch(Exception e)
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
         [HttpPost]
         [Route("api/products/UploadFile")]
         public Task<HttpResponseMessage> Post()

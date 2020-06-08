@@ -594,6 +594,16 @@
             $(`#oriGST${prod_id[x]}`).text(` /$${origst.toFixed(2)}`);
             $(`#pwpGST${prod_id[x]}`).text(` /$${pwpgst.toFixed(2)}`);
         }
+        $.ajax({
+            type: "PUT",
+            url: `/api/products/editGST?gst=${gst}`,
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
     });
     $('#btn1').click(function () {
         if ($('#myfile').val() == '') {
