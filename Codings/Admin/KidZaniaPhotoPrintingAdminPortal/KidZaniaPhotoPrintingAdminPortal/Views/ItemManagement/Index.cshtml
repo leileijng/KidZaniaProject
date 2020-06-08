@@ -256,8 +256,8 @@
                                 </div>
                             </div>
                             <div class="gst" style="flex:1;">
-                                <label>GST :</label>
-                                <input type="text" class="percentage-inputmask" id="gstper" value="7%">
+                                <label>GST %:</label>
+                                <input type="text" class="percentage-inputmask" id="gstper">
                             </div>
                         </div>
                         <table id="example" class="table table-striped table-bordered second">
@@ -354,7 +354,7 @@
 </style>
 <script>
     loadSouvenirs()
-
+    var prod_id = [];
     function loadSouvenirs() {
         $.ajax({
             type: "GET",
@@ -362,6 +362,11 @@
             dataType: "json",
             success: function (data) {
                 console.log(data);
+                if ((data[0].original_GST * 100) % data[0].original_price == 0) {
+                    $("#gstper").val(data[0].original_GST * 100 / data[0].original_price);
+                } else {
+                    $("#gstper").val((data[0].original_GST * 100 / data[0].original_price).toFixed(2));
+                }
                 loadTable(data);
             },
             error: function (data) {
@@ -372,11 +377,12 @@
     function loadTable(data) {
         $('.souvenir').html('');//Clear the <tbody> element first
         if (data != null || data.length > 0) {
-            for (let x = 0; x <= data.length; x++) {
+            for (let x = 0; x < data.length; x++) {
                 let record = data[x];
                 let $cellElement = null;
                 let $hyperlinkElement = null;
                 let $rowElement = $('<tr></tr>');
+                prod_id.push(record.product_id);
                 $cellElement = $(`<td>${record.product_id}</td>`);
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td><div><img src="${record.image}" alt="user" width="55"></div></td>`);
@@ -385,9 +391,9 @@
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td>${record.description}</td>`);
                 $rowElement.append($cellElement);
-                $cellElement = $(`<td><span class="text-dark font-weight-bold">&#36;${record.original_price}</span><small class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
+                $cellElement = $(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
                 $rowElement.append($cellElement);
-                $cellElement = $(`<td><span class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
+                $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
                                             <option>--None--</option>
@@ -578,6 +584,17 @@
             }).show();
         });
     }
+    $("#gstper").change(function () {
+        let gst = $('#gstper').val();
+        for (let x = 0; x < prod_id.length; x++) {
+            let oriprice = $(`#oriPrice${prod_id[x]}`).text().substring(1);
+            let pwpprice = $(`#pwpPrice${prod_id[x]}`).text().substring(1);
+            let origst = (parseInt(oriprice) * parseFloat(gst) / 100);
+            let pwpgst = (parseInt(pwpprice) * parseFloat(gst) / 100);
+            $(`#oriGST${prod_id[x]}`).text(` /$${origst.toFixed(2)}`);
+            $(`#pwpGST${prod_id[x]}`).text(` /$${pwpgst.toFixed(2)}`);
+        }
+    });
     $('#btn1').click(function () {
         if ($('#myfile').val() == '') {
             alert('Please select file');

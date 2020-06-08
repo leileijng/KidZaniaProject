@@ -87,15 +87,14 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             var quantity_constraint = data["quantity_constraint"].ToString();
             var visibility = bool.Parse(data["visibility"].ToString());
             var photo_product = bool.Parse(data["photo_product"].ToString());
-            var gst = data["gst"].ToString();
-            var intgst = int.Parse(gst.Substring(0, 1));
+            var gst = Decimal.Parse(data["gst"].ToString());
             prod.name = name;
             prod.image = image;
             prod.original_price = original_price;
             prod.pwp_price = pwp_price;
             prod.description = description;
-            prod.original_GST = original_price * intgst / 100;
-            prod.pwp_GST = pwp_price * intgst / 100;
+            prod.original_GST = original_price * gst / 100;
+            prod.pwp_GST = pwp_price * gst / 100;
             prod.updated_at = DateTime.Now;
             if (quantity_constraint == "--None--")
             {

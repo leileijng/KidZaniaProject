@@ -190,7 +190,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES ('1','Magnet','/Content/ProductPhoto/magnet.jpg','Phasellus non ante gravida, ultricies neque a',30.00,1.24,18.00,1.24,NULL,1,1,'staff1','2020-01-19 03:14:07'),('2','Keychain	','/Content/ProductPhoto/keychain.jpg','Phasellus non ante gravida, ultricies neque a',30.00,1.24,19.00,1.24,'Even Numbered Units',1,1,'staff1','2020-01-19 03:14:07'),('3','Establishment Card	','/Content/ProductPhoto/card.jpg','Phasellus non ante gravida, ultricies neque a',30.00,1.24,19.00,1.24,NULL,1,1,'staff1','2020-01-19 03:14:07'),('4','A5 Hardcopy','/Content/ProductPhoto/a5.jpg','Phasellus non ante gravida, ultricies neque a',30.00,1.24,10.00,1.24,NULL,1,1,'staff1','2020-01-19 03:14:07'),('5','Leatherette','/Content/ProductPhoto/leatherette.png','Phasellus non ante gravida, ultricies neque a',30.00,1.24,11.00,1.24,NULL,1,0,'staff1','2020-01-19 03:14:07'),('6','Digital','/Content/ProductPhoto/digital.jpg','Phasellus non ante gravida, ultricies neque a',30.00,1.24,15.00,1.24,'Max 1 Unit 1 Digital',1,0,'staff1','2020-01-19 03:14:07');
+INSERT INTO `product` VALUES ('1','Magnet','/Content/ProductPhoto/magnet.jpg','Phasellus non ante gravida, ultricies neque asdas',30.00,2.10,18.00,1.26,NULL,1,1,'staff1','2020-06-08 13:29:04'),('2','Keychain	','/Content/ProductPhoto/keychain.jpg','Phasellus non ante gravida, ultricies neque a',30.00,2.17,19.00,1.37,'Even Numbered Units',1,1,'staff1','2020-06-08 13:20:36'),('3','Establishment Card	','/Content/ProductPhoto/card.jpg','Phasellus non ante gravida, ultricies neque a',30.00,1.24,19.00,1.24,NULL,1,1,'staff1','2020-01-19 03:14:07'),('4','A5 Hardcopy','/Content/ProductPhoto/a5.jpg','Phasellus non ante gravida, ultricies neque a',30.00,1.24,10.00,1.24,NULL,1,1,'staff1','2020-01-19 03:14:07'),('5','Leatherette','/Content/ProductPhoto/leatherette.png','Phasellus non ante gravida, ultricies neque a',30.00,1.24,11.00,1.24,NULL,1,0,'staff1','2020-01-19 03:14:07'),('6','Digital','/Content/ProductPhoto/digital.jpg','Phasellus non ante gravida, ultricies neque a',30.00,1.24,15.00,1.24,'Max 1 Unit 1 Digital',1,0,'staff1','2020-01-19 03:14:07');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,4 +280,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-30 14:52:12
+-- Dump completed on 2020-06-08 19:32:05
