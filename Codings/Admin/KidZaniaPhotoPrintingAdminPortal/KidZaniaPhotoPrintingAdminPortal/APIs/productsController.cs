@@ -78,7 +78,6 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
         public IHttpActionResult editProduct(string id, [FromBody]JObject data)
         {
             var prod = database.products.Single(x => x.product_id == id);
-            //var name = data[0];
             var name = data["name"].ToString();
             var image = data["image"].ToString();
             var original_price = Decimal.Parse(data["original_price"].ToString());
@@ -152,7 +151,44 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
             return Ok();
         }
-
+        [Route("api/products/{id}")]
+        [HttpPost]
+        public IHttpActionResult createProduct(string id, [FromBody]JObject data)
+        {
+            product prod = new product();
+            var name = data["name"].ToString();
+            var image = data["image"].ToString();
+            var original_price = Decimal.Parse(data["original_price"].ToString());
+            var pwp_price = Decimal.Parse(data["pwp_price"].ToString());
+            var description = data["description"].ToString();
+            var quantity_constraint = data["quantity_constraint"].ToString();
+            var visibility = bool.Parse(data["visibility"].ToString());
+            var photo_product = bool.Parse(data["photo_product"].ToString());
+            var gst = Decimal.Parse(data["gst"].ToString());
+            prod.name = name;
+            prod.image = "/Content/ProductPhoto/" + name + image.Substring(image.IndexOf('.'));
+            prod.original_price = original_price;
+            prod.pwp_price = pwp_price;
+            prod.description = description;
+            prod.original_GST = original_price * gst / 100;
+            prod.pwp_GST = pwp_price * gst / 100;
+            prod.updated_at = DateTime.Now;
+            prod.product_id = id;
+            if (quantity_constraint == "--None--")
+            {
+                prod.quantity_constraint = null;
+            }
+            else
+            {
+                prod.quantity_constraint = quantity_constraint;
+            }
+            prod.visibility = visibility;
+            prod.photo_product = photo_product;
+            prod.updated_by = "staff1";
+            database.products.Add(prod);
+            database.SaveChanges();
+            return Ok(new { message = name + " record has been created!" });
+        }
         [HttpPost]
         [Route("api/products/UploadFile")]
         public Task<HttpResponseMessage> Post()

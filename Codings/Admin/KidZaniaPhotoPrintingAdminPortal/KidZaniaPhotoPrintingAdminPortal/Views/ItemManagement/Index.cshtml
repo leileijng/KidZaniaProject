@@ -79,12 +79,13 @@
                 <div class="modal-body">
                     <div style="display: flex;">
                         <div style="-ms-flex:1; flex:1;">
-                            <img src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-top: -14px;">
+                            <img onclick="$('#fileid').click();" id="uploadhover" src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-top: -14px;">
+                            <input id='fileid' onchange="readURL(this);" type='file' hidden />
                             <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
                                 <p>Visibility<span class="compulsoryInput d-inline"> *</span></p>
                                 <!-- Rounded switch -->
                                 <label class="switch">
-                                    <input type="checkbox">
+                                    <input id="addVis" type="checkbox">
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -92,38 +93,38 @@
                                 <p style="margin-right: -26px;">Photo Product<span class="compulsoryInput d-inline"> *</span></p>
                                 <!-- Rounded switch -->
                                 <label class="switch">
-                                    <input type="checkbox">
+                                    <input id="addPhotoProduct" type="checkbox">
                                     <span class="slider round"></span>
                                 </label>
                             </div>
                         </div>
                         <div style="-ms-flex:1; flex:1;">
                             <div class="form-group col-md-12">
-                                <label for="ItemNameInput" class="font-small font-weight-medium">
+                                <label for="addNameInput" class="font-small font-weight-medium">
                                     Item Name <span class="compulsoryInput d-inline"> *</span>
                                 </label>
-                                <input type="text" id="ItemNameInput" name="ItemNameInput" class="form-control" placeholder="Please key in item name" />
+                                <input type="text" id="addNameInput" name="addNameInput" class="form-control" placeholder="Please key in item name" />
                                 <span></span>
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="priceInput" class="font-small font-weight-medium">
+                                <label for="addPriceInput" class="font-small font-weight-medium">
                                     Original Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
                                 </label>
-                                <input type="text" id="priceNameInput" name="priceNameInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                <input type="text" id="addPriceInput" name="addPriceInput" class="form-control" placeholder="$ e.g. 25.00" />
                                 <span></span>
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="priceInput" class="font-small font-weight-medium">
+                                <label for="addPWPInput" class="font-small font-weight-medium">
                                     PWP Price (incl.GST) <span class="compulsoryInput d-inline"> </span>
                                 </label>
-                                <input type="text" id="priceNameInput" name="priceNameInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                <input type="text" id="addPWPInput" name="addPWPInput" class="form-control" placeholder="$ e.g. 25.00" />
                                 <span></span>
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="QCInput" class="font-small font-weight-medium">
+                                <label for="addQCInput" class="font-small font-weight-medium">
                                     Quantity Constraints <span class="compulsoryInput d-inline"> *</span>
                                 </label>
-                                <select class="custom-select d-block w-100" id="input-select">
+                                <select class="custom-select d-block w-100" id="addQCInput">
                                     <option>--None--</option>
                                     <option>Even Numbered units</option>
                                     <option>Max 1 unit 1 digital</option>
@@ -133,16 +134,16 @@
                         </div>
                     </div>
                     <div class="form-group col-md-12" style="margin-top: -10px;">
-                        <label for="commentsInput" class="font-small font-weight-medium">
+                        <label for="addCommentsInput" class="font-small font-weight-medium">
                             Description
                         </label>
-                        <textarea type="text" id="commentsInput" name="commentsInput" class="form-control" placeholder="Enter Description"></textarea>
+                        <textarea type="text" id="addCommentsInput" name="addCommentsInput" class="form-control" placeholder="Enter Description"></textarea>
                         <span></span>
                     </div>
 
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-grey">Clear</button>
-                        <button type="button" class="btn btn-primary" id="SubmitBtn">Add Item</button>
+                        <button type="button" onclick="addProduct();" class="btn btn-primary" id="SubmitBtn">Add Item</button>
                     </div>
                 </div>
             </div>
@@ -250,7 +251,7 @@
                         <div class="row" id="headerRow">
                             <div class="col-sm-3 col-md-3" style="flex:1;">
                                 <div class="add">
-                                    <button href="#exampleModal" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    <button href="#exampleModal" onclick="$('#uploadhover').attr('src', '/assets/images/upload.png');" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                         Add New Item
                                     </button>
                                 </div>
@@ -324,7 +325,9 @@
     .imgContainer {
         position: relative;
     }
-
+    #uploadhover{
+        cursor: pointer;
+    }
     #headerRow{
         margin-bottom: 20px;
     }
@@ -525,9 +528,9 @@
                 layout: 'center',
                 theme: "metroui",
                 type: 'success',
-                callbacks: {
+                callback: {
                     onClose: function () {
-                        location.replace('/ItemManagement/Index');
+                        window.location.href = '/ItemManagement/Index';
                     }
                 }
             }).show();
@@ -640,5 +643,68 @@
         this.photo_product = photoprod;
         this.gst = gst;
     }
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
+            reader.onload = function (e) {
+                $('#uploadhover')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    function addProduct() {
+        let id = prod_id.length+1;
+        let gst = $('#gstper').val();
+        let image = $('#fileid').val().split("\\").pop();
+        let name = $('#addNameInput').val();
+        let oriPrice = $('#addPriceInput').val();
+        let pwpPrice = $('#addPWPInput').val();
+        let description = $('#addCommentsInput').val();
+        let qc = $('#addQCInput').val();
+        let visibility;
+        if ($('#addVis').is(":checked")) {
+            visibility = true;
+        }
+        else {
+            visibility = false;
+        }
+        let photoprod;
+        if ($('#addPhotoProduct').is(":checked")) {
+            photoprod = true;
+        }
+        else {
+            photoprod = false;
+        }
+        let webformdata = new WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
+        console.log(JSON.stringify(webformdata));
+        $.ajax({
+            type: 'POST',
+            url: `/API/products/${id}`,
+            contentType: 'application/json',
+            data: JSON.stringify(webformdata)
+        }).done(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.message,
+                layout: 'center',
+                theme: "metroui",
+                type: 'success',
+                callback: {
+                    onClose: function () {
+                        window.location.href = '/ItemManagement/Index';
+                    }
+                }
+            }).show();
+        }).fail(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.responseJSON.message,
+                theme: 'metroui',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error'
+            }).show();
+        });
+    }
 </script>
