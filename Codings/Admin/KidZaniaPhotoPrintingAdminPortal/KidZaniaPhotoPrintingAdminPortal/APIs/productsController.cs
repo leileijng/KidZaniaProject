@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Http;
 using KidZaniaPhotoPrintingAdminPortal.Models;
 using Newtonsoft.Json.Linq;
@@ -19,7 +20,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
         [HttpGet]
         public IHttpActionResult getProducts()
         {
-            if (database.products != null)
+            try
             {
                 var prod = database.products.Select(x => new
                 {
@@ -40,7 +41,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 ).ToList();
                 return Ok(prod);
             }
-            else
+            catch (Exception e)
             {
                 return NotFound();
             }
@@ -50,7 +51,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
         [HttpGet]
         public IHttpActionResult getProductsbyId(string id)
         {
-            if (database.products != null)
+            try
             {
                 var prod = database.products.Select(x => new
                 {
@@ -67,7 +68,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 ).FirstOrDefault(x => x.product_id == id);
                 return Ok(prod);
             }
-            else
+            catch (Exception e)
             {
                 return NotFound();
             }
@@ -77,37 +78,45 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
         [HttpPut]
         public IHttpActionResult editProduct(string id, [FromBody]JObject data)
         {
-            var prod = database.products.Single(x => x.product_id == id);
-            var name = data["name"].ToString();
-            var image = data["image"].ToString();
-            var original_price = Decimal.Parse(data["original_price"].ToString());
-            var pwp_price = Decimal.Parse(data["pwp_price"].ToString());
-            var description = data["description"].ToString();
-            var quantity_constraint = data["quantity_constraint"].ToString();
-            var visibility = bool.Parse(data["visibility"].ToString());
-            var photo_product = bool.Parse(data["photo_product"].ToString());
-            var gst = Decimal.Parse(data["gst"].ToString());
-            prod.name = name;
-            prod.image = image;
-            prod.original_price = original_price;
-            prod.pwp_price = pwp_price;
-            prod.description = description;
-            prod.original_GST = original_price * gst / 100;
-            prod.pwp_GST = pwp_price * gst / 100;
-            prod.updated_at = DateTime.Now;
-            if (quantity_constraint == "--None--")
+            try
             {
-                prod.quantity_constraint = null;
+                var prod = database.products.Single(x => x.product_id == id);
+                var name = data["name"].ToString();
+                var image = data["image"].ToString();
+                var original_price = Decimal.Parse(data["original_price"].ToString());
+                var pwp_price = Decimal.Parse(data["pwp_price"].ToString());
+                var description = data["description"].ToString();
+                var quantity_constraint = data["quantity_constraint"].ToString();
+                var visibility = bool.Parse(data["visibility"].ToString());
+                var photo_product = bool.Parse(data["photo_product"].ToString());
+                var gst = Decimal.Parse(data["gst"].ToString());
+                prod.name = name;
+                prod.image = "/Content/ProductPhoto/" + name + image.Substring(image.IndexOf('.'));
+                prod.original_price = original_price;
+                prod.pwp_price = pwp_price;
+                prod.description = description;
+                prod.original_GST = original_price * gst / 100;
+                prod.pwp_GST = pwp_price * gst / 100;
+                prod.updated_at = DateTime.Now;
+                if (quantity_constraint == "--None--")
+                {
+                    prod.quantity_constraint = null;
+                }
+                else
+                {
+                    prod.quantity_constraint = quantity_constraint;
+                }
+                prod.visibility = visibility;
+                prod.photo_product = photo_product;
+                database.SaveChanges();
+                return Ok(new { message = name + " details was successfully updated!" });
             }
-            else
+            catch (Exception e)
             {
-                prod.quantity_constraint = quantity_constraint;
+                return BadRequest("Item details failed to update!");
             }
-            prod.visibility = visibility;
-            prod.photo_product = photo_product;
-            database.SaveChanges();
-            return Ok(new { message = name + " details was successfully updated!" });
         }
+
         [Route("api/products/{id}")]
         [HttpDelete]
         public IHttpActionResult Delete(string id)
@@ -123,15 +132,16 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 }
                 else
                 {
-                    return Content(HttpStatusCode.NotFound, "Product not found.");
+                    return Content(HttpStatusCode.NotFound, "Product not found!");
                 }
-                return Ok(new { message = "Product deleted" });
+                return Ok(new { message = "Product deleted!" });
             }
             catch (Exception exceptionObject)
             {
-                return BadRequest("Unable to delete product");
+                return BadRequest("Unable to delete product!");
             }
         }
+
         [Route("api/products/editGST")]
         [HttpPut]
         public IHttpActionResult editGST(decimal gst)
@@ -145,94 +155,119 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     oneprod.pwp_GST = oneprod.pwp_price * gst / 100;
                 }
                 database.SaveChanges();
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest();
             }
             return Ok();
         }
+
         [Route("api/products/{id}")]
         [HttpPost]
         public IHttpActionResult createProduct(string id, [FromBody]JObject data)
         {
-            product prod = new product();
-            var name = data["name"].ToString();
-            var image = data["image"].ToString();
-            var original_price = Decimal.Parse(data["original_price"].ToString());
-            var pwp_price = Decimal.Parse(data["pwp_price"].ToString());
-            var description = data["description"].ToString();
-            var quantity_constraint = data["quantity_constraint"].ToString();
-            var visibility = bool.Parse(data["visibility"].ToString());
-            var photo_product = bool.Parse(data["photo_product"].ToString());
-            var gst = Decimal.Parse(data["gst"].ToString());
-            prod.name = name;
-            prod.image = "/Content/ProductPhoto/" + name + image.Substring(image.IndexOf('.'));
-            prod.original_price = original_price;
-            prod.pwp_price = pwp_price;
-            prod.description = description;
-            prod.original_GST = original_price * gst / 100;
-            prod.pwp_GST = pwp_price * gst / 100;
-            prod.updated_at = DateTime.Now;
-            prod.product_id = id;
-            if (quantity_constraint == "--None--")
+            try
             {
-                prod.quantity_constraint = null;
-            }
-            else
-            {
-                prod.quantity_constraint = quantity_constraint;
-            }
-            prod.visibility = visibility;
-            prod.photo_product = photo_product;
-            prod.updated_by = "staff1";
-            database.products.Add(prod);
-            database.SaveChanges();
-            return Ok(new { message = name + " record has been created!" });
-        }
-        [HttpPost]
-        [Route("api/products/UploadFile")]
-        public Task<HttpResponseMessage> Post()
-        {
-            List<string> savedFilePath = new List<string>();
-            // Check if the request contains multipart/form-data
-            if (!Request.Content.IsMimeMultipartContent())
-            {
-                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
-            }
-            //Get the path of folder where we want to upload all files.
-            string rootPath = HttpContext.Current.Server.MapPath("~/Content/ProductPhoto");
-            var provider = new MultipartFileStreamProvider(rootPath);
-            // Read the form data.
-            //If any error(Cancelled or any fault) occurred during file read , return internal server error
-            var task = Request.Content.ReadAsMultipartAsync(provider).
-                ContinueWith<HttpResponseMessage>(t =>
+                product prod = new product();
+                var name = data["name"].ToString();
+                var image = data["image"].ToString();
+                var original_price = Decimal.Parse(data["original_price"].ToString());
+                var pwp_price = Decimal.Parse(data["pwp_price"].ToString());
+                var description = data["description"].ToString();
+                var quantity_constraint = data["quantity_constraint"].ToString();
+                var visibility = bool.Parse(data["visibility"].ToString());
+                var photo_product = bool.Parse(data["photo_product"].ToString());
+                var gst = Decimal.Parse(data["gst"].ToString());
+                prod.name = name;
+                prod.image = "/Content/ProductPhoto/" + name + image.Substring(image.IndexOf('.'));
+                prod.original_price = original_price;
+                prod.pwp_price = pwp_price;
+                prod.description = description;
+                prod.original_GST = original_price * gst / 100;
+                prod.pwp_GST = pwp_price * gst / 100;
+                prod.updated_at = DateTime.Now;
+                prod.product_id = id;
+                if (quantity_constraint == "--None--")
                 {
-                    if (t.IsCanceled || t.IsFaulted)
-                    {
-                        Request.CreateErrorResponse(HttpStatusCode.InternalServerError, t.Exception);
-                    }
-                    foreach (MultipartFileData dataitem in provider.FileData)
-                    {
-                        try
-                        {
-                            //Replace / from file name
-                            string name = dataitem.Headers.ContentDisposition.FileName.Replace("\"", "");
-                            //Create New file name using GUID to prevent duplicate file name
-                            string newFileName = Guid.NewGuid() + Path.GetExtension(name);
-                            //Move file from current location to target folder.
-                            File.Move(dataitem.LocalFileName, Path.Combine(rootPath, newFileName));
-
-
-                        }
-                        catch (Exception ex)
-                        {
-                            string message = ex.Message;
-                        }
-                    }
-
-                    return Request.CreateResponse(HttpStatusCode.Created, savedFilePath);
-                });
-            return task;
+                    prod.quantity_constraint = null;
+                }
+                else
+                {
+                    prod.quantity_constraint = quantity_constraint;
+                }
+                prod.visibility = visibility;
+                prod.photo_product = photo_product;
+                prod.updated_by = "staff1";
+                database.products.Add(prod);
+                database.SaveChanges();
+                return Ok(new { message = name + " record has been created!" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Unable to create product!");
+            }
         }
+
+        [Route("api/products/UploadFile/{name}")]
+        [HttpPost]
+        public IHttpActionResult UploadFile(string name)
+        {
+            var httpContext = HttpContext.Current;
+            try
+            {
+                // Check for any uploaded file  
+                if (httpContext.Request.Files.Count > 0)
+                {
+                    //Loop through uploaded files  
+                    for (int i = 0; i < httpContext.Request.Files.Count; i++)
+                    {
+                        HttpPostedFile httpPostedFile = httpContext.Request.Files[i];
+                        if (httpPostedFile != null)
+                        {
+                            // Construct file save path  
+                            var ext = Path.GetExtension(httpPostedFile.FileName);
+                            var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/Content/ProductPhoto/"), name + ext);
+                            if (File.Exists(fileSavePath))
+                            {
+                                File.Delete(fileSavePath);
+                            }
+                            // Save the uploaded file  
+                            httpPostedFile.SaveAs(fileSavePath);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
+        [Route("api/products/removefile")]
+        [HttpDelete]
+        public IHttpActionResult deleteFile(string image)
+        {
+            try
+            {
+                var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/Content/ProductPhoto/"), image);
+
+                if (File.Exists(fileSavePath))
+                {
+                    File.Delete(fileSavePath);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
     }
 }

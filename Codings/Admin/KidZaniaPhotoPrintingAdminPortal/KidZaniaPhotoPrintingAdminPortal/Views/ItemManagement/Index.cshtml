@@ -34,6 +34,7 @@
                 <div class="modal-body">
                     <p id="deleteRec"></p>
                     <input type="hidden" id="deleteId" />
+                    <input type="hidden" id="deletePhoto" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
@@ -165,10 +166,8 @@
                         <div style="-ms-flex:1; flex:1;">
                             <div class="imgContainer">
                                 <img alt="upload" style="width:200px; margin-top: -14px;" id="editPhoto">
-                                <div class="editImgbutton">
-                                    Change Photo           <input type="file" id="myfile" />
-                                </div>
-                                <input id="btn1" class="btn btn-default" type="button" value="Upload" />
+                                <div onclick="$('#newphoto').click();" class="editImgbutton"><a href="#"> Change Photo </a></div>
+                                <input id='newphoto' onchange="editPhoto(this)" type='file' hidden />
                             </div>
                             <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
                                 <p class="p-0">Visibility<span class="compulsoryInput d-inline"> *</span></p>
@@ -278,8 +277,7 @@
                                     <th>Date Updated</th>
                                 </tr>
                             </thead>
-                            <tbody class="souvenir">
-                            </tbody>
+                            <tbody class="souvenir"></tbody>
                         </table>
                     </div>
                 </div>
@@ -325,12 +323,15 @@
     .imgContainer {
         position: relative;
     }
-    #uploadhover{
+
+    #uploadhover {
         cursor: pointer;
     }
-    #headerRow{
+
+    #headerRow {
         margin-bottom: 20px;
     }
+
     .editImgbutton {
         position: absolute;
         width: 200px;
@@ -403,7 +404,7 @@
                                             <option>Even Numbered units</option>
                                             <option>Max 1 unit 1 digital</option>
                                         </select></td>`);
-                
+
                 $rowElement.append($cellElement);
                 if (record.photo_product == true) {
                     $cellElement = $(`<td>
@@ -495,7 +496,7 @@
     function updateSouvenir() {
         let gst = $('#gstper').val();
         let id = $('#idInp').val();
-        let image = $('#editPhoto').attr('src');
+        let image = $('#newphoto').val().split("\\").pop();
         let name = $('#ItemNameInp').val();
         let oriPrice = $('#priceNameInp').val();
         let pwpPrice = $('#pwpNameInp').val();
@@ -517,32 +518,61 @@
         }
         let webformdata = new WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
         console.log(JSON.stringify(webformdata));
+        var formData = new FormData();
+        var file = $('#newphoto')[0];
+        formData.append('file', file.files[0]);
         $.ajax({
-            type: 'PUT',
-            url: `/API/products/${id}`,
-            contentType: 'application/json',
-            data: JSON.stringify(webformdata)
-        }).done(function (data, textStatus, jqXHR) {
-            new noty({
-                text: data.message,
-                layout: 'center',
-                theme: "metroui",
-                type: 'success',
-                callback: {
-                    onClose: function () {
-                        window.location.href = '/ItemManagement/Index';
-                    }
-                }
-            }).show();
-        }).fail(function (data, textStatus, jqXHR) {
-            new noty({
-                text: data.responseJSON.message,
-                theme: 'metroui',
-                layout: 'center',
-                timeout: 3000,
-                type: 'error'
-            }).show();
+            url: `/api/products/UploadFile/${name}`,
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (d) {
+                console.log(d);
+                $.ajax({
+                    type: 'PUT',
+                    url: `/API/products/${id}`,
+                    contentType: 'application/json',
+                    data: JSON.stringify(webformdata)
+                }).done(function (data, textStatus, jqXHR) {
+                    new noty({
+                        text: data.message,
+                        layout: 'center',
+                        theme: "metroui",
+                        type: 'success',
+                        callback: {
+                            onClose: function () {
+                                window.location.href = '/ItemManagement/Index';
+                            }
+                        }
+                    }).show();
+                }).fail(function (data, textStatus, jqXHR) {
+                    new noty({
+                        text: data.responseJSON.message,
+                        theme: 'metroui',
+                        layout: 'center',
+                        timeout: 3000,
+                        type: 'error'
+                    }).show();
+                });
+            },
+            error: function (d) {
+                alert('Upload file went wrong');
+                console.log(d);
+            }
         });
+    }
+    function editPhoto(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#editPhoto')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
     }
     function loadDelete(id) {
         $.ajax({
@@ -553,6 +583,9 @@
                 console.log(data);
                 $("#deleteRec").text(`Do you really want to delete ${data.name} record?`);
                 $("#deleteId").val(id);
+                let img = data.image.toString();
+                let newimg = img.split("/");
+                $("#deletePhoto").val(newimg[newimg.length-1]);
             },
             error: function (data) {
                 console.log(data);
@@ -561,30 +594,38 @@
     }
     function deleteSouvenir() {
         var id = $("#deleteId").val();
+        var image = $("#deletePhoto").val();
         $.ajax({
             type: "DELETE",
-            url: `/api/products/${id}`,
-            dataType: "json",
+            url: `/api/products/removefile?image=${image}`,
         }).done(function (data, textStatus, jqXHR) {
-            new noty({
-                text: data.message,
-                layout: 'center',
-                theme: "metroui",
-                type: 'success',
-                callbacks: {
-                    onClose: function () {
-                        location.replace('/ItemManagement/Index');
+            $.ajax({
+                type: "DELETE",
+                url: `/api/products/${id}`,
+                dataType: "json",
+            }).done(function (data, textStatus, jqXHR) {
+                new noty({
+                    text: data.message,
+                    layout: 'center',
+                    theme: "metroui",
+                    type: 'success',
+                    callback: {
+                        onClose: function () {
+                            location.replace('/ItemManagement/Index');
+                        }
                     }
-                }
-            }).show();
+                }).show();
+            }).fail(function (data, textStatus, jqXHR) {
+                new noty({
+                    text: data.responseJSON.message,
+                    theme: 'metroui',
+                    layout: 'center',
+                    timeout: 3000,
+                    type: 'error'
+                }).show();
+            });
         }).fail(function (data, textStatus, jqXHR) {
-            new noty({
-                text: data.responseJSON.message,
-                theme: 'metroui',
-                layout: 'center',
-                timeout: 3000,
-                type: 'error'
-            }).show();
+            alert("failed to delete file!");
         });
     }
     $("#gstper").change(function () {
@@ -656,7 +697,7 @@
         }
     }
     function addProduct() {
-        let id = prod_id.length+1;
+        let id = parseInt(prod_id[prod_id.length - 1]) + 1;
         let gst = $('#gstper').val();
         let image = $('#fileid').val().split("\\").pop();
         let name = $('#addNameInput').val();
@@ -680,31 +721,49 @@
         }
         let webformdata = new WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
         console.log(JSON.stringify(webformdata));
+
+        var formData = new FormData();
+        var file = $('#fileid')[0];
+        formData.append('file', file.files[0]);
         $.ajax({
+            url: `/api/products/UploadFile/${name}`,
             type: 'POST',
-            url: `/API/products/${id}`,
-            contentType: 'application/json',
-            data: JSON.stringify(webformdata)
-        }).done(function (data, textStatus, jqXHR) {
-            new noty({
-                text: data.message,
-                layout: 'center',
-                theme: "metroui",
-                type: 'success',
-                callback: {
-                    onClose: function () {
-                        window.location.href = '/ItemManagement/Index';
-                    }
-                }
-            }).show();
-        }).fail(function (data, textStatus, jqXHR) {
-            new noty({
-                text: data.responseJSON.message,
-                theme: 'metroui',
-                layout: 'center',
-                timeout: 3000,
-                type: 'error'
-            }).show();
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (d) {
+                console.log(d);
+                $.ajax({
+                    type: 'POST',
+                    url: `/API/products/${id}`,
+                    contentType: 'application/json',
+                    data: JSON.stringify(webformdata)
+                }).done(function (data, textStatus, jqXHR) {
+                    new noty({
+                        text: data.message,
+                        layout: 'center',
+                        theme: "metroui",
+                        type: 'success',
+                        callback: {
+                            onClose: function () {
+                                window.location.href = '/ItemManagement/Index';
+                            }
+                        }
+                    }).show();
+                }).fail(function (data, textStatus, jqXHR) {
+                    new noty({
+                        text: data.responseJSON.message,
+                        theme: 'metroui',
+                        layout: 'center',
+                        timeout: 3000,
+                        type: 'error'
+                    }).show();
+                });
+            },
+            error: function (d) {
+                alert('Upload file went wrong');
+                console.log(d);
+            }
         });
     }
 </script>
