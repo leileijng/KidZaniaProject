@@ -26,8 +26,8 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         public string description { get; set; }
         public decimal original_price { get; set; }
         public decimal original_GST { get; set; }
-        public decimal pwp_price { get; set; }
-        public decimal pwp_GST { get; set; }
+        public Nullable<decimal> pwp_price { get; set; }
+        public Nullable<decimal> pwp_GST { get; set; }
         public string quantity_constraint { get; set; }
         public bool visibility { get; set; }
         public bool photo_product { get; set; }

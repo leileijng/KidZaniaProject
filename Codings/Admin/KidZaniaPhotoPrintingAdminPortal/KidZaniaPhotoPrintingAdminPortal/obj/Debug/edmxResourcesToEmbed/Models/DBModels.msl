@@ -55,25 +55,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="products">
-      <EntityTypeMapping TypeName="DBModel.product">
-        <MappingFragment StoreEntitySet="product">
-          <ScalarProperty Name="updated_at" ColumnName="updated_at" />
-          <ScalarProperty Name="updated_by" ColumnName="updated_by" />
-          <ScalarProperty Name="photo_product" ColumnName="photo_product" />
-          <ScalarProperty Name="visibility" ColumnName="visibility" />
-          <ScalarProperty Name="quantity_constraint" ColumnName="quantity_constraint" />
-          <ScalarProperty Name="pwp_GST" ColumnName="pwp_GST" />
-          <ScalarProperty Name="pwp_price" ColumnName="pwp_price" />
-          <ScalarProperty Name="original_GST" ColumnName="original_GST" />
-          <ScalarProperty Name="original_price" ColumnName="original_price" />
-          <ScalarProperty Name="description" ColumnName="description" />
-          <ScalarProperty Name="image" ColumnName="image" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="product_id" ColumnName="product_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="profiles">
       <EntityTypeMapping TypeName="DBModel.profile">
         <MappingFragment StoreEntitySet="profiles">
@@ -99,6 +80,25 @@
           <ScalarProperty Name="passwordhash" ColumnName="passwordhash" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="staff_id" ColumnName="staff_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="products">
+      <EntityTypeMapping TypeName="DBModel.product">
+        <MappingFragment StoreEntitySet="product">
+          <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+          <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+          <ScalarProperty Name="photo_product" ColumnName="photo_product" />
+          <ScalarProperty Name="visibility" ColumnName="visibility" />
+          <ScalarProperty Name="quantity_constraint" ColumnName="quantity_constraint" />
+          <ScalarProperty Name="pwp_GST" ColumnName="pwp_GST" />
+          <ScalarProperty Name="pwp_price" ColumnName="pwp_price" />
+          <ScalarProperty Name="original_GST" ColumnName="original_GST" />
+          <ScalarProperty Name="original_price" ColumnName="original_price" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="image" ColumnName="image" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="product_id" ColumnName="product_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

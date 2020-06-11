@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="DBModel.lineitem" Width="1.5" PointX="7.375" PointY="6.25" />
         <EntityTypeShape EntityType="DBModel.order" Width="1.5" PointX="2.75" PointY="7" />
         <EntityTypeShape EntityType="DBModel.printer" Width="1.5" PointX="7.125" PointY="1.125" />
-        <EntityTypeShape EntityType="DBModel.product" Width="1.5" PointX="5.375" PointY="4" />
         <EntityTypeShape EntityType="DBModel.profile" Width="1.5" PointX="3" PointY="4.25" />
         <EntityTypeShape EntityType="DBModel.role" Width="1.5" PointX="2" PointY="2.125" />
         <EntityTypeShape EntityType="DBModel.staff" Width="1.5" PointX="4.125" PointY="0.875" />
@@ -18,11 +17,12 @@
         <AssociationConnector Association="DBModel.item_photo_ibfk_1" />
         <AssociationConnector Association="DBModel.item_photo_ibfk_2" />
         <AssociationConnector Association="DBModel.lineitem_ibfk_1" />
-        <AssociationConnector Association="DBModel.lineitem_ibfk_2" />
         <AssociationConnector Association="DBModel.order_ibfk_1" />
-        <AssociationConnector Association="DBModel.product_ibfk_1" />
         <AssociationConnector Association="DBModel.staff_ibfk_1" />
         <AssociationConnector Association="DBModel.printer_ibfk_1" />
+        <EntityTypeShape EntityType="DBModel.product" Width="1.5" PointX="5.25" PointY="4" />
+        <AssociationConnector Association="DBModel.lineitem_ibfk_2" />
+        <AssociationConnector Association="DBModel.product_ibfk_1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

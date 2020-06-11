@@ -101,6 +101,13 @@
                         </div>
                         <div style="-ms-flex:1; flex:1;">
                             <div class="form-group col-md-12">
+                                <label for="addItemId" class="font-small font-weight-medium">
+                                    Item Id <span class="compulsoryInput d-inline"> *</span>
+                                </label>
+                                <input type="text" id="addItemId" name="addItemId" class="form-control" placeholder="Please key in item id" />
+                                <span></span>
+                            </div>
+                            <div class="form-group col-md-12">
                                 <label for="addNameInput" class="font-small font-weight-medium">
                                     Item Name <span class="compulsoryInput d-inline"> *</span>
                                 </label>
@@ -128,7 +135,7 @@
                                 <select class="custom-select d-block w-100" id="addQCInput">
                                     <option>--None--</option>
                                     <option>Even Numbered units</option>
-                                    <option>Max 1 unit 1 digital</option>
+                                    <option>Max 1 Unit</option>
                                 </select>
                             </div>
 
@@ -167,7 +174,8 @@
                             <div class="imgContainer">
                                 <img alt="upload" style="width:200px; margin-top: -14px;" id="editPhoto">
                                 <div onclick="$('#newphoto').click();" class="editImgbutton"><a href="#"> Change Photo </a></div>
-                                <input id='newphoto' onchange="editPhoto(this)" type='file' hidden />
+                                <input id='newphoto' onchange="editPhoto(this); del = true;" type='file' hidden />
+                                <input type="hidden" id="imgname" />
                             </div>
                             <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
                                 <p class="p-0">Visibility<span class="compulsoryInput d-inline"> *</span></p>
@@ -215,7 +223,7 @@
                                 <select class="custom-select d-block w-100" id="inp-select">
                                     <option>--None--</option>
                                     <option>Even Numbered Units</option>
-                                    <option>Max 1 Unit 1 Digital</option>
+                                    <option>Max 1 Unit</option>
                                 </select>
                             </div>
 
@@ -393,16 +401,25 @@
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td>${record.name}</td>`);
                 $rowElement.append($cellElement);
-                $cellElement = $(`<td>${record.description}</td>`);
+                if (record.description != "") {
+                    $cellElement = $(`<td>${record.description}</td>`);
+                }
+                else {
+                    $cellElement = $(`<td><span class="text-dark font-weight-bold">-</span></td>`);
+                }
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
                 $rowElement.append($cellElement);
-                $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
+                if (record.pwp_price != null) {
+                    $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
+                } else {
+                    $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">-</span></td>`);
+                }
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
                                             <option>--None--</option>
                                             <option>Even Numbered units</option>
-                                            <option>Max 1 unit 1 digital</option>
+                                            <option>Max 1 Unit</option>
                                         </select></td>`);
 
                 $rowElement.append($cellElement);
@@ -429,9 +446,9 @@
                 }
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td></td>`);
-                $hyperlinkElement = $(`<a class="edit" onclick="loadEdit(${record.product_id})" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a>`);
+                $hyperlinkElement = $(`<a class="edit" onclick="loadEdit('${record.product_id}')" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a>`);
                 $cellElement.append($hyperlinkElement);
-                $hyperlinkElement = $(`<a href="#myModal" onclick="loadDelete(${record.product_id})" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a>`);
+                $hyperlinkElement = $(`<a href="#myModal" onclick="loadDelete('${record.product_id}')" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a>`);
                 $cellElement.append($hyperlinkElement);
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td>${record.updated_by}</td>`);
@@ -442,7 +459,7 @@
                 if (record.quantity_constraint == "Even Numbered Units") {
                     $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
                 }
-                else if (record.quantity_constraint == "Max 1 Unit 1 Digital") {
+                else if (record.quantity_constraint == "Max 1 Unit") {
                     $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
                 }
                 else { }
@@ -466,7 +483,12 @@
                 console.log(data);
                 $('#ItemNameInp').val(data.name);
                 $('#priceNameInp').val(data.original_price);
-                $('#pwpNameInp').val(data.pwp_price);
+                if (data.pwp_price != null) {
+                    $('#pwpNameInp').val(data.pwp_price);
+                }
+                else {
+                    $('#pwpNameInp').val();
+                }
                 $('#commentsInp').val(data.description);
                 $('#idInp').val(data.product_id);
 
@@ -487,6 +509,7 @@
                     $('#visibilityInp').prop('checked', false);
                 }
                 $('#editPhoto').attr('src', data.image);
+                $('#imgname').val(data.image);
             },
             error: function (data) {
                 console.log(data);
@@ -494,9 +517,9 @@
         });
     }
     function updateSouvenir() {
+        let image = $('#imgname').val();
         let gst = $('#gstper').val();
         let id = $('#idInp').val();
-        let image = $('#newphoto').val().split("\\").pop();
         let name = $('#ItemNameInp').val();
         let oriPrice = $('#priceNameInp').val();
         let pwpPrice = $('#pwpNameInp').val();
@@ -522,7 +545,7 @@
         var file = $('#newphoto')[0];
         formData.append('file', file.files[0]);
         $.ajax({
-            url: `/api/products/UploadFile/${name}`,
+            url: `/api/products/UploadFile/${id}`,
             type: 'POST',
             data: formData,
             contentType: false,
@@ -633,6 +656,7 @@
         for (let x = 0; x < prod_id.length; x++) {
             let oriprice = $(`#oriPrice${prod_id[x]}`).text().substring(1);
             let pwpprice = $(`#pwpPrice${prod_id[x]}`).text().substring(1);
+            console.log(pwpprice);
             let origst = (parseInt(oriprice) * parseFloat(gst) / 100);
             let pwpgst = (parseInt(pwpprice) * parseFloat(gst) / 100);
             $(`#oriGST${prod_id[x]}`).text(` /$${origst.toFixed(2)}`);
@@ -646,30 +670,6 @@
             },
             error: function (data) {
                 console.log(data);
-            }
-        });
-    });
-    $('#btn1').click(function () {
-        if ($('#myfile').val() == '') {
-            alert('Please select file');
-            return;
-        }
-
-        var formData = new FormData();
-        var file = $('#myfile')[0];
-        formData.append('file', file.files[0]);
-        $.ajax({
-            url: '/api/products/UploadFile',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (d) {
-                console.log(d);
-                alert('file is uploaded successfully')
-            },
-            error: function () {
-                alert('Some thing went wrong');
             }
         });
     });
@@ -697,7 +697,7 @@
         }
     }
     function addProduct() {
-        let id = parseInt(prod_id[prod_id.length - 1]) + 1;
+        let id = $('#addItemId').val();
         let gst = $('#gstper').val();
         let image = $('#fileid').val().split("\\").pop();
         let name = $('#addNameInput').val();
@@ -726,7 +726,7 @@
         var file = $('#fileid')[0];
         formData.append('file', file.files[0]);
         $.ajax({
-            url: `/api/products/UploadFile/${name}`,
+            url: `/api/products/UploadFile/${id}`,
             type: 'POST',
             data: formData,
             contentType: false,

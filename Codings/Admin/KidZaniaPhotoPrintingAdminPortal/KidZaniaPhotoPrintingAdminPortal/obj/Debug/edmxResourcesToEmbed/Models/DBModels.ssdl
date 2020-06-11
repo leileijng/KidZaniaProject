@@ -59,8 +59,8 @@
     <Property Name="description" Type="varchar" MaxLength="300" Nullable="false" />
     <Property Name="original_price" Type="decimal" Precision="5" Scale="2" Nullable="false" />
     <Property Name="original_GST" Type="decimal" Precision="5" Scale="2" Nullable="false" />
-    <Property Name="pwp_price" Type="decimal" Precision="5" Scale="2" Nullable="false" />
-    <Property Name="pwp_GST" Type="decimal" Precision="5" Scale="2" Nullable="false" />
+    <Property Name="pwp_price" Type="decimal" Precision="5" Scale="2" />
+    <Property Name="pwp_GST" Type="decimal" Precision="5" Scale="2" />
     <Property Name="quantity_constraint" Type="varchar" MaxLength="50" />
     <Property Name="visibility" Type="bool" Nullable="false" />
     <Property Name="photo_product" Type="bool" Nullable="false" />

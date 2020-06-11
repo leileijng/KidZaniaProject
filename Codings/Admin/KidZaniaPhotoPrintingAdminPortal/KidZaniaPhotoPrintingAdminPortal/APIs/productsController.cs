@@ -84,19 +84,22 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 var name = data["name"].ToString();
                 var image = data["image"].ToString();
                 var original_price = Decimal.Parse(data["original_price"].ToString());
-                var pwp_price = Decimal.Parse(data["pwp_price"].ToString());
                 var description = data["description"].ToString();
                 var quantity_constraint = data["quantity_constraint"].ToString();
                 var visibility = bool.Parse(data["visibility"].ToString());
                 var photo_product = bool.Parse(data["photo_product"].ToString());
                 var gst = Decimal.Parse(data["gst"].ToString());
+                if (data["pwp_price"].ToString() != "")
+                {
+                    var pwp_price = Decimal.Parse(data["pwp_price"].ToString());
+                    prod.pwp_price = pwp_price;
+                    prod.pwp_GST = pwp_price * gst / 100;
+                }
                 prod.name = name;
-                prod.image = "/Content/ProductPhoto/" + name + image.Substring(image.IndexOf('.'));
+                prod.image = "/Content/ProductPhoto/" + id + image.Substring(image.IndexOf('.'));
                 prod.original_price = original_price;
-                prod.pwp_price = pwp_price;
                 prod.description = description;
                 prod.original_GST = original_price * gst / 100;
-                prod.pwp_GST = pwp_price * gst / 100;
                 prod.updated_at = DateTime.Now;
                 if (quantity_constraint == "--None--")
                 {
@@ -152,7 +155,10 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 foreach (product oneprod in prod)
                 {
                     oneprod.original_GST = oneprod.original_price * gst / 100;
-                    oneprod.pwp_GST = oneprod.pwp_price * gst / 100;
+                    if (oneprod.pwp_price != null)
+                    {
+                        oneprod.pwp_GST = oneprod.pwp_price * gst / 100;
+                    }
                 }
                 database.SaveChanges();
             }
@@ -173,19 +179,22 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 var name = data["name"].ToString();
                 var image = data["image"].ToString();
                 var original_price = Decimal.Parse(data["original_price"].ToString());
-                var pwp_price = Decimal.Parse(data["pwp_price"].ToString());
                 var description = data["description"].ToString();
                 var quantity_constraint = data["quantity_constraint"].ToString();
                 var visibility = bool.Parse(data["visibility"].ToString());
                 var photo_product = bool.Parse(data["photo_product"].ToString());
                 var gst = Decimal.Parse(data["gst"].ToString());
+                if (data["pwp_price"].ToString() != "")
+                {
+                    var pwp_price = Decimal.Parse(data["pwp_price"].ToString());
+                    prod.pwp_price = pwp_price;
+                    prod.pwp_GST = pwp_price * gst / 100;
+                }
                 prod.name = name;
-                prod.image = "/Content/ProductPhoto/" + name + image.Substring(image.IndexOf('.'));
+                prod.image = "/Content/ProductPhoto/" + id + image.Substring(image.IndexOf('.'));
                 prod.original_price = original_price;
-                prod.pwp_price = pwp_price;
                 prod.description = description;
                 prod.original_GST = original_price * gst / 100;
-                prod.pwp_GST = pwp_price * gst / 100;
                 prod.updated_at = DateTime.Now;
                 prod.product_id = id;
                 if (quantity_constraint == "--None--")
@@ -209,9 +218,9 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
         }
 
-        [Route("api/products/UploadFile/{name}")]
+        [Route("api/products/UploadFile/{id}")]
         [HttpPost]
-        public IHttpActionResult UploadFile(string name)
+        public IHttpActionResult UploadFile(string id)
         {
             var httpContext = HttpContext.Current;
             try
@@ -227,7 +236,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                         {
                             // Construct file save path  
                             var ext = Path.GetExtension(httpPostedFile.FileName);
-                            var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/Content/ProductPhoto/"), name + ext);
+                            var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/Content/ProductPhoto/"), id + ext);
                             if (File.Exists(fileSavePath))
                             {
                                 File.Delete(fileSavePath);
@@ -268,6 +277,5 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
             return Ok();
         }
-
     }
 }

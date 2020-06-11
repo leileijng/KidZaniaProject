@@ -30,9 +30,9 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         public virtual DbSet<lineitem> lineitems { get; set; }
         public virtual DbSet<order> orders { get; set; }
         public virtual DbSet<printer> printers { get; set; }
-        public virtual DbSet<product> products { get; set; }
         public virtual DbSet<profile> profiles { get; set; }
         public virtual DbSet<role> roles { get; set; }
         public virtual DbSet<staff> staffs { get; set; }
+        public virtual DbSet<product> products { get; set; }
     }
 }
