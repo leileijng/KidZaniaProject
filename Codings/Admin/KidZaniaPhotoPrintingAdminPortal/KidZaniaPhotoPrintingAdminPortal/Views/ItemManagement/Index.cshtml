@@ -1,7 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/Menu.cshtml";
 }
-
 <div class="container-fluid dashboard-content ">
     <!-- ============================================================== -->
     <!-- pageheader  -->
@@ -134,7 +133,7 @@
                                 </label>
                                 <select class="custom-select d-block w-100" id="addQCInput">
                                     <option>--None--</option>
-                                    <option>Even Numbered units</option>
+                                    <option>Even Numbered Units</option>
                                     <option>Max 1 Unit</option>
                                 </select>
                             </div>
@@ -175,7 +174,6 @@
                                 <img alt="upload" style="width:200px; margin-top: -14px;" id="editPhoto">
                                 <div onclick="$('#newphoto').click();" class="editImgbutton"><a href="#"> Change Photo </a></div>
                                 <input id='newphoto' onchange="editPhoto(this); del = true;" type='file' hidden />
-                                <input type="hidden" id="imgname" />
                             </div>
                             <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
                                 <p class="p-0">Visibility<span class="compulsoryInput d-inline"> *</span></p>
@@ -393,7 +391,7 @@
                 let record = data[x];
                 let $cellElement = null;
                 let $hyperlinkElement = null;
-                let $rowElement = $('<tr></tr>');
+                let $rowElement = $(`<tr></tr>`);
                 prod_id.push(record.product_id);
                 $cellElement = $(`<td>${record.product_id}</td>`);
                 $rowElement.append($cellElement);
@@ -418,7 +416,7 @@
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
                                             <option>--None--</option>
-                                            <option>Even Numbered units</option>
+                                            <option>Even Numbered Units</option>
                                             <option>Max 1 Unit</option>
                                         </select></td>`);
 
@@ -509,7 +507,6 @@
                     $('#visibilityInp').prop('checked', false);
                 }
                 $('#editPhoto').attr('src', data.image);
-                $('#imgname').val(data.image);
             },
             error: function (data) {
                 console.log(data);
@@ -517,7 +514,6 @@
         });
     }
     function updateSouvenir() {
-        let image = $('#imgname').val();
         let gst = $('#gstper').val();
         let id = $('#idInp').val();
         let name = $('#ItemNameInp').val();
@@ -539,7 +535,7 @@
         else {
             photoprod = false;
         }
-        let webformdata = new WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
+        let webformdata = new editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
         console.log(JSON.stringify(webformdata));
         var formData = new FormData();
         var file = $('#newphoto')[0];
@@ -673,9 +669,19 @@
             }
         });
     });
-    function WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst) {
+    function addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst) {
         this.name = name;
         this.image = image;
+        this.original_price = oriPrice;
+        this.pwp_price = pwpPrice;
+        this.description = description;
+        this.quantity_constraint = qc;
+        this.visibility = visibility;
+        this.photo_product = photoprod;
+        this.gst = gst;
+    }
+    function editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst) {
+        this.name = name;
         this.original_price = oriPrice;
         this.pwp_price = pwpPrice;
         this.description = description;
@@ -719,7 +725,7 @@
         else {
             photoprod = false;
         }
-        let webformdata = new WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
+        let webformdata = new addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
         console.log(JSON.stringify(webformdata));
 
         var formData = new FormData();

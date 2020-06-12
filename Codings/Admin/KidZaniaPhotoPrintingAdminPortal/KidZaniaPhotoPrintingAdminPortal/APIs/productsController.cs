@@ -82,7 +82,6 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             {
                 var prod = database.products.Single(x => x.product_id == id);
                 var name = data["name"].ToString();
-                var image = data["image"].ToString();
                 var original_price = Decimal.Parse(data["original_price"].ToString());
                 var description = data["description"].ToString();
                 var quantity_constraint = data["quantity_constraint"].ToString();
@@ -95,8 +94,12 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     prod.pwp_price = pwp_price;
                     prod.pwp_GST = pwp_price * gst / 100;
                 }
+                else
+                {
+                    prod.pwp_price = null;
+                    prod.pwp_GST = null;
+                }
                 prod.name = name;
-                prod.image = "/Content/ProductPhoto/" + id + image.Substring(image.IndexOf('.'));
                 prod.original_price = original_price;
                 prod.description = description;
                 prod.original_GST = original_price * gst / 100;
