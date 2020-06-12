@@ -59,11 +59,15 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     name = x.name,
                     image = x.image,
                     original_price = x.original_price,
+                    original_GST = x.original_GST,
+                    pwp_GST = x.pwp_GST,
                     photo_product = x.photo_product,
                     visibility = x.visibility,
                     quantity_constraint = x.quantity_constraint,
                     description = x.description,
                     pwp_price = x.pwp_price,
+                    updated_by = x.staff.name,
+                    updated_at = x.updated_at
                 }
                 ).FirstOrDefault(x => x.product_id == id);
                 return Ok(prod);
