@@ -53,6 +53,16 @@
     <title></title>
 
     <style>
+        .cartValidation{
+            text-align: right;
+            color: red;
+            font-size: 0.8rem;
+            position: absolute;
+            right: 0px;  
+            vertical-align: middle;
+            padding-top:3px;
+        }
+
         .btn_default {
             -moz-box-shadow: 0px 10px 14px -7px #276873;
             -webkit-box-shadow: 0px 10px 14px -7px #276873;
@@ -78,6 +88,7 @@
             text-decoration: none;
             text-shadow: 0px 1px 0px #3d768a;
         }
+
             .btn_default:hover {
                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #408c99), color-stop(1, #599bb3));
                 background: -moz-linear-gradient(top, #408c99 5%, #599bb3 100%);
@@ -88,26 +99,60 @@
                 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#408c99', endColorstr='#599bb3',GradientType=0);
                 background-color: #408c99;
             }
-    </style>
 
-    <style>
-        
-        #photoProductTable td{
-            padding:0.9rem !important;
+        span {
+            cursor: pointer;
         }
+
+        .number {
+            margin-top: 3px;
+            text-align: center;
+        }
+
+        .minus, .plus {
+            width: 22px;
+            height: 23px;
+            background: #f2f2f2;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .numberInput {
+            margin: 0 3px;
+            height: 20px;
+            width: 30px;
+            color: black;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 0.9rem;
+        }
+
+        #photoProductTable td {
+            padding: 0.9rem !important;
+        }
+
         .deleteItem:hover {
             color: darkred;
             cursor: pointer;
         }
+
         .heading1 {
             font-size: 30px;
             font-weight: bold;
         }
+
         .hr1 {
             height: 12px;
             border: 0;
             box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
         }
+
         div.gallery {
             margin: 5px;
             border: 1px solid #ccc;
@@ -115,13 +160,16 @@
             display: inline-block;
             width: 200px;
         }
+
             div.gallery:hover {
                 border: 1px solid #777;
             }
+
             div.gallery img {
                 width: 100%;
                 height: auto;
             }
+
         div.desc {
             padding: 15px;
             text-align: center;
@@ -139,6 +187,7 @@
             border: none;
             background-color: transparent;
         }
+
             .close:hover,
             .close:focus {
                 color: black;
@@ -151,6 +200,7 @@
                 top: -300px;
                 opacity: 0
             }
+
             to {
                 top: 0;
                 opacity: 1
@@ -174,18 +224,22 @@
             animation-name: zoom;
             animation-duration: 0.6s;
         }
+
         @-webkit-keyframes zoom {
             from {
                 -webkit-transform: scale(0)
             }
+
             to {
                 -webkit-transform: scale(1)
             }
         }
+
         @keyframes zoom {
             from {
                 transform: scale(0)
             }
+
             to {
                 transform: scale(1)
             }
@@ -199,11 +253,13 @@
             font-weight: bold;
             transition: 0.3s;
         }
+
             .close:hover, .close:focus {
                 color: #bbb;
                 text-decoration: none;
                 cursor: pointer;
             }
+
         .cart-img {
             padding: 10px;
             padding-top: 0;
@@ -214,6 +270,7 @@
                 width: 100%;
             }
         }
+
         .fix_corner {
             position: fixed;
             top: 25%;
@@ -228,37 +285,45 @@
             -webkit-box-shadow: 2px 2px 3px #666666;
             -moz-box-shadow: 2px 2px 3px #666666;
         }
+
         .fix_corner_ctn {
             margin: 12px auto;
         }
+
         .fix_corner_price {
             text-align: left;
             margin-left: 20px;
         }
+
         .fix_corner_price_title {
             font-weight: bold;
             text-align: left;
             margin-left: 10px;
         }
+
         .fix_corner_price_annotation {
             text-align: left;
             font-size: 12px;
         }
+
         .item_checkbox_grp {
             background-color: white;
             text-align: left !important;
             margin-left: 40%;
             margin-right: 35%;
         }
+
         .modal_window {
             cursor: pointer;
             height: 80px;
             width: 80px;
         }
+
         .pricing_heading {
             text-align: center;
             font-size: large;
         }
+
         .pricing_table {
             margin: 0 auto;
             width: 80%;
@@ -270,28 +335,34 @@
             -webkit-box-shadow: 2px 2px 3px #666666;
             -moz-box-shadow: 2px 2px 3px #666666;
         }
+
         .pricing_subheader {
             margin-left: 10px;
             text-align: left !important;
             font-weight: bold;
         }
+
         .pricing_grp {
             margin-top: 0px;
             margin-left: 15px;
             text-align: left !important;
         }
+
         .pricing_item {
             display: inline-block;
             margin-left: 15px;
             vertical-align: top;
         }
+
         .pricing_header {
             font-weight: bold;
             margin-left: 5px;
         }
+
         .pricing {
             margin-left: 10px;
         }
+
         .pricing_header_sample {
             font-weight: bold;
             margin-left: 5px;
@@ -299,13 +370,16 @@
             color: blue;
             text-decoration: underline;
         }
+
         #prods {
             margin-top: 5%;
             margin-left: 20%;
         }
+
         #something {
             margin-bottom: 10%;
         }
+
         .sidebar {
             height: 610px;
             width: 0;
@@ -319,6 +393,7 @@
             transition: 0.5s;
             margin: 0 !important;
         }
+
             .sidebar .closebtn {
                 position: absolute;
                 top: 0;
@@ -326,19 +401,23 @@
                 font-size: 36px;
                 margin-right: 50px;
             }
+
         .openbtn {
             font-size: 20px;
             cursor: pointer;
             border: none;
         }
+
         .wrap {
             display: inline-block;
             position: relative;
             margin-left: -10px;
         }
+
         .overlap {
             display: none;
         }
+
         .poptooltip .overlap {
             display: block;
             position: absolute;
@@ -346,6 +425,7 @@
             width: 100%;
             z-index: 1000;
         }
+
         #photo_gallery {
             transition: margin-right .5s;
             padding: 16px;
@@ -355,6 +435,7 @@
             .sidebar {
                 padding-top: 15px;
             }
+
                 .sidebar a {
                     font-size: 18px;
                 }
@@ -362,32 +443,80 @@
     </style>
 
 
-
     <script>
         //Checker for all digital
         var checker = "stage1";
         var CartItems = [];
+        var productCostData = [];
+
         $(window).on("load", function () {
             refresh_values();
         });
         $(document).ready(function () {
-
             //get this product name
-                    $.ajax({
-                        type: "POST",
-                        url: '<%= ResolveUrl("selection.aspx/GetProducts") %>',
-                        dataType: 'text',
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (msg) {
-                            productDetails = JSON.parse(msg.d);
-                            console.log(productDetails);
-                        },
-                        error: function (response) {
-                            console.log(response);
-                        }
-                    });
+            $.ajax({
+                type: "POST",
+                url: '<%= ResolveUrl("selection.aspx/GetProducts") %>',
+                dataType: 'text',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    productDetails = JSON.parse(msg.d);
+                    var i;
+                    for (i = 0; i < productDetails.length; i++) {
+                        if (productDetails[i].ProductVisibility) {
+                            let $tablerow = null;
+                            let $namecell = null;
+                            let $descriptioncell = null;
+                            let $originalcell = null;
+                            let $pwpcell = null;
+                            let $actioncell = null;
+                            if (productDetails[i].PhotoProduct) {
+                                let photoProduct = productDetails[i];
+                                $tablerow = $(`<tr></tr>`);
+                                $namecell = $(`<td><div class="m-r-10"><img src="${photoProduct.ProductImagePath}" class="rounded" width="100"/></div><b>${photoProduct.ProductName}</b></td>`);
+                                $descriptioncell = $(`<td>${photoProduct.ProductDescription}</td>`);
+                                $originalcell = $(`<td><b>$${photoProduct.OrginalPrice} </b>/ Photo</td>`);
+                                $pwpcell = $(`<td><b>$${photoProduct.PwpPrice} </b>/ Photo</td>`);
+                                $tablerow.append($namecell);
+                                $tablerow.append($descriptioncell);
+                                $tablerow.append($originalcell);
+                                $tablerow.append($pwpcell);
+                                $(`#photoProductTableBody`).append($tablerow);
+                            }
+                            else {
+                                let nonPhotoProduct = productDetails[i];
+                                $tablerow = $(`<tr></tr>`);
+                                $namecell = $(`<td><div class="m-r-10"><img src="${nonPhotoProduct.ProductImagePath}" class="rounded" width="100"/></div><b>${nonPhotoProduct.ProductName}</b></td>`);
+                                $descriptioncell = $(`<td>${nonPhotoProduct.ProductDescription}</td>`);
+                                $originalcell = $(`<td><b>$${nonPhotoProduct.OrginalPrice} </b>/ ${nonPhotoProduct.ProductName}</td>`);
+                                if (nonPhotoProduct.PwpPrice == 0) {
+                                    $pwpcell = $(`<td><b>-</b></td>`);
+                                }
+                                else {
+                                    $pwpcell = $(`<td><b>$${nonPhotoProduct.PwpPrice} </b>/ ${nonPhotoProduct.ProductName}</td>`);
+                                }
 
+                                if (nonPhotoProduct.ProductQuantityConstraint == "Max 1 Unit") {
+                                    $actioncell = $(`<td><button type="button" class="btn btn-secondary" onclick="addNonPhotoToCart('${nonPhotoProduct.ProductId}', 1)">Add</button></td>`);
+                                }
+                                else {
+                                    $actioncell = $(`<td><button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add</button><div class="dropdown-menu" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" value="${nonPhotoProduct.ProductId}" onclick="addNonPhotoToCart('${nonPhotoProduct.ProductId}', 1)">1</a><a class="dropdown-item" value="${nonPhotoProduct.ProductId}" onclick="addNonPhotoToCart('${nonPhotoProduct.ProductId}', 2)" >2</a><a class="dropdown-item" value="${nonPhotoProduct.ProductId}" onclick="addNonPhotoToCart('${nonPhotoProduct.ProductId}', 3)" >3</a><a class="dropdown-item" href="#" value="${nonPhotoProduct.ProductId}" onclick="addNonPhotoToCart('${nonPhotoProduct.ProductId}', 4)">4</a><a class="dropdown-item" href="#" value="${nonPhotoProduct.ProductId}" onclick="addNonPhotoToCart('${nonPhotoProduct.ProductId}', 5)">5</a></div></td>`);
+                                }
+                                $tablerow.append($namecell);
+                                $tablerow.append($descriptioncell);
+                                $tablerow.append($originalcell);
+                                $tablerow.append($pwpcell);
+                                $tablerow.append($actioncell);
+                                $(`#nonPhotoProductTable`).append($tablerow);
+                            }
+                        }
+                    }
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
 
 
             $("form").submit(function (e) {
@@ -402,6 +531,7 @@
             $("select").change(function () {
                 refresh_values();
             });
+
             //server side
             //change of formulas e.g. Ajax call to server for calculation (no. of products), then get the return of total money
             function cal_amt(dclen, eclen, a5len, mglen, kclen) {
@@ -519,6 +649,7 @@
             }
             refresh_values();
         });
+
         function cal_amt(dclen, eclen, a5len, mglen, kclen) {
             var dc_amt = 0; var ec_amt = 0; var a5_amt = 0; var mg_amt = 0; var kc_amt = 0;
             var dc_result = "$0;"; var ec_result = "$0;"; var a5_result = "$0;"; var mg_result = "$0;"; var kc_result = "$0;";
@@ -632,6 +763,7 @@
             var output = dc_result + ec_result + a5_result + mg_result + kc_result + totalamt;
             return output;
         }
+
         function refresh_values() {
             var lrlen = "";
             $("select option:selected").each(function () {
@@ -678,12 +810,14 @@
             $("#kc").attr('value', kclen);
             $("#sa").attr('value', total);
         }
+
         function show_modal(e) {
             var modal = document.getElementById('myModala' + e);
             var modalImg = document.getElementById("img01");
             var captionText = document.getElementById("caption");
             modal.style.display = "block";
         }
+
         function delete_gl(id) {
             if (confirm('Are you confirmed to remove photo?')) {
                 $("#gl_id_" + id).remove();
@@ -691,6 +825,7 @@
             } else {
             }
         }
+
         function modal_load(e) {
             var modal = document.getElementById('myModala' + e);
             // Get the <span> element that closes the modal
@@ -875,6 +1010,7 @@
             //var output = dc_result  + ec_result + a5_result + mg_result + kc_result + totalamt;
             //            return output;
         }
+
         function selectProduct(id, filename) {
             $('#productModal').val(id);
             $('.itemsChk').prop("checked", false);
@@ -891,6 +1027,7 @@
             //document.getElementById("prods").innerHTML += "<input type='checkbox' id='check" +item+ "'/>" +item + "<br>"; 
             $('#productModal').modal("show");
         }
+
         //This will open the shopping cart
         function openCart() {
             load_Cart();
@@ -898,21 +1035,22 @@
             $("#photo_gallery").css("width", "80%");
             $("#photo_gallery").css("marginRight", "350px");
         }
+
         //Closing the shopping cart
         function closeCart() {
             $("#cart").css("width", "0");
             $("#photo_gallery").css("width", "90%");
             $("#photo_gallery").css("margin", "0 auto");
         }
+
         function CartItem(inPhotoId, inPhotoSource, inProductId) {
             this.productId = inProductId;
             this.photoId = inPhotoId;
             this.photoSource = inPhotoSource;
         }
         //When the user submitted the product, this method will load the chosen product to shopping cart
+
         function addToCart(src, phoId, proId) {
-            var photoid = $('#productModal').val();
-            var photosrc = $('#photoImg').attr("src");
             $("input:checkbox[name=product]:checked").each(function () {
                 var exist = false;
                 console.log(checker);
@@ -922,50 +1060,41 @@
                     }
                 }
                 if (!exist) {
-                    //Delete digital in the shopping cart if the select all is chosen
-                    if (checker == "stage2" && (proId == 4)) { }
-                    else {
-                        var newCartItem = new CartItem(phoId, src, proId);
-                        CartItems.push(newCartItem);
-                    }
+                    var newCartItem = new CartItem(phoId, src, proId);
+                    CartItems.push(newCartItem);
                 }
-                console.log(CartItems);
             });
             openCart();
-            $('#productModal').modal("hide");
         }
         //When the select all digital is clicked the item will be inserted to the shopping cart
-        function AddAllDigital() {
-            console.log(CartItems);
-            var newCartItem = new CartItem("digital", "/Content/img/digital.jpg", "4");
-            CartItems.push(newCartItem);
-        }
-        //Delete all digital in the shopping cart
-        function deleteDigital() {
-            var i;
-            console.log("Before: " +CartItems.length);
+
+        function addNonPhotoToCart(proId, quantity) {
+            var exist = false;
             for (i = 0; i < CartItems.length; i++) {
-                console.log(i);
-                if (CartItems[i].productId == "4") {
-                    CartItems.splice(i, 1);
-                    i--;
+                if (CartItems[i].productId == proId) {
+                    exist = true;
+                    CartItems[i].photoSource = quantity;
                 }
-                console.log("After: " + CartItems.length);
-                console.log(i);
             }
+            if (!exist) {
+                var newCartItem = new CartItem("photoProduct", quantity, proId);
+                CartItems.push(newCartItem);
+            }
+            console.log(CartItems);
+            openCart();
         }
+
+
         function checkChange(src, phoId, proId) {
-            console.log("triggered:" + `#item${phoId}${proId}`);
             if ($(`#item${phoId}${proId}`).prop("checked") == true) {
                 addToCart(src, phoId, proId);
             } else {
                 deleteItem(phoId, proId);
             }
         }
+
         //Delete a product in the shopping cart
         function deleteItem(phoId, proId) {
-            console.log("photo:" + phoId);
-            console.log("product:" + proId);
             var i;
             for (i = 0; i < CartItems.length; i++) {
                 if (CartItems[i].photoId == phoId && CartItems[i].productId == proId) {
@@ -974,37 +1103,99 @@
                     $(`#item${phoId}${proId}`).prop('checked', false);
                 }
             }
-            if (phoId == "digital") {
-                uncheckDigital();
-            }
             load_Cart();
         }
-        //This method will trigger when the select all is clicked and will disable and checked neccessary attribute and load methods
-        function disableCheck() {
-            checker = "stage2";
-            //document.getElementById("item4").checked = true;
-            //document.getElementById("item4").disabled = true;
-            deleteDigital();
-            AddAllDigital();
-            openCart();
-        }
-        //Reverse the disablecheck method
-        function uncheckDigital() {
-            checker = "stage1";
-            
-            //document.getElementById("item4").disabled = false;
-            //document.getElementById("item4").checked = false;
-            openCart();
-        }
+
+
         //Tooltip
         $('[rel="tooltip"]').tooltip({
             animated: 'fade',
             placement: 'bottom'
         });
+
+
+        function minusQuantity(proId) {
+            var i;
+            for (i = 0; i < CartItems.length; i++) {
+                if (CartItems[i].productId == proId) {
+                    if (CartItems[i].photoSource > 1) {
+                        //update shopping cart
+                        CartItems[i].photoSource = CartItems[i].photoSource - 1;
+                        //change input
+                        $(`#qty${proId}`).val(CartItems[i].photoSource);
+                        //update productCostData
+                        var x;
+                        for (x = 0; x < productCostData.length; x++) {
+                            if (productCostData[x].productId == proId) {
+                                productCostData[x].quantity = CartItems[i].photoSource;
+                            }
+                        }
+                        //update cost
+                        calculateTotalCost();
+                    }
+                    else {
+                        //error message
+                    }
+                }
+            }
+        }
+
+        function addQuantity(proId) {
+            var i;
+            for (i = 0; i < CartItems.length; i++) {
+                if (CartItems[i].productId == proId) {
+                    //update shopping cart
+                    CartItems[i].photoSource = CartItems[i].photoSource + 1;
+                    //change input
+                    $(`#qty${proId}`).val(CartItems[i].photoSource);
+                    //update productCostData
+                    var x;
+                    for (x = 0; x < productCostData.length; x++) {
+                        if (productCostData[x].productId == proId) {
+                            productCostData[x].quantity = CartItems[i].photoSource;
+                        }
+                    }
+                    //update cost
+                    calculateTotalCost();
+                }
+            }
+        }
+
+        function calculateTotalCost() {
+            if (productCostData.length != 0) {
+                pcd = JSON.stringify(productCostData);
+                var dataValues = JSON.stringify({ "cartItems": pcd });
+                $.ajax({
+                    type: "POST",
+                    url: '<%= ResolveUrl("selection.aspx/CalculateTotalCost") %>',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: dataValues,
+                    success: function (msg) {
+                        var allCosts = JSON.parse(msg.d);
+                        var k;
+                        for (k = 0; k < allCosts.length - 1; k++) {
+                            $(`#totalFor${allCosts[k].ProductId}`).text('$ ' + allCosts[k].Cost);
+                        }
+                        $(`#cartTotalCost`).text('$ ' + allCosts[allCosts.length - 1].Cost);
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+            else {
+                $(`#cartTotalCost`).text('$ 0');
+            }
+        }
+
         //Loading item using ajax call
         function load_Cart() {
             $('#cart_items').html('');
             var categories = [];
+            var nonPhotoProducts = [];
+            productCostData = [];
+            //load Photo Product
             for (i = 0; i < CartItems.length; i++) {
                 var categoryExist = false;
                 var n;
@@ -1014,18 +1205,142 @@
                         categoryExist = true;
                     }
                 }
-                //if the product (i.e. hardcopy, keychain) not created yet
-                if (!categoryExist) {
-                    categories.push(CartItems[i].productId);
-                    let $divProduct = $(`<div style="background-color: white" class="m-1 p-2"></div>`);
-                    let $divProductName = $(`<div class="m-2 pb-1 mb-0" style="border-bottom: 1px solid #c3c3c3"><b id="cartProductName${CartItems[i].productId}"></b></div>`);
-                    let $divProductPhotos = $(`<div class="row p-2" id="cartphotosFor${CartItems[i].productId}"></div>`);
-                    let $divProductTotal = $(`<div class="m-2 pt-1 mt-0 text-right" style="border-top: 1px solid #c3c3c3; font-size: 0.95rem" id="totalFor${CartItems[i].productId}"><b>SGD: 18.00</b></div>`);
-                    $divProduct.append($divProductName);
-                    $divProduct.append($divProductPhotos);
-                    $divProduct.append($divProductTotal);
-                    $('#cart_items').append($divProduct);
-                    dataValue = { "id": CartItems[i].productId };
+                if (CartItems[i].photoId != "photoProduct") {
+                    //if the product (i.e. hardcopy, keychain) not created yet
+                    if (!categoryExist) {
+                        categories.push(CartItems[i].productId);
+                        let $divProduct = $(`<div style="background-color: white" class="m-1 p-2 mb-2"></div>`);
+                        let $divProductName = $(`<div class="pb-1 mb-0" style="border-bottom: 1px solid #c3c3c3; position: relative;" id="cartProduct${CartItems[i].productId}"><span id="cartProductName${CartItems[i].productId}" style="font-size: 0.85rem" class="ml-1 pb-0"></span></div>`);
+                        let $divProductPhotos = $(`<div class="row p-2 pb-1" id="cartphotosFor${CartItems[i].productId}"></div>`);
+                        let $divProductTotal = $(`<div class="pt-1 mt-0 text-right" style="border-top: 1px solid #c3c3c3; font-size: 0.95rem"><b id="totalFor${CartItems[i].productId}" class="pr-1">SGD: 18.00</b></div>`);
+                        $divProduct.append($divProductName);
+                        $divProduct.append($divProductPhotos);
+                        $divProduct.append($divProductTotal);
+                        $('#cart_items').append($divProduct);
+                        dataValue = { "id": CartItems[i].productId };
+                        //get this product name
+                        $.ajax({
+                            type: "POST",
+                            url: '<%= ResolveUrl("selection.aspx/GetProductbyId") %>',
+                            dataType: 'text',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: JSON.stringify(dataValue),
+                            success: function (msg) {
+                                productDetails = JSON.parse(msg.d);
+                                $(`#cartProductName${productDetails.ProductId}`).text(productDetails.ProductName);
+                            },
+                            error: function (response) {
+                                console.log(response);
+                            }
+                        });
+                    }
+                    //if(CartItems)
+
+                    //add in selected photo to the selected product
+                    let $divSelectedPro = $(`#cartphotosFor${CartItems[i].productId}`);
+                    let $divsOuter = $(`<div class="col-md-4 cart-img pb-0"><div class="thumbnail"></div></div>`);
+                    let $imgPhoto = $(`<img src="${CartItems[i].photoSource}" style="width: 100%" />`);
+                    let $divDelete = $(`<div class="caption text-center" style="background-color: #eee"><i class="far fa-trash-alt deleteItem" style="font-size: 0.9rem;" onclick="deleteItem('${CartItems[i].photoId}', '${CartItems[i].productId}');"></i></div>`);
+                    //calculate price for this particular product e.g. hardcopy, softcopy
+                    var noOfPhotos = 0;
+                    var x;
+                    for (x = 0; x < CartItems.length; x++) {
+                        if (CartItems[x].productId == CartItems[i].productId) {
+                            noOfPhotos++;
+                        }
+                    }
+                    var m;
+                    var costExist = false;
+                    for (m = 0; m < productCostData.length; m++) {
+                        if (productCostData[m].productId == CartItems[i].productId) {
+                            costExist = true;
+                        }
+                    }
+                    if (!costExist) {
+                        var oneProduct = { "productId": CartItems[i].productId, "quantity": noOfPhotos };
+                        productCostData.push(oneProduct);
+                    }
+                    $divsOuter.append($imgPhoto);
+                    $divsOuter.append($divDelete);
+                    $divSelectedPro.append($divsOuter);
+                }
+                //the item is nonphoto product
+                else {
+                    nonPhotoProducts.push(CartItems[i]);
+                }
+            }
+            if (nonPhotoProducts.length != 0) {
+                var x;
+                let $nonPhotoProductDiv = $('<div style="background-color: white" class="m-1 p-2"></div>');
+                let $productDiv = $(`<div class="row p-2 pb-0 pl-3"></div>`);
+                let $productInnerDiv = null;
+                let $productImgElement = null;
+                let $divDelete = null;
+                let $productNameP = null;
+                let $productQtyDiv = null;
+                let $productPriceP = null;
+                for (x = 0; x < nonPhotoProducts.length; x++) {
+                    var oneProduct = { "productId": nonPhotoProducts[x].productId, "quantity": nonPhotoProducts[x].photoSource };
+                    productCostData.push(oneProduct);
+
+                    let $captionDiv = $(`<div></div>`);
+                    $productInnerDiv = $(`<div class="col-md-5 cart-img pb-0 pr-2 pl-3 mr-2"></div>`);
+                    $productImgElement = $(`<img id="img${nonPhotoProducts[x].productId}" style="width: 100%"/>`);
+                    $divDelete = $(`<div class="caption text-center" style="background-color: #eee"><i class="far fa-trash-alt deleteItem" style="font-size: 0.9rem;" onclick="deleteItem('photoProduct', '${nonPhotoProducts[x].productId}');"></i></div>`);
+                
+                    //product Info
+                    $productNameP = $(`<p class="text-center" style="font-size: 0.85rem; margin-bottom:0.2rem" id="name${nonPhotoProducts[x].productId}"></p>`);
+                    $productQtyDiv = $(`<div class="number" id="numberOfProduct${nonPhotoProducts[x].productId}" style="height: 25px;"><span class="minus" onclick="minusQuantity('${nonPhotoProducts[x].productId}')">-</span><input class="numberInput" id="qty${nonPhotoProducts[x].productId}" type="text" value="${nonPhotoProducts[x].photoSource}" /><span class="plus" onclick="addQuantity('${nonPhotoProducts[x].productId}')">+</span></div>`);
+                    $productPriceP = $(`<p class="text-center mt-2" style="font-size: 0.95rem; margin-bottom:0.2rem"><b id="totalFor${nonPhotoProducts[x].productId}"></b></p>`);
+
+                    $captionDiv.append($productNameP);
+                    $captionDiv.append($productQtyDiv);
+                    $captionDiv.append($productPriceP);
+
+                    $productInnerDiv.append($productImgElement);
+                    $productInnerDiv.append($divDelete);
+                    $productInnerDiv.append($captionDiv);
+
+                    $productDiv.append($productInnerDiv);
+                    $nonPhotoProductDiv.append($productDiv);
+
+                    var nonPhotoProductId = { "id": nonPhotoProducts[x].productId };
+                    //get this product name
+                    $.ajax({
+                        type: "POST",
+                        url: '<%= ResolveUrl("selection.aspx/GetProductbyId") %>',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: JSON.stringify(nonPhotoProductId),
+                        success: function (msg) {
+                            var productDetails = JSON.parse(msg.d);
+                            var productImg = productDetails.ProductImagePath;
+                            var productName = productDetails.ProductName;
+                            var productQunatityConstraint = productDetails.ProductQuantityConstraint;
+                            $(`#img${productDetails.ProductId}`).attr("src", productImg);
+                            $(`#name${productDetails.ProductId}`).text(productName);
+                            if (productQunatityConstraint == "Max 1 Unit") {
+                                $(`#numberOfProduct${productDetails.ProductId}`).html("");
+                                $(`#numberOfProduct${productDetails.ProductId}`).css("margin-top", "0");
+                                $(`#numberOfProduct${productDetails.ProductId}`).css("font-size", "0.88rem");
+                                $(`#numberOfProduct${productDetails.ProductId}`).css("vertical-align;", "middle");
+                                $(`#numberOfProduct${productDetails.ProductId}`).text("x 1");
+                            }
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+                }
+                $('#cart_items').append($nonPhotoProductDiv);
+            }
+
+            //validate cart
+            var n;
+            for (n = 0; n < productCostData.length; n++) {
+                if (productCostData[n].quantity % 2 != 0) {
+                    dataValue = { "id": productCostData[n].productId };
                     //get this product name
                     $.ajax({
                         type: "POST",
@@ -1036,48 +1351,21 @@
                         data: JSON.stringify(dataValue),
                         success: function (msg) {
                             productDetails = JSON.parse(msg.d);
-                            $(`#cartProductName${productDetails.ProductId}`).text(productDetails.ProductName);
+                            if (productDetails.ProductQuantityConstraint == "Even Numbered Units") {
+                                $(`#cartProduct${productDetails.ProductId}`).append('<b class="cartValidation">* Please select 1 more photo</b>');
+                            }
+
                         },
                         error: function (response) {
                             console.log(response);
                         }
                     });
                 }
-                //add in selected photo to the selected product
-                let $divSelectedPro = $(`#cartphotosFor${CartItems[i].productId}`);
-                let $divsOuter = $(`<div class="col-md-4 cart-img"><div class="thumbnail"></div></div>`);
-                let $imgPhoto = $(`<img src="${CartItems[i].photoSource}" style="width: 100%" />`);
-                let $divDelete = $(`<div class="caption text-center" style="background-color: bisque"><i class="far fa-trash-alt deleteItem" style="font-size: 0.9rem;" onclick="deleteItem('${CartItems[i].photoId}', '${CartItems[i].productId}');"></i></div>`);
-                //calculate price for this particular product e.g. hardcopy, softcopy
-                var noOfPhotos = 0;
-                var x;
-                for (x = 0; x < CartItems.length; x++) {
-                    if (CartItems[x].productId == CartItems[i].productId) {
-                        noOfPhotos++;
-                    }
-                }
-                console.log("There are " + noOfPhotos + "for id:" + CartItems[i].productId);
-                var calculateProductCost= { "id": CartItems[i].productId, "unitsOfPhoto": noOfPhotos};
-                    //get this product name
-                    $.ajax({
-                        type: "POST",
-                        url: '<%= ResolveUrl("selection.aspx/CalculateCostForOneProduct") %>',
-                        dataType: 'text',
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        data: JSON.stringify(calculateProductCost),
-                        success: function (msg) {
-                            console.log(JSON.parse(msg.d));
-                        },
-                        error: function (response) {
-                            console.log(response);
-                        }
-                    });
-                $divsOuter.append($imgPhoto);
-                $divsOuter.append($divDelete);
-                $divSelectedPro.append($divsOuter);
             }
+            calculateTotalCost();
         }
+
+
     </script>
 
 
@@ -1172,7 +1460,7 @@
         </div>
 
         <!-- PRICING TABLE -->
-        <div style="text-align: center; width: 100%; display: none; ">
+        <div style="text-align: center; width: 100%; display: none;">
             <!-- remove from display when it is onsite -->
             <div class="pricing_table">
                 <div class="pricing_heading">Pricing</div>
@@ -1229,122 +1517,48 @@
 
         <!-- PRICING TABLE -->
 
-        <form action="summary.aspx" method="post">
+        <div>
             <div style="margin-top: -10px; width: 90%; text-align: center; margin: 0 auto;" id="photo_gallery">
                 <!--<div id="menu_select">
                     <input name="all_digital_cb" onclick="disableCheck()" id="all_digital" type="checkbox" />&nbsp;<label>All Digital</label>
                 </div> -->
                 <div style="text-align: center;" id="photo_gallery_ctn" runat="server">
-                    <div style="display: flex; ">
-                    <div class="card-body" id="photoProductTable" style="width:40%; -ms-flex: 0.8; flex: 0.8;">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered first">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Photo Souvenir</th>
-                                        <th>Price</th>
-                                        <th>PWP Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="m-r-10"><img src="/Content/img/keychain.jpg" alt="keychain" class="rounded" width="100"/></div>
-                                            <b>Keychain</b>
-                                        </td>
-                                        <td>Select 2 photos for it </td>
-                                        <td><b>$20.00 </b>/ Photo</td>
-                                        <td><b>$12.00 </b>/ Photo</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="m-r-10">
-                                                <img src="/Content/img/magnet.jpg" alt="magnet" class="rounded" width="100" /></div>
-                                            <b>Magnet</b>
-                                        </td>
-                                        <td>balah balah balah balah </td>
-                                        <td><b>$20.00 </b>/ Photo</td>
-                                        <td><b>$8.00 </b>/ Photo</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="m-r-10">
-                                                <img src="/Content/img/card.jpg" alt="magnet" class="rounded" width="100" /></div>
-                                            <b>Establishment Card</b>
-                                        </td>
-                                        <td>balah balah balah balah </td>
-                                        <td><b>$15.00 </b>/ Photo</td>
-                                        <td><b>$8.00 </b> / Photo</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="m-r-10">
-                                                <img src="/Content/img/a5.jpg" alt="magnet" class="rounded" width="100" /></div>
-                                            <b>A5 hardcopy</b>
-                                        </td>
-                                        <td>balah balah balah balah </td>
-                                        <td><b>$15.00 </b>/ Photo</td>
-                                        <td><b>$8.00 </b> / Photo</td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
+                    <div style="display: flex;">
+                        <div class="card-body" id="photoProductTable" style="width: 40%; -ms-flex: 0.8; flex: 0.8;">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered first">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2">Photo Souvenir</th>
+                                            <th>Price</th>
+                                            <th>PWP Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="photoProductTableBody"></tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="card-body" id="otherProductTable" style="width:50%;-ms-flex: 1; flex: 1; ">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered first">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Other Souvenir</th>
-                                        <th>Price</th>
-                                        <th>PWP Price</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="m-r-10"><img src="/Content/img/digital.jpg" alt="keychain" class="rounded" width="100"/></div>
-                                            <b>Digital</b>
-                                        </td>
-                                        <td>Flat rate for all photos</td>
-                                        <td><b>$20.00 </b>/ All photos</td>
-                                        <td>-</td>
-                                        <td><button type="button" onclick="disableCheck()" class="btn btn-secondary ">Add</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="m-r-10">
-                                                <img src="/Content/img/leatherette.png" alt="magnet" class="rounded" width="100" />
-                                            </div>
-                                            <b>Leatherette</b>
-                                        </td>
-                                        <td>balah balah balah balah </td>
-                                        <td><b>$50.00 </b>/ leatherette</td>
-                                        <td><b>$20.00 </b>/ leatherette</td>
-                                        <td>
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Add
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#">1</a>
-                                                <a class="dropdown-item" href="#">2</a>
-                                                <a class="dropdown-item" href="#">3</a>
-                                                <a class="dropdown-item" href="#">4</a>
-                                                <a class="dropdown-item" href="#">5</a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="card-body" id="otherProductTable" style="width: 50%; -ms-flex: 1; flex: 1;">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered first">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2">Other Souvenir</th>
+                                            <th>Price</th>
+                                            <th>PWP Price</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="nonPhotoProductTable">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-                </div>
-                <br/>
-
+                <br />
+                <!--
                 Leatherette
                 <select id="leatherette_select">
                     <option value="0">0</option>
@@ -1354,8 +1568,8 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
-                <br />
-                <br />
+                <br/>
+                <br/>
 
                 <input type="hidden" id="sa" value="0" runat="server" />
                 <input type="hidden" id="dc" value="0" runat="server" />
@@ -1365,31 +1579,35 @@
                 <input type="hidden" id="kc" value="0" runat="server" />
                 <input type="hidden" id="lr" value="0" runat="server" />
                 <input type="hidden" id="js" value="0" runat="server" />
+                    -->
                 <div>
-                    <input class='btn_default' type="submit" /><input style="margin-left: 10px;" onclick='location.reload();' class='btn_default' type="reset" />
+                    <!--<input class='btn_default' type="submit" />-->
+                    <input style="margin-left: 10px;" onclick='location.reload();' class='btn_default' type="reset" />
                 </div>
                 <br />
             </div>
 
-            <div id="cart" style="height:596px" class="sidebar">
+            <div id="cart" style="height: 596px" class="sidebar">
                 <div class="p-2 mt-1 mb-2" style="text-align: center">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="modal-title" style="margin-left: 10px">My Cart</span>
                     <button type="button" class="close" onclick="closeCart()">&times;</button>
                 </div>
-                <div id="cart_items" style="height:470px; overflow-y: scroll; overflow-x: hidden;">
+                <div id="cart_items" style="height: 470px; overflow-y: scroll; overflow-x: hidden;">
                 </div>
-                <div class="totalPrice p-2 pl-3 bg-white" style="border-top: 1px solid #c3c3c3; height:60px; display: flex;">
-                    <p style="-ms-flex: 1; flex: 1; font-size:1.02rem" class="mt-2">
-                        Total:<b> SGD 72.00</b>
+                <div class="totalPrice p-2 pl-3 bg-white" style="border-top: 1px solid #c3c3c3; height: 60px; display: flex;">
+                    <p style="-ms-flex: 1; flex: 1; font-size: 1.02rem" class="mt-2">
+                        Total: <b id="cartTotalCost"> SGD 72.00</b>
                     </p>
-                    <button class="btn btn-primary p-1" style="-ms-flex: 0.4; flex: 0.4;">Checkout</button>
+                    <form action="summary.aspx" method="post">
+                        <input class="btn btn-primary p-2" style="-ms-flex: 0.4; flex: 0.4;" type="submit" />
+                    </form>
                 </div>
             </div>
 
 
 
-        </form>
+        </div>
     </div>
 
 

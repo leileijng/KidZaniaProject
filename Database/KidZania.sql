@@ -3,6 +3,7 @@
 -- Host: localhost    Database: kidzania
 -- ------------------------------------------------------
 -- Server version	5.7.11-log
+use kidzania;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;

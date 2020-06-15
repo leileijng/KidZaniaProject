@@ -78,81 +78,83 @@
                     </a>
                 </div>
                 <div class="modal-body">
-                    <div style="display: flex;">
-                        <div style="-ms-flex:1; flex:1;">
-                            <img onclick="$('#fileid').click();" id="uploadhover" src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-top: -14px;">
-                            <input id='fileid' onchange="readURL(this);" type='file' hidden />
-                            <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
-                                <p>Visibility<span class="compulsoryInput d-inline"> *</span></p>
-                                <!-- Rounded switch -->
-                                <label class="switch">
-                                    <input id="addVis" type="checkbox">
-                                    <span class="slider round"></span>
-                                </label>
+                    <form role="form" id="addModalForm">
+                        <div style="display: flex;">
+                            <div style="-ms-flex:1; flex:1;">
+                                <img onclick="$('#fileid').click();" id="uploadhover" src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-top: -14px;">
+                                <input id='fileid' onchange="readURL(this);" type='file' hidden />
+                                <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
+                                    <p>Visibility<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input id="addVis" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-6" style="float: right; margin-right: 9px;">
+                                    <p style="margin-right: -26px;">Photo Product<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input id="addPhotoProduct" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
                             </div>
-                            <div class="form-group col-md-6" style="float: right; margin-right: 9px;">
-                                <p style="margin-right: -26px;">Photo Product<span class="compulsoryInput d-inline"> *</span></p>
-                                <!-- Rounded switch -->
-                                <label class="switch">
-                                    <input id="addPhotoProduct" type="checkbox">
-                                    <span class="slider round"></span>
-                                </label>
+                            <div style="-ms-flex:1; flex:1;">
+                                <div class="form-group col-md-12">
+                                    <label for="addItemId" class="font-small font-weight-medium">
+                                        Item Id <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="addItemId" name="addItemId" class="form-control" placeholder="Please key in item id" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="addNameInput" class="font-small font-weight-medium">
+                                        Item Name <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="addNameInput" name="addNameInput" class="form-control" placeholder="Please key in item name" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="addPriceInput" class="font-small font-weight-medium">
+                                        Original Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="addPriceInput" name="addPriceInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="addPWPInput" class="font-small font-weight-medium">
+                                        PWP Price (incl.GST) <span class="compulsoryInput d-inline"> </span>
+                                    </label>
+                                    <input type="text" id="addPWPInput" name="addPWPInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="addQCInput" class="font-small font-weight-medium">
+                                        Quantity Constraints <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <select class="custom-select d-block w-100" id="addQCInput" name="addQCInput" required>
+                                        <option>--None--</option>
+                                        <option>Even Numbered Units</option>
+                                        <option>Max 1 Unit</option>
+                                    </select>
+                                </div>
+
                             </div>
                         </div>
-                        <div style="-ms-flex:1; flex:1;">
-                            <div class="form-group col-md-12">
-                                <label for="addItemId" class="font-small font-weight-medium">
-                                    Item Id <span class="compulsoryInput d-inline"> *</span>
-                                </label>
-                                <input type="text" id="addItemId" name="addItemId" class="form-control" placeholder="Please key in item id" />
-                                <span></span>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="addNameInput" class="font-small font-weight-medium">
-                                    Item Name <span class="compulsoryInput d-inline"> *</span>
-                                </label>
-                                <input type="text" id="addNameInput" name="addNameInput" class="form-control" placeholder="Please key in item name" />
-                                <span></span>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="addPriceInput" class="font-small font-weight-medium">
-                                    Original Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
-                                </label>
-                                <input type="text" id="addPriceInput" name="addPriceInput" class="form-control" placeholder="$ e.g. 25.00" />
-                                <span></span>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="addPWPInput" class="font-small font-weight-medium">
-                                    PWP Price (incl.GST) <span class="compulsoryInput d-inline"> </span>
-                                </label>
-                                <input type="text" id="addPWPInput" name="addPWPInput" class="form-control" placeholder="$ e.g. 25.00" />
-                                <span></span>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="addQCInput" class="font-small font-weight-medium">
-                                    Quantity Constraints <span class="compulsoryInput d-inline"> *</span>
-                                </label>
-                                <select class="custom-select d-block w-100" id="addQCInput">
-                                    <option>--None--</option>
-                                    <option>Even Numbered Units</option>
-                                    <option>Max 1 Unit</option>
-                                </select>
-                            </div>
-
+                        <div class="form-group col-md-12" style="margin-top: -10px;">
+                            <label for="addCommentsInput" class="font-small font-weight-medium">
+                                Description
+                            </label>
+                            <textarea type="text" id="addCommentsInput" name="addCommentsInput" class="form-control" placeholder="Enter Description"></textarea>
+                            <span></span>
                         </div>
-                    </div>
-                    <div class="form-group col-md-12" style="margin-top: -10px;">
-                        <label for="addCommentsInput" class="font-small font-weight-medium">
-                            Description
-                        </label>
-                        <textarea type="text" id="addCommentsInput" name="addCommentsInput" class="form-control" placeholder="Enter Description"></textarea>
-                        <span></span>
-                    </div>
 
-                    <div class="modal-footer">
-                        <button type="reset" class="btn btn-grey">Clear</button>
-                        <button type="button" onclick="addProduct();" class="btn btn-primary" id="SubmitBtn">Add Item</button>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-grey">Clear</button>
+                            <button type="submit" onclick="addProduct();" class="btn btn-primary" id="addSubmitBtn">Add Item</button>
+                        </div>
+                     </form>
                 </div>
             </div>
         </div>
@@ -169,77 +171,79 @@
                     </a>
                 </div>
                 <div class="modal-body">
-                    <div style="display: flex;">
-                        <div style="-ms-flex:1; flex:1;">
-                            <div class="imgContainer">
-                                <img alt="upload" style="width:200px; margin-top: -14px;" id="editPhoto">
-                                <div onclick="$('#newphoto').click();" class="editImgbutton"><a href="#"> Change Photo </a></div>
-                                <input id='newphoto' onchange="editPhoto(this); del = true;" type='file' hidden />
+                    <form role="form" id="editModalForm">
+                        <div style="display: flex;">
+                            <div style="-ms-flex:1; flex:1;">
+                                <div class="imgContainer">
+                                    <img alt="upload" style="width:200px; margin-top: -14px;" id="editPhoto">
+                                    <div onclick="$('#newphoto').click();" class="editImgbutton"><a href="#"> Change Photo </a></div>
+                                    <input id='newphoto' onchange="editPhoto(this); del = true;" type='file' hidden />
+                                </div>
+                                <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
+                                    <p class="p-0">Visibility<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input id="visibilityInp" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-6" style="float: right; margin-right: 9px;">
+                                    <p class="p-0" style="margin-right: -26px;">Photo Product<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input id="photoProdInp" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
                             </div>
-                            <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
-                                <p class="p-0">Visibility<span class="compulsoryInput d-inline"> *</span></p>
-                                <!-- Rounded switch -->
-                                <label class="switch">
-                                    <input id="visibilityInp" type="checkbox">
-                                    <span class="slider round"></span>
-                                </label>
-                            </div>
-                            <div class="form-group col-md-6" style="float: right; margin-right: 9px;">
-                                <p class="p-0" style="margin-right: -26px;">Photo Product<span class="compulsoryInput d-inline"> *</span></p>
-                                <!-- Rounded switch -->
-                                <label class="switch">
-                                    <input id="photoProdInp" type="checkbox">
-                                    <span class="slider round"></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div style="-ms-flex:1; flex:1;">
-                            <div class="form-group col-md-12">
-                                <label for="ItemNameInp" class="font-small font-weight-medium">
-                                    Item Name <span class="compulsoryInput d-inline"> *</span>
-                                </label>
-                                <input type="text" id="ItemNameInp" name="ItemNameInp" class="form-control" placeholder="Please key in item name" />
-                                <span></span>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="priceNameInp" class="font-small font-weight-medium">
-                                    Original Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
-                                </label>
-                                <input type="text" id="priceNameInp" name="priceNameInp" class="form-control" placeholder="$ e.g. 25.00" />
-                                <span></span>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="pwpNameInp" class="font-small font-weight-medium">
-                                    PWP Price (incl.GST) <span class="compulsoryInput d-inline"> </span>
-                                </label>
-                                <input type="text" id="pwpNameInp" name="pwpNameInp" class="form-control" placeholder="$ e.g. 25.00" />
-                                <span></span>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="QCInput" class="font-small font-weight-medium">
-                                    Quantity Constraints <span class="compulsoryInput d-inline"> *</span>
-                                </label>
-                                <select class="custom-select d-block w-100" id="inp-select">
-                                    <option>--None--</option>
-                                    <option>Even Numbered Units</option>
-                                    <option>Max 1 Unit</option>
-                                </select>
-                            </div>
+                            <div style="-ms-flex:1; flex:1;">
+                                <div class="form-group col-md-12">
+                                    <label for="ItemNameInp" class="font-small font-weight-medium">
+                                        Item Name <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="ItemNameInp" name="ItemNameInp" class="form-control" placeholder="Please key in item name" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="priceNameInp" class="font-small font-weight-medium">
+                                        Original Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="priceNameInp" name="priceNameInp" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="pwpNameInp" class="font-small font-weight-medium">
+                                        PWP Price (incl.GST) <span class="compulsoryInput d-inline"> </span>
+                                    </label>
+                                    <input type="text" id="pwpNameInp" name="pwpNameInp" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="QCInput" class="font-small font-weight-medium">
+                                        Quantity Constraints <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <select class="custom-select d-block w-100" id="inp-select">
+                                        <option>--None--</option>
+                                        <option>Even Numbered Units</option>
+                                        <option>Max 1 Unit</option>
+                                    </select>
+                                </div>
 
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group col-md-12" style="margin-top: -10px;">
-                        <label for="commentsInp" class="font-small font-weight-medium">
-                            Description
-                        </label>
-                        <textarea type="text" id="commentsInp" name="commentsInp" class="form-control" placeholder="Enter Description"></textarea>
-                        <span></span>
-                    </div>
-                    <input type="hidden" id="idInp" />
-                    <div class="modal-footer">
-                        <button type="reset" class="btn btn-grey">Reset</button>
-                        <button type="button" onclick="updateSouvenir()" class="btn btn-primary" id="SubmitBtn">Save Changes</button>
-                    </div>
+                        <div class="form-group col-md-12" style="margin-top: -10px;">
+                            <label for="commentsInp" class="font-small font-weight-medium">
+                                Description
+                            </label>
+                            <textarea type="text" id="commentsInp" name="commentsInp" class="form-control" placeholder="Enter Description"></textarea>
+                            <span></span>
+                        </div>
+                        <input type="hidden" id="idInp" />
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-grey">Reset</button>
+                            <button type="submit" onclick="updateSouvenir()" class="btn btn-primary" id="SubmitBtn">Save Changes</button>
+                        </div>
+                     </form>
                 </div>
             </div>
         </div>
@@ -314,6 +318,7 @@
 <script src="https://cdn.datatables.net/rowgroup/1.0.4/js/dataTables.rowGroup.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
 <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
 <script src="~/Scripts/moment.js"></script>
 <script src="~/Scripts/noty/jquery.noty.js"></script>
 <script src="~/Scripts/noty/layouts/center.js"></script>
@@ -362,6 +367,9 @@
     .imgContainer:hover .editImgbutton {
         opacity: 1;
     }
+    form .error {
+  color: #ff0000;
+}
 </style>
 <script>
     loadSouvenirs()
@@ -481,12 +489,7 @@
                 console.log(data);
                 $('#ItemNameInp').val(data.name);
                 $('#priceNameInp').val(data.original_price);
-                if (data.pwp_price != null) {
-                    $('#pwpNameInp').val(data.pwp_price);
-                }
-                else {
-                    $('#pwpNameInp').val();
-                }
+                $('#pwpNameInp').val(data.pwp_price);
                 $('#commentsInp').val(data.description);
                 $('#idInp').val(data.product_id);
 
@@ -513,6 +516,7 @@
             }
         });
     }
+
     function updateSouvenir() {
         let gst = $('#gstper').val();
         let id = $('#idInp').val();
@@ -624,7 +628,7 @@
                                 });
                             }
                         }
-                    }).show();
+                    }).show(); 
                 }).fail(function (data, textStatus, jqXHR) {
                     new noty({
                         text: data.responseJSON.message,
@@ -638,9 +642,10 @@
             error: function (d) {
                 alert('Upload file went wrong');
                 console.log(d);
-            }
+               }
         });
     }
+
     function editPhoto(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -768,6 +773,7 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
     function addProduct() {
         let id = $('#addItemId').val();
         let gst = $('#gstper').val();
@@ -919,4 +925,67 @@
             }
         });
     }
+
+    jQuery.validator.addMethod("price", function(value, element) {
+    return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
+    }, "You must include two decimal places");
+
+  $("#editModalForm").validate({
+          rules: {
+           ItemNameInp: {
+               required: true
+           },
+           priceNameInp: {
+               required: true,
+               number: true,
+               price: true
+           },
+             'inp-select': {
+                required: true
+           }
+      },
+         messages: {
+          ItemNameInp: {
+           required: "Please enter Item Name"
+             },
+          priceNameInp: {
+           required: "Please enter Original price"
+             },
+          "inp-select": {
+           required: "Please select Quantity Constraint"
+          }
+      },
+          submitHandler: function (form) { 
+        }
+  });
+
+    $("#addModalForm").validate({
+          rules: {
+           addNameInput: {
+               required: true
+           },
+           addPriceInput: {
+               required: true,
+               number: true,
+               price: true
+           },
+             addQCInput: {
+                required: true
+           }
+      },
+         messages: {
+          addNameInput: {
+           required: "Please enter Item Name"
+             },
+          addPriceInput: {
+           required: "Please enter Original price"
+             },
+          addQCInput: {
+           required: "Please select Quantity Constraint"
+          }
+      },
+          submitHandler: function (form) { 
+        }
+    });
+
 </script>
