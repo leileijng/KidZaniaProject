@@ -366,7 +366,6 @@ C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrin
 C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\System.Web.WebPages.Razor.xml
 C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\Antlr3.Runtime.pdb
 C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\obj\Debug\KidZaniaPhotoPrintingAdminPortal.csprojAssemblyReference.cache
 C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\obj\Debug\KidZaniaPhotoPrintingAdminPortal.csproj.CoreCompileInputs.cache
 C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\obj\Debug\KidZaniaPhotoPrintingAdminPortal.csproj.CopyComplete
 C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\obj\Debug\KidZaniaPhotoPrintingAdminPortal.dll
@@ -709,3 +708,4 @@ C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\Codings\Admin\KidZaniaPhotoP
 C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\Neodynamic.SDK.WebClientPrint.dll
 C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\System.Text.Encoding.CodePages.dll
 C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\System.Text.Encoding.CodePages.xml
+C:\Users\Franky\Documents\GitHub\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\obj\Debug\KidZaniaPhotoPrintingAdminPortal.csprojAssemblyReference.cache

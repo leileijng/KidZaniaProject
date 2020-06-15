@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/Menu.cshtml";
 }
-
+<link href="~/assets/libs/css/animate.min.css" rel="stylesheet" />
 <div class="container-fluid dashboard-content ">
     <!-- ============================================================== -->
     <!-- pageheader  -->
@@ -101,6 +101,13 @@
                         </div>
                         <div style="-ms-flex:1; flex:1;">
                             <div class="form-group col-md-12">
+                                <label for="addItemId" class="font-small font-weight-medium">
+                                    Item Id <span class="compulsoryInput d-inline"> *</span>
+                                </label>
+                                <input type="text" id="addItemId" name="addItemId" class="form-control" placeholder="Please key in item id" />
+                                <span></span>
+                            </div>
+                            <div class="form-group col-md-12">
                                 <label for="addNameInput" class="font-small font-weight-medium">
                                     Item Name <span class="compulsoryInput d-inline"> *</span>
                                 </label>
@@ -127,8 +134,8 @@
                                 </label>
                                 <select class="custom-select d-block w-100" id="addQCInput">
                                     <option>--None--</option>
-                                    <option>Even Numbered units</option>
-                                    <option>Max 1 unit 1 digital</option>
+                                    <option>Even Numbered Units</option>
+                                    <option>Max 1 Unit</option>
                                 </select>
                             </div>
 
@@ -167,7 +174,7 @@
                             <div class="imgContainer">
                                 <img alt="upload" style="width:200px; margin-top: -14px;" id="editPhoto">
                                 <div onclick="$('#newphoto').click();" class="editImgbutton"><a href="#"> Change Photo </a></div>
-                                <input id='newphoto' onchange="editPhoto(this)" type='file' hidden />
+                                <input id='newphoto' onchange="editPhoto(this); del = true;" type='file' hidden />
                             </div>
                             <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
                                 <p class="p-0">Visibility<span class="compulsoryInput d-inline"> *</span></p>
@@ -215,7 +222,7 @@
                                 <select class="custom-select d-block w-100" id="inp-select">
                                     <option>--None--</option>
                                     <option>Even Numbered Units</option>
-                                    <option>Max 1 Unit 1 Digital</option>
+                                    <option>Max 1 Unit</option>
                                 </select>
                             </div>
 
@@ -250,7 +257,7 @@
                         <div class="row" id="headerRow">
                             <div class="col-sm-3 col-md-3" style="flex:1;">
                                 <div class="add">
-                                    <button href="#exampleModal" onclick="$('#uploadhover').attr('src', '/assets/images/upload.png');" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    <button href="#exampleModal" onclick="$('#uploadhover').attr('src', '/assets/images/upload.png')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                         Add New Item
                                     </button>
                                 </div>
@@ -385,64 +392,72 @@
                 let record = data[x];
                 let $cellElement = null;
                 let $hyperlinkElement = null;
-                let $rowElement = $('<tr></tr>');
+                let $rowElement = $(`<tr id="${record.product_id}" class="animate__animated animate__fadeIn animate__slow"></tr>`);
                 prod_id.push(record.product_id);
                 $cellElement = $(`<td>${record.product_id}</td>`);
                 $rowElement.append($cellElement);
-                $cellElement = $(`<td><div><img src="${record.image}" alt="user" width="55"></div></td>`);
+                $cellElement = $(`<td><div><img id="img${record.product_id}" src="${record.image}" alt="user" width="55"></div></td>`);
                 $rowElement.append($cellElement);
-                $cellElement = $(`<td>${record.name}</td>`);
+                $cellElement = $(`<td id="name${record.product_id}">${record.name}</td>`);
                 $rowElement.append($cellElement);
-                $cellElement = $(`<td>${record.description}</td>`);
+                if (record.description != "") {
+                    $cellElement = $(`<td id="description${record.product_id}">${record.description}</td>`);
+                }
+                else {
+                    $cellElement = $(`<td><span id="description${record.product_id}">-</span></td>`);
+                }
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
                 $rowElement.append($cellElement);
-                $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
+                if (record.pwp_price != null) {
+                    $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
+                } else {
+                    $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
+                }
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
                                             <option>--None--</option>
-                                            <option>Even Numbered units</option>
-                                            <option>Max 1 unit 1 digital</option>
+                                            <option>Even Numbered Units</option>
+                                            <option>Max 1 Unit</option>
                                         </select></td>`);
-
                 $rowElement.append($cellElement);
                 if (record.photo_product == true) {
                     $cellElement = $(`<td>
-                                        <i class="fas fa-check mr-1"></i>
+                                        <i id="photoprod${record.product_id}" class="fas fa-check mr-1"></i>
                                   </td>`);
                 }
                 else {
                     $cellElement = $(`<td>
-                                        <i class="fas fa-times mr-1"></i>
+                                        <i id="photoprod${record.product_id}" class="fas fa-times mr-1"></i>
                                   </td>`);
                 }
                 $rowElement.append($cellElement);
                 if (record.visibility == true) {
                     $cellElement = $(`<td>
-                                        <i class="fas fa-check mr-1"></i>
+                                        <i id="vis${record.product_id}" class="fas fa-check mr-1"></i>
                                   </td>`);
                 }
                 else {
                     $cellElement = $(`<td>
-                                        <i class="fas fa-times mr-1"></i>
+                                        <i id="vis${record.product_id}" class="fas fa-times mr-1"></i>
                                   </td>`);
                 }
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td></td>`);
-                $hyperlinkElement = $(`<a class="edit" onclick="loadEdit(${record.product_id})" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a>`);
+                $hyperlinkElement = $(`<a class="edit" onclick="loadEdit('${record.product_id}')" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a>`);
                 $cellElement.append($hyperlinkElement);
-                $hyperlinkElement = $(`<a href="#myModal" onclick="loadDelete(${record.product_id})" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a>`);
+                $hyperlinkElement = $(`<a href="#myModal" onclick="loadDelete('${record.product_id}')" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a>`);
                 $cellElement.append($hyperlinkElement);
                 $rowElement.append($cellElement);
-                $cellElement = $(`<td>${record.updated_by}</td>`);
+                $cellElement = $(`<td id="by${record.product_id}">${record.updated_by}</td>`);
                 $rowElement.append($cellElement);
-                $cellElement = $(`<td>${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
+                $cellElement = $(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
                 $rowElement.append($cellElement);
                 $('.souvenir').append($rowElement);
                 if (record.quantity_constraint == "Even Numbered Units") {
                     $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
                 }
-                else if (record.quantity_constraint == "Max 1 Unit 1 Digital") {
+                else if (record.quantity_constraint == "Max 1 Unit") {
                     $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
                 }
                 else { }
@@ -466,7 +481,12 @@
                 console.log(data);
                 $('#ItemNameInp').val(data.name);
                 $('#priceNameInp').val(data.original_price);
-                $('#pwpNameInp').val(data.pwp_price);
+                if (data.pwp_price != null) {
+                    $('#pwpNameInp').val(data.pwp_price);
+                }
+                else {
+                    $('#pwpNameInp').val();
+                }
                 $('#commentsInp').val(data.description);
                 $('#idInp').val(data.product_id);
 
@@ -496,7 +516,6 @@
     function updateSouvenir() {
         let gst = $('#gstper').val();
         let id = $('#idInp').val();
-        let image = $('#newphoto').val().split("\\").pop();
         let name = $('#ItemNameInp').val();
         let oriPrice = $('#priceNameInp').val();
         let pwpPrice = $('#pwpNameInp').val();
@@ -516,13 +535,13 @@
         else {
             photoprod = false;
         }
-        let webformdata = new WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
+        let webformdata = new editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
         console.log(JSON.stringify(webformdata));
         var formData = new FormData();
         var file = $('#newphoto')[0];
         formData.append('file', file.files[0]);
         $.ajax({
-            url: `/api/products/UploadFile/${name}`,
+            url: `/api/products/UploadFile/${id}`,
             type: 'POST',
             data: formData,
             contentType: false,
@@ -542,7 +561,67 @@
                         type: 'success',
                         callback: {
                             onClose: function () {
-                                window.location.href = '/ItemManagement/Index';
+                                $('#editModal').trigger('click');
+                                var effects = 'animate__animated animate__pulse';
+                                var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd'
+                                $(`#${id}`).removeClass('animate__animated animate__fadeIn animate__slow');
+                                $.ajax({
+                                    type: "GET",
+                                    url: `/api/products/${id}`,
+                                    dataType: "json",
+                                    success: function (record) {
+                                        $(`#img${id}`).attr('src', '');
+                                        $(`#img${id}`).attr('src', record.image);
+                                        $(`#name${id}`).text(record.name);
+                                        if (record.description != '') {
+                                            $(`#description${id}`).text(record.description);
+                                        }
+                                        else {
+                                            $(`#description${id}`).text('-');
+                                        }
+                                        $(`#oriPrice${id}`).text('$' + record.original_price);
+                                        $(`#oriGST${id}`).text(' /$' + record.original_GST.toFixed(2));
+                                        if (record.pwp_price != null) {
+                                            $(`#pwpPrice${id}`).text('$' + record.pwp_price);
+                                            $(`#pwpGST${id}`).text(' /$' + record.pwp_GST.toFixed(2));
+                                        } else {
+                                            $(`#pwpPrice${id}`).text('-');
+                                            $(`#pwpGST${id}`).text('');
+                                        }
+                                        if (record.quantity_constraint == "Even Numbered Units") {
+                                            $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
+                                        }
+                                        else if (record.quantity_constraint == "Max 1 Unit") {
+                                            $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
+                                        }
+                                        else {
+                                            $(`#input-select${record.product_id}`)[0].selectedIndex = 0;
+                                        }
+                                        $(`#photoprod${record.product_id}`).removeClass();
+                                        if (record.photo_product == true) {
+                                            $(`#photoprod${record.product_id}`).addClass('fas fa-check mr-1');
+                                        } else {
+                                            $(`#photoprod${record.product_id}`).addClass('fas fa-times mr-1');
+                                        }
+                                        $(`#vis${record.product_id}`).removeClass();
+                                        if (record.visibility == true) {
+                                            $(`#vis${record.product_id}`).addClass('fas fa-check mr-1');
+                                        } else {
+                                            $(`#vis${record.product_id}`).addClass('fas fa-times mr-1');
+                                        }
+                                        $(`#by${id}`).text(record.updated_by);
+                                        $(`#at${id}`).text(moment(record.updated_at).format('DD MMMM YYYY'));
+
+
+                                        $(`#${id}`).addClass(effects).one(effectsend, function () {
+                                            $(`#${id}`).removeClass(effects);
+                                        });
+
+                                    },
+                                    error: function (d) {
+                                        console.log(d);
+                                    }
+                                });
                             }
                         }
                     }).show();
@@ -585,7 +664,7 @@
                 $("#deleteId").val(id);
                 let img = data.image.toString();
                 let newimg = img.split("/");
-                $("#deletePhoto").val(newimg[newimg.length-1]);
+                $("#deletePhoto").val(newimg[newimg.length - 1]);
             },
             error: function (data) {
                 console.log(data);
@@ -611,7 +690,13 @@
                     type: 'success',
                     callback: {
                         onClose: function () {
-                            location.replace('/ItemManagement/Index');
+                            $('#myModal').trigger('click');
+                            $(`#${id}`).removeClass('animate__animated animate__fadeIn animate__slow');
+                            var effects = 'animate__animated animate__fadeOut animate__fast';
+                            var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd'
+                            $(`#${id}`).addClass(effects).one(effectsend, function () {
+                                $(`#${id}`).remove();
+                            });
                         }
                     }
                 }).show();
@@ -633,6 +718,7 @@
         for (let x = 0; x < prod_id.length; x++) {
             let oriprice = $(`#oriPrice${prod_id[x]}`).text().substring(1);
             let pwpprice = $(`#pwpPrice${prod_id[x]}`).text().substring(1);
+            console.log(pwpprice);
             let origst = (parseInt(oriprice) * parseFloat(gst) / 100);
             let pwpgst = (parseInt(pwpprice) * parseFloat(gst) / 100);
             $(`#oriGST${prod_id[x]}`).text(` /$${origst.toFixed(2)}`);
@@ -649,33 +735,19 @@
             }
         });
     });
-    $('#btn1').click(function () {
-        if ($('#myfile').val() == '') {
-            alert('Please select file');
-            return;
-        }
-
-        var formData = new FormData();
-        var file = $('#myfile')[0];
-        formData.append('file', file.files[0]);
-        $.ajax({
-            url: '/api/products/UploadFile',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (d) {
-                console.log(d);
-                alert('file is uploaded successfully')
-            },
-            error: function () {
-                alert('Some thing went wrong');
-            }
-        });
-    });
-    function WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst) {
+    function addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst) {
         this.name = name;
         this.image = image;
+        this.original_price = oriPrice;
+        this.pwp_price = pwpPrice;
+        this.description = description;
+        this.quantity_constraint = qc;
+        this.visibility = visibility;
+        this.photo_product = photoprod;
+        this.gst = gst;
+    }
+    function editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst) {
+        this.name = name;
         this.original_price = oriPrice;
         this.pwp_price = pwpPrice;
         this.description = description;
@@ -697,7 +769,7 @@
         }
     }
     function addProduct() {
-        let id = parseInt(prod_id[prod_id.length - 1]) + 1;
+        let id = $('#addItemId').val();
         let gst = $('#gstper').val();
         let image = $('#fileid').val().split("\\").pop();
         let name = $('#addNameInput').val();
@@ -719,14 +791,14 @@
         else {
             photoprod = false;
         }
-        let webformdata = new WebFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
+        let webformdata = new addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
         console.log(JSON.stringify(webformdata));
 
         var formData = new FormData();
         var file = $('#fileid')[0];
         formData.append('file', file.files[0]);
         $.ajax({
-            url: `/api/products/UploadFile/${name}`,
+            url: `/api/products/UploadFile/${id}`,
             type: 'POST',
             data: formData,
             contentType: false,
@@ -746,7 +818,88 @@
                         type: 'success',
                         callback: {
                             onClose: function () {
-                                window.location.href = '/ItemManagement/Index';
+                                $('#exampleModal').trigger('click');
+                                $.ajax({
+                                    type: "GET",
+                                    url: `/api/products/${id}`,
+                                    dataType: "json",
+                                    success: function (record) {
+                                        console.log(record);
+                                        let $cellElement = null;
+                                        let $hyperlinkElement = null;
+                                        let $rowElement = $(`<tr id="${id}" class="animate__animated animate__fadeIn animate__slow"></tr>`);
+                                        $cellElement = $(`<td>${record.product_id}</td>`);
+                                        $rowElement.append($cellElement);
+                                        $cellElement = $(`<td><div><img id="img${record.product_id}" src="${record.image}" alt="user" width="55"></div></td>`);
+                                        $rowElement.append($cellElement);
+                                        $cellElement = $(`<td id="name${record.product_id}">${record.name}</td>`);
+                                        $rowElement.append($cellElement);
+                                        if (record.description != "") {
+                                            $cellElement = $(`<td id="description${record.product_id}">${record.description}</td>`);
+                                        }
+                                        else {
+                                            $cellElement = $(`<td><span id="description${record.product_id}">-</span></td>`);
+                                        }
+                                        $rowElement.append($cellElement);
+                                        $cellElement = $(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
+                                        $rowElement.append($cellElement);
+                                        if (record.pwp_price != null) {
+                                            $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
+                                        } else {
+                                            $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
+                                        }
+                                        $rowElement.append($cellElement);
+                                        $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
+                                            <option>--None--</option>
+                                            <option>Even Numbered Units</option>
+                                            <option>Max 1 Unit</option>
+                                        </select></td>`);
+                                        $rowElement.append($cellElement);
+                                        if (record.photo_product == true) {
+                                            $cellElement = $(`<td>
+                                        <i id="photoprod${record.product_id}" class="fas fa-check mr-1"></i>
+                                  </td>`);
+                                        }
+                                        else {
+                                            $cellElement = $(`<td>
+                                        <i id="photoprod${record.product_id}" class="fas fa-times mr-1"></i>
+                                  </td>`);
+                                        }
+                                        $rowElement.append($cellElement);
+                                        if (record.visibility == true) {
+                                            $cellElement = $(`<td>
+                                        <i id="vis${record.product_id}" class="fas fa-check mr-1"></i>
+                                  </td>`);
+                                        }
+                                        else {
+                                            $cellElement = $(`<td>
+                                        <i id="vis${record.product_id}" class="fas fa-times mr-1"></i>
+                                  </td>`);
+                                        }
+                                        $rowElement.append($cellElement);
+                                        $cellElement = $(`<td></td>`);
+                                        $hyperlinkElement = $(`<a class="edit" onclick="loadEdit('${record.product_id}')" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a>`);
+                                        $cellElement.append($hyperlinkElement);
+                                        $hyperlinkElement = $(`<a href="#myModal" onclick="loadDelete('${record.product_id}')" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a>`);
+                                        $cellElement.append($hyperlinkElement);
+                                        $rowElement.append($cellElement);
+                                        $cellElement = $(`<td id="by${record.product_id}">${record.updated_by}</td>`);
+                                        $rowElement.append($cellElement);
+                                        $cellElement = $(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
+                                        $rowElement.append($cellElement);
+                                        $('.souvenir').prepend($rowElement);
+                                        if (record.quantity_constraint == "Even Numbered Units") {
+                                            $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
+                                        }
+                                        else if (record.quantity_constraint == "Max 1 Unit") {
+                                            $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
+                                        }
+                                        else { }
+                                    },
+                                    error: function (record) {
+                                        console.log(record);
+                                    }
+                                });
                             }
                         }
                     }).show();
