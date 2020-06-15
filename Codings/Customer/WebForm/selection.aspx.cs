@@ -25,11 +25,9 @@ namespace WebForm
 {
     public partial class selection : System.Web.UI.Page
     {
+
         protected void Page_Load(object sender, EventArgs e)
         {
-
-
-
             /*
             bool onsite = false;
             try
@@ -111,7 +109,7 @@ namespace WebForm
             //photomatch.Add("photoID13", "13.jpg");
 
             string currentApplicationPath = HttpContext.Current.Request.PhysicalApplicationPath;
-            Debug.WriteLine("here" + currentApplicationPath);
+           
 
             Uri myuri = new Uri(System.Web.HttpContext.Current.Request.Url.AbsoluteUri);
             string pathQuery = myuri.PathAndQuery;
@@ -147,19 +145,22 @@ namespace WebForm
                     photo_gallery_ctn.InnerHtml += "    <div>";
 
                     
-                    List<Product> products = GetPhotoProducts();
+                    List<Product> products = GetProductsFromDB();
+                    List<Product> photoProducts = new List<Product>();
+                    foreach (Product p in products) {
+                        if (p.PhotoProduct) {
+                            photoProducts.Add(p);
+                        }
+                    }
+
                     //First For loop to extract the list
-                    for (int i = 0; i < products.Count; i++)
+                    for (int i = 0; i < photoProducts.Count; i++)
                     {
 
                         photo_gallery_ctn.InnerHtml += "    <div style='text-align:left;margin-left:30px;'>";
-                        photo_gallery_ctn.InnerHtml += "    <input class='form-check-input filled-in itemsChk' onclick='checkChange(\"/Content/Photos/" + photowatermarked_filename + "\",\"" + photoid + "\",\"" + products[i].ProductId + "\")' type='checkbox' id='item" + photoid + products[i].ProductId + "'" + " name='product' value='" + products[i].ProductId + "'/>";
-                        photo_gallery_ctn.InnerHtml += "    &nbsp;<label style='height:20px;' name='" + products[i].ProductName + photoid + "'>" + products[i].ProductName + "</label>";
+                        photo_gallery_ctn.InnerHtml += "    <input class='form-check-input filled-in itemsChk' onclick='checkChange(\"/Content/Photos/" + photowatermarked_filename + "\",\"" + photoid + "\",\"" + photoProducts[i].ProductId + "\")' type='checkbox' id='item" + photoid + photoProducts[i].ProductId + "'" + " name='product' value='" + photoProducts[i].ProductId + "'/>";
+                        photo_gallery_ctn.InnerHtml += "    &nbsp;<label style='height:20px;' name='" + photoProducts[i].ProductName + photoid + "'>" + photoProducts[i].ProductName + "</label>";
                         photo_gallery_ctn.InnerHtml += "    </div>";
-                        
-
-                        //Finding the right place to close out the div element
-
                     }
                     /*
                    //photo_gallery_ctn.InnerHtml += "    </div>";
@@ -343,71 +344,11 @@ namespace WebForm
             cmd.ExecuteNonQuery();
             conn.Close();
         }
-
-        //Return All Product in the datbase excluding showphoto=0
-        [WebMethod]
-        public static string GetProducts()
-        {
-            string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
-            List<Product> products = new List<Product>();
-
-            MySqlConnection conn = null;
-            conn = new MySqlConnection(connstring);
-            conn.Open();
-            try
-            {
-                MySqlCommand cmd = new MySqlCommand("SELECT * from product ", conn);
-
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        Debug.Write("time");
-                        //Setting the product list
-                        products.Add(new Product()
-                        {
-                            ProductId = reader["product_id"].ToString(),
-                            ProductName = reader["name"].ToString(),
-                            ProductImagePath = reader["image"].ToString(),
-                            ProductDescription = reader["description"].ToString(),
-                            //ProductQuantityConstraint = reader["quantity_constraint"].ToString(),
-                            OrginalPrice = Decimal.Parse(reader["original_price"].ToString()),
-                            OriginalGST = Decimal.Parse(reader["original_price"].ToString()),
-                            ProductVisibility = bool.Parse(reader["visibility"].ToString()),
-                            PhotoProduct = bool.Parse(reader["photo_product"].ToString()),
-                            UpdatedBy = reader["updated_by"].ToString(),
-                            UpdatedAt = DateTime.Parse(reader["updated_at"].ToString()).ToString("yyyy-MM-dd HH:mm:ss")
-                        });
-                        if (reader["pwp_price"].ToString() != null && reader["original_GST"].ToString() != null)
-                        {
-                            products[products.Count-1].PwpPrice = Decimal.Parse(reader["pwp_price"].ToString());
-                            products[products.Count - 1].PwpGST = Decimal.Parse(reader["pwp_GST"].ToString());
-                        }
-                        if (reader["quantity_constraint"].ToString() != null)
-                        {
-                            products[products.Count - 1].ProductQuantityConstraint = reader["quantity_constraint"].ToString();
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error: {0}", e.ToString());
-            }
-            finally
-            {
-                if (conn != null)
-                {
-                    conn.Close();
-                }
-            }
-            return new JavaScriptSerializer().Serialize(products);
-        }
-
-
-
         
-        public static List<Product> GetPhotoProducts()
+
+
+
+        public static List<Product> GetProductsFromDB()
         {
             string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
             List<Product> products = new List<Product>();
@@ -417,13 +358,12 @@ namespace WebForm
             conn.Open();
             try
             {
-                MySqlCommand cmd = new MySqlCommand("SELECT * from product where photo_product = '1'", conn);
+                MySqlCommand cmd = new MySqlCommand("SELECT * from product", conn);
 
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        Debug.Write("time");
                         //Setting the product list
                         products.Add(new Product()
                         {
@@ -431,22 +371,23 @@ namespace WebForm
                             ProductName = reader["name"].ToString(),
                             ProductImagePath = reader["image"].ToString(),
                             ProductDescription = reader["description"].ToString(),
-                            //ProductQuantityConstraint = reader["quantity_constraint"].ToString(),
+                            ProductQuantityConstraint = reader["quantity_constraint"].ToString(),
                             OrginalPrice = Decimal.Parse(reader["original_price"].ToString()),
-                            OriginalGST = Decimal.Parse(reader["original_price"].ToString()),
+                            OriginalGST = Decimal.Parse(reader["original_GST"].ToString()),
                             ProductVisibility = bool.Parse(reader["visibility"].ToString()),
                             PhotoProduct = bool.Parse(reader["photo_product"].ToString()),
                             UpdatedBy = reader["updated_by"].ToString(),
                             UpdatedAt = DateTime.Parse(reader["updated_at"].ToString()).ToString("yyyy-MM-dd HH:mm:ss")
                         });
-                        if (reader["pwp_price"].ToString() != null && reader["original_GST"].ToString() != null)
+                        if (!reader["pwp_price"].ToString().Equals(""))
                         {
                             products[products.Count - 1].PwpPrice = Decimal.Parse(reader["pwp_price"].ToString());
                             products[products.Count - 1].PwpGST = Decimal.Parse(reader["pwp_GST"].ToString());
                         }
-                        if (reader["quantity_constraint"].ToString() != null)
+                        else
                         {
-                            products[products.Count - 1].ProductQuantityConstraint = reader["quantity_constraint"].ToString();
+                            products[products.Count - 1].PwpPrice = 0;
+                            products[products.Count - 1].PwpGST = 0;
                         }
                     }
                 }
@@ -466,120 +407,128 @@ namespace WebForm
         }
 
 
-        //Retrieve product information for shopping cart
+        //Return All Product in the datbase excluding showphoto=0
+        [WebMethod]
+        public static string GetProducts()
+        {
+            List<Product> allProducts = GetProductsFromDB();
+            return new JavaScriptSerializer().Serialize(allProducts);
+        }
+
+
         [WebMethod]
         public static string GetProductbyId(string id)
         {
-            string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
-            Product p = new Product();
-            Price pr = new Price();
-            MySqlConnection conn = null;
-            try
-            {
-                conn = new MySqlConnection(connstring);
-                conn.Open();
-                MySqlCommand cmd;
-                //If-else to check all digital or not
-
-                cmd = new MySqlCommand("SELECT * from  product p where p.productid = " + id + " limit 1;", conn);
-
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        string pname = reader["ProductName"].ToString();
-                        p.ProductName = char.ToUpper(pname[0]) + pname.Substring(1);
-                        
-                    }
+            List<Product> allProducts = GetProductsFromDB();
+            Product foundProduct = null;
+            foreach (Product p in allProducts) {
+                if (p.ProductId.Equals(id)) {
+                    foundProduct = p;
                 }
             }
-            catch (Exception e)
-            {
-                //Return two error strings
-                return ("Error: " + e.ToString());
-            }
-            finally
-            {
-                if (conn != null)
-                {
-                    conn.Close();
-                }
-            }
-            //Return two strings for product and price
-            return (new JavaScriptSerializer().Serialize(p));
+            return new JavaScriptSerializer().Serialize(foundProduct);
         }
 
-        /*
+
+
+        
         [WebMethod]
-        public static string CalculateCostForOneProduct(string id, string unitsOfPhoto)
+        public static string CalculateTotalCost(string cartItems)
         {
-            
-            List<Price> foundPrice = new List<Price>();
-            decimal CostForProduct = 0;
-            int units = int.Parse(unitsOfPhoto);
+            List<Product> allProducts = GetProductsFromDB();
+            CartItem[] items = new JavaScriptSerializer().Deserialize<CartItem[]>(cartItems);
 
-            foreach (Price p in price)
+            List<CartItemWithCost> allCosts = new List<CartItemWithCost>();
+            if (items.Length > 0)
             {
-                if(p.ProductId == int.Parse(id))
+                string basicItem = items[0].productId;
+                decimal basicItemPrice = 9999;
+                //find the item applies basic price
+                foreach (CartItem item in items)
                 {
-                    foundPrice.Add(p);
-                }
-            }
-
-            
-            //if the product has multiple pricing strategies (e.g. hardscopy)
-            if (foundPrice.Count > 1)
-            {
-                decimal suitablePrice = 0;
-                foundPrice = foundPrice.OrderBy(o => o.Unit).ToList();
-                foreach (Price priceStrategy in foundPrice)
-                {
-                    if(units >= priceStrategy.Unit)
+                    foreach (Product p in allProducts)
                     {
-                        suitablePrice = priceStrategy.UnitPrice;
+                        if (item.productId == p.ProductId)
+                        {
+                            if (p.OrginalPrice <= basicItemPrice)
+                            {
+                                basicItemPrice = p.OrginalPrice;
+                                basicItem = p.ProductId;
+                            }
+                        }
                     }
                 }
-                CostForProduct = suitablePrice * units;
-            }
 
-            // if the product only have 1 pricing condition
+                CartItem baseItem = new CartItem();
+                foreach (CartItem item in items)
+                {
+                    if (item.productId == basicItem)
+                    {
+                        baseItem = item;
+                    }
+                }
+
+                //calculate for the basic item
+                foreach (Product p in allProducts)
+                {
+                    if (baseItem.productId == p.ProductId)
+                    {
+                        CartItemWithCost originalItem = new CartItemWithCost();
+                        originalItem.ProductId = baseItem.productId;
+                        originalItem.Cost = p.PwpPrice * (baseItem.quantity - 1) + p.OrginalPrice;
+                        allCosts.Add(originalItem);
+                    }
+                }
+
+                //if the cart contains more than 1 item 
+                //pwp products
+                foreach (CartItem item in items)
+                {
+                    if (item.productId != baseItem.productId)
+                    {
+                        foreach (Product p in allProducts)
+                        {
+                            if (item.productId == p.ProductId)
+                            {
+                                CartItemWithCost pwpItem = new CartItemWithCost();
+                                pwpItem.ProductId = item.productId;
+                                pwpItem.Cost = p.PwpPrice * item.quantity;
+                                allCosts.Add(pwpItem);
+                            }
+                        }
+                    }
+                }
+
+
+                //calculate total cost
+                decimal totalCost = 0;
+                foreach (CartItemWithCost c in allCosts)
+                {
+                    totalCost += c.Cost;
+                }
+                CartItemWithCost totalItem = new CartItemWithCost();
+                totalItem.ProductId = "total";
+                totalItem.Cost = totalCost;
+                allCosts.Add(totalItem);
+
+                return new JavaScriptSerializer().Serialize(allCosts);
+            }
             else
             {
-                //regualar pricing method.
-                if(foundPrice[0].Unit == 1)
-                {
-                    CostForProduct = foundPrice[0].UnitPrice * units;
-                }
-
-                //the same price for the product, no matter how many photos selected (i.e. digital)
-                else if (foundPrice[0].Unit == 0)
-                {
-                    CostForProduct = foundPrice[0].UnitPrice;
-                }
-
-                //special requirement, quantity must be even number (keychain)
-                else if (foundPrice[0].Unit == 2)
-                {
-                    if(units % 2 == 0)
-                    {
-                        CostForProduct = foundPrice[0].UnitPrice * units;
-                    }
-
-                    //the user didnt select even number of photos
-                    else
-                    {
-                        CostForProduct = -1;
-                    }
-                }
+                return "No item in the cart";
             }
-            String result = CostForProduct.ToString();
-            if (result == "-1")
-            {
-                result = "N.A.";
-            }
-
-            return (new JavaScriptSerializer().Serialize(result));
+            
         }
-        }*/
+
+        public class CartItem
+        {
+            public string productId { get; set; }
+            public int quantity { get; set; }
+        }
+        public class CartItemWithCost
+        {
+            public string ProductId { get; set; }
+            public decimal Cost { get; set; }
+        }
     }
 }
