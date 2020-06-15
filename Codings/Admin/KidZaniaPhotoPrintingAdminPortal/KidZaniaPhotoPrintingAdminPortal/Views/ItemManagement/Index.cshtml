@@ -386,13 +386,26 @@
         });
     }
     function loadTable(data) {
+        if ($("table.second").length) {
+
+            $(document).ready(function () {
+                var table = $('table.second').DataTable({
+                    lengthChange: false,
+                    buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+                });
+
+                table.buttons().container()
+                    .appendTo('#example_wrapper .col-md-6:eq(0)');
+            });
+        }
         $('.souvenir').html('');//Clear the <tbody> element first
+
         if (data != null || data.length > 0) {
             for (let x = 0; x < data.length; x++) {
                 let record = data[x];
                 let $cellElement = null;
                 let $hyperlinkElement = null;
-                let $rowElement = $(`<tr id="${record.product_id}" class="animate__animated animate__fadeIn animate__slow"></tr>`);
+                let $rowElement = $(`<tr id="${record.product_id}"></tr>`);
                 prod_id.push(record.product_id);
                 $cellElement = $(`<td>${record.product_id}</td>`);
                 $rowElement.append($cellElement);
@@ -412,7 +425,7 @@
                 if (record.pwp_price != null) {
                     $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
                 } else {
-                    $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
+                    $cellElement = $(`<td><span id="pwpPrice${record.product_id}">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
                 }
                 $rowElement.append($cellElement);
                 $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
@@ -454,6 +467,11 @@
                 $cellElement = $(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
                 $rowElement.append($cellElement);
                 $('.souvenir').append($rowElement);
+                var effects = 'animate__animated animate__fadeIn animate__slow';
+                var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+                $(`#${record.product_id}`).addClass(effects).one(effectsend, function () {
+                    $(`#${record.product_id}`).removeClass(effects);
+                });
                 if (record.quantity_constraint == "Even Numbered Units") {
                     $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
                 }
@@ -563,8 +581,7 @@
                             onClose: function () {
                                 $('#editModal').trigger('click');
                                 var effects = 'animate__animated animate__pulse';
-                                var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd'
-                                $(`#${id}`).removeClass('animate__animated animate__fadeIn animate__slow');
+                                var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
                                 $.ajax({
                                     type: "GET",
                                     url: `/api/products/${id}`,
@@ -572,22 +589,8 @@
                                     success: function (record) {
                                         $(`#img${id}`).attr('src', '');
                                         $(`#img${id}`).attr('src', record.image);
-                                        $(`#name${id}`).text(record.name);
-                                        if (record.description != '') {
-                                            $(`#description${id}`).text(record.description);
-                                        }
-                                        else {
-                                            $(`#description${id}`).text('-');
-                                        }
-                                        $(`#oriPrice${id}`).text('$' + record.original_price);
-                                        $(`#oriGST${id}`).text(' /$' + record.original_GST.toFixed(2));
-                                        if (record.pwp_price != null) {
-                                            $(`#pwpPrice${id}`).text('$' + record.pwp_price);
-                                            $(`#pwpGST${id}`).text(' /$' + record.pwp_GST.toFixed(2));
-                                        } else {
-                                            $(`#pwpPrice${id}`).text('-');
-                                            $(`#pwpGST${id}`).text('');
-                                        }
+                                        //$(`#name${id}`).text(record.name);
+                                        
                                         if (record.quantity_constraint == "Even Numbered Units") {
                                             $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
                                         }
@@ -609,19 +612,33 @@
                                         } else {
                                             $(`#vis${record.product_id}`).addClass('fas fa-times mr-1');
                                         }
-                                        $(`#by${id}`).text(record.updated_by);
-                                        $(`#at${id}`).text(moment(record.updated_at).format('DD MMMM YYYY'));
-
 
                                         $(`#${id}`).addClass(effects).one(effectsend, function () {
                                             $(`#${id}`).removeClass(effects);
                                         });
-
+                                        var table = $('table.second').DataTable();
+                                        table.cell(`#${id}`, 2).data(`<td id="name${record.product_id}">${record.name}</td>`);
+                                        if (record.description != '') {
+                                            table.cell(`#${id}`, 3).data(record.description);
+                                        }
+                                        else {
+                                            table.cell(`#${id}`, 3).data("-");
+                                        }
+                                        table.cell(`#${id}`, 4).data(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
+                                        if (record.pwp_price != null) {
+                                            table.cell(`#${id}`, 5).data(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
+                                        } else {
+                                            table.cell(`#${id}`, 5).data(`<td><span id="pwpPrice${record.product_id}">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
+                                        }
+                                        table.cell(`#${id}`, 10).data(`<td id="by${record.product_id}">${record.updated_by}</td>`);
+                                        table.cell(`#${id}`, 11).data(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
+                                        table.draw();
                                     },
                                     error: function (d) {
                                         console.log(d);
                                     }
                                 });
+
                             }
                         }
                     }).show();
@@ -695,7 +712,8 @@
                             var effects = 'animate__animated animate__fadeOut animate__fast';
                             var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd'
                             $(`#${id}`).addClass(effects).one(effectsend, function () {
-                                $(`#${id}`).remove();
+                                var table = $('table.second').DataTable();
+                                table.row(`#${id}`).remove().draw();                            
                             });
                         }
                     }
@@ -718,11 +736,12 @@
         for (let x = 0; x < prod_id.length; x++) {
             let oriprice = $(`#oriPrice${prod_id[x]}`).text().substring(1);
             let pwpprice = $(`#pwpPrice${prod_id[x]}`).text().substring(1);
-            console.log(pwpprice);
             let origst = (parseInt(oriprice) * parseFloat(gst) / 100);
             let pwpgst = (parseInt(pwpprice) * parseFloat(gst) / 100);
             $(`#oriGST${prod_id[x]}`).text(` /$${origst.toFixed(2)}`);
-            $(`#pwpGST${prod_id[x]}`).text(` /$${pwpgst.toFixed(2)}`);
+            if (!isNaN(pwpgst)) {
+                $(`#pwpGST${prod_id[x]}`).text(` /$${pwpgst.toFixed(2)}`);
+            }
         }
         $.ajax({
             type: "PUT",
@@ -887,7 +906,10 @@
                                         $rowElement.append($cellElement);
                                         $cellElement = $(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
                                         $rowElement.append($cellElement);
-                                        $('.souvenir').prepend($rowElement);
+                                        var table = $('table.second').DataTable();
+                                        table.row.add($rowElement);
+                                        table.draw();
+                                        //$('.souvenir').prepend($rowElement);
                                         if (record.quantity_constraint == "Even Numbered Units") {
                                             $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
                                         }
@@ -895,6 +917,7 @@
                                             $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
                                         }
                                         else { }
+
                                     },
                                     error: function (record) {
                                         console.log(record);
