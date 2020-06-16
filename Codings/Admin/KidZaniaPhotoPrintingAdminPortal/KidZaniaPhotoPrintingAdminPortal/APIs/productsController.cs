@@ -43,7 +43,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
             catch (Exception e)
             {
-                return NotFound();
+                return BadRequest(e.ToString());
             }
         }
 
@@ -74,7 +74,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
             catch (Exception e)
             {
-                return NotFound();
+                return BadRequest(e.ToString());
             }
         }
 

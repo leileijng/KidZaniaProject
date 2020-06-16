@@ -241,7 +241,7 @@
                         <input type="hidden" id="idInp" />
                         <div class="modal-footer">
                             <button type="reset" class="btn btn-grey">Reset</button>
-                            <button type="submit" onclick="updateSouvenir()" class="btn btn-primary" id="SubmitBtn">Save Changes</button>
+                            <button type="button" onclick="updateSouvenir()" class="btn btn-primary" id="SubmitBtn">Save Changes</button>
                         </div>
                     </form>
                 </div>
@@ -299,6 +299,7 @@
         <!-- ============================================================== -->
     </div>
 </div>
+
 <script src="~/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
 <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
 <script src="~/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
@@ -323,6 +324,9 @@
 <script src="~/Scripts/moment.js"></script>
 <script src="~/Scripts/noty/jquery.noty.js"></script>
 <script src="~/Scripts/noty/layouts/center.js"></script>
+<script src="~/Scripts/noty/themes/bootstrap.js"></script>
+<script src="~/Scripts/noty/themes/default.js"></script>
+<script src="~/Scripts/noty/themes/relax.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -526,7 +530,11 @@
                 console.log(data);
                 $('#ItemNameInp').val(data.name);
                 $('#priceNameInp').val(data.original_price.toFixed(2));
-                $('#pwpNameInp').val(data.pwp_price.toFixed(2));
+                if (data.pwp_price != null) {
+                    $('#pwpNameInp').val(data.pwp_price.toFixed(2));
+                } else {
+                    $('#pwpNameInp').val("");
+                }
                 $('#commentsInp').val(data.description);
                 $('#idInp').val(data.product_id);
                 if (data.quantity_constraint != null) {
@@ -598,7 +606,7 @@
                         new noty({
                             text: data.message,
                             layout: 'center',
-                            theme: "metroui",
+                            theme: 'bootstrapTheme',
                             type: 'success',
                             callback: {
                                 onClose: function () {
@@ -666,7 +674,7 @@
                     }).fail(function (data, textStatus, jqXHR) {
                         new noty({
                             text: data.responseJSON.message,
-                            theme: 'metroui',
+                            theme: 'bootstrapTheme',
                             layout: 'center',
                             timeout: 3000,
                             type: 'error'
@@ -729,7 +737,7 @@
                 new noty({
                     text: data.message,
                     layout: 'center',
-                    theme: "metroui",
+                    theme: 'bootstrapTheme',
                     type: 'success',
                     callback: {
                         onClose: function () {
@@ -747,7 +755,7 @@
             }).fail(function (data, textStatus, jqXHR) {
                 new noty({
                     text: data.responseJSON.message,
-                    theme: 'metroui',
+                    theme: 'bootstrapTheme',
                     layout: 'center',
                     timeout: 3000,
                     type: 'error'
@@ -871,7 +879,7 @@
                         new noty({
                             text: data.message,
                             layout: 'center',
-                            theme: "metroui",
+                            theme: 'bootstrapTheme',
                             type: 'success',
                             callback: {
                                 onClose: function () {
@@ -911,7 +919,7 @@
                     }).fail(function (data, textStatus, jqXHR) {
                         new noty({
                             text: data.responseJSON.message,
-                            theme: 'metroui',
+                            theme: 'bootstrapTheme',
                             layout: 'center',
                             timeout: 3000,
                             type: 'error'

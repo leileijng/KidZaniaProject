@@ -9,40 +9,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="item_photo">
-      <EntityTypeMapping TypeName="DBModel.item_photo">
-        <MappingFragment StoreEntitySet="item_photo">
-          <ScalarProperty Name="updated_at" ColumnName="updated_at" />
-          <ScalarProperty Name="printing_status" ColumnName="printing_status" />
-          <ScalarProperty Name="assigned_printer_id" ColumnName="assigned_printer_id" />
-          <ScalarProperty Name="lineitem_id" ColumnName="lineitem_id" />
-          <ScalarProperty Name="photo" ColumnName="photo" />
-          <ScalarProperty Name="itemphoto_id" ColumnName="itemphoto_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="lineitems">
-      <EntityTypeMapping TypeName="DBModel.lineitem">
-        <MappingFragment StoreEntitySet="lineitem">
-          <ScalarProperty Name="status" ColumnName="status" />
-          <ScalarProperty Name="item_amount" ColumnName="item_amount" />
-          <ScalarProperty Name="photos" ColumnName="photos" />
-          <ScalarProperty Name="product_id" ColumnName="product_id" />
-          <ScalarProperty Name="order_id" ColumnName="order_id" />
-          <ScalarProperty Name="lineitem_id" ColumnName="lineitem_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="orders">
-      <EntityTypeMapping TypeName="DBModel.order">
-        <MappingFragment StoreEntitySet="order">
-          <ScalarProperty Name="status" ColumnName="status" />
-          <ScalarProperty Name="total_amount" ColumnName="total_amount" />
-          <ScalarProperty Name="pid" ColumnName="pid" />
-          <ScalarProperty Name="order_id" ColumnName="order_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="printers">
       <EntityTypeMapping TypeName="DBModel.printer">
         <MappingFragment StoreEntitySet="printer">
@@ -99,6 +65,41 @@
           <ScalarProperty Name="image" ColumnName="image" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="product_id" ColumnName="product_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="itemphotoes">
+      <EntityTypeMapping TypeName="DBModel.itemphoto">
+        <MappingFragment StoreEntitySet="itemphoto">
+          <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+          <ScalarProperty Name="printing_status" ColumnName="printing_status" />
+          <ScalarProperty Name="assigned_printer_id" ColumnName="assigned_printer_id" />
+          <ScalarProperty Name="lineitem_id" ColumnName="lineitem_id" />
+          <ScalarProperty Name="p_id" ColumnName="p_id" />
+          <ScalarProperty Name="photo" ColumnName="photo" />
+          <ScalarProperty Name="itemphoto_id" ColumnName="itemphoto_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lineitems">
+      <EntityTypeMapping TypeName="DBModel.lineitem">
+        <MappingFragment StoreEntitySet="lineitem">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="item_amount" ColumnName="item_amount" />
+          <ScalarProperty Name="photos" ColumnName="photos" />
+          <ScalarProperty Name="product_id" ColumnName="product_id" />
+          <ScalarProperty Name="p_id" ColumnName="p_id" />
+          <ScalarProperty Name="lineitem_id" ColumnName="lineitem_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="orders">
+      <EntityTypeMapping TypeName="DBModel.order">
+        <MappingFragment StoreEntitySet="order">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="total_amount" ColumnName="total_amount" />
+          <ScalarProperty Name="pid" ColumnName="pid" />
+          <ScalarProperty Name="order_id" ColumnName="order_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
