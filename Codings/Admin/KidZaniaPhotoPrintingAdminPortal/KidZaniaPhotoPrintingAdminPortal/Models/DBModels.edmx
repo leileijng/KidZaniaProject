@@ -12,15 +12,16 @@
           <Property Name="uid" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
-        <EntityType Name="item_photo">
+        <EntityType Name="itemphoto">
           <Key>
             <PropertyRef Name="itemphoto_id" />
           </Key>
           <Property Name="itemphoto_id" Type="varchar" MaxLength="999" Nullable="false" />
           <Property Name="photo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="p_id" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="lineitem_id" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="assigned_printer_id" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="printing_status" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="assigned_printer_id" Type="varchar" MaxLength="10" />
+          <Property Name="printing_status" Type="varchar" MaxLength="10" />
           <Property Name="updated_at" Type="datetime" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="lineitem">
@@ -28,7 +29,7 @@
             <PropertyRef Name="lineitem_id" />
           </Key>
           <Property Name="lineitem_id" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="order_id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="p_id" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="product_id" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="photos" Type="varchar" MaxLength="999" Nullable="false" />
           <Property Name="item_amount" Type="decimal" Precision="5" Scale="2" Nullable="false" />
@@ -36,7 +37,7 @@
         </EntityType>
         <EntityType Name="order">
           <Key>
-            <PropertyRef Name="order_id" />
+            <PropertyRef Name="pid" />
           </Key>
           <Property Name="order_id" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="pid" Type="varchar" MaxLength="50" Nullable="false" />
@@ -109,27 +110,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="item_photo_ibfk_1">
+        <Association Name="itemphoto_ibfk_1">
           <End Role="lineitem" Type="Self.lineitem" Multiplicity="1" />
-          <End Role="item_photo" Type="Self.item_photo" Multiplicity="*" />
+          <End Role="itemphoto" Type="Self.itemphoto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="lineitem">
               <PropertyRef Name="lineitem_id" />
             </Principal>
-            <Dependent Role="item_photo">
+            <Dependent Role="itemphoto">
               <PropertyRef Name="lineitem_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="item_photo_ibfk_2">
-          <End Role="printer" Type="Self.printer" Multiplicity="1" />
-          <End Role="item_photo" Type="Self.item_photo" Multiplicity="*" />
+        <Association Name="itemphoto_ibfk_2">
+          <End Role="printer" Type="Self.printer" Multiplicity="0..1" />
+          <End Role="itemphoto" Type="Self.itemphoto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="printer">
               <PropertyRef Name="printer_id" />
             </Principal>
-            <Dependent Role="item_photo">
+            <Dependent Role="itemphoto">
               <PropertyRef Name="assigned_printer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="itemphoto_ibfk_3">
+          <End Role="order" Type="Self.order" Multiplicity="1" />
+          <End Role="itemphoto" Type="Self.itemphoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="pid" />
+            </Principal>
+            <Dependent Role="itemphoto">
+              <PropertyRef Name="p_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -138,10 +151,10 @@
           <End Role="lineitem" Type="Self.lineitem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="order">
-              <PropertyRef Name="order_id" />
+              <PropertyRef Name="pid" />
             </Principal>
             <Dependent Role="lineitem">
-              <PropertyRef Name="order_id" />
+              <PropertyRef Name="p_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -159,7 +172,7 @@
         </Association>
         <Association Name="order_ibfk_1">
           <End Role="profiles" Type="Self.profiles" Multiplicity="1" />
-          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <End Role="order" Type="Self.order" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="profiles">
               <PropertyRef Name="pid" />
@@ -207,7 +220,7 @@
         </Association>
         <EntityContainer Name="DBModelStoreContainer">
           <EntitySet Name="email" EntityType="Self.email" Schema="kidzania" store:Type="Tables" />
-          <EntitySet Name="item_photo" EntityType="Self.item_photo" Schema="kidzania" store:Type="Tables" />
+          <EntitySet Name="itemphoto" EntityType="Self.itemphoto" Schema="kidzania" store:Type="Tables" />
           <EntitySet Name="lineitem" EntityType="Self.lineitem" Schema="kidzania" store:Type="Tables" />
           <EntitySet Name="order" EntityType="Self.order" Schema="kidzania" store:Type="Tables" />
           <EntitySet Name="printer" EntityType="Self.printer" Schema="kidzania" store:Type="Tables" />
@@ -219,13 +232,17 @@
             <End Role="profiles" EntitySet="profiles" />
             <End Role="email" EntitySet="email" />
           </AssociationSet>
-          <AssociationSet Name="item_photo_ibfk_1" Association="Self.item_photo_ibfk_1">
+          <AssociationSet Name="itemphoto_ibfk_1" Association="Self.itemphoto_ibfk_1">
             <End Role="lineitem" EntitySet="lineitem" />
-            <End Role="item_photo" EntitySet="item_photo" />
+            <End Role="itemphoto" EntitySet="itemphoto" />
           </AssociationSet>
-          <AssociationSet Name="item_photo_ibfk_2" Association="Self.item_photo_ibfk_2">
+          <AssociationSet Name="itemphoto_ibfk_2" Association="Self.itemphoto_ibfk_2">
             <End Role="printer" EntitySet="printer" />
-            <End Role="item_photo" EntitySet="item_photo" />
+            <End Role="itemphoto" EntitySet="itemphoto" />
+          </AssociationSet>
+          <AssociationSet Name="itemphoto_ibfk_3" Association="Self.itemphoto_ibfk_3">
+            <End Role="order" EntitySet="order" />
+            <End Role="itemphoto" EntitySet="itemphoto" />
           </AssociationSet>
           <AssociationSet Name="lineitem_ibfk_1" Association="Self.lineitem_ibfk_1">
             <End Role="order" EntitySet="order" />
@@ -258,9 +275,6 @@
       <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="Database" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="emails" EntityType="DBModel.email" />
-          <EntitySet Name="item_photo" EntityType="DBModel.item_photo" />
-          <EntitySet Name="lineitems" EntityType="DBModel.lineitem" />
-          <EntitySet Name="orders" EntityType="DBModel.order" />
           <EntitySet Name="printers" EntityType="DBModel.printer" />
           <EntitySet Name="profiles" EntityType="DBModel.profile" />
           <EntitySet Name="roles" EntityType="DBModel.role" />
@@ -268,22 +282,6 @@
           <AssociationSet Name="email_ibfk_1" Association="DBModel.email_ibfk_1">
             <End Role="profile" EntitySet="profiles" />
             <End Role="email" EntitySet="emails" />
-          </AssociationSet>
-          <AssociationSet Name="item_photo_ibfk_1" Association="DBModel.item_photo_ibfk_1">
-            <End Role="lineitem" EntitySet="lineitems" />
-            <End Role="item_photo" EntitySet="item_photo" />
-          </AssociationSet>
-          <AssociationSet Name="item_photo_ibfk_2" Association="DBModel.item_photo_ibfk_2">
-            <End Role="printer" EntitySet="printers" />
-            <End Role="item_photo" EntitySet="item_photo" />
-          </AssociationSet>
-          <AssociationSet Name="lineitem_ibfk_1" Association="DBModel.lineitem_ibfk_1">
-            <End Role="order" EntitySet="orders" />
-            <End Role="lineitem" EntitySet="lineitems" />
-          </AssociationSet>
-          <AssociationSet Name="order_ibfk_1" Association="DBModel.order_ibfk_1">
-            <End Role="profile" EntitySet="profiles" />
-            <End Role="order" EntitySet="orders" />
           </AssociationSet>
           <AssociationSet Name="staff_ibfk_1" Association="DBModel.staff_ibfk_1">
             <End Role="role" EntitySet="roles" />
@@ -294,13 +292,36 @@
             <End Role="printer" EntitySet="printers" />
           </AssociationSet>
           <EntitySet Name="products" EntityType="DBModel.product" />
+          <AssociationSet Name="product_ibfk_1" Association="DBModel.product_ibfk_1">
+            <End Role="staff" EntitySet="staffs" />
+            <End Role="product" EntitySet="products" />
+          </AssociationSet>
+          <EntitySet Name="itemphotoes" EntityType="DBModel.itemphoto" />
+          <EntitySet Name="lineitems" EntityType="DBModel.lineitem" />
+          <EntitySet Name="orders" EntityType="DBModel.order" />
+          <AssociationSet Name="itemphoto_ibfk_1" Association="DBModel.itemphoto_ibfk_1">
+            <End Role="lineitem" EntitySet="lineitems" />
+            <End Role="itemphoto" EntitySet="itemphotoes" />
+          </AssociationSet>
+          <AssociationSet Name="itemphoto_ibfk_2" Association="DBModel.itemphoto_ibfk_2">
+            <End Role="printer" EntitySet="printers" />
+            <End Role="itemphoto" EntitySet="itemphotoes" />
+          </AssociationSet>
+          <AssociationSet Name="itemphoto_ibfk_3" Association="DBModel.itemphoto_ibfk_3">
+            <End Role="order" EntitySet="orders" />
+            <End Role="itemphoto" EntitySet="itemphotoes" />
+          </AssociationSet>
+          <AssociationSet Name="lineitem_ibfk_1" Association="DBModel.lineitem_ibfk_1">
+            <End Role="order" EntitySet="orders" />
+            <End Role="lineitem" EntitySet="lineitems" />
+          </AssociationSet>
           <AssociationSet Name="lineitem_ibfk_2" Association="DBModel.lineitem_ibfk_2">
             <End Role="product" EntitySet="products" />
             <End Role="lineitem" EntitySet="lineitems" />
           </AssociationSet>
-          <AssociationSet Name="product_ibfk_1" Association="DBModel.product_ibfk_1">
-            <End Role="staff" EntitySet="staffs" />
-            <End Role="product" EntitySet="products" />
+          <AssociationSet Name="order_ibfk_1" Association="DBModel.order_ibfk_1">
+            <End Role="profile" EntitySet="profiles" />
+            <End Role="order" EntitySet="orders" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="email">
@@ -310,44 +331,6 @@
           <Property Name="uid" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="email1" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="profile" Relationship="DBModel.email_ibfk_1" FromRole="email" ToRole="profile" />
-        </EntityType>
-        <EntityType Name="item_photo">
-          <Key>
-            <PropertyRef Name="itemphoto_id" />
-          </Key>
-          <Property Name="itemphoto_id" Type="String" Nullable="false" MaxLength="999" FixedLength="false" Unicode="false" />
-          <Property Name="photo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="lineitem_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="assigned_printer_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="printing_status" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="updated_at" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="lineitem" Relationship="DBModel.item_photo_ibfk_1" FromRole="item_photo" ToRole="lineitem" />
-          <NavigationProperty Name="printer" Relationship="DBModel.item_photo_ibfk_2" FromRole="item_photo" ToRole="printer" />
-        </EntityType>
-        <EntityType Name="lineitem">
-          <Key>
-            <PropertyRef Name="lineitem_id" />
-          </Key>
-          <Property Name="lineitem_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="order_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="product_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="photos" Type="String" Nullable="false" MaxLength="999" FixedLength="false" Unicode="false" />
-          <Property Name="item_amount" Type="Decimal" Nullable="false" />
-          <Property Name="status" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="item_photo" Relationship="DBModel.item_photo_ibfk_1" FromRole="lineitem" ToRole="item_photo" />
-          <NavigationProperty Name="order" Relationship="DBModel.lineitem_ibfk_1" FromRole="lineitem" ToRole="order" />
-          <NavigationProperty Name="product" Relationship="DBModel.lineitem_ibfk_2" FromRole="lineitem" ToRole="product" />
-        </EntityType>
-        <EntityType Name="order">
-          <Key>
-            <PropertyRef Name="order_id" />
-          </Key>
-          <Property Name="order_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="pid" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="total_amount" Type="Decimal" Nullable="false" />
-          <Property Name="status" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="lineitems" Relationship="DBModel.lineitem_ibfk_1" FromRole="order" ToRole="lineitem" />
-          <NavigationProperty Name="profile" Relationship="DBModel.order_ibfk_1" FromRole="order" ToRole="profile" />
         </EntityType>
         <EntityType Name="printer">
           <Key>
@@ -359,8 +342,8 @@
           <Property Name="reason" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="updated_at" Type="DateTime" Nullable="false" />
           <Property Name="updated_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="item_photo" Relationship="DBModel.item_photo_ibfk_2" FromRole="printer" ToRole="item_photo" />
           <NavigationProperty Name="staff" Relationship="DBModel.printer_ibfk_1" FromRole="printer" ToRole="staff" />
+          <NavigationProperty Name="itemphotoes" Relationship="DBModel.itemphoto_ibfk_2" FromRole="printer" ToRole="itemphoto" />
         </EntityType>
         <EntityType Name="profile">
           <Key>
@@ -370,7 +353,7 @@
           <Property Name="profile1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="email" Relationship="DBModel.email_ibfk_1" FromRole="profile" ToRole="email" />
-          <NavigationProperty Name="orders" Relationship="DBModel.order_ibfk_1" FromRole="profile" ToRole="order" />
+          <NavigationProperty Name="order" Relationship="DBModel.order_ibfk_1" FromRole="profile" ToRole="order" />
         </EntityType>
         <EntityType Name="role">
           <Key>
@@ -402,54 +385,6 @@
             </Principal>
             <Dependent Role="email">
               <PropertyRef Name="uid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="item_photo_ibfk_1">
-          <End Type="DBModel.lineitem" Role="lineitem" Multiplicity="1" />
-          <End Type="DBModel.item_photo" Role="item_photo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="lineitem">
-              <PropertyRef Name="lineitem_id" />
-            </Principal>
-            <Dependent Role="item_photo">
-              <PropertyRef Name="lineitem_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="item_photo_ibfk_2">
-          <End Type="DBModel.printer" Role="printer" Multiplicity="1" />
-          <End Type="DBModel.item_photo" Role="item_photo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="printer">
-              <PropertyRef Name="printer_id" />
-            </Principal>
-            <Dependent Role="item_photo">
-              <PropertyRef Name="assigned_printer_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="lineitem_ibfk_1">
-          <End Type="DBModel.order" Role="order" Multiplicity="1" />
-          <End Type="DBModel.lineitem" Role="lineitem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="order">
-              <PropertyRef Name="order_id" />
-            </Principal>
-            <Dependent Role="lineitem">
-              <PropertyRef Name="order_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="order_ibfk_1">
-          <End Type="DBModel.profile" Role="profile" Multiplicity="1" />
-          <End Type="DBModel.order" Role="order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="profile">
-              <PropertyRef Name="pid" />
-            </Principal>
-            <Dependent Role="order">
-              <PropertyRef Name="pid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -494,9 +429,110 @@
           <Property Name="photo_product" Type="Boolean" Nullable="false" />
           <Property Name="updated_by" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="updated_at" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="lineitems" Relationship="DBModel.lineitem_ibfk_2" FromRole="product" ToRole="lineitem" />
           <NavigationProperty Name="staff" Relationship="DBModel.product_ibfk_1" FromRole="product" ToRole="staff" />
+          <NavigationProperty Name="lineitems" Relationship="DBModel.lineitem_ibfk_2" FromRole="product" ToRole="lineitem" />
         </EntityType>
+        <Association Name="product_ibfk_1">
+          <End Type="DBModel.staff" Role="staff" Multiplicity="1" />
+          <End Type="DBModel.product" Role="product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="staff">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="updated_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="itemphoto">
+          <Key>
+            <PropertyRef Name="itemphoto_id" />
+          </Key>
+          <Property Name="itemphoto_id" Type="String" Nullable="false" MaxLength="999" FixedLength="false" Unicode="false" />
+          <Property Name="photo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="p_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lineitem_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="assigned_printer_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="printing_status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="updated_at" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="lineitem" Relationship="DBModel.itemphoto_ibfk_1" FromRole="itemphoto" ToRole="lineitem" />
+          <NavigationProperty Name="printer" Relationship="DBModel.itemphoto_ibfk_2" FromRole="itemphoto" ToRole="printer" />
+          <NavigationProperty Name="order" Relationship="DBModel.itemphoto_ibfk_3" FromRole="itemphoto" ToRole="order" />
+        </EntityType>
+        <EntityType Name="lineitem">
+          <Key>
+            <PropertyRef Name="lineitem_id" />
+          </Key>
+          <Property Name="lineitem_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="p_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="product_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="photos" Type="String" Nullable="false" MaxLength="999" FixedLength="false" Unicode="false" />
+          <Property Name="item_amount" Type="Decimal" Nullable="false" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="itemphotoes" Relationship="DBModel.itemphoto_ibfk_1" FromRole="lineitem" ToRole="itemphoto" />
+          <NavigationProperty Name="order" Relationship="DBModel.lineitem_ibfk_1" FromRole="lineitem" ToRole="order" />
+          <NavigationProperty Name="product" Relationship="DBModel.lineitem_ibfk_2" FromRole="lineitem" ToRole="product" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="pid" />
+          </Key>
+          <Property Name="order_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="pid" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="total_amount" Type="Decimal" Nullable="false" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="itemphotoes" Relationship="DBModel.itemphoto_ibfk_3" FromRole="order" ToRole="itemphoto" />
+          <NavigationProperty Name="lineitems" Relationship="DBModel.lineitem_ibfk_1" FromRole="order" ToRole="lineitem" />
+          <NavigationProperty Name="profile" Relationship="DBModel.order_ibfk_1" FromRole="order" ToRole="profile" />
+        </EntityType>
+        <Association Name="itemphoto_ibfk_1">
+          <End Type="DBModel.lineitem" Role="lineitem" Multiplicity="1" />
+          <End Type="DBModel.itemphoto" Role="itemphoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lineitem">
+              <PropertyRef Name="lineitem_id" />
+            </Principal>
+            <Dependent Role="itemphoto">
+              <PropertyRef Name="lineitem_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="itemphoto_ibfk_2">
+          <End Type="DBModel.printer" Role="printer" Multiplicity="0..1" />
+          <End Type="DBModel.itemphoto" Role="itemphoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="printer">
+              <PropertyRef Name="printer_id" />
+            </Principal>
+            <Dependent Role="itemphoto">
+              <PropertyRef Name="assigned_printer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="itemphoto_ibfk_3">
+          <End Type="DBModel.order" Role="order" Multiplicity="1" />
+          <End Type="DBModel.itemphoto" Role="itemphoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="pid" />
+            </Principal>
+            <Dependent Role="itemphoto">
+              <PropertyRef Name="p_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="lineitem_ibfk_1">
+          <End Type="DBModel.order" Role="order" Multiplicity="1" />
+          <End Type="DBModel.lineitem" Role="lineitem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="pid" />
+            </Principal>
+            <Dependent Role="lineitem">
+              <PropertyRef Name="p_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="lineitem_ibfk_2">
           <End Type="DBModel.product" Role="product" Multiplicity="1" />
           <End Type="DBModel.lineitem" Role="lineitem" Multiplicity="*" />
@@ -509,15 +545,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="product_ibfk_1">
-          <End Type="DBModel.staff" Role="staff" Multiplicity="1" />
-          <End Type="DBModel.product" Role="product" Multiplicity="*" />
+        <Association Name="order_ibfk_1">
+          <End Type="DBModel.profile" Role="profile" Multiplicity="1" />
+          <End Type="DBModel.order" Role="order" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="staff">
-              <PropertyRef Name="staff_id" />
+            <Principal Role="profile">
+              <PropertyRef Name="pid" />
             </Principal>
-            <Dependent Role="product">
-              <PropertyRef Name="updated_by" />
+            <Dependent Role="order">
+              <PropertyRef Name="pid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -532,40 +568,6 @@
               <MappingFragment StoreEntitySet="email">
                 <ScalarProperty Name="email1" ColumnName="email" />
                 <ScalarProperty Name="uid" ColumnName="uid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="item_photo">
-            <EntityTypeMapping TypeName="DBModel.item_photo">
-              <MappingFragment StoreEntitySet="item_photo">
-                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
-                <ScalarProperty Name="printing_status" ColumnName="printing_status" />
-                <ScalarProperty Name="assigned_printer_id" ColumnName="assigned_printer_id" />
-                <ScalarProperty Name="lineitem_id" ColumnName="lineitem_id" />
-                <ScalarProperty Name="photo" ColumnName="photo" />
-                <ScalarProperty Name="itemphoto_id" ColumnName="itemphoto_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="lineitems">
-            <EntityTypeMapping TypeName="DBModel.lineitem">
-              <MappingFragment StoreEntitySet="lineitem">
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="item_amount" ColumnName="item_amount" />
-                <ScalarProperty Name="photos" ColumnName="photos" />
-                <ScalarProperty Name="product_id" ColumnName="product_id" />
-                <ScalarProperty Name="order_id" ColumnName="order_id" />
-                <ScalarProperty Name="lineitem_id" ColumnName="lineitem_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="orders">
-            <EntityTypeMapping TypeName="DBModel.order">
-              <MappingFragment StoreEntitySet="order">
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="total_amount" ColumnName="total_amount" />
-                <ScalarProperty Name="pid" ColumnName="pid" />
-                <ScalarProperty Name="order_id" ColumnName="order_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -625,6 +627,41 @@
                 <ScalarProperty Name="image" ColumnName="image" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="product_id" ColumnName="product_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="itemphotoes">
+            <EntityTypeMapping TypeName="DBModel.itemphoto">
+              <MappingFragment StoreEntitySet="itemphoto">
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="printing_status" ColumnName="printing_status" />
+                <ScalarProperty Name="assigned_printer_id" ColumnName="assigned_printer_id" />
+                <ScalarProperty Name="lineitem_id" ColumnName="lineitem_id" />
+                <ScalarProperty Name="p_id" ColumnName="p_id" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="itemphoto_id" ColumnName="itemphoto_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lineitems">
+            <EntityTypeMapping TypeName="DBModel.lineitem">
+              <MappingFragment StoreEntitySet="lineitem">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="item_amount" ColumnName="item_amount" />
+                <ScalarProperty Name="photos" ColumnName="photos" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="p_id" ColumnName="p_id" />
+                <ScalarProperty Name="lineitem_id" ColumnName="lineitem_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="DBModel.order">
+              <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="total_amount" ColumnName="total_amount" />
+                <ScalarProperty Name="pid" ColumnName="pid" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -246,7 +246,7 @@
     <Compile Include="Models\email.cs">
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\item_photo.cs">
+    <Compile Include="Models\itemphoto.cs">
       <DependentUpon>DBModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\lineitem.cs">

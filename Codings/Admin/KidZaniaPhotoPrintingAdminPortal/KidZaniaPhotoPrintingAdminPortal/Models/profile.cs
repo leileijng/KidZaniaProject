@@ -14,18 +14,11 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
     
     public partial class profile
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public profile()
-        {
-            this.orders = new HashSet<order>();
-        }
-    
         public string pid { get; set; }
         public string profile1 { get; set; }
         public string status { get; set; }
     
         public virtual email email { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<order> orders { get; set; }
+        public virtual order order { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public printer()
         {
-            this.item_photo = new HashSet<item_photo>();
+            this.itemphotoes = new HashSet<itemphoto>();
         }
     
         public string printer_id { get; set; }
@@ -27,8 +27,8 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         public System.DateTime updated_at { get; set; }
         public string updated_by { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<item_photo> item_photo { get; set; }
         public virtual staff staff { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<itemphoto> itemphotoes { get; set; }
     }
 }
