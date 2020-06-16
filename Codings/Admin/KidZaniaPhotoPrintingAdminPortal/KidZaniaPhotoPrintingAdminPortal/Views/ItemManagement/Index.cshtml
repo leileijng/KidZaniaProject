@@ -152,9 +152,9 @@
 
                         <div class="modal-footer">
                             <button type="reset" class="btn btn-grey">Clear</button>
-                            <button type="submit" onclick="addProduct();" class="btn btn-primary" id="addSubmitBtn">Add Item</button>
+                            <button type="button" onclick="addProduct();" class="btn btn-primary" id="addSubmitBtn">Add Item</button>
                         </div>
-                     </form>
+                    </form>
                 </div>
             </div>
         </div>
@@ -243,7 +243,7 @@
                             <button type="reset" class="btn btn-grey">Reset</button>
                             <button type="submit" onclick="updateSouvenir()" class="btn btn-primary" id="SubmitBtn">Save Changes</button>
                         </div>
-                     </form>
+                    </form>
                 </div>
             </div>
         </div>
@@ -319,6 +319,7 @@
 <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
 <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+<script src="~/assets/libs/js/validate.min.js"></script>
 <script src="~/Scripts/moment.js"></script>
 <script src="~/Scripts/noty/jquery.noty.js"></script>
 <script src="~/Scripts/noty/layouts/center.js"></script>
@@ -367,13 +368,19 @@
     .imgContainer:hover .editImgbutton {
         opacity: 1;
     }
+
     form .error {
-  color: #ff0000;
-}
+        color: #ff0000;
+    }
 </style>
 <script>
+    //Loading the tables with data from database
     loadSouvenirs()
+
+    //Array of id which will be used to edit gst
     var prod_id = [];
+
+    //AJAX Call to retrieve data from backend
     function loadSouvenirs() {
         $.ajax({
             type: "GET",
@@ -390,90 +397,32 @@
             },
             error: function (data) {
                 console.log(data);
+                let $cellElement = null;
+                let $rowElement = $('<tr></tr>');
+                $cellElement = $(`<td style="text-align:center" colspan="12">Connection/Backend Problem!</td>`);
+                $rowElement.append($cellElement);
+                $('.souvenir').append($rowElement);//inserting a new row
             }
         });
     }
+
+    //Loading Tables with data
     function loadTable(data) {
         if ($("table.second").length) {
-
             $(document).ready(function () {
                 var table = $('table.second').DataTable({
                     lengthChange: false,
                     buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
                 });
-
                 table.buttons().container()
                     .appendTo('#example_wrapper .col-md-6:eq(0)');
             });
         }
         $('.souvenir').html('');//Clear the <tbody> element first
-
         if (data != null || data.length > 0) {
             for (let x = 0; x < data.length; x++) {
                 let record = data[x];
-                let $cellElement = null;
-                let $hyperlinkElement = null;
-                let $rowElement = $(`<tr id="${record.product_id}"></tr>`);
-                prod_id.push(record.product_id);
-                $cellElement = $(`<td>${record.product_id}</td>`);
-                $rowElement.append($cellElement);
-                $cellElement = $(`<td><div><img id="img${record.product_id}" src="${record.image}" alt="user" width="55"></div></td>`);
-                $rowElement.append($cellElement);
-                $cellElement = $(`<td id="name${record.product_id}">${record.name}</td>`);
-                $rowElement.append($cellElement);
-                if (record.description != "") {
-                    $cellElement = $(`<td id="description${record.product_id}">${record.description}</td>`);
-                }
-                else {
-                    $cellElement = $(`<td><span id="description${record.product_id}">-</span></td>`);
-                }
-                $rowElement.append($cellElement);
-                $cellElement = $(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
-                $rowElement.append($cellElement);
-                if (record.pwp_price != null) {
-                    $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
-                } else {
-                    $cellElement = $(`<td><span id="pwpPrice${record.product_id}">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
-                }
-                $rowElement.append($cellElement);
-                $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
-                                            <option>--None--</option>
-                                            <option>Even Numbered Units</option>
-                                            <option>Max 1 Unit</option>
-                                        </select></td>`);
-                $rowElement.append($cellElement);
-                if (record.photo_product == true) {
-                    $cellElement = $(`<td>
-                                        <i id="photoprod${record.product_id}" class="fas fa-check mr-1"></i>
-                                  </td>`);
-                }
-                else {
-                    $cellElement = $(`<td>
-                                        <i id="photoprod${record.product_id}" class="fas fa-times mr-1"></i>
-                                  </td>`);
-                }
-                $rowElement.append($cellElement);
-                if (record.visibility == true) {
-                    $cellElement = $(`<td>
-                                        <i id="vis${record.product_id}" class="fas fa-check mr-1"></i>
-                                  </td>`);
-                }
-                else {
-                    $cellElement = $(`<td>
-                                        <i id="vis${record.product_id}" class="fas fa-times mr-1"></i>
-                                  </td>`);
-                }
-                $rowElement.append($cellElement);
-                $cellElement = $(`<td></td>`);
-                $hyperlinkElement = $(`<a class="edit" onclick="loadEdit('${record.product_id}')" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a>`);
-                $cellElement.append($hyperlinkElement);
-                $hyperlinkElement = $(`<a href="#myModal" onclick="loadDelete('${record.product_id}')" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a>`);
-                $cellElement.append($hyperlinkElement);
-                $rowElement.append($cellElement);
-                $cellElement = $(`<td id="by${record.product_id}">${record.updated_by}</td>`);
-                $rowElement.append($cellElement);
-                $cellElement = $(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
-                $rowElement.append($cellElement);
+                let $rowElement = createRow(record);
                 $('.souvenir').append($rowElement);
                 var effects = 'animate__animated animate__fadeIn animate__slow';
                 var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
@@ -498,6 +447,76 @@
             $('#dataTableBody').append($rowElement);//inserting a new row
         }
     }
+
+    //Creating tr for the souvenir table
+    function createRow(record) {
+        let $cellElement = null;
+        let $hyperlinkElement = null;
+        let $rowElement = $(`<tr id="${record.product_id}"></tr>`);
+        prod_id.push(record.product_id);
+        $cellElement = $(`<td>${record.product_id}</td>`);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td><div><img id="img${record.product_id}" src="${record.image}" alt="user" width="55"></div></td>`);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td id="name${record.product_id}">${record.name}</td>`);
+        $rowElement.append($cellElement);
+        if (record.description != "") {
+            $cellElement = $(`<td id="description${record.product_id}">${record.description}</td>`);
+        }
+        else {
+            $cellElement = $(`<td><span id="description${record.product_id}">-</span></td>`);
+        }
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
+        $rowElement.append($cellElement);
+        if (record.pwp_price != null) {
+            $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
+        } else {
+            $cellElement = $(`<td><span id="pwpPrice${record.product_id}">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
+        }
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
+                                            <option>--None--</option>
+                                            <option>Even Numbered Units</option>
+                                            <option>Max 1 Unit</option>
+                                        </select></td>`);
+        $rowElement.append($cellElement);
+        if (record.photo_product == true) {
+            $cellElement = $(`<td>
+                                        <i id="photoprod${record.product_id}" class="fas fa-check mr-1"></i>
+                                  </td>`);
+        }
+        else {
+            $cellElement = $(`<td>
+                                        <i id="photoprod${record.product_id}" class="fas fa-times mr-1"></i>
+                                  </td>`);
+        }
+        $rowElement.append($cellElement);
+        if (record.visibility == true) {
+            $cellElement = $(`<td>
+                                        <i id="vis${record.product_id}" class="fas fa-check mr-1"></i>
+                                  </td>`);
+        }
+        else {
+            $cellElement = $(`<td>
+                                        <i id="vis${record.product_id}" class="fas fa-times mr-1"></i>
+                                  </td>`);
+        }
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td></td>`);
+        $hyperlinkElement = $(`<a class="edit" onclick="loadEdit('${record.product_id}')" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a>`);
+        $cellElement.append($hyperlinkElement);
+        $hyperlinkElement = $(`<a href="#myModal" onclick="loadDelete('${record.product_id}')" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a>`);
+        $cellElement.append($hyperlinkElement);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td id="by${record.product_id}">${record.updated_by}</td>`);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
+        $rowElement.append($cellElement);
+        return $rowElement;
+    }
+
+    //Loading edit modal
     function loadEdit(id) {
         $.ajax({
             type: "GET",
@@ -506,11 +525,10 @@
             success: function (data) {
                 console.log(data);
                 $('#ItemNameInp').val(data.name);
-                $('#priceNameInp').val(data.original_price);
-                $('#pwpNameInp').val(data.pwp_price);
+                $('#priceNameInp').val(data.original_price.toFixed(2));
+                $('#pwpNameInp').val(data.pwp_price.toFixed(2));
                 $('#commentsInp').val(data.description);
                 $('#idInp').val(data.product_id);
-
                 if (data.quantity_constraint != null) {
                     $('#inp-select').val(data.quantity_constraint);
                 } else {
@@ -521,7 +539,6 @@
                 } else {
                     $('#photoProdInp').prop('checked', false);
                 }
-
                 if (data.visibility == true) {
                     $('#visibilityInp').prop('checked', true);
                 } else {
@@ -535,146 +552,148 @@
         });
     }
 
+    //Update souvenir in the backend and frontend
     function updateSouvenir() {
-        let gst = $('#gstper').val();
-        let id = $('#idInp').val();
-        let name = $('#ItemNameInp').val();
-        let oriPrice = $('#priceNameInp').val();
-        let pwpPrice = $('#pwpNameInp').val();
-        let description = $('#commentsInp').val();
-        let qc = $('#inp-select').val();
-        let visibility;
-        if ($('#visibilityInp').is(":checked")) {
-            visibility = true;
-        }
-        else {
-            visibility = false;
-        }
-        let photoprod;
-        if ($('#photoProdInp').is(":checked")) {
-            photoprod = true;
-        }
-        else {
-            photoprod = false;
-        }
-        let webformdata = new editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
-        console.log(JSON.stringify(webformdata));
-        var formData = new FormData();
-        var file = $('#newphoto')[0];
-        formData.append('file', file.files[0]);
-        $.ajax({
-            url: `/api/products/UploadFile/${id}`,
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (d) {
-                console.log(d);
-                $.ajax({
-                    type: 'PUT',
-                    url: `/API/products/${id}`,
-                    contentType: 'application/json',
-                    data: JSON.stringify(webformdata)
-                }).done(function (data, textStatus, jqXHR) {
-                    new noty({
-                        text: data.message,
-                        layout: 'center',
-                        theme: "metroui",
-                        type: 'success',
-                        callback: {
-                            onClose: function () {
-                                $('#editModal').trigger('click');
-                                var effects = 'animate__animated animate__pulse';
-                                var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
-                                $.ajax({
-                                    type: "GET",
-                                    url: `/api/products/${id}`,
-                                    dataType: "json",
-                                    success: function (record) {
-                                        $(`#img${id}`).attr('src', '');
-                                        $(`#img${id}`).attr('src', record.image);
-                                        //$(`#name${id}`).text(record.name);
-                                        
-                                        if (record.quantity_constraint == "Even Numbered Units") {
-                                            $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
-                                        }
-                                        else if (record.quantity_constraint == "Max 1 Unit") {
-                                            $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
-                                        }
-                                        else {
-                                            $(`#input-select${record.product_id}`)[0].selectedIndex = 0;
-                                        }
-                                        $(`#photoprod${record.product_id}`).removeClass();
-                                        if (record.photo_product == true) {
-                                            $(`#photoprod${record.product_id}`).addClass('fas fa-check mr-1');
-                                        } else {
-                                            $(`#photoprod${record.product_id}`).addClass('fas fa-times mr-1');
-                                        }
-                                        $(`#vis${record.product_id}`).removeClass();
-                                        if (record.visibility == true) {
-                                            $(`#vis${record.product_id}`).addClass('fas fa-check mr-1');
-                                        } else {
-                                            $(`#vis${record.product_id}`).addClass('fas fa-times mr-1');
-                                        }
+        if ($('#editModalForm').valid()) {
+            let gst = $('#gstper').val();
+            let id = $('#idInp').val();
+            let name = $('#ItemNameInp').val();
+            let oriPrice = $('#priceNameInp').val();
+            let pwpPrice = $('#pwpNameInp').val();
+            let description = $('#commentsInp').val();
+            let qc = $('#inp-select').val();
+            let visibility;
+            if ($('#visibilityInp').is(":checked")) {
+                visibility = true;
+            }
+            else {
+                visibility = false;
+            }
+            let photoprod;
+            if ($('#photoProdInp').is(":checked")) {
+                photoprod = true;
+            }
+            else {
+                photoprod = false;
+            }
+            let webformdata = new editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
+            console.log(JSON.stringify(webformdata));
+            var formData = new FormData();
+            var file = $('#newphoto')[0];
+            formData.append('file', file.files[0]);
+            $.ajax({
+                url: `/api/products/UploadFile/${id}`,
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (d) {
+                    console.log(d);
+                    $.ajax({
+                        type: 'PUT',
+                        url: `/API/products/${id}`,
+                        contentType: 'application/json',
+                        data: JSON.stringify(webformdata)
+                    }).done(function (data, textStatus, jqXHR) {
+                        new noty({
+                            text: data.message,
+                            layout: 'center',
+                            theme: "metroui",
+                            type: 'success',
+                            callback: {
+                                onClose: function () {
+                                    $('#editModal').trigger('click');
+                                    let effects = 'animate__animated animate__pulse';
+                                    let effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+                                    $.ajax({
+                                        type: "GET",
+                                        url: `/api/products/${id}`,
+                                        dataType: "json",
+                                        success: function (record) {
+                                            $(`#img${id}`).attr('src', '');
+                                            $(`#img${id}`).attr('src', record.image);
 
-                                        $(`#${id}`).addClass(effects).one(effectsend, function () {
-                                            $(`#${id}`).removeClass(effects);
-                                        });
-                                        var table = $('table.second').DataTable();
-                                        table.cell(`#${id}`, 2).data(`<td id="name${record.product_id}">${record.name}</td>`);
-                                        if (record.description != '') {
-                                            table.cell(`#${id}`, 3).data(record.description);
+                                            if (record.quantity_constraint == "Even Numbered Units") {
+                                                $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
+                                            }
+                                            else if (record.quantity_constraint == "Max 1 Unit") {
+                                                $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
+                                            }
+                                            else {
+                                                $(`#input-select${record.product_id}`)[0].selectedIndex = 0;
+                                            }
+                                            $(`#photoprod${record.product_id}`).removeClass();
+                                            if (record.photo_product == true) {
+                                                $(`#photoprod${record.product_id}`).addClass('fas fa-check mr-1');
+                                            } else {
+                                                $(`#photoprod${record.product_id}`).addClass('fas fa-times mr-1');
+                                            }
+                                            $(`#vis${record.product_id}`).removeClass();
+                                            if (record.visibility == true) {
+                                                $(`#vis${record.product_id}`).addClass('fas fa-check mr-1');
+                                            } else {
+                                                $(`#vis${record.product_id}`).addClass('fas fa-times mr-1');
+                                            }
+                                            var table = $('table.second').DataTable();
+                                            $(`#${id}`).addClass(effects).one(effectsend, function () {
+                                                $(`#${id}`).removeClass(effects);
+                                            });
+                                            table.cell(`#${id}`, 2).data(`<td id="name${record.product_id}">${record.name}</td>`);
+                                            if (record.description != '') {
+                                                table.cell(`#${id}`, 3).data(record.description);
+                                            }
+                                            else {
+                                                table.cell(`#${id}`, 3).data("-");
+                                            }
+                                            table.cell(`#${id}`, 4).data(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
+                                            if (record.pwp_price != null) {
+                                                table.cell(`#${id}`, 5).data(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
+                                            } else {
+                                                table.cell(`#${id}`, 5).data(`<td><span id="pwpPrice${record.product_id}">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
+                                            }
+                                            table.cell(`#${id}`, 10).data(`<td id="by${record.product_id}">${record.updated_by}</td>`);
+                                            table.cell(`#${id}`, 11).data(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
+                                            table.draw();
+                                        },
+                                        error: function (d) {
+                                            console.log(d);
                                         }
-                                        else {
-                                            table.cell(`#${id}`, 3).data("-");
-                                        }
-                                        table.cell(`#${id}`, 4).data(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
-                                        if (record.pwp_price != null) {
-                                            table.cell(`#${id}`, 5).data(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
-                                        } else {
-                                            table.cell(`#${id}`, 5).data(`<td><span id="pwpPrice${record.product_id}">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
-                                        }
-                                        table.cell(`#${id}`, 10).data(`<td id="by${record.product_id}">${record.updated_by}</td>`);
-                                        table.cell(`#${id}`, 11).data(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
-                                        table.draw();
-                                    },
-                                    error: function (d) {
-                                        console.log(d);
-                                    }
-                                });
+                                    });
 
+                                }
                             }
-                        }
-                    }).show(); 
-                }).fail(function (data, textStatus, jqXHR) {
-                    new noty({
-                        text: data.responseJSON.message,
-                        theme: 'metroui',
-                        layout: 'center',
-                        timeout: 3000,
-                        type: 'error'
-                    }).show();
-                });
-            },
-            error: function (d) {
-                alert('Upload file went wrong');
-                console.log(d);
-               }
-        });
+                        }).show();
+                    }).fail(function (data, textStatus, jqXHR) {
+                        new noty({
+                            text: data.responseJSON.message,
+                            theme: 'metroui',
+                            layout: 'center',
+                            timeout: 3000,
+                            type: 'error'
+                        }).show();
+                    });
+                },
+                error: function (d) {
+                    alert('Upload file went wrong');
+                    console.log(d);
+                }
+            });
+        }
     }
 
+    //Replace picture in the edit modal
     function editPhoto(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
-
             reader.onload = function (e) {
                 $('#editPhoto')
                     .attr('src', e.target.result);
             };
-
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+    //Loading delete modal
     function loadDelete(id) {
         $.ajax({
             type: "GET",
@@ -693,6 +712,8 @@
             }
         });
     }
+
+    //Delete souvenir in the backend and frontend
     function deleteSouvenir() {
         var id = $("#deleteId").val();
         var image = $("#deletePhoto").val();
@@ -718,7 +739,7 @@
                             var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd'
                             $(`#${id}`).addClass(effects).one(effectsend, function () {
                                 var table = $('table.second').DataTable();
-                                table.row(`#${id}`).remove().draw();                            
+                                table.row(`#${id}`).remove().draw();
                             });
                         }
                     }
@@ -736,6 +757,8 @@
             alert("failed to delete file!");
         });
     }
+
+    //Edit GST Function
     $("#gstper").change(function () {
         let gst = $('#gstper').val();
         for (let x = 0; x < prod_id.length; x++) {
@@ -759,6 +782,8 @@
             }
         });
     });
+
+    //Creating Object to pass to the backend for creating souvenir
     function addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst) {
         this.name = name;
         this.image = image;
@@ -770,6 +795,8 @@
         this.photo_product = photoprod;
         this.gst = gst;
     }
+
+    //Creating Object to pass to the backend for editing souvenir
     function editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst) {
         this.name = name;
         this.original_price = oriPrice;
@@ -780,6 +807,8 @@
         this.photo_product = photoprod;
         this.gst = gst;
     }
+
+    //Displaying picture in the add modal
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -793,227 +822,235 @@
         }
     }
 
+    //Add souvenir in the frontend and backend
     function addProduct() {
-        let id = $('#addItemId').val();
-        let gst = $('#gstper').val();
-        let image = $('#fileid').val().split("\\").pop();
-        let name = $('#addNameInput').val();
-        let oriPrice = $('#addPriceInput').val();
-        let pwpPrice = $('#addPWPInput').val();
-        let description = $('#addCommentsInput').val();
-        let qc = $('#addQCInput').val();
-        let visibility;
-        if ($('#addVis').is(":checked")) {
-            visibility = true;
-        }
-        else {
-            visibility = false;
-        }
-        let photoprod;
-        if ($('#addPhotoProduct').is(":checked")) {
-            photoprod = true;
-        }
-        else {
-            photoprod = false;
-        }
-        let webformdata = new addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
-        console.log(JSON.stringify(webformdata));
-
-        var formData = new FormData();
-        var file = $('#fileid')[0];
-        formData.append('file', file.files[0]);
-        $.ajax({
-            url: `/api/products/UploadFile/${id}`,
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (d) {
-                console.log(d);
-                $.ajax({
-                    type: 'POST',
-                    url: `/API/products/${id}`,
-                    contentType: 'application/json',
-                    data: JSON.stringify(webformdata)
-                }).done(function (data, textStatus, jqXHR) {
-                    new noty({
-                        text: data.message,
-                        layout: 'center',
-                        theme: "metroui",
-                        type: 'success',
-                        callback: {
-                            onClose: function () {
-                                $('#exampleModal').trigger('click');
-                                $.ajax({
-                                    type: "GET",
-                                    url: `/api/products/${id}`,
-                                    dataType: "json",
-                                    success: function (record) {
-                                        console.log(record);
-                                        let $cellElement = null;
-                                        let $hyperlinkElement = null;
-                                        let $rowElement = $(`<tr id="${id}"></tr>`);
-                                        $cellElement = $(`<td>${record.product_id}</td>`);
-                                        $rowElement.append($cellElement);
-                                        $cellElement = $(`<td><div><img id="img${record.product_id}" src="${record.image}" alt="user" width="55"></div></td>`);
-                                        $rowElement.append($cellElement);
-                                        $cellElement = $(`<td id="name${record.product_id}">${record.name}</td>`);
-                                        $rowElement.append($cellElement);
-                                        if (record.description != "") {
-                                            $cellElement = $(`<td id="description${record.product_id}">${record.description}</td>`);
-                                        }
-                                        else {
-                                            $cellElement = $(`<td><span id="description${record.product_id}">-</span></td>`);
-                                        }
-                                        $rowElement.append($cellElement);
-                                        $cellElement = $(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
-                                        $rowElement.append($cellElement);
-                                        if (record.pwp_price != null) {
-                                            $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
-                                        } else {
-                                            $cellElement = $(`<td><span id="pwpPrice${record.product_id}">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
-                                        }
-                                        $rowElement.append($cellElement);
-                                        $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
-                                            <option>--None--</option>
-                                            <option>Even Numbered Units</option>
-                                            <option>Max 1 Unit</option>
-                                        </select></td>`);
-                                        $rowElement.append($cellElement);
-                                        if (record.photo_product == true) {
-                                            $cellElement = $(`<td>
-                                        <i id="photoprod${record.product_id}" class="fas fa-check mr-1"></i>
-                                  </td>`);
-                                        }
-                                        else {
-                                            $cellElement = $(`<td>
-                                        <i id="photoprod${record.product_id}" class="fas fa-times mr-1"></i>
-                                  </td>`);
-                                        }
-                                        $rowElement.append($cellElement);
-                                        if (record.visibility == true) {
-                                            $cellElement = $(`<td>
-                                        <i id="vis${record.product_id}" class="fas fa-check mr-1"></i>
-                                  </td>`);
-                                        }
-                                        else {
-                                            $cellElement = $(`<td>
-                                        <i id="vis${record.product_id}" class="fas fa-times mr-1"></i>
-                                  </td>`);
-                                        }
-                                        $rowElement.append($cellElement);
-                                        $cellElement = $(`<td></td>`);
-                                        $hyperlinkElement = $(`<a class="edit" onclick="loadEdit('${record.product_id}')" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a>`);
-                                        $cellElement.append($hyperlinkElement);
-                                        $hyperlinkElement = $(`<a href="#myModal" onclick="loadDelete('${record.product_id}')" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a>`);
-                                        $cellElement.append($hyperlinkElement);
-                                        $rowElement.append($cellElement);
-                                        $cellElement = $(`<td id="by${record.product_id}">${record.updated_by}</td>`);
-                                        $rowElement.append($cellElement);
-                                        $cellElement = $(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
-                                        $rowElement.append($cellElement);
-                                        var table = $('table.second').DataTable();
-                                        table.row.add($rowElement);
-                                        table.draw();
-                                        var effects = 'animate__animated animate__fadeIn animate__slow';
-                                        var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
-                                        $(`#${record.product_id}`).addClass(effects).one(effectsend, function () {
-                                            $(`#${record.product_id}`).removeClass(effects);
-                                        });
-                                        //$('.souvenir').prepend($rowElement);
-                                        if (record.quantity_constraint == "Even Numbered Units") {
-                                            $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
-                                        }
-                                        else if (record.quantity_constraint == "Max 1 Unit") {
-                                            $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
-                                        }
-                                        else { }
-
-                                    },
-                                    error: function (record) {
-                                        console.log(record);
-                                    }
-                                });
-                            }
-                        }
-                    }).show();
-                }).fail(function (data, textStatus, jqXHR) {
-                    new noty({
-                        text: data.responseJSON.message,
-                        theme: 'metroui',
-                        layout: 'center',
-                        timeout: 3000,
-                        type: 'error'
-                    }).show();
-                });
-            },
-            error: function (d) {
-                alert('Upload file went wrong');
-                console.log(d);
+        console.log($('#addModalForm').valid());
+        if ($('#addModalForm').valid()) {
+            let id = $('#addItemId').val();
+            let gst = $('#gstper').val();
+            let image = $('#fileid').val().split("\\").pop();
+            let name = $('#addNameInput').val();
+            let oriPrice = $('#addPriceInput').val();
+            let pwpPrice = $('#addPWPInput').val();
+            let description = $('#addCommentsInput').val();
+            let qc = $('#addQCInput').val();
+            let visibility;
+            if ($('#addVis').is(":checked")) {
+                visibility = true;
             }
-        });
+            else {
+                visibility = false;
+            }
+            let photoprod;
+            if ($('#addPhotoProduct').is(":checked")) {
+                photoprod = true;
+            }
+            else {
+                photoprod = false;
+            }
+            let webformdata = new addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
+            console.log(JSON.stringify(webformdata));
+
+            var formData = new FormData();
+            var file = $('#fileid')[0];
+            formData.append('file', file.files[0]);
+            $.ajax({
+                url: `/api/products/UploadFile/${id}`,
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (d) {
+                    console.log(d);
+                    $.ajax({
+                        type: 'POST',
+                        url: `/API/products/${id}`,
+                        contentType: 'application/json',
+                        data: JSON.stringify(webformdata)
+                    }).done(function (data, textStatus, jqXHR) {
+                        new noty({
+                            text: data.message,
+                            layout: 'center',
+                            theme: "metroui",
+                            type: 'success',
+                            callback: {
+                                onClose: function () {
+                                    $('#exampleModal').trigger('click');
+                                    $.ajax({
+                                        type: "GET",
+                                        url: `/api/products/${id}`,
+                                        dataType: "json",
+                                        success: function (record) {
+                                            console.log(record);
+                                            let $rowElement = createRow(record);
+                                            var table = $('table.second').DataTable();
+                                            table.row.add($rowElement);
+                                            table.draw();
+                                            var effects = 'animate__animated animate__fadeIn animate__slow';
+                                            var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+                                            $(`#${record.product_id}`).addClass(effects).one(effectsend, function () {
+                                                $(`#${record.product_id}`).removeClass(effects);
+                                            });
+                                            //$('.souvenir').prepend($rowElement);
+                                            if (record.quantity_constraint == "Even Numbered Units") {
+                                                $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
+                                            }
+                                            else if (record.quantity_constraint == "Max 1 Unit") {
+                                                $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
+                                            }
+                                            else { }
+
+                                        },
+                                        error: function (record) {
+                                            console.log(record);
+                                        }
+                                    });
+                                }
+                            }
+                        }).show();
+                    }).fail(function (data, textStatus, jqXHR) {
+                        new noty({
+                            text: data.responseJSON.message,
+                            theme: 'metroui',
+                            layout: 'center',
+                            timeout: 3000,
+                            type: 'error'
+                        }).show();
+                    });
+                },
+                error: function (d) {
+                    alert('Upload file went wrong');
+                    console.log(d);
+                }
+            });
+        }
     }
 
-    jQuery.validator.addMethod("price", function(value, element) {
-    return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
-    }, "You must include two decimal places");
-
-  $("#editModalForm").validate({
-          rules: {
-           ItemNameInp: {
-               required: true
-           },
-           priceNameInp: {
-               required: true,
-               number: true,
-               price: true
-           },
-             'inp-select': {
-                required: true
-           }
-      },
-         messages: {
-          ItemNameInp: {
-           required: "Please enter Item Name"
-             },
-          priceNameInp: {
-           required: "Please enter Original price"
-             },
-          "inp-select": {
-           required: "Please select Quantity Constraint"
-          }
-      },
-          submitHandler: function (form) { 
-        }
-  });
-
-    $("#addModalForm").validate({
-          rules: {
-           addNameInput: {
-               required: true
-           },
-           addPriceInput: {
-               required: true,
-               number: true,
-               price: true
-           },
-             addQCInput: {
-                required: true
-           }
-      },
-         messages: {
-          addNameInput: {
-           required: "Please enter Item Name"
-             },
-          addPriceInput: {
-           required: "Please enter Original price"
-             },
-          addQCInput: {
-           required: "Please select Quantity Constraint"
-          }
-      },
-          submitHandler: function (form) { 
-        }
+    //JQuery Validation
+    $().ready(function () {
+        jQuery.validator.addMethod("price", function (value, element) {
+            return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
+        }, "You must include only two decimal places");
+        jQuery.validator.addMethod("whitespace", function (value, element) {
+            var length = $.trim(value).length;
+            let checker = true;
+            if (length == 0 && value.length != 0) {
+                checker = false;
+            }
+            return checker;
+        }, "Value cannot be whitespace");
+        jQuery.validator.addMethod("alphanumeric", function (value, element) {
+            return this.optional(element) || /^[a-z0-9\-_.,\s]+$/i.test(value);
+        }, "Please enter alphanumerical value (only - _ . and , is allowed)");
+        jQuery.validator.addMethod("exist", function (value, element) {
+            var table = document.getElementById('example');
+            let checker = true;
+            for (var r = 1, n = table.rows.length; r < n; r++) {
+                if (value == table.rows[r].cells[0].innerHTML) {
+                    checker = false;
+                }
+            }
+            return checker;
+        });
+        $("#editModalForm").validate({
+            rules: {
+                ItemNameInp: {
+                    required: true,
+                    whitespace: true,
+                    maxlength: 50,
+                    alphanumeric: true,
+                },
+                priceNameInp: {
+                    required: true,
+                    number: true,
+                    min: 0,
+                    price: true,
+                },
+                pwpNameInp: {
+                    number: true,
+                    min: 0,
+                    price: true,
+                },
+                commentsInp: {
+                    alphanumeric: true,
+                    whitespace: true,
+                    maxlength: 300,
+                },
+            },
+            messages: {
+                ItemNameInp: {
+                    required: "Please enter Item Name",
+                    maxlength: "Please reduce the item id to below 50 characters",
+                },
+                priceNameInp: {
+                    required: "Please enter Original price",
+                    number: "Please enter a valid number",
+                    min: "Please enter value that is greater or equal to 0",
+                },
+                pwpNameInp: {
+                    number: "Please enter a valid number",
+                    min: "Please enter value that is greater or equal to 0",
+                },
+                commentsInp: {
+                    maxlength: "Please reduce description to below 300 characters",
+                },
+            }
+        });
+        $("#addModalForm").validate({
+            rules: {
+                addItemId: {
+                    required: true,
+                    whitespace: true,
+                    maxlength: 50,
+                    alphanumeric: true,
+                    exist: true,
+                },
+                addNameInput: {
+                    required: true,
+                    whitespace: true,
+                    maxlength: 50,
+                    alphanumeric: true,
+                },
+                addPriceInput: {
+                    required: true,
+                    number: true,
+                    min: 0,
+                    price: true,
+                },
+                addPWPInput: {
+                    number: true,
+                    min: 0,
+                    price: true,
+                },
+                addCommentsInput: {
+                    alphanumeric: true,
+                    whitespace: true,
+                    maxlength: 300,
+                }
+            },
+            messages: {
+                addItemId: {
+                    required: "Please enter Item Id",
+                    maxlength: "Please reduce the item id to below 50 characters",
+                    exist: "The Item Id already exists"
+                },
+                addNameInput: {
+                    required: "Please enter Item Name",
+                    maxlength: "Please reduce the item id to below 50 characters",
+                },
+                addPriceInput: {
+                    required: "Please enter Original price",
+                    number: "Please enter a valid number",
+                    min: "Please enter value that is greater or equal to 0",
+                },
+                addPWPInput: {
+                    number: "Please enter a valid number",
+                    min: "Please enter value that is greater or equal to 0",
+                },
+                addCommentsInput: {
+                    maxlength: "Please reduce description to below 300 characters",
+                },
+            },
+        });
     });
-
 </script>
