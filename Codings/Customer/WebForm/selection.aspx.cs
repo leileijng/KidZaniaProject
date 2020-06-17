@@ -310,7 +310,7 @@ namespace WebForm
                 conn.ConnectionString = myConnectionString;
                 conn.Open();
 
-                string query = "SELECT * FROM profiles WHERE profile = '" + MySqlHelper.EscapeString(profile) + "';";
+                string query = "SELECT * FROM profile WHERE profile = '" + MySqlHelper.EscapeString(profile) + "';";
                 var cmd = new MySqlCommand(query, conn);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -345,9 +345,6 @@ namespace WebForm
             conn.Close();
         }
         
-
-
-
         public static List<Product> GetProductsFromDB()
         {
             string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";

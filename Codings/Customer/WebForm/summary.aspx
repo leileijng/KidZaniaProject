@@ -7,28 +7,89 @@
 <head runat="server">
     <title></title>
     <!-- Onsite -->
-    <link rel='stylesheet'  href='/css/style.css' type='text/css' media='all' />
-    <link rel='stylesheet'  href='/css/misc.css' type='text/css' media='all' />
-    <link rel="stylesheet" href="/css/jquery-ui.css">
-    <script src="/js/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="Scripts/jquery-3.3.1.js"></script>
+    <link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='/Scripts/css/misc.css' type='text/css' media='all' />
+    <link rel="stylesheet" href="/Scripts/css/jquery-ui.css" />
+
+    <script type="text/javascript" src="/Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
+    <!-- Font Awesome -->
+
+    <link href="/Scripts/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+    <!-- Bootstrap core CSS -->
+    <link href="/Scripts/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Material Design Bootstrap -->
+    <link href="/Scripts/lib/mdb/css/mdb.min.css" rel="stylesheet" />
+    <!-- Your custom styles (optional) -->
+    <link href="/Scripts/css/site.css" rel="stylesheet" />
+
+    <link href="/Scripts/lib/noty/noty.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/Scripts/css/noty_custom.css" />
+    <link rel="stylesheet" href="/Scripts/css/sticky_footer.css" />
+    <!-- Bootsrap-table core CSS -->
+    <link href="/Scripts/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
+    <!-- jqWidget core CSS -->
+    <link href="/Scripts/lib/jqwidgets/styles/jqx.base.css" rel="stylesheet" />
+    <link href="/Scripts/lib/jqwidgets/styles/jqx.flat.css" rel="stylesheet" />
+    <!-- jQuery library-->
+    <script src="/Scripts/lib/jquery/dist/jquery.js"></script>
+
+    <!-- Bootstrap tooltips -->
+    <script src="/Scripts/lib/popper.js/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="/Scripts/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script src="/Scripts/lib/mdb/js/mdb.min.js"></script>
+    <!-- jqWidgets core JavaScript for all widgets (large JS file size)-->
+    <script src="/Scripts/lib/jqwidgets/jqx-all.js"></script>
+    <!-- jQuery validate plugin-->
+    <script src="/Scripts/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="/Scripts/lib/jquery-validation/dist/additional-methods.js"></script>
+    <!-- Boostrap table core JavaScript -->
+    <script src="/Scripts/lib/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="/Scripts/lib/noty/noty.min.js"></script>
+    <script src="/Scripts/lib/moment/moment.min.js"></script>
+    <script src="/Scripts/lib/store/store.min.js"></script>
     <script>
         function isEmail(email) {
             var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             return regex.test(email);
         }
 
-        function ValidateEmail()
-		{
-			$("form").submit(function (e) {
-				var useremail = $("#useremail").val();
-				if (isEmail(useremail)) {
-					$("#email_status").html("");
-				}
-				else {
-					$("#email_status").html("Invalid email");
-					e.preventDefault(); //prevent from submitting
-				}
-			});
+        function validateOrder() {
+            if ($("#useremail").length) {
+                console.log("digital copy here!");
+                var useremail = $("#useremail").val();
+                var pid = $('#pidSession').text();
+                if (isEmail(useremail)) {
+                    $("#email_status").html("");
+                    var dataValue = JSON.stringify({ "email": useremail, "pid": pid});
+                    console.log(dataValue);
+                    $.ajax({
+                        type: "POST",
+                        url: '<%= ResolveUrl("summary.aspx/insertEmail") %>',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: dataValue,
+                        success: function () {
+                            console.log("Inserted Successfully");
+                            return true;
+                        },
+                        error: function () {
+                            console.log("not successfully");
+                            return false;
+                        }
+                    });
+                }
+                else {
+                    $("#email_status").html("Invalid email");
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
         }
     </script>
     
@@ -248,7 +309,13 @@
 			text-align:left;
 			font-size:12px;
 		}
-
+        .column{
+            padding: 1px 5px;
+        }
+        .row{
+            margin: 1px;
+            text-align: center;
+        }
     </style>
 
 
@@ -269,12 +336,12 @@
                 </ul>
             </div>
             <div class="site-branding">
-                <a href="https://kidzania.com.sg/" rel="home"><img src="/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"></a>
+                <a href="https://kidzania.com.sg/" rel="home"><img src="/Content/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"/></a>
             </div>
             <!-- .site-branding -->
             <div class="header-right">
                 <div class="btn-book-tickets">
-                    <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank"><img src="/img/btn-book-tickets.png"></a>
+                    <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank"><img src="/Content/img/btn-book-tickets.png" /></a>
                 </div>
             </div>
         </div>
@@ -286,13 +353,26 @@
     <!-- HEADER -->
 
 
-    <form id="form1" runat="server">
+    <form id="form1">
     <div id="page content" style="margin:0 auto; display: table;text-align:center;">
         <div style="width: 100%; height: 150px; text-align:center;margin:0 auto;" id="heading">
             <span class="heading1">Details</span>
         </div>
         <div style="text-align:center;margin-top: 10px;margin:0 auto;"><img src='/img/process-details.png' /></div>
-        <div style="text-align:center;margin:0 auto;" id="summarydiv" runat="server"></div>
+        <div style="text-align:center;margin:0 auto;">
+            <table class="table table-hover table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Product</th>
+                        <th>Photos</th>
+                        <th>Qunatity</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody id="summarydiv" runat="server">
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div style="margin-top:-10px; width: 90%; text-align:center;margin:0 auto;" id="photo_gallery">
@@ -301,21 +381,23 @@
 
     </form>
     <br />
-    
-    <table>
-        <tr><td>
-            <form action="payment_onsite.aspx" method="post">
-                <div style="margin-top:30px; width: 90%; text-align:center;margin:0 auto;" id="payment_onsite_summary">
-                <input type="hidden" id="Hidden1" value="0" runat="server"/>
-                <input type="hidden" id="sa" value="0" runat="server"/>
-                <div><input style='margin-bottom: 15px;' class='btn_default' type="submit" value="Onsite Payment" /></div>
-                
-                <div id="email_ctn" style='margin-bottom: 35px;' runat="server"><span style='color:red;'>Email required</span>: <input type='text' id='useremail' size='50' runat="server"/> <span style="color: red;" id="email_status"></span></div>
-                <div id="email_validator" runat="server"></div>
 
-                </div>
-            </form>
-        </td></tr>
+    <table>
+        <tr>
+            <td>
+                <form action="payment_onsite.aspx" method="post" runat="server" onsubmit = "return validateOrder();">
+                    <div style="margin-top: 30px; width: 90%; text-align: center; margin: 0 auto;" id="payment_onsite_summary">
+                        <input type="hidden" id="Hidden1" value="0" runat="server" />
+                        <input type="hidden" id="sa" value="0" runat="server" />
+                        <div id="email_ctn" style='margin-bottom: 15px;' runat="server">
+                        </div>
+                        <div>
+                            <input style='margin-bottom: 10px;' class='btn_default' type="submit" value="Onsite Payment" />
+                        </div>
+                    </div>
+                </form>
+            </td>
+        </tr>
     </table>
     
     <!-- FOOTER -->

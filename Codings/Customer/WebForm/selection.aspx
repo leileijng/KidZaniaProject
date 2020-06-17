@@ -448,11 +448,14 @@
         var checker = "stage1";
         var CartItems = [];
         var productCostData = [];
+        var AllCosts = [];
 
         $(window).on("load", function () {
             refresh_values();
         });
+
         $(document).ready(function () {
+            refresh_values();
             //get this product name
             $.ajax({
                 type: "POST",
@@ -519,15 +522,7 @@
             });
 
 
-            $("form").submit(function (e) {
-                var total = $("#photo_gallery input[name='digital_cb']:checked").length;
-                total += $("#photo_gallery input[name='ECcopy_cb']:checked").length;
-                total += $("#photo_gallery input[name='A5copy_cb']:checked").length;
-                total += $("#photo_gallery input[name='MGcopy_cb']:checked").length;
-                total += $("#photo_gallery input[name='KCcopy_cb']:checked").length;
-                if (total == 0)
-                    e.preventDefault(); //prevent from submitting
-            });
+
             $("select").change(function () {
                 refresh_values();
             });
@@ -1053,7 +1048,6 @@
         function addToCart(src, phoId, proId) {
             $("input:checkbox[name=product]:checked").each(function () {
                 var exist = false;
-                console.log(checker);
                 for (i = 0; i < CartItems.length; i++) {
                     if (CartItems[i].photoId == phoId && CartItems[i].productId == proId) {
                         exist = true;
@@ -1064,6 +1058,7 @@
                     CartItems.push(newCartItem);
                 }
             });
+            console.log(CartItems);
             openCart();
         }
         //When the select all digital is clicked the item will be inserted to the shopping cart
@@ -1083,7 +1078,6 @@
             console.log(CartItems);
             openCart();
         }
-
 
         function checkChange(src, phoId, proId) {
             if ($(`#item${phoId}${proId}`).prop("checked") == true) {
@@ -1161,10 +1155,17 @@
             }
         }
 
+        function Costs(inProduct, inCost) {
+            this.ProductId = inProduct;
+            this.Cost = inCost;
+        }
+
         function calculateTotalCost() {
+            AllCosts = [];
             if (productCostData.length != 0) {
                 pcd = JSON.stringify(productCostData);
                 var dataValues = JSON.stringify({ "cartItems": pcd });
+                //console.log(productCostData);
                 $.ajax({
                     type: "POST",
                     url: '<%= ResolveUrl("selection.aspx/CalculateTotalCost") %>',
@@ -1175,9 +1176,14 @@
                         var allCosts = JSON.parse(msg.d);
                         var k;
                         for (k = 0; k < allCosts.length - 1; k++) {
-                            $(`#totalFor${allCosts[k].ProductId}`).text('$ ' + allCosts[k].Cost);
+                            var productCost = new Costs(allCosts[k].ProductId, allCosts[k].Cost.toFixed(2));
+                            AllCosts.push(productCost);
+                            $(`#totalFor${allCosts[k].ProductId}`).text('$ ' + allCosts[k].Cost.toFixed(2));
                         }
-                        $(`#cartTotalCost`).text('$ ' + allCosts[allCosts.length - 1].Cost);
+                        var totalCost = new Costs('total', allCosts[allCosts.length - 1].Cost.toFixed(2));
+                        AllCosts.push(totalCost);
+                        $(`#cartTotalCost`).text('$ ' + allCosts[allCosts.length - 1].Cost.toFixed(2));
+                        updateCartForm();
                     },
                     error: function (response) {
                         console.log(response);
@@ -1186,6 +1192,34 @@
             }
             else {
                 $(`#cartTotalCost`).text('$ 0');
+            }
+
+
+        }
+
+        function updateCartForm() {
+            $(`#cartForm`).html("");
+            var i;
+            let item_photo;
+            let cost_item;
+            let item_nonPhoto;
+            for (i = 0; i < CartItems.length; i++) {
+                if (CartItems[i].photoId == "photoProduct") {
+                    item_nonPhoto = $(`<input type="hidden" name="summary${CartItems[i].productId}" value="${CartItems[i].photoSource}"/>`);
+                    $(`#cartForm`).append(item_nonPhoto);
+
+                }
+                else {
+                    //create input chk box
+                    item_photo = $(`<input type="checkbox" name="summary${CartItems[i].productId}" value="${CartItems[i].photoSource}" style="display: none;" checked/>`);
+                    $(`#cartForm`).append(item_photo);
+                }
+            }
+            console.log(AllCosts);
+            var x;
+            for (x = 0; x < AllCosts.length; x++) {
+                cost_item = $(`<input type="hidden" name="summary${AllCosts[x].ProductId}cost" value="${AllCosts[x].Cost}" />`);
+                $(`#cartForm`).append(cost_item);
             }
         }
 
@@ -1352,7 +1386,7 @@
                         success: function (msg) {
                             productDetails = JSON.parse(msg.d);
                             if (productDetails.ProductQuantityConstraint == "Even Numbered Units") {
-                                $(`#cartProduct${productDetails.ProductId}`).append('<b class="cartValidation">* Please select 1 more photo</b>');
+                                $(`#cartProduct${productDetails.ProductId}`).append(`<b class="cartValidation">* Select even number photos for ${productDetails.ProductName}</b>`);
                             }
 
                         },
@@ -1365,6 +1399,20 @@
             calculateTotalCost();
         }
 
+
+        function validateCartForm() {
+            if (CartItems.length == 0) {
+                alert("Please add items to your cart!");
+                return false;
+            }
+            else if ($(".cartValidation")[0]) {
+                alert("Please " + $(".cartValidation").text() + "!");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
 
     </script>
 
@@ -1515,7 +1563,6 @@
             </div>
         </div>
 
-        <!-- PRICING TABLE -->
 
         <div>
             <div style="margin-top: -10px; width: 90%; text-align: center; margin: 0 auto;" id="photo_gallery">
@@ -1599,7 +1646,9 @@
                     <p style="-ms-flex: 1; flex: 1; font-size: 1.02rem" class="mt-2">
                         Total: <b id="cartTotalCost"> SGD 72.00</b>
                     </p>
-                    <form action="summary.aspx" method="post">
+
+                    <form action="/summary.aspx" method="post" runat="server" onsubmit = "return validateCartForm();">
+                        <div id="cartForm"></div>
                         <input class="btn btn-primary p-2" style="-ms-flex: 0.4; flex: 0.4;" type="submit" />
                     </form>
                 </div>

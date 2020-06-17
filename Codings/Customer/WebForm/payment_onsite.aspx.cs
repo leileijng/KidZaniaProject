@@ -20,7 +20,7 @@ namespace WebForm
             string total_price = "0";
             if (pid != null)
             {
-                total_price = get_totalprice(pid);
+                total_price = get_totalprice(pid).ToString();
             }
             Uri myuri = new Uri(System.Web.HttpContext.Current.Request.Url.AbsoluteUri);
             string pathQuery = myuri.PathAndQuery;
@@ -28,68 +28,158 @@ namespace WebForm
             string domain = Request.Url.Host;
             string amt = total_price; // Request.Form["sa"];
             string transaction_id = pid;
+
             if (transaction_id != null)
             {
+
+                string usercode = pid.Replace("kidzsg", "").Substring(0, 5);
+                payment_success.InnerHtml += "<div style='display: inline-block;'>Please proceed to the checkout counter with the following code:<br> <b id='ordercode'>" + usercode + "</b></div>";
+
                 string c_path = System.AppDomain.CurrentDomain.BaseDirectory;
                 string[] lines = File.ReadAllLines(c_path + "header.txt");
                 string header = string.Join(" ", lines);
 
                 //Display processing
-                string metaheader = "<head><title></title><link rel='stylesheet'  href='/css/style.css' type='text/css' media='all' /><link rel='stylesheet'  href='/css/misc.css' type='text/css' media='all' /><link rel='stylesheet' href='/css/jquery-ui.css'></head>";
+                string metaheader = "<head><title><script type='text/javascript' src='Scripts/jquery-3.3.1.js'></script><link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' /><link rel='stylesheet' href='/Scripts/css/misc.css' type='text/css' media='all' /><link rel ='stylesheet' href='/Scripts/css/jquery-ui.css'/>"
+                    + "<script type='text/javascript' src='/Scripts/jquery-3.3.1.min.js'></script><script type='text/javascript' src='/Scripts/bootstrap.min.js'></script>"
+                    + "<link href='/Scripts/lib/font-awesome/css/all.min.css' rel='stylesheet'/><link href='/Scripts/lib/twitter-bootstrap/css/bootstrap.min.css' rel='stylesheet'/>"
+                    + "<link href='/Scripts/lib/mdb/css/mdb.min.css' rel='stylesheet'/><link href='/Scripts/css/site.css' rel='stylesheet'/><link href='/Scripts/lib/noty/noty.min.css' rel='stylesheet'/>"
+                    + "<link rel='stylesheet' href='/Scripts/css/noty_custom.css' /><link rel='stylesheet' href='/Scripts/css/sticky_footer.css'/><link href='/Scripts/lib/bootstrap-table/bootstrap-table.min.css' rel='stylesheet'/>"
+                    + "<link href='/Scripts/lib/jqwidgets/styles/jqx.base.css' rel='stylesheet'/><link href='/Scripts/lib/jqwidgets/styles/jqx.flat.css' rel='stylesheet'/><script src='/Scripts/lib/jquery/dist/jquery.js'></script>"
+                    + "<script src='/Scripts/lib/twitter-bootstrap/js/bootstrap.min.js'></script><script src='/Scripts/lib/mdb/js/mdb.min.js'></script><script src='/Scripts/lib/jqwidgets/jqx-all.js'></script>"
+                    + "<script src='/Scripts/lib/jquery-validation/dist/jquery.validate.js'></script><script src='/Scripts/lib/jquery-validation/dist/additional-methods.js'></script>"
+                    + "<script src='/Scripts/lib/bootstrap-table/bootstrap-table.min.js'></script><script src='/Scripts/lib/noty/noty.min.js'></script><script src='/Scripts/lib/moment/moment.min.js'></script><script src='/Scripts/lib/store/store.min.js'></script></head>";
 
                 //Update purchase table in database 
-                update_payment_status(pid, "onsite");
+                update_payment_status(pid, "Paid");
+                update_lineitem_status(pid, "Paid");
+                update_itemphoto_status(pid, "Paid");
 
-                string usercode = pid.Replace("kidzsg", "").Substring(0, 5);
-
-                Response.Write("<html>" + metaheader + "<body>" + header + "<div id='statustext' style='position: relative; top: 165px; margin-top: 160px;width: 100%; height: 200px; text-align:center; margin:0 auto; font-size: 33px;'><div style=\"text -align:center;margin-top: 10px;margin:0 auto;\"><img src='/img/process-checkout.png' /></div><div style='display: inline-block;'>Please proceed to the checkout counter with the following code:<br>" + usercode + "</div></div>");
+                Response.Write("<html>" + metaheader + "<body>" + header + "<div id='statustext' style='position: relative; top: 165px; margin-top: 160px;width: 100%; height: 200px; text-align:center; margin:0 auto; font-size: 33px;'><div style=\"text -align:center;margin-top: 10px;margin:0 auto;\"><img src='/img/process-checkout.png' /></div><div style='display: inline-block;'>Please proceed to the checkout counter with the following code:<br><b>" + usercode + "</b></div></div>");
 
                 Response.Flush();
             }
         }
-        public static string get_totalprice(string pid)
+
+        public static decimal get_totalprice(string pid)
         {
-            string total_price = "0";
-            MySql.Data.MySqlClient.MySqlConnection conn;
-            string myConnectionString;
-            myConnectionString = "server=127.0.0.1;uid=root;pwd=zzaaqq11;database=frphotosg;SslMode=none";
+            string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
+
+            MySqlConnection conn = null;
+            conn = new MySqlConnection(connstring);
+            conn.Open();
+            decimal totalCost = 0;
             try
             {
-                conn = new MySql.Data.MySqlClient.MySqlConnection();
-                conn.ConnectionString = myConnectionString;
-                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("SELECT * from order where pid = '" + pid + "'", conn);
 
-                string query = "SELECT * FROM purchase WHERE purchase_id = '" + MySqlHelper.EscapeString(pid) + "';";
-                var cmd = new MySqlCommand(query, conn);
-                var reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    total_price = reader["total_price"].ToString();
+                    while (reader.Read())
+                    {
+                        totalCost = decimal.Parse(reader["total_amount"].ToString());
+                    }
                 }
-                conn.Close();
             }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
+            catch (Exception e)
             {
-                Console.Write(ex.Message);
+                Console.WriteLine("Get total price Error: {0}", e.ToString());
             }
-            return total_price;
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+            return totalCost;
         }
 
-        private void update_payment_status(string pid, string status = "paid")
+        private void update_payment_status(string pid, string status)
         {
             MySql.Data.MySqlClient.MySqlConnection conn;
             string myConnectionString;
 
-            myConnectionString = "server=127.0.0.1;uid=root;pwd=zzaaqq11;database=frphotosg;SslMode=none";
-
+            myConnectionString = @"server=localhost;userid=root;password=12345;database=kidzania";
             conn = new MySql.Data.MySqlClient.MySqlConnection();
             conn.ConnectionString = myConnectionString;
-            conn.Open();
-            string query = "UPDATE purchase SET status = '" + status + "', type = '" + status + "' where purchase_id = '" + MySqlHelper.EscapeString(pid) + "'";
-            MySqlCommand cmd = new MySqlCommand(query, conn);
-            cmd.ExecuteNonQuery();
-            conn.Close();
+            try
+            {
+                conn.Open();
+                string query = "UPDATE `order` SET status = '" + status + "' where pid = '" + MySqlHelper.EscapeString(pid) + "'";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Update order Error: {0}", e.ToString());
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+        }
 
+        private void update_lineitem_status(string pid, string status)
+        {
+            MySql.Data.MySqlClient.MySqlConnection conn;
+            string myConnectionString;
+
+            myConnectionString = @"server=localhost;userid=root;password=12345;database=kidzania";
+            conn = new MySql.Data.MySqlClient.MySqlConnection();
+            conn.ConnectionString = myConnectionString;
+            try
+            {
+                conn.Open();
+                string query = "UPDATE `lineitem` SET status = '" + status + "' where p_id = '" + MySqlHelper.EscapeString(pid) + "'";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Update Lineitem Error: {0}", e.ToString());
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        private void update_itemphoto_status(string pid, string status)
+        {
+            MySql.Data.MySqlClient.MySqlConnection conn;
+            string myConnectionString;
+
+            myConnectionString = @"server=localhost;userid=root;password=12345;database=kidzania";
+            conn = new MySql.Data.MySqlClient.MySqlConnection();
+            conn.ConnectionString = myConnectionString;
+            try
+            {
+                conn.Open();
+                string query = "UPDATE `itemphoto` SET printing_status = '" + status + "' where p_id = '" + MySqlHelper.EscapeString(pid) + "'";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Update photo item: {0}", e.ToString());
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
         }
     }
 }

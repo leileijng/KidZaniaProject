@@ -1,0 +1,28 @@
+ ALTER TABLE `order`
+	DROP FOREIGN KEY `order_ibfk_1`;
+
+  ALTER TABLE `email`
+	DROP FOREIGN KEY `email_ibfk_1`;
+
+ALTER TABLE `kidzania`.`profiles` 
+DROP PRIMARY KEY, RENAME TO  `kidzania`.`profile` ;
+
+drop table `lineitem`;
+
+CREATE TABLE `lineitem` (
+   `lineitem_id` varchar(10) NOT NULL,
+   `p_id` varchar(50) NOT NULL,
+   `product_id` varchar(50) NOT NULL,
+   `photos` varchar(999) NOT NULL,
+   `item_amount` decimal(5,2) NOT NULL,
+   `status` varchar(10) NOT NULL,
+   `quantity` int(11) NOT NULL,
+   PRIMARY KEY (`lineitem_id`),
+   KEY `p_id` (`p_id`),
+   KEY `product_id` (`product_id`),
+   CONSTRAINT `lineitem_ibfk_1` FOREIGN KEY (`p_id`) REFERENCES `order` (`pid`),
+   CONSTRAINT `lineitem_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+ALTER TABLE `kidzania`.`email` 
+CHANGE COLUMN `uid` `pid` VARCHAR(50) NOT NULL ;
