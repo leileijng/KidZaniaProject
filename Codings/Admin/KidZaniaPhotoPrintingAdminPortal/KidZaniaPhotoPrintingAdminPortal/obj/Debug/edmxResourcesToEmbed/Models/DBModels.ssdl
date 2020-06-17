@@ -7,15 +7,16 @@
     <Property Name="uid" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="email" Type="varchar" MaxLength="255" Nullable="false" />
   </EntityType>
-  <EntityType Name="item_photo">
+  <EntityType Name="itemphoto">
     <Key>
       <PropertyRef Name="itemphoto_id" />
     </Key>
     <Property Name="itemphoto_id" Type="varchar" MaxLength="999" Nullable="false" />
     <Property Name="photo" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="p_id" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="lineitem_id" Type="varchar" MaxLength="10" Nullable="false" />
-    <Property Name="assigned_printer_id" Type="varchar" MaxLength="10" Nullable="false" />
-    <Property Name="printing_status" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="assigned_printer_id" Type="varchar" MaxLength="10" />
+    <Property Name="printing_status" Type="varchar" MaxLength="10" />
     <Property Name="updated_at" Type="datetime" Precision="0" Nullable="false" />
   </EntityType>
   <EntityType Name="lineitem">
@@ -23,7 +24,7 @@
       <PropertyRef Name="lineitem_id" />
     </Key>
     <Property Name="lineitem_id" Type="varchar" MaxLength="10" Nullable="false" />
-    <Property Name="order_id" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="p_id" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="product_id" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="photos" Type="varchar" MaxLength="999" Nullable="false" />
     <Property Name="item_amount" Type="decimal" Precision="5" Scale="2" Nullable="false" />
@@ -31,7 +32,7 @@
   </EntityType>
   <EntityType Name="order">
     <Key>
-      <PropertyRef Name="order_id" />
+      <PropertyRef Name="pid" />
     </Key>
     <Property Name="order_id" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="pid" Type="varchar" MaxLength="50" Nullable="false" />
@@ -104,27 +105,39 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="item_photo_ibfk_1">
+  <Association Name="itemphoto_ibfk_1">
     <End Role="lineitem" Type="Self.lineitem" Multiplicity="1" />
-    <End Role="item_photo" Type="Self.item_photo" Multiplicity="*" />
+    <End Role="itemphoto" Type="Self.itemphoto" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="lineitem">
         <PropertyRef Name="lineitem_id" />
       </Principal>
-      <Dependent Role="item_photo">
+      <Dependent Role="itemphoto">
         <PropertyRef Name="lineitem_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="item_photo_ibfk_2">
-    <End Role="printer" Type="Self.printer" Multiplicity="1" />
-    <End Role="item_photo" Type="Self.item_photo" Multiplicity="*" />
+  <Association Name="itemphoto_ibfk_2">
+    <End Role="printer" Type="Self.printer" Multiplicity="0..1" />
+    <End Role="itemphoto" Type="Self.itemphoto" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="printer">
         <PropertyRef Name="printer_id" />
       </Principal>
-      <Dependent Role="item_photo">
+      <Dependent Role="itemphoto">
         <PropertyRef Name="assigned_printer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="itemphoto_ibfk_3">
+    <End Role="order" Type="Self.order" Multiplicity="1" />
+    <End Role="itemphoto" Type="Self.itemphoto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="order">
+        <PropertyRef Name="pid" />
+      </Principal>
+      <Dependent Role="itemphoto">
+        <PropertyRef Name="p_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -133,10 +146,10 @@
     <End Role="lineitem" Type="Self.lineitem" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="order">
-        <PropertyRef Name="order_id" />
+        <PropertyRef Name="pid" />
       </Principal>
       <Dependent Role="lineitem">
-        <PropertyRef Name="order_id" />
+        <PropertyRef Name="p_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -154,7 +167,7 @@
   </Association>
   <Association Name="order_ibfk_1">
     <End Role="profiles" Type="Self.profiles" Multiplicity="1" />
-    <End Role="order" Type="Self.order" Multiplicity="*" />
+    <End Role="order" Type="Self.order" Multiplicity="0..1" />
     <ReferentialConstraint>
       <Principal Role="profiles">
         <PropertyRef Name="pid" />
@@ -202,7 +215,7 @@
   </Association>
   <EntityContainer Name="DBModelStoreContainer">
     <EntitySet Name="email" EntityType="Self.email" Schema="kidzania" store:Type="Tables" />
-    <EntitySet Name="item_photo" EntityType="Self.item_photo" Schema="kidzania" store:Type="Tables" />
+    <EntitySet Name="itemphoto" EntityType="Self.itemphoto" Schema="kidzania" store:Type="Tables" />
     <EntitySet Name="lineitem" EntityType="Self.lineitem" Schema="kidzania" store:Type="Tables" />
     <EntitySet Name="order" EntityType="Self.order" Schema="kidzania" store:Type="Tables" />
     <EntitySet Name="printer" EntityType="Self.printer" Schema="kidzania" store:Type="Tables" />
@@ -214,13 +227,17 @@
       <End Role="profiles" EntitySet="profiles" />
       <End Role="email" EntitySet="email" />
     </AssociationSet>
-    <AssociationSet Name="item_photo_ibfk_1" Association="Self.item_photo_ibfk_1">
+    <AssociationSet Name="itemphoto_ibfk_1" Association="Self.itemphoto_ibfk_1">
       <End Role="lineitem" EntitySet="lineitem" />
-      <End Role="item_photo" EntitySet="item_photo" />
+      <End Role="itemphoto" EntitySet="itemphoto" />
     </AssociationSet>
-    <AssociationSet Name="item_photo_ibfk_2" Association="Self.item_photo_ibfk_2">
+    <AssociationSet Name="itemphoto_ibfk_2" Association="Self.itemphoto_ibfk_2">
       <End Role="printer" EntitySet="printer" />
-      <End Role="item_photo" EntitySet="item_photo" />
+      <End Role="itemphoto" EntitySet="itemphoto" />
+    </AssociationSet>
+    <AssociationSet Name="itemphoto_ibfk_3" Association="Self.itemphoto_ibfk_3">
+      <End Role="order" EntitySet="order" />
+      <End Role="itemphoto" EntitySet="itemphoto" />
     </AssociationSet>
     <AssociationSet Name="lineitem_ibfk_1" Association="Self.lineitem_ibfk_1">
       <End Role="order" EntitySet="order" />

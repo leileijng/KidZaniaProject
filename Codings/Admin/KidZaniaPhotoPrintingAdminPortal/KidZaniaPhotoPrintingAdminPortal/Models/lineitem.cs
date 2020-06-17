@@ -17,18 +17,18 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public lineitem()
         {
-            this.item_photo = new HashSet<item_photo>();
+            this.itemphotoes = new HashSet<itemphoto>();
         }
     
         public string lineitem_id { get; set; }
-        public string order_id { get; set; }
+        public string p_id { get; set; }
         public string product_id { get; set; }
         public string photos { get; set; }
         public decimal item_amount { get; set; }
         public string status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<item_photo> item_photo { get; set; }
+        public virtual ICollection<itemphoto> itemphotoes { get; set; }
         public virtual order order { get; set; }
         public virtual product product { get; set; }
     }

@@ -12,10 +12,11 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class item_photo
+    public partial class itemphoto
     {
         public string itemphoto_id { get; set; }
         public string photo { get; set; }
+        public string p_id { get; set; }
         public string lineitem_id { get; set; }
         public string assigned_printer_id { get; set; }
         public string printing_status { get; set; }
@@ -23,5 +24,6 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
     
         public virtual lineitem lineitem { get; set; }
         public virtual printer printer { get; set; }
+        public virtual order order { get; set; }
     }
 }
