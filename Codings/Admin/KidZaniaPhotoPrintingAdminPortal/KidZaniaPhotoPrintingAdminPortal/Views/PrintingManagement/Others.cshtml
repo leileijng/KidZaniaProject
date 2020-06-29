@@ -2,6 +2,7 @@
     Layout = "~/Views/Shared/Menu.cshtml";
 }
 
+<link href="~/assets/libs/css/animate.min.css" rel="stylesheet" />
 <div class="container-fluid dashboard-content">
     <!-- ============================================================== -->
     <!-- pageheader -->
@@ -22,11 +23,12 @@
         <div class="leftcol">
 
             <div class="card border-3 border-bottom-IC border-bottom-primary">
-                <h5 class="card-header" id="IC">Incoming Orders 
+                <h5 class="card-header" id="IC">
+                    Incoming Orders
                     <input type="text" id="searchCode" onkeyup="myFunction()" placeholder="Search for Order Code.." title="Type in Order Code">
                 </h5>
-                
-                <table  class="table table-hover">
+
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>Time</th>
@@ -35,51 +37,6 @@
                         </tr>
                     </thead>
                     <tbody id="myTable">
-                        <tr style="background-color:antiquewhite">
-                            <td>12:00:01</td>
-                            <td>E34T2890</td>
-                            <td><a><i class="fas fa-ban" style="color:gray"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>12:00:23</td>
-                            <td>U28M253</td>
-                            <td><a><i class="fas fa-ban" style="color:red"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>12:01:04</td>
-                            <td>A2343DA1</td>
-                            <td><a><i class="fas fa-ban" style="color:red"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>12:24:34</td>
-                            <td>MW903N2</td>
-                            <td><a><i class="fas fa-ban" style="color:red"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>12:34:52</td>
-                            <td>P99NXSL1</td>
-                            <td><a><i class="fas fa-ban" style="color:red"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>12:37:21</td>
-                            <td>USFDVS02</td>
-                            <td><a><i class="fas fa-ban" style="color:red"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>12:41:02</td>
-                            <td>32PSAXSL1</td>
-                            <td><a><i class="fas fa-ban" style="color:red"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>12:42:34</td>
-                            <td>P9DFDGQ</td>
-                            <td><a><i class="fas fa-ban" style="color:red"></i></a></td>
-                        </tr>
-                        <tr>
-                            <td>12:43:01</td>
-                            <td>XD243XSL</td>
-                            <td><a><i class="fas fa-ban" style="color:red"></i></a></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -222,51 +179,118 @@
     </div>
 </div>
 <script type="text/javascript">
-
-    function myFunction() {
-  var input, filter, table, tr, td, i;
-  var input = document.getElementById("searchCode");
-  var filter = input.value.toUpperCase();
-  
-  var table = document.getElementById("myTable");
-  var trList = table.getElementsByTagName("tr");
-  
-  for (i = 0; i < trList.length; i++)
-  {
-    //don't initiate search unless user types at least 3 characters. This will greatly improve performance and usability especially with large tables.
-    if (filter.length >= 3)
-    {
-	  var match = false;
-      var tdList = trList[i].getElementsByTagName("td");
-
-	  //loop through every td
-	  for (j = 0; j < tdList.length; j++)
-	  {
-	    var td = tdList[j];
-
-        if (td)
-	    {
-          if (td.innerText.toUpperCase().indexOf(filter) > -1) {
-		    match = true;
-          }
-	    }
-      }
-	  
-	  if (match == true)
-	  {
-        trList[i].style.display = "";
-	  }
-	  else
-	  {
-		trList[i].style.display = "none";
-	  }
-	}
-    else
-    {
-      trList[i].style.display = "";
+    loadTable();
+    function loadTable() {
+        $.ajax({
+            type: "GET",
+            url: "/api/others",
+            dataType: "json",
+            success: function (data) {
+                data.forEach(function (record) {
+                    let $rowElement = createRow(record);
+                    $('#myTable').append($rowElement);
+                });
+                window.setInterval(function () {
+                    checkOrder();
+                }, 5000);
+            },
+            error: function (data) {
+                console.log(data);
+                let $cellElement = null;
+                let $rowElement = $('<tr></tr>');
+                $cellElement = $(`<td style="text-align:center" colspan="3">Connection/Backend Problem!</td>`);
+                $rowElement.append($cellElement);
+                $('#myTable').append($rowElement);//inserting a new row
+            }
+        });
     }
-  }
-}
+
+    function createRow({ order_id, p_id, product, status }) {
+        //Get Timestamp
+        var currentTime = new Date();
+        let hours = (currentTime.getHours() < 10 ? '0' : '') + currentTime.getHours();
+        let minutes = (currentTime.getMinutes() < 10 ? '0' : '') + currentTime.getMinutes();
+        let seconds = (currentTime.getSeconds() < 10 ? '0' : '') + currentTime.getSeconds();
+        let time = hours + ':' + minutes + ":" + seconds;
+
+        let $cellElement = null;
+        let $hyperlinkElement = null;
+        let $rowElement = $(`<tr onclick="expandOrder(${order_id})" id="order${order_id}"></tr>`);
+        $cellElement = $(`<td>${time}</td>`);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td>${order_id}</td>`);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td><a onclick="blockOrder(${order_id})"><i class="fas fa-ban" style="color:gray"></i></a></td>`);
+        $rowElement.append($cellElement);
+        return $rowElement;
+    }
+
+    function checkOrder() {
+        $.ajax({
+            type: "GET",
+            url: "/api/others",
+            dataType: "json",
+            success: function (data) {
+                data.forEach(function (record) {
+                    let orderChecker = document.getElementById(`order${record.order_id}`);
+                    if (orderChecker == null) {
+                        let $rowElement = createRow(record);
+                        $('#myTable').append($rowElement);
+                        var effects = 'animate__animated animate__fadeIn animate__slow';
+                        var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+                        $(`#order${record.order_id}`).addClass(effects).one(effectsend, function () {
+                            $(`#order${record.order_id}`).removeClass(effects);
+                        });
+                    }
+                });
+            },
+            error: function (data) {
+                console.log(data);
+                let $cellElement = null;
+                let $rowElement = $('<tr></tr>');
+                $cellElement = $(`<td style="text-align:center" colspan="3">Connection/Backend Problem!</td>`);
+                $rowElement.append($cellElement);
+                $('#myTable').append($rowElement);//inserting a new row
+            }
+        });
+    }
+    function myFunction() {
+        var input, filter, table, tr, td, i;
+        var input = document.getElementById("searchCode");
+        var filter = input.value.toUpperCase();
+
+        var table = document.getElementById("myTable");
+        var trList = table.getElementsByTagName("tr");
+
+        for (i = 0; i < trList.length; i++) {
+            //don't initiate search unless user types at least 3 characters. This will greatly improve performance and usability especially with large tables.
+            if (filter.length >= 3) {
+                var match = false;
+                var tdList = trList[i].getElementsByTagName("td");
+
+                //loop through every td
+                for (j = 0; j < tdList.length; j++) {
+                    var td = tdList[j];
+
+                    if (td) {
+                        if (td.innerText.toUpperCase().indexOf(filter) > -1) {
+                            match = true;
+                        }
+                    }
+                }
+
+                if (match == true) {
+                    trList[i].style.display = "";
+                }
+                else {
+                    trList[i].style.display = "none";
+                }
+            }
+            else {
+                trList[i].style.display = "";
+            }
+        }
+    }
 
     $(document).ready(function () {
         $('#menuOthers').addClass("active");
