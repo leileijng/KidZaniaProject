@@ -261,7 +261,7 @@
                         <div class="row" id="headerRow">
                             <div class="col-sm-3 col-md-3" style="flex:1;">
                                 <div class="add">
-                                    <button href="#exampleModal" onclick="$('#uploadhover').attr('src', '/assets/images/upload.png')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    <button href="#exampleModal" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                         Add New Item
                                     </button>
                                 </div>
@@ -343,6 +343,7 @@
 
     #uploadhover {
         cursor: pointer;
+        margin-bottom: 5%;
     }
 
     #headerRow {
@@ -935,7 +936,7 @@
     }
 
     //JQuery Validation
-    $().ready(function () {
+    (function () {
         jQuery.validator.addMethod("price", function (value, element) {
             return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
         }, "You must include only two decimal places");
@@ -1060,5 +1061,5 @@
                 },
             },
         });
-    });
+    })();
 </script>
