@@ -22,8 +22,8 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         public string printing_status { get; set; }
         public System.DateTime updated_at { get; set; }
     
-        public virtual lineitem lineitem { get; set; }
         public virtual printer printer { get; set; }
         public virtual order order { get; set; }
+        public virtual lineitem lineitem { get; set; }
     }
 }

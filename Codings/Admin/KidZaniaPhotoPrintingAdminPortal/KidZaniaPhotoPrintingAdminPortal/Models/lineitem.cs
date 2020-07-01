@@ -26,6 +26,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         public string photos { get; set; }
         public decimal item_amount { get; set; }
         public string status { get; set; }
+        public int quantity { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<itemphoto> itemphotoes { get; set; }

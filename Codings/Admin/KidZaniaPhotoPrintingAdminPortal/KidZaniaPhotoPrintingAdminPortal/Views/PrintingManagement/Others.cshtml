@@ -59,65 +59,11 @@
                         </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody id="detailTable">
                         <tr>
-                            <td>Keychain</td>
-                            <td>2</td>
-                            <td>
-
-                                <form>
-                                    <div class="form-group">
-                                        <select class="form-control form-control-sm" id="input-select">
-                                            <option>--Select Path for Keychain--</option>
-                                        </select>
-                                    </div>
-                                </form>
-
+                            <td colspan="12">
+                                Please click any order to display the order details!
                             </td>
-                            <td><i class="fa fa-download active"></i></td>
-                            <td><i class="fa fa-trash active"></i></td>
-                            <td>
-                                <label class="custom-control custom-checkbox ODbox">
-                                    <input type="checkbox" class="custom-control-input"><span class="custom-control-label"></span>
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Magnet</td>
-                            <td>0</td>
-                            <td>
-
-                                <form>
-                                    <div class="form-group">
-
-                                        <select class="form-control form-control-sm" id="input-select">
-                                            <option>--Select Path for Magnet--</option>
-                                        </select>
-                                    </div>
-                                </form>
-
-                            </td>
-                            <td><i class="fa fa-download"></i></td>
-                            <td><i class="fa fa-trash"></i></td>
-                            <td><i class="fa fa-check"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Card</td>
-                            <td>0</td>
-                            <td>
-
-                                <form>
-                                    <div class="form-group">
-                                        <select class="form-control form-control-sm" id="input-select">
-                                            <option>--Select Path for Card--</option>
-                                        </select>
-                                    </div>
-                                </form>
-
-                            </td>
-                            <td><i class="fa fa-download"></i></td>
-                            <td><i class="fa fa-trash"></i></td>
-                            <td><i class="fa fa-check"></i></td>
                         </tr>
                     </tbody>
                 </table>
@@ -161,7 +107,7 @@
                                 </select>
                                 <div class="print">
 
-                                    <img src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-left: 121px;" ">
+                                    <img src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-left: 121px;">
                                     <a href="#" class="btn btn-rounded btn-primary" style="margin-top: 103px; margin-left: 30px;">Print</a>
                                 </div>
                             </div>
@@ -178,6 +124,14 @@
         </div>
     </div>
 </div>
+<style>
+    .orderRow {
+        cursor: pointer;
+    }
+    #pauseBtn{
+        z-index: 99;
+    }
+</style>
 <script type="text/javascript">
     loadTable();
     function loadTable() {
@@ -215,14 +169,76 @@
 
         let $cellElement = null;
         let $hyperlinkElement = null;
-        let $rowElement = $(`<tr onclick="expandOrder(${order_id})" id="order${order_id}"></tr>`);
+        let $rowElement = $(`<tr class="orderRow" onclick="expandOrder('${order_id}')" id="order${order_id}"></tr>`);
         $cellElement = $(`<td>${time}</td>`);
         $rowElement.append($cellElement);
         $cellElement = $(`<td>${order_id}</td>`);
         $rowElement.append($cellElement);
-        $cellElement = $(`<td><a onclick="blockOrder(${order_id})"><i class="fas fa-ban" style="color:gray"></i></a></td>`);
+        $cellElement = $(`<td id="pauseBtn"><a onclick="blockOrder('${order_id}')"><i class="fas fa-ban" style="color:gray"></i></a></td>`);
         $rowElement.append($cellElement);
         return $rowElement;
+    }
+
+    function expandOrder(order_id) {
+        $.ajax({
+            type: "GET",
+            url: `/api/others/${order_id}`,
+            dataType: "json",
+            success: function (data) {
+                $('#detailTable').html('');
+                let prods = data.product;
+                prods.forEach(function (record) {
+                    let $rowElement = createDetail(record);
+                    $('#detailTable').append($rowElement);
+                    if (record.status == "Completed") {
+                        $(`#check${record.lineitem_id}`).attr('checked', true);
+                    }
+                    var effects = 'animate__animated animate__fadeIn animate__slow';
+                    var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+                    $(`#${record.p_id}${record.product_id}`).addClass(effects).one(effectsend, function () {
+                        $(`#${record.p_id}${record.product_id}`).removeClass(effects);
+                    });
+                });
+            },
+            error: function (data) {
+                console.log(data);
+                let $cellElement = null;
+                let $rowElement = $('<tr></tr>');
+                $cellElement = $(`<td style="text-align:center" colspan="3">Connection/Backend Problem!</td>`);
+                $rowElement.append($cellElement);
+                $('#detailTable').append($rowElement);//inserting a new row
+            }
+        });
+    }
+
+    function createDetail({ p_id, product_id, quantity, productname, lineitem_id, status }) {
+        let $cellElement = null;
+        let $hyperlinkElement = null;
+        let $rowElement = $(`<tr id="${p_id}${product_id}"></tr>`);
+        $cellElement = $(`<td>${productname}</td>`);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td>${quantity}</td>`);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td>
+                <form>
+                    <div class="form-group">
+                        <select class="form-control form-control-sm" id="input-select item${productname}">
+                            <option>--Select Path for Keychain--</option>
+                        </select>
+                    </div>
+                </form>
+            </td>`);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td><i class="fa fa-download active"></i></td>`);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td><i class="fa fa-trash active"></i></td>`);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td><label class="custom-control custom-checkbox ODbox">
+                                <input onchange="changeStatus('${lineitem_id}')" id="check${lineitem_id}" type="checkbox" class="custom-control-input">
+                                <span class="custom-control-label"></span>
+                            </label></td>`);
+        $rowElement.append($cellElement);
+        return $rowElement;                
     }
 
     function checkOrder() {
@@ -254,6 +270,25 @@
             }
         });
     }
+
+    function changeStatus(id) {
+        let itemStatus = $(`#check${id}`).prop("checked");
+        let status;
+        if (itemStatus == true) {
+            status = "Completed";
+        }
+        else {
+            status = "Paid";
+        }
+        console.log(status);
+        $.ajax({
+            type: 'PUT',
+            url: `/API/others/${id}?status=${status}`,
+        }).fail(function (data, textStatus, jqXHR) {
+            console.log(data);
+            })
+    }
+
     function myFunction() {
         var input, filter, table, tr, td, i;
         var input = document.getElementById("searchCode");

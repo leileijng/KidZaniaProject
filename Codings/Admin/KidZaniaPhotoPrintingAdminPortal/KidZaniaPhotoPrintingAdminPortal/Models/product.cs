@@ -34,8 +34,8 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         public string updated_by { get; set; }
         public System.DateTime updated_at { get; set; }
     
-        public virtual staff staff { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<lineitem> lineitems { get; set; }
+        public virtual staff staff { get; set; }
     }
 }

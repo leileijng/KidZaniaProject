@@ -27,10 +27,10 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         public string passwordsalt { get; set; }
         public int role_id { get; set; }
     
-        public virtual role role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<printer> printers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<product> products { get; set; }
+        public virtual role role { get; set; }
     }
 }

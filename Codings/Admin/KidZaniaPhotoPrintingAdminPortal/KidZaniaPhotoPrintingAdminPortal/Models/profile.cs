@@ -17,8 +17,5 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         public string pid { get; set; }
         public string profile1 { get; set; }
         public string status { get; set; }
-    
-        public virtual email email { get; set; }
-        public virtual order order { get; set; }
     }
 }
