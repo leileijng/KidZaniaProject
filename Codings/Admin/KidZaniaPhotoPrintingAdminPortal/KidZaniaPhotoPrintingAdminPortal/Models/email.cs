@@ -14,9 +14,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
     
     public partial class email
     {
-        public string uid { get; set; }
+        public string pid { get; set; }
         public string email1 { get; set; }
-    
-        public virtual profile profile { get; set; }
     }
 }

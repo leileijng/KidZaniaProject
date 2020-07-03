@@ -921,3 +921,6 @@ D:\FYP\fyp2\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZa
 D:\FYP\fyp2\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\obj\Debug\KidZaniaPhotoPrintingAdminPortal.dll
 D:\FYP\fyp2\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\obj\Debug\KidZaniaPhotoPrintingAdminPortal.pdb
 D:\FYP\fyp2\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\MySql.Web.dll
+C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\Neodynamic.SDK.WebClientPrint.dll
+C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\System.Text.Encoding.CodePages.dll
+C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\Codings\Admin\KidZaniaPhotoPrintingAdminPortal\KidZaniaPhotoPrintingAdminPortal\bin\System.Text.Encoding.CodePages.xml

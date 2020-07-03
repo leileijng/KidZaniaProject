@@ -30,6 +30,5 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         public virtual ICollection<itemphoto> itemphotoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<lineitem> lineitems { get; set; }
-        public virtual profile profile { get; set; }
     }
 }

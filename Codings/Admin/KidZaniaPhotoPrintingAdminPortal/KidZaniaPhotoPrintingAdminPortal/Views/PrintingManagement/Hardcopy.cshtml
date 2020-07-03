@@ -2,501 +2,534 @@
     Layout = "~/Views/Shared/Menu.cshtml";
 }
 
-    <div class="container-fluid dashboard-content ">
-        <!-- ============================================================== -->
-        <!-- pageheader  -->
-        <!-- ============================================================== -->
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="page-header">
-                    <h2 class="pageheader-title">Hardcopy Printing</h2>
-                    <div class="section-block">
-                        <a class="btn btn-demo" id="sidebarCollapse" data-toggle="modal" data-target="#myModal2"><i class="fa fa-print" style="padding-right: 6px;"></i>Manage Printers</a>
-
-                    </div>
-                    <p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
+<div class="container-fluid dashboard-content ">
+    <!-- ============================================================== -->
+    <!-- pageheader  -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="page-header">
+                <h2 class="pageheader-title">Hardcopy Printing</h2>
+                <div class="section-block">
+                    <a class="btn btn-demo" id="sidebarCollapse" data-toggle="modal" data-target="#myModal2"><i class="fa fa-print" style="padding-right: 6px;"></i>Manage Printers</a>
 
                 </div>
+                <p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
+
             </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- end pageheader  -->
-        <!-- ============================================================== -->
-        <!-- Paused Order Modal -->
-        <div id="PausedModal" class="modal fade">
-            <div class="modal-dialog modal-confirm">
-                <div class="modal-content">
-                    <div class="modal-header modal-header-delete">
-                        <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Pause Printer</h5>
-                        <a href="#" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </a>
-                    </div>
-                    <div class="modal-body">
-                        <p>Please provide a reason for pausing printer</p>
-                        <input type="text" id="reasonsInput" name="reasonsInput" class="form-control" placeholder="Reason*" />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger">Confirm</button>
-                    </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- end pageheader  -->
+    <!-- ============================================================== -->
+    <!-- Paused Order Modal -->
+    <div id="PausedModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header modal-header-delete">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Pause Printer</h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
                 </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <!-- ====================================== -->
-            <!-- justified tabs  -->
-            <!-- ============================================================== -->
-            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
-                <input id="myInput" type="text" onkeyup="searchFunction()" placeholder="Search..">
-                <div class="tab-regular">
-                    <ul class="nav nav-tabs" id="myTab7" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="home-tab-justify" data-toggle="tab" href="#home-justify" role="tab" aria-controls="home" aria-selected="true" onclick="toggleTable()">Processing Orders</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="profile-tab-justify" data-toggle="tab" href="#profile-justify" role="tab" aria-controls="profile" aria-selected="false" onclick="toggleTable()">Collected Orders</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content border-3 border-bottom-IC border-bottom-primary" id="myTabContent7">
-                        <div class="tab-pane fade" id="profile-justify" role="tabpanel" aria-labelledby="profile-tab-justify">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Time</th>
-                                        <th>Order Code</th>
-                                        <th>Assigned Printer(s)</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody id="completedOrders">
-                                    <tr class="completedOrderRow">
-                                        <td><i data-toggle="collapse" data-target=".accordion" class="fa fa-chevron-right rotate"></i></td>
-                                        <td>12:00:07</td>
-                                        <td>E34T2890</td>
-                                        <td>2,3,4</td>
-                                    </tr>
-                                    <tr class="accordion collapse">
-                                        <td></td>
-                                        <td colspan="3">
-                                            <div class="m-r-10"><img src="~/Content/customerPhoto/1.jpg" alt="user" class="rounded" width="55"></div>
-                                            <div class="m-r-10"><img src="~/Content/customerPhoto/11.jpg" alt="user" class="rounded" width="55"></div>
-                                            <div class="m-r-10"><img src="~/Content/customerPhoto/3.jpg" alt="user" class="rounded" width="55"></div>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-
-                                    <tr class="completedOrderRow">
-                                        <td><i data-toggle="collapse" data-target=".accordion2" class="fa fa-chevron-right rotate"></i></td>
-                                        <td>11:59:01</td>
-                                        <td>U28M253</td>
-                                        <td>2,3,4</td>
-                                    </tr>
-
-                                    <tr class="accordion2 collapse">
-                                        <td></td>
-                                        <td colspan="3">
-                                            <div class="m-r-10"><img src="~/Content/customerPhoto/4.jpg" alt="user" class="rounded" width="55"></div>
-                                            <div class="m-r-10"><img src="~/Content/customerPhoto/10.jpg" alt="user" class="rounded" width="55"></div>
-                                            <div class="m-r-10"><img src="~/Content/customerPhoto/9.jpg" alt="user" class="rounded" width="55"></div>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-
-                                    <tr class="completedOrderRow">
-                                        <td><i data-toggle="collapse" data-target=".accordion3" class="fa fa-chevron-right rotate"></i></td>
-                                        <td>11:58:37</td>
-                                        <td>A2343DA1</td>
-                                        <td>1,4,3</td>
-                                    </tr>
-
-                                    <tr class="accordion3 collapse">
-                                        <td></td>
-                                        <td colspan="3">
-                                            <div class="m-r-10"><img src="~/Content/customerPhoto/6.jpg" alt="user" class="rounded" width="55"></div>
-                                            <div class="m-r-10"><img src="~/Content/customerPhoto/3.jpg" alt="user" class="rounded" width="55"></div>
-                                            <div class="m-r-10"><img src="~/Content/customerPhoto/5.jpg" alt="user" class="rounded" width="55"></div>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-
-                                    <tr class="completedOrderRow">
-                                        <td><i data-toggle="collapse" data-target=".accordion4" class="fa fa-chevron-right rotate"></i></td>
-                                        <td>11:57:37</td>
-                                        <td>J93K2101</td>
-                                        <td>2,3</td>
-                                    </tr>
-
-                                    <tr class="accordion4 collapse">
-                                        <td></td>
-                                        <td colspan="3">
-                                            <div class="m-r-10"><img src="~/Content/customerPhoto/8.jpg" alt="user" class="rounded" width="55"></div>
-                                            <div class="m-r-10"><img src="~/Content/customerPhoto/1.jpg" alt="user" class="rounded" width="55"></div>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-
-                                    <tr class="completedOrderRow">
-                                        <td><i data-toggle="collapse" data-target=".accordion5" class="fa fa-chevron-right rotate"></i></td>
-                                        <td>11:57:02</td>
-                                        <td>K343P011</td>
-                                        <td>1</td>
-                                    </tr>
-
-                                    <tr class="accordion5 collapse">
-                                        <td></td>
-                                        <td colspan="3">
-                                            <div class="m-r-10"><img src="~/Content/customerPhoto/13.jpg" alt="user" class="rounded" width="55"></div>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-
-                                    <tr style="display:none" class="noOrderFoundRow">
-                                        <td colspan="4"> No order found.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="tab-pane fade show active" id="home-justify" role="tabpanel" aria-labelledby="home-tab-justify">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Order Code</th>
-                                        <th>
-                                            <div class="dropdown">
-                                                <div class="dropdown-toggle" data-toggle="dropdown" id="statusFilter">
-                                                    Status
-                                                    <span class="caret"></span>
-                                                </div>
-                                                <ul class="dropdown-menu p-0">
-                                                    <li style="border-bottom: 1px solid rgb(230, 230, 242);" class="pb-1 pl-3 pt-1" onclick="filterOrderByStatus('orderRow')">All</li>
-                                                    <li style="border-bottom: 1px solid rgb(230, 230, 242);" class="pb-1 pl-3 pt-1" onclick="filterOrderByStatus('waiting')">Waiting Orders</li>
-                                                    <li style="border-bottom: 1px solid rgb(230, 230, 242);" class="pb-1 pl-3 pt-1" onclick="filterOrderByStatus('printing')">Printing Orders</li>
-                                                    <li class="pl-3 pt-1 pb-1" onclick="filterOrderByStatus('completed')">Completed Orders</li>
-                                                </ul>
-                                            </div>
-                                        </th>
-                                        <th>Assigned Printer(s)</th>
-                                        <th>Done/All</th>
-                                        <th>Est. Waiting Time (min)</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody id="myTable">
-                                    <tr class="orderRow completed">
-                                        <td><i data-toggle="collapse" data-target=".CollapsePhotos1" class="fa fa-chevron-right rotate"></i></td>
-                                        <td>E34T2890</td>
-                                        <td><span class="badge badge-danger">Completed</span></td>
-                                        <td>1</td>
-                                        <td>1/1</td>
-                                        <td>-</td>
-                                        <td>
-                                            <label class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Collect</span>
-                                            </label>
-                                        </td>
-                                    </tr>
-
-                                    <tr colspan="7" class="CollapsePhotos1 collapse">
-                                        <td></td>
-                                        <td>
-                                            <img src="~/Content/customerPhoto/1.jpg" alt="user" class="rounded" width="55">
-                                        </td>
-                                        <td>Status: Completed</td>
-                                        <td>Printer 1</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-
-
-                                    <tr class="orderRow completed">
-                                        <td><i data-toggle="collapse" data-target=".CollapsePhotos2" class="fa fa-chevron-right rotate"></i></td>
-                                        <td>U28M253</td>
-                                        <td><span class="badge badge-danger">Completed</span></td>
-                                        <td>2,3</td>
-                                        <td>2/2</td>
-                                        <td>-</td>
-                                        <td>
-                                            <label class="custom-control custom-checkbox">
-                                                <input type="checkbox" checked="" class="custom-control-input"><span class="custom-control-label">Collect</span>
-                                            </label>
-                                        </td>
-                                    </tr>
-
-                                    <tr colspan="7" class="CollapsePhotos2 collapse">
-                                        <td></td>
-                                        <td>
-                                            <img src="~/Content/customerPhoto/2.jpg" alt="user" class="rounded" width="55">
-                                        </td>
-                                        <td>Status: Completed</td>
-                                        <td>Printer 3</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-
-                                    <tr colspan="7" class="CollapsePhotos2 collapse">
-                                        <td></td>
-                                        <td>
-                                            <img src="~/Content/customerPhoto/3.jpg" alt="user" class="rounded" width="55">
-                                        </td>
-                                        <td>Status: Completed</td>
-                                        <td>Printer 2</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-
-
-
-                                    <tr class="orderRow printing">
-                                        <td><i data-toggle="collapse" data-target=".CollapsePhotos3" class="fa fa-chevron-right rotate"></i></td>
-                                        <td>S2345PS3</td>
-                                        <td><span class="badge badge-success">Printing</span></td>
-                                        <td>2,3,4</td>
-                                        <td>1/3</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                    </tr>
-
-                                    <tr colspan="7" class="CollapsePhotos3 collapse">
-                                        <td></td>
-                                        <td>
-                                            <img src="~/Content/customerPhoto/4.jpg" alt="user" class="rounded" width="55">
-                                        </td>
-                                        <td>Status: Pending</td>
-                                        <td>Printer 1</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr colspan="7" class="CollapsePhotos3 collapse">
-                                        <td></td>
-                                        <td>
-                                            <img src="~/Content/customerPhoto/5.jpg" alt="user" class="rounded" width="55">
-                                        </td>
-                                        <td>Status: Pending</td>
-                                        <td>Printer 2</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr colspan="7" class="CollapsePhotos3 collapse">
-                                        <td></td>
-                                        <td>
-                                            <img src="~/Content/customerPhoto/6.jpg" alt="user" class="rounded" width="55">
-                                        </td>
-                                        <td>Status: Complete</td>
-                                        <td>Printer 3</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-
-                                    <tr class="orderRow waiting">
-                                        <td><i data-toggle="collapse" data-target=".completedPhotos4" class="fa fa-chevron-right rotate"></i></td>
-                                        <td>A2343DA1</td>
-                                        <td><span class="badge badge-light">Waiting</span></td>
-                                        <td>1,4</td>
-                                        <td>0/2</td>
-                                        <td>10</td>
-                                        <td>
-                                            <label class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Pause</span>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    <tr class="completedPhotos4 collapse">
-                                        <td></td>
-                                        <td>
-                                            <img src="~/Content/customerPhoto/7.jpg" alt="user" class="rounded" width="55">
-                                        </td>
-                                        <td>Status: Pending</td>
-                                        <td>Printer 1</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr class="completedPhotos4 collapse">
-                                        <td></td>
-                                        <td>
-                                            <img src="~/Content/customerPhoto/8.jpg" alt="user" class="rounded" width="55">
-                                        </td>
-                                        <td>Status: Pending</td>
-                                        <td>Printer 4</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-
-
-
-                                    <tr class="orderRow waiting">
-                                        <td><i data-toggle="collapse" data-target=".completedPhotos5" class="fa fa-chevron-right rotate"></i></td>
-                                        <td>F23K2101</td>
-                                        <td><span class="badge badge-light">Waiting</span></td>
-                                        <td>2</td>
-                                        <td>0/1</td>
-                                        <td>15</td>
-                                        <td>
-                                            <label class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Pause</span>
-                                            </label>
-                                        </td>
-                                    </tr>
-                                    <tr class="completedPhotos5 collapse">
-                                        <td></td>
-                                        <td>
-                                            <img src="~/Content/customerPhoto/9.jpg" alt="user" class="rounded" width="55">
-                                        </td>
-                                        <td>Status: Pending</td>
-                                        <td>Printer 2</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-
-                                    <tr style="display:none" class="noOrderFoundRow">
-                                        <td colspan="7"> No order found.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
+                <div class="modal-body">
+                    <p>Please provide a reason for pausing printer</p>
+                    <input type="text" id="reasonsInput" name="reasonsInput" class="form-control" placeholder="Reason*" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger">Confirm</button>
                 </div>
             </div>
         </div>
     </div>
-                    <style>
-                        .dropdown-menu {
-                            min-width: 180px !important;
+
+    <div class="row">
+        <!-- ====================================== -->
+        <!-- justified tabs  -->
+        <!-- ============================================================== -->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
+            <input id="myInput" type="text" onkeyup="searchFunction()" placeholder="Search..">
+            <div class="tab-regular">
+                <ul class="nav nav-tabs" id="myTab7" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab-justify" data-toggle="tab" href="#home-justify" role="tab" aria-controls="home" aria-selected="true" onclick="toggleTable()">Processing Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab-justify" data-toggle="tab" href="#profile-justify" role="tab" aria-controls="profile" aria-selected="false" onclick="toggleTable()">Collected Orders</a>
+                    </li>
+                </ul>
+                <div class="tab-content border-3 border-bottom-IC border-bottom-primary" id="myTabContent7">
+                    <div class="tab-pane fade" id="profile-justify" role="tabpanel" aria-labelledby="profile-tab-justify">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Time</th>
+                                    <th>Order Code</th>
+                                    <th>Assigned Printer(s)</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="completedOrders"> </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tab-pane fade show active" id="home-justify" role="tabpanel" aria-labelledby="home-tab-justify">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Order Code</th>
+                                    <th>
+                                        <div class="dropdown">
+                                            <div class="dropdown-toggle" data-toggle="dropdown" id="statusFilter">
+                                                Status
+                                                <span class="caret"></span>
+                                            </div>
+                                            <ul class="dropdown-menu p-0">
+                                                <li style="border-bottom: 1px solid rgb(230, 230, 242);" class="pb-1 pl-3 pt-1" onclick="filterOrderByStatus('orderRow')">All</li>
+                                                <li style="border-bottom: 1px solid rgb(230, 230, 242);" class="pb-1 pl-3 pt-1" onclick="filterOrderByStatus('waiting')">Waiting Orders</li>
+                                                <li style="border-bottom: 1px solid rgb(230, 230, 242);" class="pb-1 pl-3 pt-1" onclick="filterOrderByStatus('printing')">Printing Orders</li>
+                                                <li class="pl-3 pt-1 pb-1" onclick="filterOrderByStatus('completed')">Completed Orders</li>
+                                            </ul>
+                                        </div>
+                                    </th>
+                                    <th>Assigned Printer(s)</th>
+                                    <th>Done/All</th>
+                                    <th>Est. Waiting Time (min)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="myTable"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .dropdown-menu {
+        min-width: 180px !important;
+    }
+
+    .dropdown-toggle:hover {
+        cursor: pointer;
+    }
+
+    .dropdown-menu li:hover {
+        cursor: pointer;
+        background-color: antiquewhite;
+    }
+</style>
+<script src="~/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/noty/jquery.noty.js"></script>
+<script src="~/Scripts/noty/layouts/center.js"></script>
+<script src="~/Scripts/noty/themes/bootstrap.js"></script>
+<script src="~/Scripts/noty/themes/default.js"></script>
+<script src="~/Scripts/noty/themes/relax.js"></script>
+<script type="text/javascript">
+    var currentTable = "processingOrders";
+
+    function rotate(el) {
+        $(el).toggleClass("down");
+    }
+
+    function printing(photoId) {
+        console.log(photoId);
+        webformdata = { "status": "Printing", "photoId": photoId };
+        $.ajax({
+            type: 'PUT',
+            url: `/api/hardcopys`,
+            contentType: 'application/json',
+            data: JSON.stringify(webformdata)
+        }).done(function (data, textStatus, jqXHR) {
+            console.log("Printing updated!");
+            new noty({
+                text: data.message,
+                layout: 'center',
+                theme: 'bootstrapTheme',
+                type: 'success',
+                timeout: 3000,
+                callback: {
+                    onClose: function () {
+                        location.reload();
+                    }
+                }
+            }).show();
+        }).fail(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.responseJSON.message,
+                theme: 'bootstrapTheme',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error'
+            }).show();
+        });
+    }
+
+    function complete(photoId) {
+        webformdata = { "status": "Completed", "photoId": photoId };
+        $.ajax({
+            type: 'PUT',
+            url: `/api/hardcopys`,
+            contentType: 'application/json',
+            data: JSON.stringify(webformdata)
+        }).done(function (data, textStatus, jqXHR) {
+            console.log("Completed updated!");
+            new noty({
+                text: data.message,
+                layout: 'center',
+                theme: 'bootstrapTheme',
+                type: 'success',
+                timeout: 3000,
+                callback: {
+                    onClose: function () {
+                        location.reload();
+                    }
+                }
+            }).show();
+        }).fail(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.responseJSON.message,
+                theme: 'bootstrapTheme',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error'
+            }).show();
+        });
+    }
+
+    function collect(lineItemId) {
+        webformdata = { "status": "Collected" };
+        $.ajax({
+            type: 'PUT',
+            url: `/api/hardcopys/${lineItemId}`,
+            contentType: 'application/json',
+            data: JSON.stringify(webformdata)
+        }).done(function (data, textStatus, jqXHR) {
+            console.log("Collected updated!");
+            new noty({
+                text: data.message,
+                layout: 'center',
+                theme: 'bootstrapTheme',
+                type: 'success',
+                timeout: 3000,
+                callback: {
+                    onClose: function () {
+                        location.reload();
+                    }
+                }
+            }).show();
+        }).fail(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.responseJSON.message,
+                theme: 'bootstrapTheme',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error'
+            }).show();
+        });
+    }
+
+    function pause(lineItemId) {
+        webformdata = { "status": "Paused" };
+        $.ajax({
+            type: 'PUT',
+            url: `/api/hardcopys/${lineItemId}`,
+            contentType: 'application/json',
+            data: JSON.stringify(webformdata)
+        }).done(function (data, textStatus, jqXHR) {
+            console.log("Collected updated!");
+            new noty({
+                text: data.message,
+                layout: 'center',
+                theme: 'bootstrapTheme',
+                type: 'success',
+                timeout: 3000,
+                callback: {
+                    onClose: function () {
+                        location.reload();
+                    }
+                }
+            }).show();
+        }).fail(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.responseJSON.message,
+                theme: 'bootstrapTheme',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error'
+            }).show();
+        });
+    }
+
+
+    function loadTable() {
+        $(`#myTable`).html("");
+        $(`#completedOrders`).html("");
+        $.ajax({
+            type: "GET",
+            url: "/api/hardcopys",
+            dataType: "json",
+            success: function (data) {
+                var i;
+                var orderNo;
+
+                var $orderRow = null;
+                var $photoRow = null;
+
+                var collectedPhotoNumber = 0;
+                var processingPhotoNumber = 0;
+                
+                
+                for (i = 0; i < data.length; i++) {
+                    collectedPhotoNumber++;
+                    if (data[i].lineitem_status == "Collected") {
+                        if (data[i].order_id != orderNo) {
+                            orderNo = data[i].order_id;
+                            var d = new Date(data[i].updated_time);
+                            var hour = d.getHours(); 
+                            var minutes = d.getMinutes(); 
+                            var seconds = d.getSeconds();
+                            if (hour.toString().length < 2)
+                                hour = "0" + hour;
+                            if (minutes.toString().length < 2)
+                                minutes = "0" + minutes;
+                            if (seconds.toString().length < 2)
+                                seconds = "0" + seconds;
+
+                            var updateTime = hour + ":" + minutes + ":" + seconds;
+                            $orderRow = $(`<tr class="completedOrderRow"><td><i data-toggle="collapse" data-target=".collected${orderNo}" class="fa fa-chevron-right rotate" onclick="rotate(this)"></i></td>
+                                <td>${updateTime}</td>
+                                <td>${orderNo}</td>
+                                <td>-</td>
+                            </tr>`);
+                            $(`#completedOrders`).append($orderRow);
+
+
+                            $photoRow = $(`<tr class="collected${orderNo} collapse"><td></td><td colspan="3" id="collectedPhoto${orderNo}"><div class="m-r-10"><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></div>
+                                    </td>
+                                    <td></td>
+                                </tr>`);
+                            $(`#completedOrders`).append($photoRow);
                         }
 
-                        .dropdown-toggle:hover {
-                            cursor: pointer;
+                        else {
+                            $(`#collectedPhoto${orderNo}`).append(`<div class="m-r-10"><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></div>`);
+                        }
+                    }
+                }
+
+                for (i = 0; i < data.length; i++) {
+                    processingPhotoNumber++;
+                    if (data[i].lineitem_status == "Completed") {
+                        if (data[i].order_id != orderNo) {
+                            orderNo = data[i].order_id;
+
+                            $orderRow = $(`<tr class="orderRow completed"><td><i data-toggle="collapse" data-target=".completed${orderNo}" class="fa fa-chevron-right rotate" onclick="rotate(this)"></i></td>
+                                    <td>${orderNo}</td><td><span class="badge badge-danger">Completed</span></td><td id="printer${orderNo}">-</td><td id="progress${orderNo}">${data[i].photo_qty}/${data[i].photo_qty}</td><td>-</td>
+                                    <td><label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" onclick="collect('${data[i].lineItem_id}')"><span class="custom-control-label">Collect</span></label></td></tr>`);
+                            $(`#myTable`).append($orderRow);
+
+
+                            $photoRow = $(`<tr class="completed${orderNo} collapse colspan="7"><td></td><td><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td>Status: ${data[i].photo_status}</td><td>-</td><td></td><td></td><td></td></tr>`);
+                            $(`#myTable`).append($photoRow);
                         }
 
-                        .dropdown-menu li:hover {
-                            cursor: pointer;
-                            background-color: antiquewhite;
+                        else {
+                            $photoRow = $(`<tr class="completed${orderNo} collapse colspan="7"><td></td><td><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td>Status: ${data[i].photo_status}</td><td>-</td><td></td><td></td><td></td></tr>`);
+                            $(`#myTable`).append($photoRow);
                         }
-                    </style>
-                    <script src="~/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
-                    <script type="text/javascript">
-                        var currentTable = "processingOrders";
+                    }
+                }
 
-                        function toggleTable() {
-                            $("#myInput").val("");
-                            if ($('#profile-tab-justify').hasClass("active")) {
-                                currentTable = "processingOrders";
-                            }
-                            else if ($('#home-tab-justify').hasClass("active")) {
-                                currentTable = "completedOrders";
-                            }
-                            console.log("currentTable is" + currentTable);
-                        }
+                for (i = 0; i < data.length; i++) {
+                    processingPhotoNumber++;
+                    if (data[i].lineitem_status == "Printing") {
+                        if (data[i].order_id != orderNo) {
+                            orderNo = data[i].order_id;
 
-
-                        function filterOrderByStatus(status) {
-                            var trList = $('#myTable .orderRow');
-                            $('#statusFilter').text(status);
-                            console.log(status);
-                            trList.each(function () {
-                                $(this).css("display", "");
-                                if (!$(this).hasClass(status)) {
-                                    $(this).css("display", "none");
-                                }
-                            });
-                            $(".fa-chevron-right").attr("aria-expanded", "false");
-                            $(".fa-chevron-right").removeClass('down');
-                            $('.collapse').removeClass('show');
-                        }
-
-
-
-
-                        function searchFunction() {
-                            var input, filter, td, i;
-                            var input = $("#myInput").val();
-                            var filter = input.toUpperCase();
-                            var trList;
-                            if (currentTable == "processingOrders") {
-                                trList = $('#myTable .orderRow');
-                            }
-                            else if (currentTable == "completedOrders") {
-                                trList = $('#completedOrders .completedOrderRow');
-                            }
-
-
-
-
-                            //don't initiate search unless user types at least 3 characters. This will greatly improve performance and usability especially with large tables.
-                            if (filter.length >= 3) {
-                                $(".fa-chevron-right").attr("aria-expanded", "false");
-                                $(".fa-chevron-right").removeClass('down');
-                                $('.collapse').removeClass('show');
-                                var findOrder = false;
-                                for (i = 0; i < trList.length; i++) {
-                                    var match = false;
-                                    var tdList = trList[i].getElementsByTagName("td");
-                                    //loop through every td
-                                    for (j = 0; j < tdList.length; j++) {
-                                        var td = tdList[j];
-
-
-
-                                        if (td) {
-                                            if (td.innerText.toUpperCase().indexOf(filter) > -1) {
-                                                match = true;
-                                                findOrder = true;
-                                            }
-                                        }
+                            var x;
+                            var numberOfPrinting = 0;
+                            for (x = 0; x < data.length; x++) {
+                                if (data[x].order_id == data[i].order_id) {
+                                    if (data[x].photo_status == "Completed") {
+                                        numberOfPrinting++;
                                     }
-
-
-
-                                    if (match == true) {
-                                        trList[i].style.display = "";
-                                    }
-                                    else {
-                                        trList[i].style.display = "none";
-
-
-
-                                    }
-
-
-
-                                }
-
-
-
-                                if (!findOrder) {
-                                    $('.noOrderFoundRow').css("display", "");
                                 }
                             }
-                            else {
-                                for (i = 0; i < trList.length; i++) {
-                                    trList[i].style.display = "";
-                                }
-                                $('.noOrderFoundRow').css("display", "none");
-                            }
 
+                            $orderRow = $(`<tr class="orderRow printing"><td><i data-toggle="collapse" data-target=".printing${orderNo}" class="fa fa-chevron-right rotate" onclick="rotate(this)"></i></td>
+                        <td>${orderNo}</td><td><span class="badge badge-success">Printing</span></td><td id="printer${orderNo}">-</td><td id="progress${orderNo}">${numberOfPrinting}/${data[i].photo_qty}</td><td>-</td>
+                        <td></td></tr>`);
+                            $(`#myTable`).append($orderRow);
+
+                            if (data[i].photo_status == "Completed") {
+                                $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td>Status: ${data[i].photo_status}</td><td>-</td><td></td><td></td><td></td></tr>`);
+                                $(`#myTable`).append($photoRow);
+                            }
+                            if (data[i].photo_status == "Printing") {
+                                $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td>Status: ${data[i].photo_status}</td><td>-</td><td></td><td></td><td><label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" onclick="complete('${data[i].photo_id}')"><span class="custom-control-label">Complete</span></label></td></tr>`);
+                                $(`#myTable`).append($photoRow);
+                            }
+                            if (data[i].photo_status == "Waiting") {
+                                $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td>Status: ${data[i].photo_status}</td><td>-</td><td></td><td></td><td><label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" onclick="printing('${data[i].photo_id}')"><span class="custom-control-label">Print</span></label></td></tr>`);
+                                $(`#myTable`).append($photoRow);
+                            }
 
                         }
 
-                        $(document).ready(function () {
-                            $('#menuHardcopy').addClass("active");
+                        else {
+                            if (data[i].photo_status == "Completed") {
+                                $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td>Status: ${data[i].photo_status}</td><td>-</td><td></td><td></td><td></td></tr>`);
+                                $(`#myTable`).append($photoRow);
+                            }
+                            if (data[i].photo_status == "Printing") {
+                                $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td>Status: ${data[i].photo_status}</td><td>-</td><td></td><td></td><td><label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input"  onclick="complete('${data[i].photo_id}')"><span class="custom-control-label">Complete</span></label></td></tr>`);
+                                $(`#myTable`).append($photoRow);
+                            }
+                            if (data[i].photo_status == "Waiting") {
+                                $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td>Status: ${data[i].photo_status}</td><td>-</td><td></td><td></td><td><label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" onclick="printing('${data[i].photo_id}')"><span class="custom-control-label">Print</span></label></td></tr>`);
+                                $(`#myTable`).append($photoRow);
+                            }
+                        }
+                    }
+                }
+
+                for (i = 0; i < data.length; i++) {
+                    processingPhotoNumber++;
+                    if (data[i].lineitem_status == "Waiting") {
+                        if (data[i].order_id != orderNo) {
+                            orderNo = data[i].order_id;
+                            console.log(orderNo);
+                            $orderRow = $(`<tr class="orderRow waiting"><td><i data-toggle="collapse" data-target=".waiting${orderNo}" class="fa fa-chevron-right rotate" onclick="rotate(this)"></i></td>
+                        <td>${orderNo}</td><td><span class="badge badge-light">Waiting</span></td><td id="printer${orderNo}">-</td><td id="progress${orderNo}">0/${data[i].photo_qty}</td><td>-</td>
+                        <td><label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" onclick="pause('${data[i].lineItem_id}')"><span class="custom-control-label">Pause</span></label></td></tr>`);
+                            $(`#myTable`).append($orderRow);
+                            $photoRow = $(`<tr class="waiting${orderNo} collapse"><td></td><td><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td>Status: ${data[i].photo_status}</td><td>-</td><td></td><td></td><td><label class="custom-control custom-checkbox"><input type="button" class="custom-control-input" onclick="printing('${data[i].photo_id}')"><span class="custom-control-label">Printing</span></label></td></tr>`);
+                            $(`#myTable`).append($photoRow);
+                        }
+                        else {
+                            $photoRow = $(`<tr class="waiting${orderNo} collapse"><td></td><td><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td>Status: ${data[i].photo_status}</td><td>-</td><td></td><td></td><td><label class="custom-control custom-checkbox"><input type="button" class="custom-control-input" onclick="printing('${data[i].photo_id}')"><span class="custom-control-label">Printing</span></label></td></tr>`);
+                            $(`#myTable`).append($photoRow);
+                        }
+                    }
+                }
+
+                if (processingPhotoNumber == 0) {
+                    $(`#myTable`).append($(`<tr class="noOrderFoundRow"><td colspan="7"> No order found.</td></tr>`));
+                }
+                if (collectedPhotoNumber == 0) {
+                    $(`#completedOrders`).append($(`<tr class="noOrderFoundRow"><td colspan="3"> No order found.</td></tr>`));
+                }
+            },
+            error: function (data) {
+            }
+        });
+    }
+
+
+    function toggleTable() {
+        $("#myInput").val("");
+        if ($('#profile-tab-justify').hasClass("active")) {
+            currentTable = "processingOrders";
+        }
+        else if ($('#home-tab-justify').hasClass("active")) {
+            currentTable = "completedOrders";
+        }
+        console.log("currentTable is" + currentTable);
+    }
+
+
+    function filterOrderByStatus(status) {
+        var trList = $('#myTable .orderRow');
+        $('#statusFilter').text(status);
+        console.log(status);
+        trList.each(function () {
+            $(this).css("display", "");
+            if (!$(this).hasClass(status)) {
+                $(this).css("display", "none");
+            }
+        });
+        $(".fa-chevron-right").attr("aria-expanded", "false");
+        $(".fa-chevron-right").removeClass('down');
+        $('.collapse').removeClass('show');
+    }
+
+
+    function searchFunction() {
+        var input, filter, td, i;
+        var input = $("#myInput").val();
+        var filter = input.toUpperCase();
+        var trList;
+        if (currentTable == "processingOrders") {
+            trList = $('#myTable .orderRow');
+        }
+        else if (currentTable == "completedOrders") {
+            trList = $('#completedOrders .completedOrderRow');
+        }
 
 
 
 
-                        });
-                    </script>
+        //don't initiate search unless user types at least 3 characters. This will greatly improve performance and usability especially with large tables.
+        if (filter.length >= 3) {
+            $(".fa-chevron-right").attr("aria-expanded", "false");
+            $(".fa-chevron-right").removeClass('down');
+            $('.collapse').removeClass('show');
+            var findOrder = false;
+            for (i = 0; i < trList.length; i++) {
+                var match = false;
+                var tdList = trList[i].getElementsByTagName("td");
+                //loop through every td
+                for (j = 0; j < tdList.length; j++) {
+                    var td = tdList[j];
+                    if (td) {
+                        if (td.innerText.toUpperCase().indexOf(filter) > -1) {
+                            match = true;
+                            findOrder = true;
+                        }
+                    }
+                }
+                if (match == true) {
+                    trList[i].style.display = "";
+                }
+                else {
+                    trList[i].style.display = "none";
+                }
+            }
+            if (!findOrder) {
+                $('.noOrderFoundRow').css("display", "");
+            }
+        }
+        else {
+            for (i = 0; i < trList.length; i++) {
+                trList[i].style.display = "";
+            }
+            $('.noOrderFoundRow').css("display", "none");
+        }
+    }
+
+    $(document).ready(function () {
+        $('#menuHardcopy').addClass("active");
+        // Fetch the initial table
+        loadTable();
+
+        // Fetch every 5 seconds
+        setInterval(loadTable, 90000);
+    });
+</script>

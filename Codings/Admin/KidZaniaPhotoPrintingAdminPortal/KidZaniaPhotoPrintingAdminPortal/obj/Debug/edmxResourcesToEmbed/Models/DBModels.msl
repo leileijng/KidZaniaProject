@@ -5,7 +5,43 @@
       <EntityTypeMapping TypeName="DBModel.email">
         <MappingFragment StoreEntitySet="email">
           <ScalarProperty Name="email1" ColumnName="email" />
-          <ScalarProperty Name="uid" ColumnName="uid" />
+          <ScalarProperty Name="pid" ColumnName="pid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="itemphotoes">
+      <EntityTypeMapping TypeName="DBModel.itemphoto">
+        <MappingFragment StoreEntitySet="itemphoto">
+          <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+          <ScalarProperty Name="printing_status" ColumnName="printing_status" />
+          <ScalarProperty Name="assigned_printer_id" ColumnName="assigned_printer_id" />
+          <ScalarProperty Name="lineitem_id" ColumnName="lineitem_id" />
+          <ScalarProperty Name="p_id" ColumnName="p_id" />
+          <ScalarProperty Name="photo" ColumnName="photo" />
+          <ScalarProperty Name="itemphoto_id" ColumnName="itemphoto_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lineitems">
+      <EntityTypeMapping TypeName="DBModel.lineitem">
+        <MappingFragment StoreEntitySet="lineitem">
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="item_amount" ColumnName="item_amount" />
+          <ScalarProperty Name="photos" ColumnName="photos" />
+          <ScalarProperty Name="product_id" ColumnName="product_id" />
+          <ScalarProperty Name="p_id" ColumnName="p_id" />
+          <ScalarProperty Name="lineitem_id" ColumnName="lineitem_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="orders">
+      <EntityTypeMapping TypeName="DBModel.order">
+        <MappingFragment StoreEntitySet="order">
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="total_amount" ColumnName="total_amount" />
+          <ScalarProperty Name="pid" ColumnName="pid" />
+          <ScalarProperty Name="order_id" ColumnName="order_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -18,34 +54,6 @@
           <ScalarProperty Name="status" ColumnName="status" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="printer_id" ColumnName="printer_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="profiles">
-      <EntityTypeMapping TypeName="DBModel.profile">
-        <MappingFragment StoreEntitySet="profiles">
-          <ScalarProperty Name="status" ColumnName="status" />
-          <ScalarProperty Name="profile1" ColumnName="profile" />
-          <ScalarProperty Name="pid" ColumnName="pid" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="roles">
-      <EntityTypeMapping TypeName="DBModel.role">
-        <MappingFragment StoreEntitySet="role">
-          <ScalarProperty Name="role1" ColumnName="role" />
-          <ScalarProperty Name="role_id" ColumnName="role_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="staffs">
-      <EntityTypeMapping TypeName="DBModel.staff">
-        <MappingFragment StoreEntitySet="staff">
-          <ScalarProperty Name="role_id" ColumnName="role_id" />
-          <ScalarProperty Name="passwordsalt" ColumnName="passwordsalt" />
-          <ScalarProperty Name="passwordhash" ColumnName="passwordhash" />
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="staff_id" ColumnName="staff_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -68,38 +76,31 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="itemphotoes">
-      <EntityTypeMapping TypeName="DBModel.itemphoto">
-        <MappingFragment StoreEntitySet="itemphoto">
-          <ScalarProperty Name="updated_at" ColumnName="updated_at" />
-          <ScalarProperty Name="printing_status" ColumnName="printing_status" />
-          <ScalarProperty Name="assigned_printer_id" ColumnName="assigned_printer_id" />
-          <ScalarProperty Name="lineitem_id" ColumnName="lineitem_id" />
-          <ScalarProperty Name="p_id" ColumnName="p_id" />
-          <ScalarProperty Name="photo" ColumnName="photo" />
-          <ScalarProperty Name="itemphoto_id" ColumnName="itemphoto_id" />
+    <EntitySetMapping Name="roles">
+      <EntityTypeMapping TypeName="DBModel.role">
+        <MappingFragment StoreEntitySet="role">
+          <ScalarProperty Name="role1" ColumnName="role" />
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="lineitems">
-      <EntityTypeMapping TypeName="DBModel.lineitem">
-        <MappingFragment StoreEntitySet="lineitem">
-          <ScalarProperty Name="status" ColumnName="status" />
-          <ScalarProperty Name="item_amount" ColumnName="item_amount" />
-          <ScalarProperty Name="photos" ColumnName="photos" />
-          <ScalarProperty Name="product_id" ColumnName="product_id" />
-          <ScalarProperty Name="p_id" ColumnName="p_id" />
-          <ScalarProperty Name="lineitem_id" ColumnName="lineitem_id" />
+    <EntitySetMapping Name="staffs">
+      <EntityTypeMapping TypeName="DBModel.staff">
+        <MappingFragment StoreEntitySet="staff">
+          <ScalarProperty Name="role_id" ColumnName="role_id" />
+          <ScalarProperty Name="passwordsalt" ColumnName="passwordsalt" />
+          <ScalarProperty Name="passwordhash" ColumnName="passwordhash" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="staff_id" ColumnName="staff_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="orders">
-      <EntityTypeMapping TypeName="DBModel.order">
-        <MappingFragment StoreEntitySet="order">
+    <EntitySetMapping Name="profiles">
+      <EntityTypeMapping TypeName="DBModel.profile">
+        <MappingFragment StoreEntitySet="profile">
           <ScalarProperty Name="status" ColumnName="status" />
-          <ScalarProperty Name="total_amount" ColumnName="total_amount" />
+          <ScalarProperty Name="profile1" ColumnName="profile" />
           <ScalarProperty Name="pid" ColumnName="pid" />
-          <ScalarProperty Name="order_id" ColumnName="order_id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

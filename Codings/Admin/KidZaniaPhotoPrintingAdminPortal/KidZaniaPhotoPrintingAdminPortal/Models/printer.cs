@@ -27,8 +27,8 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         public System.DateTime updated_at { get; set; }
         public string updated_by { get; set; }
     
-        public virtual staff staff { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<itemphoto> itemphotoes { get; set; }
+        public virtual staff staff { get; set; }
     }
 }
