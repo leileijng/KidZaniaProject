@@ -991,7 +991,9 @@ Borders
 .border-bottom-KMC {
     border-bottom: 1px solid #e01926 !important;
 }
-
+.border-bottom-NV {
+    border-bottom: 1px solid #5969ff !important;
+}
 .border-left {
     border-left: 1px solid #e6e6f2 !important;
 }

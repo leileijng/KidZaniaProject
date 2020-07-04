@@ -25,7 +25,8 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     product = database.lineitems.Select(y => new
                     {
                         p_id = y.p_id,
-                        product_id = y.product_id
+                        product_id = y.product_id,
+                        status = y.status
                     }).Where(y => y.p_id == x.pid && (y.product_id == "ec" || y.product_id == "kc" || y.product_id == "mg")).ToList(),
                     status = x.status
                 }
@@ -93,5 +94,28 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 return BadRequest(e.ToString());
             }
         }
+
+
+        //[Route("api/others/completeOrder/{id}")]
+        //[HttpPut]
+        //public IHttpActionResult completeOrder(string id, string status)
+        //{
+        //    try
+        //    {
+        //        var lineitems = database.lineitems.SingleOrDefault(y => y.lineitem_id == id);
+        //        lineitems.status = status;
+        //        var itemphotoes = database.itemphotoes.Where(y => y.lineitem_id == id).ToList();
+        //        foreach (var itemphoto in itemphotoes)
+        //        {
+        //            itemphoto.printing_status = status;
+        //        }
+        //        database.SaveChanges();
+        //        return Ok();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return BadRequest(e.ToString());
+        //    }
+        //}
     }
 }

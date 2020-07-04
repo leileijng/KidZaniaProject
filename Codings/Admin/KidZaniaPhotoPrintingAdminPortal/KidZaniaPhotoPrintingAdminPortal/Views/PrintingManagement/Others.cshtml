@@ -25,7 +25,7 @@
             <div class="card border-3 border-bottom-IC border-bottom-primary">
                 <h5 class="card-header" id="IC">
                     Incoming Orders
-                    <input type="text" id="searchCode" onkeyup="myFunction()" placeholder="Search for Order Code.." title="Type in Order Code">
+                    <input type="text" id="searchCode" onkeyup="myFunction(1)" placeholder="Search for Order Code.." title="Type in Order Code">
                 </h5>
 
                 <table class="table table-hover">
@@ -36,8 +36,23 @@
                             <th>Pause</th>
                         </tr>
                     </thead>
-                    <tbody id="myTable">
-                    </tbody>
+                    <tbody id="myTable"></tbody>
+                </table>
+            </div>
+            <div class="card border-3 border-bottom-NV border-bottom-primary">
+                <h5 class="card-header" id="NV">
+                    Completed Orders
+                    <input type="text" id="searchCode2" onkeyup="myFunction(2)" placeholder="Search for Order Code.." title="Type in Order Code">
+                </h5>
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Order Code</th>
+                        </tr>
+                    </thead>
+                    <tbody id="collectedTable"></tbody>
                 </table>
             </div>
         </div>
@@ -51,7 +66,7 @@
                     <thead>
                         <tr>
                             <th>Item</th>
-                            <th>Number</th>
+                            <th>Quantity</th>
                             <th>Select Path</th>
                             <th>Download</th>
                             <th>Delete</th>
@@ -128,7 +143,8 @@
     .orderRow {
         cursor: pointer;
     }
-    #pauseBtn{
+
+    #pauseBtn {
         z-index: 99;
     }
 </style>
@@ -141,8 +157,20 @@
             dataType: "json",
             success: function (data) {
                 data.forEach(function (record) {
-                    let $rowElement = createRow(record);
-                    $('#myTable').append($rowElement);
+                    let counter = 0;
+                    for (let x = 0; x < record.product.length; x++) {
+                        if (record.product[x].status == "Completed") {
+                            counter++;
+                        }
+                    }
+                    if (counter == record.product.length) {
+                        let $rowElement = createRow(record, false);
+                        $('#collectedTable').append($rowElement);
+                    }
+                    else {
+                        let $rowElement = createRow(record, true);
+                        $('#myTable').append($rowElement);
+                    }
                 });
                 window.setInterval(function () {
                     checkOrder();
@@ -159,7 +187,7 @@
         });
     }
 
-    function createRow({ order_id, p_id, product, status }) {
+    function createRow({ order_id, p_id, product, status }, desc) {
         //Get Timestamp
         var currentTime = new Date();
         let hours = (currentTime.getHours() < 10 ? '0' : '') + currentTime.getHours();
@@ -174,8 +202,10 @@
         $rowElement.append($cellElement);
         $cellElement = $(`<td>${order_id}</td>`);
         $rowElement.append($cellElement);
-        $cellElement = $(`<td id="pauseBtn"><a onclick="blockOrder('${order_id}')"><i class="fas fa-ban" style="color:gray"></i></a></td>`);
-        $rowElement.append($cellElement);
+        if (desc) {
+            $cellElement = $(`<td id="pauseBtn"><a onclick="blockOrder('${order_id}')"><i class="fas fa-ban" style="color:gray"></i></a></td>`);
+            $rowElement.append($cellElement);
+        }
         return $rowElement;
     }
 
@@ -234,11 +264,11 @@
         $cellElement = $(`<td><i class="fa fa-trash active"></i></td>`);
         $rowElement.append($cellElement);
         $cellElement = $(`<td><label class="custom-control custom-checkbox ODbox">
-                                <input onchange="changeStatus('${lineitem_id}')" id="check${lineitem_id}" type="checkbox" class="custom-control-input">
+                                <input onchange="changeStatus('${lineitem_id}')" id="check${lineitem_id}" type="checkbox" class="custom-control-input checkAll">
                                 <span class="custom-control-label"></span>
                             </label></td>`);
         $rowElement.append($cellElement);
-        return $rowElement;                
+        return $rowElement;
     }
 
     function checkOrder() {
@@ -250,7 +280,7 @@
                 data.forEach(function (record) {
                     let orderChecker = document.getElementById(`order${record.order_id}`);
                     if (orderChecker == null) {
-                        let $rowElement = createRow(record);
+                        let $rowElement = createRow(record, true);
                         $('#myTable').append($rowElement);
                         var effects = 'animate__animated animate__fadeIn animate__slow';
                         var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
@@ -280,21 +310,67 @@
         else {
             status = "Paid";
         }
-        console.log(status);
         $.ajax({
             type: 'PUT',
             url: `/API/others/${id}?status=${status}`,
         }).fail(function (data, textStatus, jqXHR) {
             console.log(data);
             })
-    }
 
-    function myFunction() {
+        let order = id.substring(id.indexOf("_"), -1);
+        var classname = $(`#order${order}`).closest('tbody').attr('id');
+        console.log(classname);
+        if (($('.checkAll:checked').length) == ($('.checkAll').length)) {
+            var effects = 'animate__animated animate__fadeIn animate__slow';
+            var deleteEffects = 'animate__animated animate__fadeOut animate__slow';
+            var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+
+            $(`#order${order}`).addClass(deleteEffects).one(effectsend, function () {
+                $(`#order${order}`).removeClass(deleteEffects);
+                $(`#order${order}`).find('td:last-child').remove();
+                let tr = $(`#order${order}`).closest("tr").remove().clone();
+                $('#collectedTable').append(tr);
+                $(`#order${order}`).addClass(effects).one(effectsend, function () {
+                    $(`#order${order}`).removeClass(effects);
+                });
+            });
+        }
+        else if (($('.checkAll:checked').length) != ($('.checkAll').length) && classname == "collectedTable") {
+            var effects = 'animate__animated animate__fadeIn animate__slow';
+            var deleteEffects = 'animate__animated animate__fadeOut animate__slow';
+            var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+
+            $(`#order${order}`).addClass(deleteEffects).one(effectsend, function () {
+                $(`#order${order}`).removeClass(deleteEffects);
+                $(`#order${order}`).append($(`<td id="pauseBtn"><a onclick="blockOrder('${order}')"><i class="fas fa-ban" style="color:gray"></i></a></td>`));
+                let tr = $(`#order${order}`).closest("tr").remove().clone();
+                $('#myTable').append(tr);
+                $(`#order${order}`).addClass(effects).one(effectsend, function () {
+                    $(`#order${order}`).removeClass(effects);
+                });
+            });
+        }
+        //    $.ajax({
+        //        type: 'PUT',
+        //        url: `/API/others/completeOrder/${id}?status=${status}`,
+        //    }).fail(function (data, textStatus, jqXHR) {
+        //        console.log(data);
+        //    })
+    }
+    
+
+    function myFunction(num) {
+        
         var input, filter, table, tr, td, i;
-        var input = document.getElementById("searchCode");
+        if (num == 1) {
+            input = document.getElementById("searchCode");
+            table = document.getElementById("myTable");
+        } else if (num == 2) {
+            input = document.getElementById("searchCode2");
+            table = document.getElementById("collectedTable");
+        }
         var filter = input.value.toUpperCase();
 
-        var table = document.getElementById("myTable");
         var trList = table.getElementsByTagName("tr");
 
         for (i = 0; i < trList.length; i++) {
