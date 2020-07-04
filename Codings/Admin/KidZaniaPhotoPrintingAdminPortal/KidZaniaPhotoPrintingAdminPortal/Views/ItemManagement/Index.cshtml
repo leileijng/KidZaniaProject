@@ -261,7 +261,7 @@
                         <div class="row" id="headerRow">
                             <div class="col-sm-3 col-md-3" style="flex:1;">
                                 <div class="add">
-                                    <button href="#exampleModal" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    <button href="#exampleModal" onclick="$('#uploadhover').attr('src', '/assets/images/upload.png')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                                         Add New Item
                                     </button>
                                 </div>
@@ -343,7 +343,6 @@
 
     #uploadhover {
         cursor: pointer;
-        margin-bottom: 5%;
     }
 
     #headerRow {
@@ -392,6 +391,7 @@
             url: "/api/products",
             dataType: "json",
             success: function (data) {
+                console.log(data);
                 if ((data[0].original_GST * 100) % data[0].original_price == 0) {
                     $("#gstper").val(data[0].original_GST * 100 / data[0].original_price);
                 } else {
@@ -453,69 +453,69 @@
     }
 
     //Creating tr for the souvenir table
-    function createRow({ product_id, name, image, original_price, original_GST, photo_product, visibility, quantity_constraint, description, pwp_price, pwp_GST, updated_by, updated_at }) {
+    function createRow(record) {
         let $cellElement = null;
         let $hyperlinkElement = null;
-        let $rowElement = $(`<tr id="${product_id}"></tr>`);
-        prod_id.push(product_id);
-        $cellElement = $(`<td>${product_id}</td>`);
+        let $rowElement = $(`<tr id="${record.product_id}"></tr>`);
+        prod_id.push(record.product_id);
+        $cellElement = $(`<td>${record.product_id}</td>`);
         $rowElement.append($cellElement);
-        $cellElement = $(`<td><div><img id="img${product_id}" src="${image}" alt="user" width="55"></div></td>`);
+        $cellElement = $(`<td><div><img id="img${record.product_id}" src="${record.image}" alt="user" width="55"></div></td>`);
         $rowElement.append($cellElement);
-        $cellElement = $(`<td id="name${product_id}">${name}</td>`);
+        $cellElement = $(`<td id="name${record.product_id}">${record.name}</td>`);
         $rowElement.append($cellElement);
-        if (description != "") {
-            $cellElement = $(`<td id="description${product_id}">${description}</td>`);
+        if (record.description != "") {
+            $cellElement = $(`<td id="description${record.product_id}">${record.description}</td>`);
         }
         else {
-            $cellElement = $(`<td><span id="description${product_id}">-</span></td>`);
+            $cellElement = $(`<td><span id="description${record.product_id}">-</span></td>`);
         }
         $rowElement.append($cellElement);
-        $cellElement = $(`<td><span id="oriPrice${product_id}" class="text-dark font-weight-bold">&#36;${original_price}</span><small id="oriGST${product_id}" class="text-mute"> /&#36;${(original_GST).toFixed(2)} </small></td>`);
+        $cellElement = $(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
         $rowElement.append($cellElement);
-        if (pwp_price != null) {
-            $cellElement = $(`<td><span id="pwpPrice${product_id}" class="text-dark font-weight-bold">&#36;${pwp_price}</span><small id="pwpGST${product_id}" class="text-mute"> /&#36;${(pwp_GST).toFixed(2)} </small></td>`);
+        if (record.pwp_price != null) {
+            $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
         } else {
-            $cellElement = $(`<td><span id="pwpPrice${product_id}">-</span><small id="pwpGST${product_id}" class="text-mute"></small></td>`);
+            $cellElement = $(`<td><span id="pwpPrice${record.product_id}">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
         }
         $rowElement.append($cellElement);
-        $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${product_id}">
+        $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
                                             <option>--None--</option>
                                             <option>Even Numbered Units</option>
                                             <option>Max 1 Unit</option>
                                         </select></td>`);
         $rowElement.append($cellElement);
-        if (photo_product == true) {
+        if (record.photo_product == true) {
             $cellElement = $(`<td>
-                                        <i id="photoprod${product_id}" class="fas fa-check mr-1"></i>
+                                        <i id="photoprod${record.product_id}" class="fas fa-check mr-1"></i>
                                   </td>`);
         }
         else {
             $cellElement = $(`<td>
-                                        <i id="photoprod${product_id}" class="fas fa-times mr-1"></i>
+                                        <i id="photoprod${record.product_id}" class="fas fa-times mr-1"></i>
                                   </td>`);
         }
         $rowElement.append($cellElement);
-        if (visibility == true) {
+        if (record.visibility == true) {
             $cellElement = $(`<td>
-                                        <i id="vis${product_id}" class="fas fa-check mr-1"></i>
+                                        <i id="vis${record.product_id}" class="fas fa-check mr-1"></i>
                                   </td>`);
         }
         else {
             $cellElement = $(`<td>
-                                        <i id="vis${product_id}" class="fas fa-times mr-1"></i>
+                                        <i id="vis${record.product_id}" class="fas fa-times mr-1"></i>
                                   </td>`);
         }
         $rowElement.append($cellElement);
         $cellElement = $(`<td></td>`);
-        $hyperlinkElement = $(`<a class="edit" onclick="loadEdit('${product_id}')" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a>`);
+        $hyperlinkElement = $(`<a class="edit" onclick="loadEdit('${record.product_id}')" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a>`);
         $cellElement.append($hyperlinkElement);
-        $hyperlinkElement = $(`<a href="#myModal" onclick="loadDelete('${product_id}')" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a>`);
+        $hyperlinkElement = $(`<a href="#myModal" onclick="loadDelete('${record.product_id}')" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a>`);
         $cellElement.append($hyperlinkElement);
         $rowElement.append($cellElement);
-        $cellElement = $(`<td id="by${product_id}">${updated_by}</td>`);
+        $cellElement = $(`<td id="by${record.product_id}">${record.updated_by}</td>`);
         $rowElement.append($cellElement);
-        $cellElement = $(`<td id="at${product_id}">${moment(updated_at).format('DD MMMM YYYY')}</td>`);
+        $cellElement = $(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
         $rowElement.append($cellElement);
         return $rowElement;
     }
@@ -527,6 +527,7 @@
             url: `/api/products/${id}`,
             dataType: "json",
             success: function (data) {
+                console.log(data);
                 $('#ItemNameInp').val(data.name);
                 $('#priceNameInp').val(data.original_price.toFixed(2));
                 if (data.pwp_price != null) {
@@ -584,6 +585,7 @@
                 photoprod = false;
             }
             let webformdata = new editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
+            console.log(JSON.stringify(webformdata));
             var formData = new FormData();
             var file = $('#newphoto')[0];
             formData.append('file', file.files[0]);
@@ -594,6 +596,7 @@
                 contentType: false,
                 processData: false,
                 success: function (d) {
+                    console.log(d);
                     $.ajax({
                         type: 'PUT',
                         url: `/API/products/${id}`,
@@ -614,50 +617,50 @@
                                         type: "GET",
                                         url: `/api/products/${id}`,
                                         dataType: "json",
-                                        success: function ({ product_id, name, image, original_price, original_GST, pwp_gst, photo_product, visibility, quantity_constraint, description, pwp_price, updated_by, updated_at }) {
+                                        success: function (record) {
                                             $(`#img${id}`).attr('src', '');
-                                            $(`#img${id}`).attr('src', image);
+                                            $(`#img${id}`).attr('src', record.image);
 
-                                            if (quantity_constraint == "Even Numbered Units") {
-                                                $(`#input-select${product_id}`)[0].selectedIndex = 1;
+                                            if (record.quantity_constraint == "Even Numbered Units") {
+                                                $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
                                             }
-                                            else if (quantity_constraint == "Max 1 Unit") {
-                                                $(`#input-select${product_id}`)[0].selectedIndex = 2;
+                                            else if (record.quantity_constraint == "Max 1 Unit") {
+                                                $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
                                             }
                                             else {
-                                                $(`#input-select${product_id}`)[0].selectedIndex = 0;
+                                                $(`#input-select${record.product_id}`)[0].selectedIndex = 0;
                                             }
-                                            $(`#photoprod${product_id}`).removeClass();
-                                            if (photo_product == true) {
-                                                $(`#photoprod${product_id}`).addClass('fas fa-check mr-1');
+                                            $(`#photoprod${record.product_id}`).removeClass();
+                                            if (record.photo_product == true) {
+                                                $(`#photoprod${record.product_id}`).addClass('fas fa-check mr-1');
                                             } else {
-                                                $(`#photoprod${product_id}`).addClass('fas fa-times mr-1');
+                                                $(`#photoprod${record.product_id}`).addClass('fas fa-times mr-1');
                                             }
-                                            $(`#vis${product_id}`).removeClass();
-                                            if (visibility == true) {
-                                                $(`#vis${product_id}`).addClass('fas fa-check mr-1');
+                                            $(`#vis${record.product_id}`).removeClass();
+                                            if (record.visibility == true) {
+                                                $(`#vis${record.product_id}`).addClass('fas fa-check mr-1');
                                             } else {
-                                                $(`#vis${product_id}`).addClass('fas fa-times mr-1');
+                                                $(`#vis${record.product_id}`).addClass('fas fa-times mr-1');
                                             }
                                             var table = $('table.second').DataTable();
                                             $(`#${id}`).addClass(effects).one(effectsend, function () {
                                                 $(`#${id}`).removeClass(effects);
                                             });
-                                            table.cell(`#${id}`, 2).data(`<td id="name${product_id}">${name}</td>`);
-                                            if (description != '') {
-                                                table.cell(`#${id}`, 3).data(description);
+                                            table.cell(`#${id}`, 2).data(`<td id="name${record.product_id}">${record.name}</td>`);
+                                            if (record.description != '') {
+                                                table.cell(`#${id}`, 3).data(record.description);
                                             }
                                             else {
                                                 table.cell(`#${id}`, 3).data("-");
                                             }
-                                            table.cell(`#${id}`, 4).data(`<td><span id="oriPrice${product_id}" class="text-dark font-weight-bold">&#36;${original_price}</span><small id="oriGST${product_id}" class="text-mute"> /&#36;${(original_GST).toFixed(2)} </small></td>`);
-                                            if (pwp_price != null) {
-                                                table.cell(`#${id}`, 5).data(`<td><span id="pwpPrice${product_id}" class="text-dark font-weight-bold">&#36;${pwp_price}</span><small id="pwpGST${product_id}" class="text-mute"> /&#36;${(pwp_GST).toFixed(2)} </small></td>`);
+                                            table.cell(`#${id}`, 4).data(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
+                                            if (record.pwp_price != null) {
+                                                table.cell(`#${id}`, 5).data(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
                                             } else {
-                                                table.cell(`#${id}`, 5).data(`<td><span id="pwpPrice${product_id}">-</span><small id="pwpGST${product_id}" class="text-mute"></small></td>`);
+                                                table.cell(`#${id}`, 5).data(`<td><span id="pwpPrice${record.product_id}">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
                                             }
-                                            table.cell(`#${id}`, 10).data(`<td id="by${product_id}">${updated_by}</td>`);
-                                            table.cell(`#${id}`, 11).data(`<td id="at${product_id}">${moment(updated_at).format('DD MMMM YYYY')}</td>`);
+                                            table.cell(`#${id}`, 10).data(`<td id="by${record.product_id}">${record.updated_by}</td>`);
+                                            table.cell(`#${id}`, 11).data(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
                                             table.draw();
                                         },
                                         error: function (d) {
@@ -705,6 +708,7 @@
             url: `/api/products/${id}`,
             dataType: "json",
             success: function (data) {
+                console.log(data);
                 $("#deleteRec").text(`Do you really want to delete ${data.name} record?`);
                 $("#deleteId").val(id);
                 let img = data.image.toString();
@@ -778,6 +782,9 @@
         $.ajax({
             type: "PUT",
             url: `/api/products/editGST?gst=${gst}`,
+            success: function (data) {
+                console.log(data);
+            },
             error: function (data) {
                 console.log(data);
             }
@@ -825,6 +832,7 @@
 
     //Add souvenir in the frontend and backend
     function addProduct() {
+        console.log($('#addModalForm').valid());
         if ($('#addModalForm').valid()) {
             let id = $('#addItemId').val();
             let gst = $('#gstper').val();
@@ -849,6 +857,7 @@
                 photoprod = false;
             }
             let webformdata = new addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
+            console.log(JSON.stringify(webformdata));
 
             var formData = new FormData();
             var file = $('#fileid')[0];
@@ -860,6 +869,7 @@
                 contentType: false,
                 processData: false,
                 success: function (d) {
+                    console.log(d);
                     $.ajax({
                         type: 'POST',
                         url: `/API/products/${id}`,
@@ -925,7 +935,7 @@
     }
 
     //JQuery Validation
-    (function () {
+    $().ready(function () {
         jQuery.validator.addMethod("price", function (value, element) {
             return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
         }, "You must include only two decimal places");
@@ -1050,5 +1060,5 @@
                 },
             },
         });
-    })();
+    });
 </script>

@@ -10,16 +10,16 @@
     <EntitySet Name="roles" EntityType="DBModel.role" />
     <EntitySet Name="staffs" EntityType="DBModel.staff" />
     <EntitySet Name="profiles" EntityType="DBModel.profile" />
+    <AssociationSet Name="itemphoto_ibfk_1" Association="DBModel.itemphoto_ibfk_1">
+      <End Role="lineitem" EntitySet="lineitems" />
+      <End Role="itemphoto" EntitySet="itemphotoes" />
+    </AssociationSet>
     <AssociationSet Name="itemphoto_ibfk_2" Association="DBModel.itemphoto_ibfk_2">
       <End Role="printer" EntitySet="printers" />
       <End Role="itemphoto" EntitySet="itemphotoes" />
     </AssociationSet>
     <AssociationSet Name="itemphoto_ibfk_3" Association="DBModel.itemphoto_ibfk_3">
       <End Role="order" EntitySet="orders" />
-      <End Role="itemphoto" EntitySet="itemphotoes" />
-    </AssociationSet>
-    <AssociationSet Name="itemphoto_ibfk_4" Association="DBModel.itemphoto_ibfk_4">
-      <End Role="lineitem" EntitySet="lineitems" />
       <End Role="itemphoto" EntitySet="itemphotoes" />
     </AssociationSet>
     <AssociationSet Name="lineitem_ibfk_1" Association="DBModel.lineitem_ibfk_1">
@@ -61,9 +61,9 @@
     <Property Name="assigned_printer_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="printing_status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="updated_at" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="lineitem" Relationship="DBModel.itemphoto_ibfk_1" FromRole="itemphoto" ToRole="lineitem" />
     <NavigationProperty Name="printer" Relationship="DBModel.itemphoto_ibfk_2" FromRole="itemphoto" ToRole="printer" />
     <NavigationProperty Name="order" Relationship="DBModel.itemphoto_ibfk_3" FromRole="itemphoto" ToRole="order" />
-    <NavigationProperty Name="lineitem" Relationship="DBModel.itemphoto_ibfk_4" FromRole="itemphoto" ToRole="lineitem" />
   </EntityType>
   <EntityType Name="lineitem">
     <Key>
@@ -76,7 +76,7 @@
     <Property Name="item_amount" Type="Decimal" Nullable="false" />
     <Property Name="status" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="quantity" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="itemphotoes" Relationship="DBModel.itemphoto_ibfk_4" FromRole="lineitem" ToRole="itemphoto" />
+    <NavigationProperty Name="itemphotoes" Relationship="DBModel.itemphoto_ibfk_1" FromRole="lineitem" ToRole="itemphoto" />
     <NavigationProperty Name="order" Relationship="DBModel.lineitem_ibfk_1" FromRole="lineitem" ToRole="order" />
     <NavigationProperty Name="product" Relationship="DBModel.lineitem_ibfk_2" FromRole="lineitem" ToRole="product" />
   </EntityType>
@@ -155,6 +155,18 @@
     <Property Name="profile1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
+  <Association Name="itemphoto_ibfk_1">
+    <End Type="DBModel.lineitem" Role="lineitem" Multiplicity="1" />
+    <End Type="DBModel.itemphoto" Role="itemphoto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lineitem">
+        <PropertyRef Name="lineitem_id" />
+      </Principal>
+      <Dependent Role="itemphoto">
+        <PropertyRef Name="lineitem_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="itemphoto_ibfk_2">
     <End Type="DBModel.printer" Role="printer" Multiplicity="0..1" />
     <End Type="DBModel.itemphoto" Role="itemphoto" Multiplicity="*" />
@@ -176,18 +188,6 @@
       </Principal>
       <Dependent Role="itemphoto">
         <PropertyRef Name="p_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="itemphoto_ibfk_4">
-    <End Type="DBModel.lineitem" Role="lineitem" Multiplicity="1" />
-    <End Type="DBModel.itemphoto" Role="itemphoto" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="lineitem">
-        <PropertyRef Name="lineitem_id" />
-      </Principal>
-      <Dependent Role="itemphoto">
-        <PropertyRef Name="lineitem_id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
