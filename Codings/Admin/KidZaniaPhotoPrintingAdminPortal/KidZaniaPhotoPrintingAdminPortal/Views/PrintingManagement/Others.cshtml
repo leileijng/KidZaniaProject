@@ -69,7 +69,6 @@
                             <th>Quantity</th>
                             <th>Select Path</th>
                             <th>Download</th>
-                            <th>Delete</th>
                             <th>Complete</th>
                         </tr>
                     </thead>
@@ -260,8 +259,6 @@
             </td>`);
         $rowElement.append($cellElement);
         $cellElement = $(`<td><i class="fa fa-download active"></i></td>`);
-        $rowElement.append($cellElement);
-        $cellElement = $(`<td><i class="fa fa-trash active"></i></td>`);
         $rowElement.append($cellElement);
         $cellElement = $(`<td><label class="custom-control custom-checkbox ODbox">
                                 <input onchange="changeStatus('${lineitem_id}')" id="check${lineitem_id}" type="checkbox" class="custom-control-input checkAll">
