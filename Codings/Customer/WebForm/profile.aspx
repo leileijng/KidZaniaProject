@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title></title>
     <style>
         .btn_default {
@@ -187,10 +188,10 @@
         }
 
     </style>
-    <link rel='stylesheet'  href='/css/style.css' type='text/css' media='all' />
-    <link rel='stylesheet'  href='/css/misc.css' type='text/css' media='all' />
-    <link rel="stylesheet" href="/css/jquery-ui.css">
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <link rel='stylesheet'  href='/Scripts/css/style.css' type='text/css' media='all' />
+    <link rel='stylesheet'  href='/Scripts/css/misc.css' type='text/css' media='all' />
+    <link rel="stylesheet" href="/Scripts/css/jquery-ui.css" />
+    <script type="text/javascript" src="/Scripts/js/jquery-3.3.1.min.js"></script>
     
     
 </head>
@@ -210,12 +211,12 @@
                 </ul>
             </div>
             <div class="site-branding">
-                <a href="https://kidzania.com.sg/" rel="home"><img src="/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"></a>
+                <a href="https://kidzania.com.sg/" rel="home"><img src="/Content/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"></a>
             </div>
             <!-- .site-branding -->
             <div class="header-right">
                 <div class="btn-book-tickets">
-                    <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank"><img src="/img/btn-book-tickets.png"></a>
+                    <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank"><img src="/Content/img/btn-book-tickets.png"></a>
                 </div>
             </div>
         </div>
@@ -231,6 +232,9 @@
     <div>
         <div style="width: 100%; height: 150px; text-align:center;margin:0 auto;" id="heading">
             <span class="heading1">Photo Selection</span>
+        </div>
+         <div style="text-align: center; margin-top: 10px;">
+            <img src='/Content/img/process-selection.png' />
         </div>
         <div style="width: 100%; text-align:center;margin-top: 10px;margin:0 auto;" id="user_profile">
             <div id="profile_photo" runat="server"></div>

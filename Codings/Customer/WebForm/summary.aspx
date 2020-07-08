@@ -5,6 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title></title>
     <!-- Onsite -->
     <script type="text/javascript" src="Scripts/jquery-3.3.1.js"></script>
@@ -21,12 +22,10 @@
     <link href="/Scripts/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Material Design Bootstrap -->
     <link href="/Scripts/lib/mdb/css/mdb.min.css" rel="stylesheet" />
-    <!-- Your custom styles (optional) -->
-    <link href="/Scripts/css/site.css" rel="stylesheet" />
 
     <link href="/Scripts/lib/noty/noty.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/Scripts/css/noty_custom.css" />
-    <link rel="stylesheet" href="/Scripts/css/sticky_footer.css" />
+
     <!-- Bootsrap-table core CSS -->
     <link href="/Scripts/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
     <!-- jqWidget core CSS -->
@@ -358,14 +357,14 @@
         <div style="width: 100%; height: 150px; text-align:center;margin:0 auto;" id="heading">
             <span class="heading1">Details</span>
         </div>
-        <div style="text-align:center;margin-top: 10px;margin:0 auto;"><img src='/img/process-details.png' /></div>
+        <div style="text-align:center;margin-top: 10px;margin-bottom: 30px;"><img src="Content/img/process-details.png" /></div>
         <div style="text-align:center;margin:0 auto;">
             <table class="table table-hover table-bordered">
                 <thead class="thead-light">
                     <tr>
                         <th>Product</th>
                         <th>Photos</th>
-                        <th>Qunatity</th>
+                        <th>Quantity</th>
                         <th>Cost</th>
                     </tr>
                 </thead>

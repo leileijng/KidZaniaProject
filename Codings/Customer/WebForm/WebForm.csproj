@@ -144,6 +144,11 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\img\btn-book-tickets.png" />
     <Content Include="Content\img\kidzania.png" />
+    <Content Include="Content\img\process-checkout.png" />
+    <Content Include="Content\img\process-confirmation.png" />
+    <Content Include="Content\img\process-details.png" />
+    <Content Include="Content\img\process-selection.png" />
+    <Content Include="Content\img\selection.png" />
     <Content Include="Content\img\trash_small.png" />
     <Content Include="Content\photos\1.jpg" />
     <Content Include="Content\photos\10.jpg" />
@@ -173,7 +178,9 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="main.aspx" />
     <Content Include="payment_onsite.aspx" />
+    <Content Include="photoscan.aspx" />
     <Content Include="photoupload.aspx" />
     <Content Include="profile.aspx" />
     <Content Include="Scripts\css\jquery-ui.css" />
@@ -184,6 +191,10 @@
     <Content Include="Scripts\css\sticky_footer.css" />
     <Content Include="Scripts\css\style.css" />
     <Content Include="Scripts\favicon.ico" />
+    <Content Include="Scripts\images\bg-stripe.png" />
+    <Content Include="Scripts\images\footer-location.png" />
+    <Content Include="Scripts\images\footer-mail.png" />
+    <Content Include="Scripts\images\footer-phone.png" />
     <Content Include="Scripts\images\please_wait.png" />
     <Content Include="Scripts\images\Sample_Administrator_InspectApproveTimeSheet1.png" />
     <Content Include="Scripts\images\Sample_Administrator_InspectApproveTimeSheet2.png" />
@@ -2937,12 +2948,26 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="main.aspx.cs">
+      <DependentUpon>main.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="main.aspx.designer.cs">
+      <DependentUpon>main.aspx</DependentUpon>
+    </Compile>
     <Compile Include="payment_onsite.aspx.cs">
       <DependentUpon>payment_onsite.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="payment_onsite.aspx.designer.cs">
       <DependentUpon>payment_onsite.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="photoscan.aspx.cs">
+      <DependentUpon>photoscan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="photoscan.aspx.designer.cs">
+      <DependentUpon>photoscan.aspx</DependentUpon>
     </Compile>
     <Compile Include="photoupload.aspx.cs">
       <DependentUpon>photoupload.aspx</DependentUpon>

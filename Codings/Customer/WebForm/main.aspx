@@ -1,6 +1,7 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="photoupload.aspx.cs" Inherits="WebForm.photoupload" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="main.aspx.cs" Inherits="WebForm.main" %>
 
 <!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
@@ -9,6 +10,8 @@
     <link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' />
     <link rel='stylesheet' href='/Scripts/css/misc.css' type='text/css' media='all' />
     <link rel="stylesheet" href="/Scripts/css/jquery-ui.css" />
+    <link href="/Scripts/lib/datepicker/datepicker.css" rel="stylesheet" />
+    <link href="/Scripts/lib/datepicker/datepicker.min.css" rel="stylesheet" />
 
     <script type="text/javascript" src="/Scripts/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
@@ -22,7 +25,6 @@
 
     <link href="/Scripts/lib/noty/noty.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/Scripts/css/noty_custom.css" />
-
     <!-- Bootsrap-table core CSS -->
     <link href="/Scripts/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
     <!-- jqWidget core CSS -->
@@ -35,8 +37,8 @@
     <script src="/Scripts/lib/popper.js/umd/popper.min.js"></script>
     <!-- Bootstrap core JavaScript -->
     <script src="/Scripts/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
-    <!-- MDB core JavaScript -->
-    <script src="/Scripts/lib/mdb/js/mdb.min.js"></script>
+    <!-- MDB core JavaScript-->
+    <script src="/Scripts/lib/mdb/js/mdb.min.js"></script> 
     <!-- jqWidgets core JavaScript for all widgets (large JS file size)-->
     <script src="/Scripts/lib/jqwidgets/jqx-all.js"></script>
     <!-- jQuery validate plugin-->
@@ -47,73 +49,104 @@
     <script src="/Scripts/lib/noty/noty.min.js"></script>
     <script src="/Scripts/lib/moment/moment.min.js"></script>
     <script src="/Scripts/lib/store/store.min.js"></script>
-    <style> .gallery_profile {
-    display: inline-block;
-    margin-right: 3px;
-    max-width: 200px;
-    }</style>
+    <script src="/Scripts/lib/datepicker/datepicker.js"></script>
+    <script src="/Scripts/lib/datepicker/datepicker.min.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+
+        $.getJSON('https://api.ipify.org?format=jsonp&callback=?', function (data) {
+            $('#ip_addr').val(data.ip);
+        });
+    </script>
+    
 
 </head>
 <body>
-    <!-- HEADER -->
-    <header id="masthead" class="site-header" role="banner">
-    <div class="masthead">
-        <div class="wrapper">
-            <button class="mobile-menu-button"><span></span><span></span><span></span></button>
-            <div class="menu-quicklinks-container">
-                <ul id="menu-quicklinks" class="menu">
-                    <li id="menu-item-452" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-206 current_page_item menu-item-452"><a href="https://kidzania.com.sg/">Homepage</a></li>
-                    <li id="menu-item-1282" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1282"><a href="https://kidzania.com.sg/faq/">FAQs</a></li>
-                    <li id="menu-item-1544" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1544"><a href="https://kidzania.com.sg/our-partners/">Our Partners</a></li>
-                    <li id="menu-item-2237" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2237"><a target="_blank" href="/M-Login/">Media</a></li>
-                    <li id="menu-item-1760" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1760"><a href="/contact-us/">Contact Us</a></li>
-                </ul>
-            </div>
-            <div class="site-branding">
-                <a href="https://kidzania.com.sg/" rel="home"> <img src="/Content/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"></a>
-            </div>
-            <!-- .site-branding -->
-            <div class="header-right">
-                <div class="btn-book-tickets">
-                    <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank"><img src="/Content/img/btn-book-tickets.png"></a>
+        <!-- HEADER -->
+        <header id="masthead" class="site-header" role="banner">
+        <div class="masthead">
+            <div class="wrapper">
+                <button class="mobile-menu-button"><span></span><span></span><span></span></button>
+                <div class="menu-quicklinks-container">
+                    <ul id="menu-quicklinks" class="menu">
+                        <li id="menu-item-452" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-206 current_page_item menu-item-452"><a href="https://kidzania.com.sg/">Homepage</a></li>
+                        <li id="menu-item-1282" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1282"><a href="https://kidzania.com.sg/faq/">FAQs</a></li>
+                        <li id="menu-item-1544" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1544"><a href="https://kidzania.com.sg/our-partners/">Our Partners</a></li>
+                        <li id="menu-item-2237" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2237"><a target="_blank" href="/M-Login/">Media</a></li>
+                        <li id="menu-item-1760" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1760"><a href="/contact-us/">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="site-branding">
+                    <a href="https://kidzania.com.sg/" rel="home"><img src="/Content/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"/></a>
+                </div>
+                <!-- .site-branding -->
+                <div class="header-right">
+                    <div class="btn-book-tickets">
+                        <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank"><img src="/Content/img/btn-book-tickets.png"/></a>
+                    </div>
                 </div>
             </div>
+            <!-- wrapper -->
         </div>
-        <!-- wrapper -->
-    </div>
-    <!-- masthead -->
-    <!-- #site-navigation -->
-    </header>
-    <!-- HEADER -->
+        <!-- masthead -->
+        <!-- #site-navigation -->
+        </header>
+        <!-- HEADER -->
 
-    <div style="height: 160px; padding:10px; width: 100%; text-align:center;margin:0 auto;" id="heading">
-        <h1>Photo Upload</h1>
-    </div>
+    
 
-
-    <form id="form1" runat="server">
-    <div style="text-align:center;" id="photo_profile_ctn" runat="server"></div>
-    <input type="hidden" id="pf" value="default" runat="server" />
-    <br />
-
-	<div>
-		<div style="margin: 0 auto; display: table;">
-            <asp:FileUpload ID="FileUpload1" runat="server" accept="image/Jpeg" onchange="this.form.submit()"></asp:FileUpload>
-            <asp:Button runat="server"  ID="btn_reset" OnClick="reset" Text="Reset" />
-			<div style="display:inline-block;vertical-align:top;">
-				<asp:button runat="server" style="display:none;" class="btn_snap" id="btnProceed" onclick="GoToSelection" Text="Proceed" />
-			</div>
-		</div>
-	</div>
+    <form id="form" runat="server">
+    <div style="width:100%;">
+        <div id="page content" style="margin: 0 auto; display: table;text-align:center;">
+            <div style="height:160px;"><h1></h1></div>    
             
-    <hr />
-    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="false" ShowHeader="false">
-        <Columns>
-            <asp:BoundField DataField="Text" />
-            <asp:ImageField  DataImageUrlField="Value" ControlStyle-Height="100" ControlStyle-Width="100" />
-        </Columns>
-    </asp:GridView>
+            <div style="margin-top: 10px;width: 100% /*780px*/; text-align:center;margin:0 auto;" id="control_area">
+                <div class="btnmain" style="display: inline-block;">
+                    
+                    <asp:LinkButton ID="btnPhotoScan" runat="server"  class="btn_default" onclick="PhotoScan">
+                        <div style="width:100%;">
+                            <div><img src="/Content/img/webcam.png" border="0" style="background-color:transparent;"/></div>
+                            <div>Photo Scan</div>
+                        </div>
+                    </asp:LinkButton> 
+
+                </div>
+                <div class="btnmain" style="display: inline-block;">
+
+                    <asp:LinkButton ID="btnPhotoUpload" runat="server"  class="btn_default" onclick="PhotoUpload">
+                        <div style="width:100%;">
+                            <div><img src="/Content/img/photoupload.png" border="0" style="background-color:transparent;"/></div>
+                            <div>Photo Upload</div>
+                        </div>
+                    </asp:LinkButton> 
+
+                </div>
+                <div style="display: none;">
+
+                    <asp:LinkButton ID="btnProfileSearch" runat="server"  class="btn_default" onclick="ProfileSearch">
+                        <div style="width:100%;">
+                            <div><img src="/Content/img/profile_search.png" border="0" style="background-color:transparent;"/></div>
+                            <div>Profile Search</div>
+                        </div>
+                    </asp:LinkButton> 
+
+                </div>
+                <br /><br />
+                
+                <p>Date of Visit: <input type="text" id="datepicker" runat="server"/></p>
+                <p>Accuracy (<span id='accuracy_val'>50%</span>): <br />1%&nbsp;&nbsp;<input oninput="document.getElementById('accuracy_val').innerHTML = this.value+'%';" runat="server" id="Range1" type="range" min="1" max="100" step="1" value="50" data-orientation="horizontal" />&nbsp;&nbsp;100%</p>
+            </div>
+
+        </div>
+    </div>
+    <input id="ip_addr" style="display:none;" runat="server" />
     </form>
+
+
+
+
 
     <!-- FOOTER -->
     <footer id="colophon" class="site-footer" role="contentinfo">
@@ -182,7 +215,7 @@
                 <!-- #footer-sidebar -->
                 <div class="footer-contact">
                     <ul>
-                        <li class="footer-logo"><a href="#"><img src="https://kidzania.com.sg/kidzania/wp-content/themes/kidzania/images/kidzania.png"></a></li>
+                        <li class="footer-logo"><a href="#"><img src="https://kidzania.com.sg/kidzania/wp-content/themes/kidzania/images/kidzania.png"/></a></li>
                         <li class="footer-location">Palawan Kidz City. 31 Beach View #01-01/02 Singapore 098008.</li>
                         <li class="footer-phone">Local Hotline: 1800 653 6888</li>
                         <li class="footer-phone">International Hotline: +65 6653 6888</li>
@@ -190,9 +223,9 @@
                     </ul>
                 </div>
                 <ul class="footer-social-media">
-                    <li><a href="https://www.facebook.com/KidzaniaSingapore" target="_blank"><img src="https://kidzania.com.sg/kidzania/wp-content/themes/kidzania/images/icon-fb.png" title="Facebook" alt="Facebook"></a></li>
-                    <li><a href="https://www.tripadvisor.com.my/Attraction_Review-g294264-d7789437-Reviews-KidZania_Singapore-Sentosa_Island.html" target="_blank"><img src="https://kidzania.com.sg/kidzania/wp-content/themes/kidzania/images/icon-tripadvisor.png" title="Trip Advisor" alt="Trip Advisor"></a></li>
-                    <li><a href="https://instagram.com/KidzaniaSingapore" target="_blank"><img src="https://kidzania.com.sg/kidzania/wp-content/themes/kidzania/images/icon-instagram.png" title="Instagram" alt="Instagram"></a></li>
+                    <li><a href="https://www.facebook.com/KidzaniaSingapore" target="_blank"><img src="https://kidzania.com.sg/kidzania/wp-content/themes/kidzania/images/icon-fb.png" title="Facebook" alt="Facebook"/></a></li>
+                    <li><a href="https://www.tripadvisor.com.my/Attraction_Review-g294264-d7789437-Reviews-KidZania_Singapore-Sentosa_Island.html" target="_blank"><img src="https://kidzania.com.sg/kidzania/wp-content/themes/kidzania/images/icon-tripadvisor.png" title="Trip Advisor" alt="Trip Advisor"/></a></li>
+                    <li><a href="https://instagram.com/KidzaniaSingapore" target="_blank"><img src="https://kidzania.com.sg/kidzania/wp-content/themes/kidzania/images/icon-instagram.png" title="Instagram" alt="Instagram"/></a></li>
                 </ul>
             </div>
         </div>
@@ -207,10 +240,9 @@
         </div>
         <!-- #site-info -->
         <!-- .site-info -->
+        
     </footer>
     <!-- FOOTER -->
-
-
+    
 </body>
 </html>
-
