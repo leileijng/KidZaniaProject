@@ -1,60 +1,114 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="photoupload.aspx.cs" Inherits="WebForm.photoupload" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="photoscan.aspx.cs" Inherits="WebForm.photoscan" %>
 
 <!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title></title>
-    <script type="text/javascript" src="Scripts/jquery-3.3.1.js"></script>
-    <link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' />
-    <link rel='stylesheet' href='/Scripts/css/misc.css' type='text/css' media='all' />
+     <link rel='stylesheet'  href='/Scripts/css/style.css' type='text/css' media='all' />
+    <link rel='stylesheet'  href='/Scripts/css/misc.css' type='text/css' media='all' />
     <link rel="stylesheet" href="/Scripts/css/jquery-ui.css" />
-
+    <script type="text/javascript" src="/Scripts/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="/Scripts/jquery-3.3.1.min.js"></script>
+
     <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
     <!-- Font Awesome -->
 
     <link href="/Scripts/lib/font-awesome/css/all.min.css" rel="stylesheet" />
     <!-- Bootstrap core CSS -->
     <link href="/Scripts/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Material Design Bootstrap -->
-    <link href="/Scripts/lib/mdb/css/mdb.min.css" rel="stylesheet" />
-
-    <link href="/Scripts/lib/noty/noty.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/Scripts/css/noty_custom.css" />
-
-    <!-- Bootsrap-table core CSS -->
-    <link href="/Scripts/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
     <!-- jqWidget core CSS -->
     <link href="/Scripts/lib/jqwidgets/styles/jqx.base.css" rel="stylesheet" />
     <link href="/Scripts/lib/jqwidgets/styles/jqx.flat.css" rel="stylesheet" />
     <!-- jQuery library-->
     <script src="/Scripts/lib/jquery/dist/jquery.js"></script>
 
-    <!-- Bootstrap tooltips -->
-    <script src="/Scripts/lib/popper.js/umd/popper.min.js"></script>
-    <!-- Bootstrap core JavaScript -->
-    <script src="/Scripts/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
-    <!-- MDB core JavaScript -->
-    <script src="/Scripts/lib/mdb/js/mdb.min.js"></script>
-    <!-- jqWidgets core JavaScript for all widgets (large JS file size)-->
-    <script src="/Scripts/lib/jqwidgets/jqx-all.js"></script>
-    <!-- jQuery validate plugin-->
-    <script src="/Scripts/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="/Scripts/lib/jquery-validation/dist/additional-methods.js"></script>
-    <!-- Boostrap table core JavaScript -->
-    <script src="/Scripts/lib/bootstrap-table/bootstrap-table.min.js"></script>
-    <script src="/Scripts/lib/noty/noty.min.js"></script>
-    <script src="/Scripts/lib/moment/moment.min.js"></script>
-    <script src="/Scripts/lib/store/store.min.js"></script>
-    <style> .gallery_profile {
-    display: inline-block;
-    margin-right: 3px;
-    max-width: 200px;
-    }</style>
+    <script>
+        var canvas, context, video, videoObj;
+        var isMobile = {
+            Android: function () {
+                return navigator.userAgent.match(/Android/i) ? true : false;
+            },
+            BlackBerry: function () {
+                return navigator.userAgent.match(/BlackBerry/i) ? true : false;
+            },
+            iOS: function () {
+                return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
+            },
+            Windows: function () {
+                return navigator.userAgent.match(/IEMobile/i) ? true : false;
+            },
+            any: function () {
+                return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());
+            }
+        };
+
+
+        $(function () {
+            canvas = document.getElementById("canvas");
+            context = canvas.getContext("2d");
+            video = document.getElementById("video");
+
+            video.style.cssText = "-moz-transform: scale(-1, 1); \
+            -webkit-transform: scale(-1, 1); -o-transform: scale(-1, 1); \
+            transform: scale(-1, 1); filter: FlipH;";
+
+            // different browsers provide getUserMedia() in differnt ways, so we need to consolidate 
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+            if (navigator.getUserMedia) {
+                navigator.getUserMedia(
+                   { video: true }, // which media
+                   function (stream) {   // success function
+                       video.srcObject = stream;
+                       video.onloadedmetadata = function (e) {
+                           video.play();
+                       };
+                   },
+                   function (err) {  // error function 
+                       console.log("The following error occured: " + err.name);
+                   }
+              );
+            }
+            else {
+                console.log("getUserMedia not supported");
+            }
+        });
+
+        function takePhoto() {
+            context.drawImage(video, 0, 0, 380, 280);
+            context = canvas.getContext("2d");
+            //if (!isMobile.any()) {
+            //    context.translate(canvas.width, 0);
+            //    context.scale(-1, 1)
+            //}
+            //var data = canvas.toDataURL();
+			var data = canvas.toDataURL("image/jpeg", 0.5); //Test to see if it works... reduce size by using jpeg compression reduce image quality by 50%
+            var data = canvas.toDataURL("image/jpeg"); //Test to see if it works... reduce size by using jpeg compression
+
+            var title = $("#title").val();
+            $.ajax({
+                type: "POST",
+                url: "savephoto.aspx",
+                data: {
+                    photo: data,
+                    title: title
+                }
+            }).done(function (o) {
+				window.location.href = 'profile.aspx';
+                $("#proceed_gif").css("display", "inline-block")
+                $("#btn_snap_div").css("display", "none")
+            });
+
+        }
+
+    </script>
+    
 
 </head>
 <body>
+
     <!-- HEADER -->
     <header id="masthead" class="site-header" role="banner">
     <div class="masthead">
@@ -70,12 +124,12 @@
                 </ul>
             </div>
             <div class="site-branding">
-                <a href="https://kidzania.com.sg/" rel="home"> <img src="/Content/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"></a>
+                <a href="https://kidzania.com.sg/" rel="home"><img src="https://kidzania.com.sg/kidzania/wp-content/themes/kidzania/images/kidzania.png" title="KidZania Singapore – A City Built for Kids!"/></a>
             </div>
             <!-- .site-branding -->
             <div class="header-right">
                 <div class="btn-book-tickets">
-                    <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank"><img src="/Content/img/btn-book-tickets.png"></a>
+                    <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank"><img src="https://kidzania.com.sg/kidzania/wp-content/themes/kidzania/images/btn-book-tickets.png"/></a>
                 </div>
             </div>
         </div>
@@ -86,34 +140,38 @@
     </header>
     <!-- HEADER -->
 
+
+
+    
     <div style="height: 160px; padding:10px; width: 100%; text-align:center;margin:0 auto;" id="heading">
-        <h1>Photo Upload</h1>
+        <h1>Photo Scan</h1>
     </div>
 
-
-    <form id="form1" runat="server">
-    <div style="text-align:center;" id="photo_profile_ctn" runat="server"></div>
-    <input type="hidden" id="pf" value="default" runat="server" />
+    <div style="padding:10px;border: solid 1px; width: 780px; text-align:center;margin:0 auto;" id="photoscan_area">
+        <div style="display: inline-block;" id="live_video_stream">
+            <video id="video" width="580" height="480" autoplay playsinline></video>
+        </div>
+        <div style="display: none;" id="captured_image">
+            <canvas id="canvas" width="380" height="280"></canvas>
+        </div>
+    </div>
     <br />
+    <div style="margin-top: 10px; margin-bottom: 20px;width: 100% /*780px*/; text-align:center;margin:0 auto;" id="control_area">
+        <div id="btn_snap_div" style="display: inline-block;">
+            <button class="btn_default" id="btnSnap" onclick="takePhoto()">Snap</button>
+        </div>
+        <div id="proceed_gif" style="display:none;">
+            <img src="/Content/img/arrow-loader.gif" />
+        </div>
+        <div id="btn_proceed" style="display: none;">
+            <form id="form" runat="server">
+                <button style="margin-top:-5px;" class="btn_default" id="btnSave" onclick="savePhoto()">Proceed</button>
+            </form>
+        </div>
+    </div>
+    
 
-	<div>
-		<div style="margin: 0 auto; display: table;">
-            <asp:FileUpload ID="FileUpload1" runat="server" accept="image/Jpeg" onchange="this.form.submit()"></asp:FileUpload>
-            <asp:Button runat="server"  ID="btn_reset" OnClick="reset" Text="Reset" />
-			<div style="display:inline-block;vertical-align:top;">
-				<asp:button runat="server" style="display:none;" class="btn_snap" id="btnProceed" onclick="GoToSelection" Text="Proceed" />
-			</div>
-		</div>
-	</div>
-            
-    <hr />
-    <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="false" ShowHeader="false">
-        <Columns>
-            <asp:BoundField DataField="Text" />
-            <asp:ImageField  DataImageUrlField="Value" ControlStyle-Height="100" ControlStyle-Width="100" />
-        </Columns>
-    </asp:GridView>
-    </form>
+
 
     <!-- FOOTER -->
     <footer id="colophon" class="site-footer" role="contentinfo">
@@ -208,8 +266,8 @@
         <!-- #site-info -->
         <!-- .site-info -->
     </footer>
-    <!-- FOOTER -->
 
+    <!-- FOOTER -->
 
 </body>
 </html>
