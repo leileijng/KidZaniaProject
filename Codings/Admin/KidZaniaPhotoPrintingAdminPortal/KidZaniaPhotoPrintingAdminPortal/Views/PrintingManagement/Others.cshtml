@@ -138,8 +138,18 @@
         </div>
     </div>
 </div>
+
+<script src="~/Scripts/noty/jquery.noty.js"></script>
+<script src="~/Scripts/noty/layouts/center.js"></script>
+<script src="~/Scripts/noty/themes/bootstrap.js"></script>
+<script src="~/Scripts/noty/themes/default.js"></script>
+<script src="~/Scripts/noty/themes/relax.js"></script>
 <style>
     .orderRow {
+        cursor: pointer;
+    }
+
+    .dlbutton {
         cursor: pointer;
     }
 
@@ -157,14 +167,21 @@
             success: function (data) {
                 data.forEach(function (record) {
                     let counter = 0;
+                    let pausechecker = false;
                     for (let x = 0; x < record.product.length; x++) {
                         if (record.product[x].status == "Completed") {
                             counter++;
+                        }
+                        else if (record.product[x].status == "Paused") {
+                            pausechecker = true;
                         }
                     }
                     if (counter == record.product.length) {
                         let $rowElement = createRow(record, false);
                         $('#collectedTable').append($rowElement);
+                    }
+                    else if (pausechecker) {
+
                     }
                     else {
                         let $rowElement = createRow(record, true);
@@ -202,13 +219,26 @@
         $cellElement = $(`<td>${order_id}</td>`);
         $rowElement.append($cellElement);
         if (desc) {
-            $cellElement = $(`<td id="pauseBtn"><a onclick="blockOrder('${order_id}')"><i class="fas fa-ban" style="color:gray"></i></a></td>`);
+            let lineitemid = "";
+            for (let x = 0; x < product.length; x++) {
+                lineitemid += product[x].lineitem_id + "|";
+            }
+            console.log(lineitemid);
+            $cellElement = $(`<td id="pauseBtn"><a onclick="pause('${lineitemid}', '${order_id}')"><i class="fas fa-ban" id="block${order_id}" style="color:red"></i></a></td>`);
             $rowElement.append($cellElement);
         }
         return $rowElement;
     }
 
+    var ord_id;
     function expandOrder(order_id) {
+        if (ord_id != null) {
+            $(`#order${ord_id}`).css("background-color", "");
+            $(`#block${ord_id}`).css("color", "red");
+        }
+        $(`#order${order_id}`).css("background-color", "#fffdd0");
+        $(`#block${order_id}`).css("color", "gray");
+        ord_id = order_id;
         $.ajax({
             type: "GET",
             url: `/api/others/${order_id}`,
@@ -217,8 +247,17 @@
                 $('#detailTable').html('');
                 let prods = data.product;
                 prods.forEach(function (record) {
-                    let $rowElement = createDetail(record);
+                    let $rowElement = createDetail(record, order_id);
                     $('#detailTable').append($rowElement);
+                    if (record.product_id == "mg") {
+                        $(`#input-select${record.product_id}`)[0].selectedIndex = 0;
+                    }
+                    else if (record.product_id == "kc") {
+                        $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
+                    }
+                    else {
+                        $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
+                    }
                     if (record.status == "Completed") {
                         $(`#check${record.lineitem_id}`).attr('checked', true);
                     }
@@ -240,7 +279,7 @@
         });
     }
 
-    function createDetail({ p_id, product_id, quantity, productname, lineitem_id, status }) {
+    function createDetail({ p_id, product_id, quantity, productname, lineitem_id, photos, status }, order_id) {
         let $cellElement = null;
         let $hyperlinkElement = null;
         let $rowElement = $(`<tr id="${p_id}${product_id}"></tr>`);
@@ -251,14 +290,16 @@
         $cellElement = $(`<td>
                 <form>
                     <div class="form-group">
-                        <select class="form-control form-control-sm" id="input-select item${productname}">
-                            <option>--Select Path for Keychain--</option>
+                        <select class="form-control form-control-sm" id="input-select${product_id}">
+                            <option>~/Content/OrderPhotos/Magnet/</option>
+                            <option>~/Content/OrderPhotos/Keychain/</option>
+                            <option>~/Content/OrderPhotos/Establishment Card/</option>
                         </select>
                     </div>
                 </form>
             </td>`);
         $rowElement.append($cellElement);
-        $cellElement = $(`<td><i class="fa fa-download active"></i></td>`);
+        $cellElement = $(`<td><i id="download${product_id}" class="fa fa-download active dlbutton" onclick="downloadImage('${photos}', '${order_id}', '${product_id}')"></i></td>`);
         $rowElement.append($cellElement);
         $cellElement = $(`<td><label class="custom-control custom-checkbox ODbox">
                                 <input onchange="changeStatus('${lineitem_id}')" id="check${lineitem_id}" type="checkbox" class="custom-control-input checkAll">
@@ -275,8 +316,12 @@
             dataType: "json",
             success: function (data) {
                 data.forEach(function (record) {
+                    let pausechecker = false;
+                    if (record.product[0].status == "Paused") {
+                        pausechecker = true;
+                    }
                     let orderChecker = document.getElementById(`order${record.order_id}`);
-                    if (orderChecker == null) {
+                    if (orderChecker == null && pausechecker == false) {
                         let $rowElement = createRow(record, true);
                         $('#myTable').append($rowElement);
                         var effects = 'animate__animated animate__fadeIn animate__slow';
@@ -312,7 +357,7 @@
             url: `/API/others/${id}?status=${status}`,
         }).fail(function (data, textStatus, jqXHR) {
             console.log(data);
-            })
+        })
 
         let order = id.substring(id.indexOf("_"), -1);
         var classname = $(`#order${order}`).closest('tbody').attr('id');
@@ -354,10 +399,22 @@
         //        console.log(data);
         //    })
     }
-    
+
+    function downloadImage(photos, order_id, product_id) {
+        let path = $(`#input-select${product_id}`).val();
+        $.ajax({
+            type: 'PUT',
+            url: `/API/others/downloadImage/${order_id}?photos=${photos}&path=${path}`,
+        }).done(function (data) {
+            $(`#download${product_id}`).prop("onclick", null).off("click");
+            $(`#download${product_id}`).css("color", "red");
+        }).fail(function (data, textStatus, jqXHR) {
+            console.log(data);
+        })
+    }
 
     function myFunction(num) {
-        
+
         var input, filter, table, tr, td, i;
         if (num == 1) {
             input = document.getElementById("searchCode");
@@ -397,6 +454,48 @@
             else {
                 trList[i].style.display = "";
             }
+        }
+    }
+
+    function pause(lineItemId, order) {
+        let newid = lineItemId.split("|");
+        for (let x = 0; x < newid.length - 1; x++) {
+            webformdata = { "status": "Paused" };
+            $.ajax({
+                type: 'PUT',
+                url: `/api/hardcopys/${newid[x]}`,
+                contentType: 'application/json',
+                data: JSON.stringify(webformdata)
+            }).done(function (data, textStatus, jqXHR) {
+                console.log("Collected updated!");
+                new noty({
+                    text: data.message,
+                    layout: 'center',
+                    theme: 'bootstrapTheme',
+                    type: 'success',
+                    timeout: 3000,
+                    callback: {
+                        onClose: function () {
+                            var effects = 'animate__animated animate__fadeIn animate__slow';
+                            var deleteEffects = 'animate__animated animate__fadeOut animate__slow';
+                            var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+
+                            $(`#order${order}`).addClass(deleteEffects).one(effectsend, function () {
+                                $(`#order${order}`).removeClass(deleteEffects);
+                                $(`#order${order}`).closest("tr").remove();
+                            });
+                        }
+                    }
+                }).show();
+            }).fail(function (data, textStatus, jqXHR) {
+                new noty({
+                    text: data.responseJSON.message,
+                    theme: 'bootstrapTheme',
+                    layout: 'center',
+                    timeout: 3000,
+                    type: 'error'
+                }).show();
+            });
         }
     }
 
