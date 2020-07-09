@@ -6,6 +6,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Newtonsoft.Json.Linq;
+using System.Web;
+using System.IO;
+using System.Web.Hosting;
 
 namespace KidZaniaPhotoPrintingAdminPortal.APIs
 {
@@ -88,7 +91,9 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     }
                     else
                     {
-                        database.lineitems.Remove(foundLineItem);
+                        foundPhoto.printing_status = "Cancelled";
+                        foundLineItem.status = "Cancelled";
+                        
                     }
                     database.SaveChanges();
                 }
@@ -101,6 +106,61 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             catch (Exception exceptionObject)
             {
                 return BadRequest("Unable to delete product because " + exceptionObject.Message.ToString());
+            }
+        }
+
+        [Route("api/paused/UploadPhoto/{imgName}")]
+        [HttpPost]
+        public IHttpActionResult UploadImgFile(string imgName)
+        {
+            var httpContext = HttpContext.Current;
+            try
+            {
+                // Check for any uploaded file  
+                if (httpContext.Request.Files.Count > 0)
+                {
+                    //Loop through uploaded files  
+                    for (int i = 0; i < httpContext.Request.Files.Count; i++)
+                    {
+                        HttpPostedFile httpPostedFile = httpContext.Request.Files[i];
+                        if (httpPostedFile != null)
+                        {
+                            // Construct file save path  
+                            var ext = Path.GetExtension(httpPostedFile.FileName);
+                            var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/Content/Photos/"), imgName + ext);
+                            if (!File.Exists(fileSavePath))
+                            {
+                                // Save the uploaded file  
+                                httpPostedFile.SaveAs(fileSavePath);
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("api/paused/updateImgPath")]
+        public IHttpActionResult updateImgPath([FromBody]JObject data)
+        {
+            try
+            {
+                string photoid = data["photoId"].ToString();
+                var photoItem = database.itemphotoes.SingleOrDefault(x => x.itemphoto_id == photoid);
+                
+                photoItem.photo = "/Content/Photos/" + data["imgName"].ToString();
+                string[] ids = photoid.Split('_');
+                database.SaveChanges();
+                return Ok(new { message = "Line Item status has been updated to " + data["status"] });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message.ToString());
             }
         }
 

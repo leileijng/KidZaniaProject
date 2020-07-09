@@ -143,8 +143,59 @@
 
             reader.onload = function (e) {
                 $('#uploadhover').attr('src', e.target.result);
+                var imgNameStr = input.files[0].name;
+                var imgNames = imgNameStr.split(".");
+                var imgName = imgNames[0];
+                console.log(imgName);
                 $(input).parent().siblings("img").attr('src', e.target.result);
-                var img = $(input).parent().siblings("img").attr('src');
+                var photoId = $(input).parent().siblings("img").attr('id');
+                var webformdata = { "imgName": imgNameStr, "photoId": photoId };
+                console.log(webformdata);
+                var formData = new FormData();
+                var file = input.files[0];
+                formData.append('file', file);
+                $.ajax({
+                    url: `/api/paused/UploadPhoto/${imgName}`,
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (d) {
+                        console.log(d);
+                        $.ajax({
+                            type: 'PUT',
+                            url: `/api/paused/updateImgPath`,
+                            contentType: 'application/json',
+                            data: JSON.stringify(webformdata)
+                        }).done(function (data, textStatus, jqXHR) {
+                            console.log("The photo path is canceled!");
+                            new noty({
+                                text: data.message,
+                                layout: 'center',
+                                theme: 'bootstrapTheme',
+                                type: 'success',
+                                timeout: 3000,
+                                callback: {
+                                    onClose: function () {
+                                        location.reload();
+                                    }
+                                }
+                            }).show();
+                        }).fail(function (data, textStatus, jqXHR) {
+                            new noty({
+                                text: data.responseJSON.message,
+                                theme: 'bootstrapTheme',
+                                layout: 'center',
+                                timeout: 3000,
+                                type: 'error'
+                            }).show();
+                        });
+                    },
+                    error: function (d) {
+                        alert('Upload file went wrong');
+                        console.log(d);
+                    }
+                });
             };
             reader.readAsDataURL(input.files[0]);
         }
@@ -324,7 +375,7 @@
 
 
                             $photoRow = $(`<tr class="paused${data[i].lineItem_id} collapse"><td></td><td colspan="2"><div class="row" id="img${data[i].lineItem_id}">
-                                <div class="col-md-3"><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"><p style="margin-top: 5px;"><i class="fa fa-edit" onclick="$('#fileid').click();" style="width:26px"></i><input id='fileid' onchange="readURL(this);" type='file' hidden /> 
+                                <div class="col-md-3"><img src="${data[i].photo_path}" alt="user" class="rounded" width="55" id="${data[i].photo_id}"><p style="margin-top: 5px;"><i class="fa fa-edit" onclick="$('#fileid').click();" style="width:26px"></i><input id='fileid' onchange="readURL(this);" type='file' hidden /> 
                                 <i class="fa fa-trash" style="width:25px" onclick="loadDeletePhoto('${data[i].photo_id}', '${data[i].photo_path}', '${data[i].lineItem_name}', '${data[i].order_id}')" data-target="#deletePhotoModal" data-toggle="modal"></i></p></div>
                             </div></td><td></td></tr>`);
                             $(`#pausedOrderTable`).append($photoRow);
