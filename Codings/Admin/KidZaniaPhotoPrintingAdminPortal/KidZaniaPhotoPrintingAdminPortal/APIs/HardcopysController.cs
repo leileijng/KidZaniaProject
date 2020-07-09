@@ -21,7 +21,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
 
         [HttpGet]
         [Route("api/hardcopys")]
-        public IHttpActionResult getHardCopies()
+        public IHttpActionResult getHardCopys()
         {
             try
             {
