@@ -2,7 +2,7 @@
 
 
 <!DOCTYPE html>
-
+<meta content="width=device-width, initial-scale=1" name="viewport" />
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <script type="text/javascript" src="Scripts/jquery-3.3.1.js"></script>
@@ -19,12 +19,10 @@
     <link href="/Scripts/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Material Design Bootstrap -->
     <link href="/Scripts/lib/mdb/css/mdb.min.css" rel="stylesheet" />
-    <!-- Your custom styles (optional) -->
-    <link href="/Scripts/css/site.css" rel="stylesheet" />
 
     <link href="/Scripts/lib/noty/noty.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/Scripts/css/noty_custom.css" />
-    <link rel="stylesheet" href="/Scripts/css/sticky_footer.css" />
+
     <!-- Bootsrap-table core CSS -->
     <link href="/Scripts/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
     <!-- jqWidget core CSS -->
@@ -131,10 +129,6 @@
             display: inline-block;
             vertical-align: middle;
             font-size: 0.9rem;
-        }
-
-        #photoProductTable td {
-            padding: 0.9rem !important;
         }
 
         .deleteItem:hover {
@@ -381,7 +375,7 @@
         }
 
         .sidebar {
-            height: 610px;
+            height: 76%;
             width: 0;
             position: fixed;
             z-index: 5;
@@ -436,12 +430,12 @@
                 padding-top: 15px;
             }
 
-                .sidebar a {
-                    font-size: 18px;
-                }
+           .sidebar a {
+                font-size: 18px;
+            }
         }
+        
     </style>
-
 
     <script>
         //Checker for all digital
@@ -1100,7 +1094,6 @@
             load_Cart();
         }
 
-
         //Tooltip
         $('[rel="tooltip"]').tooltip({
             animated: 'fade',
@@ -1444,6 +1437,7 @@
                             <img src="/Content/img/btn-book-tickets.png" /></a>
                     </div>
                 </div>
+                <div id="cd-cart-trigger"><a onclick="openCart()"><i class="fa fa-shopping-cart"></i></a></div>
             </div>
             <!-- wrapper -->
         </div>
@@ -1494,8 +1488,11 @@
         <div style="width: 100%; height: 150px; text-align: center; margin: 0 auto;" id="heading">
             <span class="heading1">Photo Selection</span>
         </div>
-        <div style="text-align: center; margin-top: 10px; margin: 0 auto;">
-            <img src='/Content/img/process-selection.png' />
+        <div style="text-align: center; margin-top: 10px;">
+            <img src="Content/img/process-selection.png" />
+        </div>
+        <div style="text-align: center; margin-top: 10px;">
+            <img src="Content/img/selection.png" />
         </div>
 
         <div style="width: 100%; text-align: center; margin-top: 10px; margin: 0 auto;" id="user_profile">
@@ -1569,43 +1566,54 @@
                 <!--<div id="menu_select">
                     <input name="all_digital_cb" onclick="disableCheck()" id="all_digital" type="checkbox" />&nbsp;<label>All Digital</label>
                 </div> -->
-                <div style="text-align: center;" id="photo_gallery_ctn" runat="server">
-                    <div style="display: flex;">
-                        <div class="card-body" id="photoProductTable" style="width: 40%; -ms-flex: 0.8; flex: 0.8;">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered first">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="2">Photo Souvenir</th>
-                                            <th>Price</th>
-                                            <th>PWP Price</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="photoProductTableBody"></tbody>
-                                </table>
+
+                <div class="PT">
+                    <div id="photoS">
+                        <button class="accordion">Photo Souvenir Table</button>
+                        <div class="panel">
+                            <div class="card-body" id="photoProductTable">
+                                <div class="table-responsive" style="overflow-x: unset;">
+                                    <table class="table table-striped table-bordered first">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Photo Souvenir</th>
+                                                <th>Price</th>
+                                                <th>PWP Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="photoProductTableBody"></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="card-body" id="otherProductTable" style="width: 50%; -ms-flex: 1; flex: 1;">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered first">
-                                    <thead>
-                                        <tr>
-                                            <th colspan="2">Other Souvenir</th>
-                                            <th>Price</th>
-                                            <th>PWP Price</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="nonPhotoProductTable">
-                                    </tbody>
-                                </table>
+                    <div id="nonphotoS">
+                        <button class="accordion">Other Souvenir Table</button>
+                        <div class="panel">
+                            <div class="card-body" id="otherProductTable">
+                                <div class="table-responsive" style="overflow-x: unset;">
+                                    <table class="table table-striped table-bordered first">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Other Souvenir</th>
+                                                <th>Price</th>
+                                                <th>PWP Price</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="nonPhotoProductTable">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <br />
-                <!--
+                <div style="text-align: center;" id="photo_gallery_ctn" runat="server">
+                </div>
+            <br />
+            <!--
                 Leatherette
                 <select id="leatherette_select">
                     <option value="0">0</option>
@@ -1627,22 +1635,21 @@
                 <input type="hidden" id="lr" value="0" runat="server" />
                 <input type="hidden" id="js" value="0" runat="server" />
                     -->
-                <div>
-                    <!--<input class='btn_default' type="submit" />-->
-                    <input style="margin-left: 10px;" onclick='location.reload();' class='btn_default' type="reset" />
-                </div>
-                <br />
+            <div>
+                <!--<input class='btn_default' type="submit" />-->
+                <input style="margin-left: 10px;" onclick='location.reload();' class='btn_default' type="reset" />
             </div>
-
-            <div id="cart" style="height: 596px" class="sidebar">
+            <br />
+            </div>
+            <div id="cart" class="sidebar">
                 <div class="p-2 mt-1 mb-2" style="text-align: center">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="modal-title" style="margin-left: 10px">My Cart</span>
                     <button type="button" class="close" onclick="closeCart()">&times;</button>
                 </div>
-                <div id="cart_items" style="height: 470px; overflow-y: scroll; overflow-x: hidden;">
+                <div id="cart_items" style="height: 76%; overflow-y: scroll; overflow-x: hidden;">
                 </div>
-                <div class="totalPrice p-2 pl-3 bg-white" style="border-top: 1px solid #c3c3c3; height: 60px; display: flex;">
+                <div class="totalPrice p-2 pl-3 bg-white" style="border-top: 1px solid #c3c3c3; height: 60px; display: flex; bottom: 0; position: fixed;width: 350px;">
                     <p style="-ms-flex: 1; flex: 1; font-size: 1.02rem" class="mt-2">
                         Total: <b id="cartTotalCost"> SGD 72.00</b>
                     </p>
@@ -1758,6 +1765,21 @@
     </footer>
 
     <!-- FOOTER -->
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var acctab;
 
+        for (acctab = 0; acctab < acc.length; acctab++) {
+            acc[acctab].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
 </body>
 </html>

@@ -40,8 +40,8 @@ namespace WebForm
                 string header = string.Join(" ", lines);
 
                 //Display processing
-                string metaheader = "<head><title><script type='text/javascript' src='Scripts/jquery-3.3.1.js'></script><link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' /><link rel='stylesheet' href='/Scripts/css/misc.css' type='text/css' media='all' /><link rel ='stylesheet' href='/Scripts/css/jquery-ui.css'/>"
-                    + "<script type='text/javascript' src='/Scripts/jquery-3.3.1.min.js'></script><script type='text/javascript' src='/Scripts/bootstrap.min.js'></script>"
+                string metaheader = "<head><meta content='width=device-width, initial-scale = 1' name='viewport' /><title><script type='text/javascript' src='Scripts/jquery-3.3.1.js'></script><link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' /><link rel='stylesheet' href='/Scripts/css/misc.css' type='text/css' media='all' /><link rel ='stylesheet' href='/Scripts/css/jquery-ui.css'/>"
+                            + "<script type='text/javascript' src='/Scripts/jquery-3.3.1.min.js'></script><script type='text/javascript' src='/Scripts/bootstrap.min.js'></script>"
                     + "<link href='/Scripts/lib/font-awesome/css/all.min.css' rel='stylesheet'/><link href='/Scripts/lib/twitter-bootstrap/css/bootstrap.min.css' rel='stylesheet'/>"
                     + "<link href='/Scripts/lib/mdb/css/mdb.min.css' rel='stylesheet'/><link href='/Scripts/css/site.css' rel='stylesheet'/><link href='/Scripts/lib/noty/noty.min.css' rel='stylesheet'/>"
                     + "<link rel='stylesheet' href='/Scripts/css/noty_custom.css' /><link rel='stylesheet' href='/Scripts/css/sticky_footer.css'/><link href='/Scripts/lib/bootstrap-table/bootstrap-table.min.css' rel='stylesheet'/>"
@@ -55,7 +55,7 @@ namespace WebForm
                 update_lineitem_status(pid, "Paid");
                 update_itemphoto_status(pid, "Paid");
 
-                Response.Write("<html>" + metaheader + "<body>" + header + "<div id='statustext' style='position: relative; top: 165px; margin-top: 160px;width: 100%; height: 200px; text-align:center; margin:0 auto; font-size: 33px;'><div style=\"text -align:center;margin-top: 10px;margin:0 auto;\"><img src='/img/process-checkout.png' /></div><div style='display: inline-block;'>Please proceed to the checkout counter with the following code:<br><b>" + usercode + "</b></div></div>");
+                Response.Write("<html>" + metaheader + "<body>" + header + "<div id='statustext' style='position: relative; top: 165px; margin-top: 160px;width: 100%; height: 200px; text-align:center; margin:0 auto; font-size: 33px;'><div style=\"text -align:center;margin-top: 10px;margin:0 auto;\"><img src='Content/img/process-checkout.png' /></div><div style='display: inline-block;'>Please proceed to the checkout counter with the following code:<br><b>" + usercode + "</b></div></div>");
 
                 Response.Flush();
             }

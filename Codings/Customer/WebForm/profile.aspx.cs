@@ -17,13 +17,18 @@ namespace WebForm
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["CapturedImageBase64"] != null && Session["CapturedImageBase64"] != "")
+            /*if (Session["CapturedImageBase64"] != null && Session["CapturedImageBase64"] != "")
             {
                 string photobase64 = Session["CapturedImageBase64"].ToString();
                 profile_photo.InnerHtml = "<img style='max-height: 300px !important;' src='" + photobase64 + "' />";
-                Dictionary<string, string> photoprofile = getphotoprofile(photobase64);
+                Dictionary<string, string> photoprofile = getphotoprofile(photobase64); */
 
-                string currentApplicationPath = HttpContext.Current.Request.PhysicalApplicationPath;
+                Dictionary<string, string> photoprofile = new Dictionary<string, string>();
+                photoprofile.Add("photoID1", "1.jpg");
+                photoprofile.Add("photoID2", "2.jpg");
+                photoprofile.Add("photoID3", "3.jpg");
+
+               string currentApplicationPath = HttpContext.Current.Request.PhysicalApplicationPath;
 
                 Uri myuri = new Uri(System.Web.HttpContext.Current.Request.Url.AbsoluteUri);
                 string pathQuery = myuri.PathAndQuery;
@@ -36,9 +41,13 @@ namespace WebForm
                     string photofullpath = "";
                     foreach (var photo in photoprofile)
                     {
+                        //string photodata = photo.Key;
+                        //string profile_id = photodata.Split('|')[1];
+                        //string photoprofileimage = photo.Value;
+
                         string photodata = photo.Key;
-                        string profile_id = photodata.Split('|')[1];
                         string photoprofileimage = photo.Value;
+                        string profile_id = photodata;
 
                         string photoid = photoprofileimage.Substring(photoprofileimage.LastIndexOf('/') + 1);
                         photoid = photoid.Substring(0, photoid.IndexOf('.'));
@@ -49,16 +58,17 @@ namespace WebForm
 
                         using (WindowsIdentity.GetCurrent().Impersonate())
                         {
-                            if (!File.Exists(currentApplicationPath + "profiles//" + local_photoimage)) { }
-                            else
+                            if (!File.Exists(currentApplicationPath + "photos//" + local_photoimage)) { } //"profiles//"
+                        else
                             {
-                                File.Delete(currentApplicationPath + "profiles//" + local_photoimage);
+                                File.Delete(currentApplicationPath + "photos//" + local_photoimage);
                             }
                         }
 
                         photo_gallery_ctn.InnerHtml += "<div class=\"gallery\">";
-                        //ON CLICK will submit form to selection.aspx
-                        photo_gallery_ctn.InnerHtml += "<button onclick='$(\"#pf\").val(\"" + photodata + "\");' type='submit' value='" + photodata + "'><img class='thumbnail' src='" + host + "profiles/" + local_photoimage + "'></button>";
+                    //ON CLICK will submit form to selection.aspx
+                        photo_gallery_ctn.InnerHtml += "<button onclick='$(\"#pf\").val(\"" + photodata + "\");' type='submit' value='" + photodata + "'><img class=\"thumbnail\" src=\"/Content/photos/" + local_photoimage + "\"></button>";
+                        //photo_gallery_ctn.InnerHtml += "<button onclick='$(\"#pf\").val(\"" + photodata + "\");' type='submit' value='" + photodata + "'><img class='thumbnail' src='" + host + "profiles/" + local_photoimage + "'></button>";
                         photo_gallery_ctn.InnerHtml += "<div>ID: " + profile_id + "</div>";
                         photo_gallery_ctn.InnerHtml += "</div>";
                         x++;
@@ -95,7 +105,7 @@ namespace WebForm
                 photo_gallery_ctn.InnerHtml += "  modal_load();";
                 photo_gallery_ctn.InnerHtml += "</script>";
                 return;
-            }
+            //}
         }
         public class Post_Search_Profile
         {

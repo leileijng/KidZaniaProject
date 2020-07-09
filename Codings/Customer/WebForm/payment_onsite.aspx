@@ -4,6 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title></title>
     <script type="text/javascript" src="Scripts/jquery-3.3.1.js"></script>
     <link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' />
@@ -19,12 +20,11 @@
     <link href="/Scripts/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Material Design Bootstrap -->
     <link href="/Scripts/lib/mdb/css/mdb.min.css" rel="stylesheet" />
-    <!-- Your custom styles (optional) -->
-    <link href="/Scripts/css/site.css" rel="stylesheet" />
+
 
     <link href="/Scripts/lib/noty/noty.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/Scripts/css/noty_custom.css" />
-    <link rel="stylesheet" href="/Scripts/css/sticky_footer.css" />
+
     <!-- Bootsrap-table core CSS -->
     <link href="/Scripts/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
     <!-- jqWidget core CSS -->
@@ -78,12 +78,12 @@
                 </ul>
             </div>
             <div class="site-branding">
-                <a href="https://kidzania.com.sg/" rel="home"><src="/Content/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"></a>
+                <a href="https://kidzania.com.sg/" rel="home"><img src="/Content/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"/></a>
             </div>
             <!-- .site-branding -->
             <div class="header-right">
                 <div class="btn-book-tickets">
-                    <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank"><img src="/img/btn-book-tickets.png"></a>
+                    <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank"><img src="/Content/img/btn-book-tickets.png" /></a>
                 </div>
             </div>
         </div>
@@ -100,7 +100,7 @@
     <form action="summary.aspx?retry=true" method="post">
         <div id="failure" runat="server"></div>
     </form>
-
+    <div style="text-align:center;margin-top: 10px;margin-bottom: 30px;"><img src="Content/img/process-checkout.png" /></div>
     <div id="payment_success" runat="server"></div>
     <br />
     <div id="summary_session" style="display:none" runat="server"></div>
