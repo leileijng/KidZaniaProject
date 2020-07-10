@@ -109,7 +109,7 @@
     </div>
     <br />
     <div style="width:66px; margin:0 auto;">
-        <a style="font-size:22px;" href="\onsite">Home</a>
+        <a style="font-size:22px;" href="\onsite.aspx">Home</a>
     </div>
     <br />
     <%=Neodynamic.SDK.Web.WebClientPrint.CreateScript(HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/WebClientPrintAPI.ashx", HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/PrintESCPOSHandler.ashx", HttpContext.Current.Session.SessionID)%>

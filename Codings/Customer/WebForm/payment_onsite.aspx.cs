@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using QRCoder;
+using System.Drawing;
 
 namespace WebForm
 {
@@ -33,8 +35,6 @@ namespace WebForm
             {
 
                 string usercode = pid.Replace("kidzsg", "").Substring(0, 5);
-                payment_success.InnerHtml += "<div style='display: inline-block;'>Please proceed to the checkout counter with the following code:<br> <b id='ordercode'>" + usercode + "</b></div>";
-
                 string c_path = System.AppDomain.CurrentDomain.BaseDirectory;
                 string[] lines = File.ReadAllLines(c_path + "header.txt");
                 string header = string.Join(" ", lines);
@@ -51,12 +51,34 @@ namespace WebForm
                     + "<script src='/Scripts/lib/bootstrap-table/bootstrap-table.min.js'></script><script src='/Scripts/lib/noty/noty.min.js'></script><script src='/Scripts/lib/moment/moment.min.js'></script><script src='/Scripts/lib/store/store.min.js'></script></head>";
 
                 //Update purchase table in database 
-                update_payment_status(pid, "Paid");
-                update_lineitem_status(pid, "Paid");
-                update_itemphoto_status(pid, "Paid");
+                update_payment_status(pid, "Waiting");
+                update_lineitem_status(pid, "Waiting");
+                update_itemphoto_status(pid, "Waiting");
 
-                Response.Write("<html>" + metaheader + "<body>" + header + "<div id='statustext' style='position: relative; top: 165px; margin-top: 160px;width: 100%; height: 200px; text-align:center; margin:0 auto; font-size: 33px;'><div style=\"text -align:center;margin-top: 10px;margin:0 auto;\"><img src='Content/img/process-checkout.png' /></div><div style='display: inline-block;'>Please proceed to the checkout counter with the following code:<br><b>" + usercode + "</b></div></div>");
 
+                
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(usercode, QRCodeGenerator.ECCLevel.Q);
+                QRCode qrCode = new QRCode(qrCodeData);
+                System.Web.UI.WebControls.Image imgBarCode = new System.Web.UI.WebControls.Image();
+                imgBarCode.Height = 150;
+                imgBarCode.Width = 150;
+                string imgsrc = "";
+                using (Bitmap bitMap = qrCode.GetGraphic(20))
+                {
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        bitMap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                        byte[] byteImage = ms.ToArray();
+                        imgBarCode.ImageUrl = "data:image/png;base64," + Convert.ToBase64String(byteImage);
+                        imgsrc = "data:image/png;base64," + Convert.ToBase64String(byteImage);
+                    }
+                    Response.Write("<html>" + metaheader + "<body>" + header + "<div id='statustext' style='position: relative; top: 165px; margin-top: 160px;width: 100%; height: 200px; text-align:center; margin:0 auto; font-size: 33px;'><div style=\"text -align:center;margin-top: 10px;margin:0 auto;\"><img src='Content/img/process-checkout.png' /></div><div style='display: inline-block;'>Please proceed to the checkout counter with the following code:<br><b>" + usercode + "</b><img src='"+ imgsrc + "'/></div></div>");
+
+                    payment_success.InnerHtml += "<div style='display: inline-block;'>Please proceed to the checkout counter with the following code:<br> <b id='ordercode'>" + usercode + "</b><p><img src='" + imgsrc + "' width='300'/></p></div>";
+
+                    //PlaceHolder1.Controls.Add(imgBarCode);
+                }
                 Response.Flush();
             }
         }

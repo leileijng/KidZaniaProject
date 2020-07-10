@@ -1,3 +1,4 @@
+    <!-- HEADER -->
     <header id="masthead" class="site-header" role="banner">
     <div class="masthead">
         <div class="wrapper">
@@ -12,12 +13,12 @@
                 </ul>
             </div>
             <div class="site-branding">
-                <a href="https://kidzania.com.sg/" rel="home"><img src="/Content/img/kidzania.png" title="KidZania Singapore – A City Built for Kids!"/></a>
+                <a href="https://kidzania.com.sg/" rel="home"><img src="https://kidzania.com.sg/kidzania/wp-content/themes/kidzania/images/kidzania.png" title="KidZania Singapore – A City Built for Kids!"></a>
             </div>
             <!-- .site-branding -->
             <div class="header-right">
                 <div class="btn-book-tickets">
-                    <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank"><img src="/Content/img/btn-book-tickets.png" /></a>
+                    <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank"><img src="https://kidzania.com.sg/kidzania/wp-content/themes/kidzania/images/btn-book-tickets.png"></a>
                 </div>
             </div>
         </div>
@@ -26,3 +27,4 @@
     <!-- masthead -->
     <!-- #site-navigation -->
     </header>
+    <!-- HEADER -->
