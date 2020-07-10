@@ -1,0 +1,75 @@
+﻿<div class="row">
+    <div class="col-md-4 col-md-offset-2">
+        <hr />
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" id="useDefaultPrinter" />
+                <strong>Print to Default printer</strong> or...
+            </label>
+        </div>
+        <div id="loadPrinters">
+            Click to load and select one of the installed printers!
+            <br />
+            <a onclick="javascript:jsWebClientPrint.getPrinters();" class="btn btn-success">Load installed printers...</a>
+            <br />
+            <br />
+        </div>
+        <div id="installedPrinters" style="visibility: hidden">
+            <label for="installedPrinterName">Select an installed Printer:</label>
+            <select name="installedPrinterName" id="installedPrinterName" class="form-control"></select>
+        </div>
+        <script type="text/javascript">
+            //var wcppGetPrintersDelay_ms = 0;
+            var wcppGetPrintersTimeout_ms = 60000; //60 sec
+            var wcppGetPrintersTimeoutStep_ms = 500; //0.5 sec
+            function wcpGetPrintersOnSuccess() {
+                // Display client installed printers
+                if (arguments[0].length > 0) {
+                    var p = arguments[0].split("|");
+                    var options = '';
+                    for (var i = 0; i < p.length; i++) {
+                        options += '<option>' + p[i] + '</option>';
+                    }
+                    $('#installedPrinters').css('visibility', 'visible');
+                    $('#installedPrinterName').html(options);
+                    $('#installedPrinterName').focus();
+                    $('#loadPrinters').hide();
+                } else {
+                    alert("No printers are installed in your system.");
+                }
+            }
+            function wcpGetPrintersOnFailure() {
+                // Do something if printers cannot be got from the client
+                alert("No printers are installed in your system.");
+            }
+        </script>
+    </div>
+</div>
+<input type="file" id="newfile" />
+<button type="button" onclick="uploadFile()">Upload</button>
+<script>
+    function uploadFile() {
+        let printername = $('#installedPrinterName').val();
+        console.log(printername);
+        var formData = new FormData();
+        var file = $('#newfile')[0];
+        formData.append('file', file.files[0]);
+        $.ajax({
+            url: `/api/printing?printername=${printername}`,
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (d) {
+                console.log(d);
+            }
+        });
+    }
+</script>
+@section scripts{
+
+
+    @Html.Raw(ViewBag.WCPScript);
+
+
+}

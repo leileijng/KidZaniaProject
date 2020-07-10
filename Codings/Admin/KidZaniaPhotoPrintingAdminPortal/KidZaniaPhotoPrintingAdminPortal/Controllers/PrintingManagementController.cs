@@ -12,7 +12,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
     {
         public ActionResult Hardcopy()
         {
-            ViewBag.Title = "Hardcopy Printint";
+            ViewBag.Title = "Hardcopy Printing";
             return View();
         }
         public ActionResult Others()
@@ -22,7 +22,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
         }
         public ActionResult PausedOrder()
         {
-            ViewBag.Title = "PausedOrder";
+            ViewBag.Title = "Paused Order";
             return View();
         }
     }

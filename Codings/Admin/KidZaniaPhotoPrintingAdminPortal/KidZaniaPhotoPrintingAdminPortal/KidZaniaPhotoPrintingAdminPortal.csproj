@@ -190,7 +190,6 @@
   <ItemGroup>
     <Compile Include="APIs\HardcopysController.cs" />
     <Compile Include="APIs\OthersOrderController.cs" />
-    <Compile Include="APIs\PausedController.cs" />
     <Compile Include="APIs\ProductsController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
