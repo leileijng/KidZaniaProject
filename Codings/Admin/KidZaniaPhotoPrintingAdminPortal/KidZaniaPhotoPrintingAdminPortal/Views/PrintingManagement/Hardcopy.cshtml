@@ -1,6 +1,10 @@
 ﻿@{
     Layout = "~/Views/Shared/Menu.cshtml";
 }
+@section scripts{
+    @Html.Raw(ViewBag.WCPScript);
+}
+
 <link href="~/assets/libs/css/animate.min.css" rel="stylesheet" />
 <div class="container-fluid dashboard-content ">
     <!-- ============================================================== -->
@@ -11,11 +15,9 @@
             <div class="page-header">
                 <h2 class="pageheader-title">Hardcopy Printing</h2>
                 <div class="section-block">
-                    <a class="btn btn-demo" id="sidebarCollapse" data-toggle="modal" data-target="#myModal2"><i class="fa fa-print" style="padding-right: 6px;"></i>Manage Printers</a>
-
+                    <a class="btn btn-demo" id="sidebarCollapse" data-toggle="modal" data-target="#myModal2"><i class="fa fa-print" style="padding-right: 6px;" onclick="javascript:jsWebClientPrint.getPrintersInfo();"></i>Manage Printers</a>
+                    <a onclick="javascript:jsWebClientPrint.getPrintersInfo();" class="hidden" id="loadPrinterBtn"></a>
                 </div>
-                <p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
-
             </div>
         </div>
     </div>
@@ -151,7 +153,7 @@
         let ordno2 = ordno1[0];
         let counter = 0;
         let checker;
-
+        var url;
         for (let x = 0; x < ordernum.length; x++) {
             if (ordno2 == ordernum[x]) {
                 checker = x;
@@ -159,7 +161,7 @@
             }
         }
         if (counter > 0) {
-            ordernum.splice(checker - counter+1, counter);
+            ordernum.splice(checker - counter + 1, counter);
             $(`#order${ordno2}`).addClass(deleteEffects).one(effectsend, function () {
                 $(`#order${ordno2}`).removeClass(deleteEffects);
                 $(`#order${ordno2}`).closest("tr").remove();
@@ -175,7 +177,7 @@
         }
         else {
             webformdata = { "status": status };
-            url: `/api/hardcopys/${id}`;
+            url = `/api/hardcopys/${id}`;
         }
         $.ajax({
             type: 'PUT',
@@ -201,7 +203,6 @@
             }).show();
         });
     }
-
 
     function loadTable() {
         $(`#completedTable`).html("");
@@ -391,6 +392,7 @@
     }
 
     function checkOrder() {
+        $('#loadPrinterBtn').click();
         $.ajax({
             type: "GET",
             url: "/api/hardcopys",
@@ -449,7 +451,6 @@
         console.log("currentTable is" + currentTable);
     }
 
-
     function filterOrderByStatus(status) {
         $('#completedTable').css("display", "none");
         $('#printingTable').css("display", "none");
@@ -474,7 +475,6 @@
         $(".fa-chevron-right").removeClass('down');
         $('.collapse').removeClass('show');
     }
-
 
     function searchFunction() {
         var input, filter, td, i;
@@ -582,12 +582,90 @@
         }
     }
 
+
     $(document).ready(function () {
+        $.ajax({
+            url: `/api/hardcopys/startPrinting`,
+            type: 'POST',
+            success: function (d) {
+            },
+            error: function (d) {
+                alert('Upload file went wrong');
+                console.log(d);
+            }
+        });
         $('#menuHardcopy').addClass("active");
         // Fetch the initial table
         loadTable();
-
+        $('#loadPrinterBtn').click();
         // Fetch every 5 seconds
         setInterval(checkOrder, 5000);
     });
+
+    var clientPrinters = null;
+
+    var wcppGetPrintersTimeout_ms = 60000; //60 sec
+    var wcppGetPrintersTimeoutStep_ms = 1000; //0.5 sec
+    function wcpGetPrintersOnSuccess() {
+        // Display client installed printers
+        if (arguments[0].length > 0) {
+            if (JSON) {
+                try {
+                    clientPrinters = JSON.parse(arguments[0]);
+                    if (clientPrinters.error) {
+                        alert(clientPrinters.error)
+                    } else {
+                        loadPrinterInfo();
+                    }
+                } catch (e) {
+                    alert(e.message)
+                }
+            }
+        } else {
+            alert("No printers are installed in your system.");
+        }
+    }
+    function wcpGetPrintersOnFailure() {
+        // Do something if printers cannot be got from the client
+        alert("No printers are installed in your system.");
+    }
+
+    function loadPrinterInfo() {
+        
+
+        $(`#availablePrinters`).html("");
+        $(`#unavailablePrinters`).html("");
+        var i;
+        var NA = false;
+        var AP = false;
+        for (i = 0; i < clientPrinters.length; i++) {
+            //check whether it's A5 printer
+            if (clientPrinters[i].name.indexOf("A5") !== -1) {
+                if (clientPrinters[i].isConnected) {
+                    AP = true;
+                    $('#availableLoading').css("display", "none");
+                    var $printerdiv = $(`<div class="row printer"><div class="column icon" style="color:green"><i class="fas fa-print" style="padding-right: 6px;"></i></div>
+                        <div class="column middle"><p class="MP">${clientPrinters[i].name}</p> <p class="subInfo">Port: ${clientPrinters[i].portName}</p></div>
+                        <div class="column side"><button type="button" class="btn btn-outline-secondary" data-target="#PausedModal" data-toggle="modal"> Pause</button></div></div>`);
+                    $(`#availablePrinters`).append($printerdiv);
+                }
+                else {
+                    NA = true;
+                    $('#unavailableLoading').css("display", "none");
+                    var $printerdiv = $(`<div class="row printer"><div class="column icon" style="color:red"><i class="fas fa-print" style="padding-right: 6px;"></i></div>
+                        <div class="column middle"><p class="MP">${clientPrinters[i].name}</p> <p class="subInfo">Not Connected</p></div>
+                        <div class="column side"><button type="button" class="btn btn-primary">Resume</button></div></div>`);
+                    $(`#unavailablePrinters`).append($printerdiv);
+                }
+            }
+        }
+        if (!NA) {
+            $('#unavailableLoading').css("display", "none");
+            $(`#unavailablePrinters`).append($(`<div class="row printer">All Printers are available</div>`));
+        }
+        if (!AP) {
+            $('#availableLoading').css("display", "none");
+            $(`#availablePrinters`).append($(`<div class="row printer">All Printers are not available</div>`));
+        }
+    }
 </script>

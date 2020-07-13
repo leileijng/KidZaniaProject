@@ -12,6 +12,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
     {
         public ActionResult Hardcopy()
         {
+            ViewBag.WCPScript = Neodynamic.SDK.Web.WebClientPrint.CreateScript(Url.Action("ProcessRequest", "WebClientPrintAPI", null, HttpContext.Request.Url.Scheme), "", HttpContext.Session.SessionID);
             ViewBag.Title = "Hardcopy Printing";
             return View();
         }

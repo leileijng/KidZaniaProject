@@ -98,9 +98,10 @@
     <Property Name="printer_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="status" Type="Boolean" Nullable="false" />
-    <Property Name="reason" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="error" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="updated_at" Type="DateTime" Nullable="false" />
     <Property Name="updated_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="port" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="itemphotoes" Relationship="DBModel.itemphoto_ibfk_2" FromRole="printer" ToRole="itemphoto" />
     <NavigationProperty Name="staff" Relationship="DBModel.printer_ibfk_1" FromRole="printer" ToRole="staff" />
   </EntityType>

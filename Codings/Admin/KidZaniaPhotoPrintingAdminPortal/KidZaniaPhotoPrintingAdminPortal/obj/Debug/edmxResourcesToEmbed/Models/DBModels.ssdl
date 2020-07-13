@@ -47,9 +47,10 @@
     <Property Name="printer_id" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="status" Type="bool" Nullable="false" />
-    <Property Name="reason" Type="varchar" MaxLength="50" />
+    <Property Name="error" Type="varchar" MaxLength="50" />
     <Property Name="updated_at" Type="datetime" Precision="0" Nullable="false" />
     <Property Name="updated_by" Type="varchar" MaxLength="50" />
+    <Property Name="port" Type="varchar" MaxLength="45" />
   </EntityType>
   <EntityType Name="product">
     <Key>

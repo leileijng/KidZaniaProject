@@ -5,8 +5,10 @@ using System.Diagnostics;
 using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
@@ -61,6 +63,38 @@ namespace PrintTesting.APIs
                 return BadRequest();
             }
             return BadRequest();
+        }
+
+        [HttpPost]
+        [Route("api/printingJobs")]
+        public IHttpActionResult GetPrintingJobs()
+        {
+            try
+            {
+                Task.Run(async delegate
+                {
+                    while (true)
+                    {
+                        string searchQuery = "SELECT * FROM Win32_PrintJob";
+                        ManagementObjectSearcher searchPrintJobs = new ManagementObjectSearcher(searchQuery);
+                        ManagementObjectCollection prntJobCollection = searchPrintJobs.Get();
+                        foreach (ManagementObject prntJob in prntJobCollection)
+                        {
+                            string jobName = prntJob.Properties["Name"].Value.ToString();
+                            string jobStatus = Convert.ToString(prntJob.Properties["JobStatus"]?.Value);
+                            Debug.WriteLine("name: " + jobName + "; status:" + jobStatus + "!");
+                        }
+                        Debug.WriteLine("Okay here");
+                        await Task.Delay(100);
+                    }
+                });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+                // handle exception
+            }
         }
     }
 }

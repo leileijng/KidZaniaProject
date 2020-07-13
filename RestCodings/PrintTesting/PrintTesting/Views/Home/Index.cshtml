@@ -9,7 +9,7 @@
         </div>
         <div id="loadPrinters">
             Click to load and select one of the installed printers!
-            <br />
+            <br/>
             <a onclick="javascript:jsWebClientPrint.getPrinters();" class="btn btn-success">Load installed printers...</a>
             <br />
             <br />
@@ -49,19 +49,17 @@
 <button type="button" onclick="uploadFile()">Upload</button>
 <script>
     function uploadFile() {
-        let printername = $('#installedPrinterName').val();
-        console.log(printername);
-        var formData = new FormData();
-        var file = $('#newfile')[0];
-        formData.append('file', file.files[0]);
+
         $.ajax({
-            url: `/api/printing?printername=${printername}`,
+            url: `/api/printingJobs`,
             type: 'POST',
-            data: formData,
             contentType: false,
             processData: false,
             success: function (d) {
                 console.log(d);
+            },
+            error: function (error) {
+                alert(error);
             }
         });
     }

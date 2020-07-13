@@ -1,7 +1,10 @@
 ﻿using Neodynamic.SDK.Web;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Management;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,6 +18,8 @@ namespace PrintTesting.Controllers
 
             return View();
         }
+
+        
 
         [AllowAnonymous]
         public void PrintFile(string useDefaultPrinter, string printerName, string fileType)
@@ -89,6 +94,7 @@ namespace PrintTesting.Controllers
                 else
                     cpj.ClientPrinter = new InstalledPrinter(System.Web.HttpUtility.UrlDecode(printerName));
 
+               
                 System.Web.HttpContext.Current.Response.ContentType = "application/octet-stream";
                 System.Web.HttpContext.Current.Response.BinaryWrite(cpj.GetContent());
                 System.Web.HttpContext.Current.Response.End();
