@@ -1,6 +1,9 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+
+    @RenderSection("scripts", required: false)
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,8 +46,8 @@
 
         #rightsidebar {
             position: fixed;
-            width: 375px;
-            right: -375px;
+            width: 400px;
+            right: -400px;
             top: 68px;
             z-index: 1032;
             height: 100vh;
@@ -97,13 +100,22 @@
             padding-top: 8px;
             margin-bottom: -9px;
         }
-
-        .MP {
-            display: inline;
-            margin-right: 147px;
-            color: #71748D;
+        .column{
+            padding: 5px;
         }
-
+        .MP{
+            padding: 0 !important;
+            margin: 0 !important;
+            font-size: 1.04rem;
+        }
+        .subInfo {
+            font-size: 0.98rem;
+            color: dimgrey;
+            font-weight:lighter !important;
+        }
+        .btn-primary{
+            padding: 9px 13px !important;
+        }
         .MP-Available {
             padding-left: 17px;
             padding-top: 12px;
@@ -120,9 +132,10 @@
 
         .printer {
             border-bottom: 1px solid #e6e6f2;
-            width: 296px;
-            margin-left: 53px;
+            width: 350px;
+            margin-left: 30px;
             padding-bottom: 10px;
+            padding-top: 10px;
         }
 
 
@@ -153,107 +166,148 @@
             margin-right: 44px;
             font-weight: bold;
         }
-   .modal-confirm {		
-		color: #636363;
-		width: 400px;
-		top: 115px;
-	}
-	.modal-confirm .modal-content {
-		border-radius: 5px;
-		border: none;
-        text-align: center;
-		font-size: 14px;
-	}
-	.modal-confirm .modal-header-delete {
-		border-bottom: none;   
-        position: relative;
-	}
-	.modal-confirm h4 {
-		text-align: center;
-		font-size: 26px;
-		/*margin: 30px 0 -10px;*/
-	}
-	.modal-confirm .close {
-		top: -5px;
-		right: -2px;
-        color: white;
-        text-shadow: 0 1px 0 #000;
-        opacity: 2.5;
-	}
-	.modal-confirm .modal-body {
-		color: #999;
-	}
-	.modal-confirm .modal-footer {
-		border: none;
-		text-align: center;		
-		border-radius: 5px;
-		font-size: 13px;
-		padding: 10px 70px 25px;
-	}
-	.modal-confirm .modal-footer a {
-		color: #999;
-	}		
-	.modal-confirm .icon-box {
-		width: 80px;
-		height: 80px;
-		margin: 0 auto;
-		border-radius: 50%;
-		z-index: 9;
-		text-align: center;
-		border: 3px solid #f15e5e;
-	}
-	.modal-confirm .icon-box i {
-		color: #f15e5e;
-		font-size: 46px;
-		display: inline-block;
-		margin-top: 3px;
-        margin-right: 0;
-	}
-    .modal-confirm .btn {
-        color: #fff;
-        border-radius: 4px;
-		background: #60c7c1;
-		text-decoration: none;
-		transition: all 0.4s;
-        line-height: normal;
-		min-width: 120px;
-        border: none;
-		min-height: 40px;
-		border-radius: 3px;
-		margin: 0 5px;
-		outline: none !important;
-    }
-	.modal-confirm .btn-info {
-        background: #c1c1c1;
-    }
-    .modal-confirm .btn-info:hover, .modal-confirm .btn-info:focus {
-        background: #a8a8a8;
-    }
-    .modal-confirm .btn-danger {
-        background: #f15e5e;
-    }
-    .modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
-        background: #ee3535;
-    }
-	.trigger-btn {
-		display: inline-block;
-	    margin-left: 13px;
-		color: red;
-	}
-	.modal-header-delete{
-	    background-color: #f15e5e;
-        margin-bottom: 10px;
-	}
-    .modal-header-edit{
-	    background-color: cornflowerblue;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-	}
-    .modal-header-edit .close{
-        color: white;
-        text-shadow: 0 1px 0 #000;
-        opacity: 2.5;
-    }
+
+        .modal-confirm {
+            color: #636363;
+            width: 400px;
+            top: 115px;
+        }
+
+            .modal-confirm .modal-content {
+                border-radius: 5px;
+                border: none;
+                text-align: center;
+                font-size: 14px;
+            }
+
+            .modal-confirm .modal-header-delete {
+                border-bottom: none;
+                position: relative;
+            }
+
+            .modal-confirm h4 {
+                text-align: center;
+                font-size: 26px;
+                /*margin: 30px 0 -10px;*/
+            }
+
+            .modal-confirm .close {
+                top: -5px;
+                right: -2px;
+                color: white;
+                text-shadow: 0 1px 0 #000;
+                opacity: 2.5;
+            }
+
+            .modal-confirm .modal-body {
+                color: #999;
+            }
+
+            .modal-confirm .modal-footer {
+                border: none;
+                text-align: center;
+                border-radius: 5px;
+                font-size: 13px;
+                padding: 10px 70px 25px;
+            }
+
+                .modal-confirm .modal-footer a {
+                    color: #999;
+                }
+
+            .modal-confirm .icon-box {
+                width: 80px;
+                height: 80px;
+                margin: 0 auto;
+                border-radius: 50%;
+                z-index: 9;
+                text-align: center;
+                border: 3px solid #f15e5e;
+            }
+
+                .modal-confirm .icon-box i {
+                    color: #f15e5e;
+                    font-size: 46px;
+                    display: inline-block;
+                    margin-top: 3px;
+                    margin-right: 0;
+                }
+
+            .modal-confirm .btn {
+                color: #fff;
+                border-radius: 4px;
+                background: #60c7c1;
+                text-decoration: none;
+                transition: all 0.4s;
+                line-height: normal;
+                min-width: 120px;
+                border: none;
+                min-height: 40px;
+                border-radius: 3px;
+                margin: 0 5px;
+                outline: none !important;
+            }
+
+            .modal-confirm .btn-info {
+                background: #c1c1c1;
+            }
+
+                .modal-confirm .btn-info:hover, .modal-confirm .btn-info:focus {
+                    background: #a8a8a8;
+                }
+
+            .modal-confirm .btn-danger {
+                background: #f15e5e;
+            }
+
+                .modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
+                    background: #ee3535;
+                }
+
+        .trigger-btn {
+            display: inline-block;
+            margin-left: 13px;
+            color: red;
+        }
+
+        .modal-header-delete {
+            background-color: #f15e5e;
+            margin-bottom: 10px;
+        }
+
+        .modal-header-edit {
+            background-color: cornflowerblue;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+            .modal-header-edit .close {
+                color: white;
+                text-shadow: 0 1px 0 #000;
+                opacity: 2.5;
+            }
+        /* Container for flexboxes */
+        .row {
+            display: -webkit-flex;
+            display: flex;
+        }
+
+            .column.side {
+                -webkit-flex: 0.5;
+                -ms-flex: 0.5;
+                flex: 0.5;
+            }
+        .column.icon {
+            -webkit-flex: 0.1;
+            -ms-flex: 0.1;
+            flex: 0.1;
+            padding-top: 10px;
+        }
+            .column.middle {
+                -webkit-flex: 2;
+                -ms-flex: 2;
+                flex: 2;
+            }
     </style>
 </head>
 
@@ -275,30 +329,15 @@
                 </div>
             </div>
 
-
-            <h4 class="MP-Available"><i class="fas fa-check-circle"></i> Available</h4>
-
-            <div class="printer">
-                <p class="MP"><i class="fas fa-print" style="padding-right: 6px;"></i>Printer 1</p>
-
-                <button type="button" class="btn btn-rounded btn-primary" data-target="#PausedModal" data-toggle="modal"> Pause</button>
+            <div>
+                <h4 class="MP-Available"><i class="fas fa-check-circle"></i> Available</h4>
+                <div id="availableLoading" style="padding: 20px; text-align:center; color:green"><i class="fas fa-spinner fa-spin fa-5x"></i></div>
+                <div id="availablePrinters"></div>
             </div>
-            <div class="printer" id="p2">
-                <p class="MP"><i class="fas fa-print" style="padding-right: 6px;"></i>Printer 2</p>
-                <button type="button" class="btn btn-rounded btn-primary" data-target="#PausedModal" data-toggle="modal"> Pause</button>
-            </div>
-
-
-            <h4 class="MP-NotAvailable"><i class="fas fa-times-circle"></i> Not Available</h4>
-            <div class="printer">
-                <p id="p3"><i class="fas fa-print" style="padding-right: 6px;"></i>Printer 3</p>
-                <p id="p3-noink">No Ink</p>
-                <button type="button" class="btn btn-rounded btn-primary"> Resume</button>
-            </div>
-            <div class="printer" id="p2">
-                <p id="p4"><i class="fas fa-print" style="padding-right: 6px;"></i>Printer 4</p>
-                <p id="p4-offline">Offline</p>
-                <button type="button" class="btn btn-rounded btn-primary"> Resume</button>
+            <div>
+                <h4 class="MP-NotAvailable"><i class="fas fa-times-circle"></i> Not Available</h4>
+                <div id="unavailableLoading" style="padding: 20px; text-align:center; color:red"><i class="fas fa-spinner fa-spin fa-5x"></i></div>
+                <div id="unavailablePrinters"></div>
             </div>
         </nav>
         <div class="dashboard-header">
@@ -489,7 +528,7 @@
         #cancelText {
             font-weight: bolder;
             color: red;
-            padding-top:10px;
+            padding-top: 10px;
         }
 
         #OD {
@@ -499,10 +538,11 @@
         #IC {
             color: #f6b313;
         }
+
         #NV {
             color: #5969ff;
         }
-        
+
         .ODbox {
             padding-left: 16px;
         }
@@ -521,31 +561,35 @@
 
         .gst {
             margin-top: 5px;
-            text-align:right;
-            padding-right:20px;
+            text-align: right;
+            padding-right: 20px;
         }
-        #myInput{
+
+        #myInput {
             float: right;
             margin-top: 15px;
         }
-        #searchCode, #searchCode2{
-           margin-left: 19px;
-           font-size: 14px;
-           font-family: 'Circular Std Regular';
+
+        #searchCode, #searchCode2 {
+            margin-left: 19px;
+            font-size: 14px;
+            font-family: 'Circular Std Regular';
         }
-        .edit ,.edit:hover{
+
+        .edit, .edit:hover {
             color: blue;
         }
 
         .dropdown-item {
             color: grey !important;
-            text-decoration:line-through;
+            text-decoration: line-through;
             background-color: transparent !important;
         }
+
             .dropdown-item.active {
                 color: black !important;
                 background-color: transparent !important;
-                }
+            }
     </style>
 
 
@@ -589,6 +633,7 @@
             });
         });
     </script>
+
 </body>
 
 </html>

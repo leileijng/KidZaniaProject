@@ -11,6 +11,8 @@ using System.Web.Hosting;
 using System.Web.Http;
 using KidZaniaPhotoPrintingAdminPortal.Models;
 using Newtonsoft.Json.Linq;
+using Neodynamic.SDK.Web;
+using System.Management;
 
 namespace KidZaniaPhotoPrintingAdminPortal.APIs
 {
@@ -123,5 +125,156 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
         }
 
+        [HttpPost]
+        [Route("api/hardcopys/startPrintings")]
+        public IHttpActionResult hereTryOut()
+        {
+                        string query = string.Format("SELECT * from Win32_Printer");
+
+                        using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+                        using (ManagementObjectCollection coll = searcher.Get())
+                        {
+                            try
+                            {
+                                foreach (ManagementObject printer in coll)
+                                {
+                                    string printerName = printer.Properties["Caption"].Value.ToString();
+                                    if (printerName.Contains("A5"))
+                                    {
+                                        string portNumber = printer.Properties["PortName"].Value.ToString();
+                            
+                                        foreach (PropertyData property in printer.Properties)
+                                        {
+                                            Debug.WriteLine(string.Format("{0}: {1}", property.Name, property.Value));
+                                        }
+                                    }
+                                }
+                    return Ok();
+                            }
+                            catch (ManagementException ex)
+                            {
+                                Debug.WriteLine(ex.Message);
+                    return BadRequest();
+                            }
+                        }
+                        
+        }
+
+        [HttpPost]
+        [Route("api/hardcopys/startPrinting")]
+        public IHttpActionResult startPrinting()
+        {
+            try
+            {
+                Task.Run(async delegate
+                {
+                    while (true)
+                    {
+                        string query = string.Format("SELECT * from Win32_Printer");
+                        List<string> availablePrinters = new List<string>();
+                        using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+                        using (ManagementObjectCollection coll = searcher.Get())
+                        {
+                            try
+                            {
+                                foreach (ManagementObject printer in coll)
+                                {
+                                    string printerName = printer.Properties["Caption"].Value.ToString();
+                                    if (printerName.Contains("A5"))
+                                    {
+                                        printer localPrinter = new printer();
+                                        
+                                        int start = printerName.IndexOf("(") + 1;
+                                        int end = printerName.IndexOf(")", start);
+                                        localPrinter.printer_id = printerName.Substring(start, end - start);
+                                        localPrinter.name = printerName;
+                                        string portNumber = printer.Properties["PortName"].Value.ToString();
+                                        localPrinter.port = portNumber;
+                                        if (printer.Properties["WorkOffline"].Value.ToString().Equals("False"))
+                                        {
+                                            // the printer in connected
+                                            localPrinter.status = true;
+                                            //check error!!!
+                                            int printerState = int.Parse(printer.Properties["PrinterState"].Value.ToString());
+                                            switch (printerState)
+                                            {
+                                                case 16:
+                                                    localPrinter.error = "Out of Paper";
+                                                    break;
+                                                case 5:
+                                                    localPrinter.error = "Out of Paper";
+                                                    break;
+                                                case 4:
+                                                    localPrinter.error = "Paper Jam";
+                                                    break;
+                                                case 144:
+                                                    localPrinter.error = "Out of Paper";
+                                                    break;
+                                                case 4194432:
+                                                    localPrinter.error = "Lid Open";
+                                                    break;
+                                                default:
+                                                    localPrinter.error = null;
+                                                    break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            localPrinter.status = false;
+                                            //check error!!!
+                                        }
+                                        localPrinter.updated_at = DateTime.Now;
+                                        var foundPrinter = database.printers.SingleOrDefault(i => i.printer_id.Equals(localPrinter.printer_id));
+                                        if (foundPrinter != null)
+                                        {
+                                            foundPrinter.name = localPrinter.name;
+                                            foundPrinter.port = localPrinter.port;
+                                            foundPrinter.status = localPrinter.status;
+                                            foundPrinter.updated_at = DateTime.Now;
+                                            foundPrinter.error = localPrinter.error;
+                                        }
+                                        else
+                                        {
+                                            database.printers.Add(localPrinter);
+                                        }
+                                        database.SaveChanges();
+                                    }
+                                }
+                            }
+                            catch (ManagementException ex)
+                            {
+                                Debug.WriteLine(ex.Message);
+                            }
+                        }
+                        leastJobs(availablePrinters);
+                        await Task.Delay(1000);
+                    }
+                });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        public string leastJobs(List<string> availablePrinters)
+        {
+            string searchQuery = "SELECT * FROM Win32_PrintJob";
+            ManagementObjectSearcher searchPrintJobs = new ManagementObjectSearcher(searchQuery);
+            ManagementObjectCollection prntJobCollection = searchPrintJobs.Get();
+            foreach (ManagementObject prntJob in prntJobCollection)
+            {
+                string jobName = prntJob.Properties["Name"].Value.ToString();
+                string jobStatus = Convert.ToString(prntJob.Properties["JobStatus"]?.Value);
+                foreach(var pro in prntJob.Properties)
+                {
+                    Debug.WriteLine("property: " + pro.Name + "; value:" + pro.Value);
+                }
+                
+                Debug.WriteLine("name: " + jobName + "; status:" + jobStatus + "!");
+            }
+            return ("ss");
+        }
     }
 }

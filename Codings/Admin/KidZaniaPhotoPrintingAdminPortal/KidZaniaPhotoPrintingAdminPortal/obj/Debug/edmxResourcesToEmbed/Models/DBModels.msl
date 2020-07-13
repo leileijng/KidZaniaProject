@@ -48,9 +48,10 @@
     <EntitySetMapping Name="printers">
       <EntityTypeMapping TypeName="DBModel.printer">
         <MappingFragment StoreEntitySet="printer">
+          <ScalarProperty Name="port" ColumnName="port" />
           <ScalarProperty Name="updated_by" ColumnName="updated_by" />
           <ScalarProperty Name="updated_at" ColumnName="updated_at" />
-          <ScalarProperty Name="reason" ColumnName="reason" />
+          <ScalarProperty Name="error" ColumnName="error" />
           <ScalarProperty Name="status" ColumnName="status" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="printer_id" ColumnName="printer_id" />
