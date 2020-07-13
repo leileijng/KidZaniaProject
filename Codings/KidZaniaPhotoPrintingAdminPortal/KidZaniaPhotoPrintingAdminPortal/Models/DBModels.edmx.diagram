@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e38755a156c04775923058dc03d2c773" Name="Diagram1">
+        <EntityTypeShape EntityType="kidzaniaModel.email" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="kidzaniaModel.itemphoto" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="kidzaniaModel.lineitem" Width="1.5" PointX="7.5" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="kidzaniaModel.order" Width="1.5" PointX="5.25" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="kidzaniaModel.printer" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="kidzaniaModel.product" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="kidzaniaModel.role" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="kidzaniaModel.staff" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="kidzaniaModel.profile" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <AssociationConnector Association="kidzaniaModel.itemphoto_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="kidzaniaModel.itemphoto_ibfk_3" ManuallyRouted="false" />
+        <AssociationConnector Association="kidzaniaModel.itemphoto_ibfk_4" ManuallyRouted="false" />
+        <AssociationConnector Association="kidzaniaModel.lineitem_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="kidzaniaModel.lineitem_ibfk_2" ManuallyRouted="false" />
+        <AssociationConnector Association="kidzaniaModel.printer_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="kidzaniaModel.product_ibfk_1" ManuallyRouted="false" />
+        <AssociationConnector Association="kidzaniaModel.staff_ibfk_1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
