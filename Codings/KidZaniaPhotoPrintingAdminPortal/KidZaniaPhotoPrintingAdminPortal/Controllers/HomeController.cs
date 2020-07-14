@@ -14,5 +14,27 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
 
             return View();
         }
+
+        public ActionResult Login()
+        {
+            ViewBag.Title = "Login Page";
+
+            return View();
+        }
+
+        public ActionResult Register()
+        {
+            ViewBag.Title = "Register Page";
+
+            return View();
+        }
+
+        public ActionResult Data()
+        {
+            ViewBag.Title = "Data Page";
+
+            return View();
+        }
+
     }
 }
