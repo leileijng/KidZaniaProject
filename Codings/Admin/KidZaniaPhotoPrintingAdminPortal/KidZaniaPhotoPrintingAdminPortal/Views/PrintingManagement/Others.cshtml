@@ -107,8 +107,10 @@
                                     <option>Printer 2</option>
                                 </select>
                                 <div class="print">
-                                    <img src="~/assets/images/upload.png" alt="upload" style="width:200px;">
-                                    <img src="~/assets/images/upload.png" alt="upload" style="width:200px;">
+                                    <img onclick="$('#keychainFile1').click();" id="keychainImg1" src="~/assets/images/upload.png" alt="upload" style="width:200px;">
+                                    <input id="keychainFile1" onchange="readURL(this, '#keychainImg1');" type="file" hidden />
+                                    <img onclick="$('#keychainFile2').click();" id="keychainImg2" src="~/assets/images/upload.png" alt="upload" style="width:200px;">
+                                    <input id="keychainFile2" onchange="readURL(this, '#keychainImg2');" type="file" hidden />
                                     <a href="#" class="btn btn-rounded btn-primary" style="margin-top: 103px; margin-left: 30px;">Print</a>
                                 </div>
                             </div>
@@ -120,8 +122,8 @@
                                     <option>Printer 2</option>
                                 </select>
                                 <div class="print">
-
-                                    <img src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-left: 121px;">
+                                    <img onclick="$('#magnetFile').click();" id="magnetImg" src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-left: 121px;">
+                                    <input id="magnetFile" onchange="readURL(this, '#magnetImg');" type="file" hidden />
                                     <a href="#" class="btn btn-rounded btn-primary" style="margin-top: 103px; margin-left: 30px;">Print</a>
                                 </div>
                             </div>
@@ -496,6 +498,20 @@
                     type: 'error'
                 }).show();
             });
+        }
+    }
+
+    //Displaying picture in the add modal
+    function readURL(input, id) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $(id)
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
         }
     }
 

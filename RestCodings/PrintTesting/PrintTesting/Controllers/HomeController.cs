@@ -14,34 +14,47 @@ namespace PrintTesting.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.WCPScript = Neodynamic.SDK.Web.WebClientPrint.CreateScript(Url.Action("ProcessRequest", "WebClientPrintAPI", null, HttpContext.Request.Url.Scheme), Url.Action("PrintFile", "Home", null, HttpContext.Request.Url.Scheme), HttpContext.Session.SessionID);
-
+            string url = Url.RouteUrl(
+            "DefaultApi",
+            new { httproute = "", controller = "printing" }
+        );
+            ViewBag.WCPScript = Neodynamic.SDK.Web.WebClientPrint.CreateScript(Url.Action("ProcessRequest", "WebClientPrintAPI", null, HttpContext.Request.Url.Scheme), Url.Action(url), HttpContext.Session.SessionID);
+           
             return View();
         }
 
+        public ActionResult JSPrint()
+        {
+            return View();
+        }
+
+        
 
         [AllowAnonymous]
-        public void PrintFile()
+        public void PrintFile(string useDefaultPrinter, string printerName)
         {
-            Task.Run(async delegate
-            {
-                while (true)
-                {
-                    PrintFile file = new PrintFile(System.Web.HttpContext.Current.Server.MapPath("~/Content/1.jpg"), "1.jpg");
-                    //Create a ClientPrintJob and send it back to the client!
-                    ClientPrintJob cpj = new ClientPrintJob();
-                    //set file to print...
-                    cpj.PrintFile = file;
-                    cpj.ClientPrinter = new InstalledPrinter("Canon iP8700 series (A5P1)");
-                    Debug.WriteLine("Hi:" + cpj.GetContent());
-                    System.Web.HttpContext.Current.Response.ContentType = "application/octet-stream";
-                    System.Web.HttpContext.Current.Response.BinaryWrite(cpj.GetContent());
-                    System.Web.HttpContext.Current.Response.End();
-                    await Task.Delay(1000000000);
-                }
+            string fileName = Guid.NewGuid().ToString("N") + "." + "jpg";
+            string filePath = "~/Content/1.jpg";
 
-            });
+
+            if (filePath != null)
+            {
+                PrintFile file = null;
+                file = new PrintFile(System.Web.HttpContext.Current.Server.MapPath(filePath), fileName);
+
+
+                ClientPrintJob cpj = new ClientPrintJob();
+                cpj.PrintFile = file;
+                if (useDefaultPrinter == "checked" || printerName == "null")
+                    cpj.ClientPrinter = new DefaultPrinter();
+                else
+                    cpj.ClientPrinter = new InstalledPrinter(System.Web.HttpUtility.UrlDecode(printerName));
+
+               
+                System.Web.HttpContext.Current.Response.ContentType = "application/octet-stream";
+                System.Web.HttpContext.Current.Response.BinaryWrite(cpj.GetContent());
+                System.Web.HttpContext.Current.Response.End();
+            }
         }
-        
     }
 }

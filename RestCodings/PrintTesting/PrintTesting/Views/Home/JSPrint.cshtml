@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "JSPrint";
+}
+
+<!-- JSPrintManager Javascript Source -->
+<script src="~/Scripts/JSPrintManager.js"></script>
+<!-- Zip.js files from https://github.com/gildas-lormeau/zip.js -->
+<script src="~/Scripts/zip.js"></script>
+<script src="~/Scripts/zip-ext.js"></script>
+<script src="~/Scripts/deflate.js"></script>
+<script>
+    JSPM.JSPrintManager.auto_reconnect = true;
+    JSPM.JSPrintManager.start();
+    JSPM.JSPrintManager.WS.onStatusChanged = function () {
+        if (JSPM.JSPrintManager.websocket_status == JSPM.WSStatus.Open) {
+            JSPM.JSPrintManager.getPrinters().then(function (e) {
+                console.log(e);
+            });
+            JSPM.JSPrintManager.getPrintersInfo().then(function (printersList) {
+                console.log(printersList);
+            });
+            var cpj = new JSPM.ClientPrintJob();
+            cpj.clientPrinter = new JSPM.DefaultPrinter();
+            //var my_file = new JSPM.PrintFile('/images/penguins300dpi.jpg', JSPM.FileSourceType.URL, 'MyFile.jpg', 1);
+            //cpj.files.push(my_file);
+
+            cpj.onUpdated = function (data) {
+                console.info(data);
+            };
+
+            cpj.onFinished = function (data) {
+                console.info(data);
+            };
+
+            cpj.sendToClient();
+        }
+    };
+
+</script>
