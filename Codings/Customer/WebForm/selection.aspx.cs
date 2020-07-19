@@ -20,11 +20,13 @@ using System.Diagnostics;
 using System.Data;
 using System.Web.Services;
 using WebForm;
+using static WebForm.summary;
 
 namespace WebForm
 {
     public partial class selection : System.Web.UI.Page
     {
+        public static List<InCartItem> incartItems;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -93,6 +95,10 @@ namespace WebForm
                 Dictionary<string, string> photomatch = photoprofile; //comment it for debugging.
                 ///COMMENT UNTIL HERE FOR DEBUGGING*/
             ///
+            if(Session["CartItems"] != null)
+            {
+                incartItems = (List<InCartItem>)Session["CartItems"];
+            }
 
             Dictionary<string, string> photomatch = new Dictionary<string, string>();
             photomatch.Add("photoID1", "1.jpg");
@@ -128,7 +134,6 @@ namespace WebForm
 
                     photowatermarked = photowatermarked.Replace(@"Xeric/files/kidzania/", "");
                     string photowatermarked_filename = photowatermarked.Replace("/", "");
-                    Debug.WriteLine("photo path" + photowatermarked_filename);
 
                     if (!File.Exists(currentApplicationPath + "photos//" + photowatermarked_filename)) { }
                     else
@@ -199,39 +204,41 @@ namespace WebForm
                             photofullpath += photo.Key + "|";
 
                         }
-                        /*
-                        int dc_amt = 20; //Default digital copy price
+                /*
+                int dc_amt = 20; //Default digital copy price
 
-                        purchase_status.InnerHtml += "<div class='fix_corner'>";
-                        purchase_status.InnerHtml += "  <div class='fix_corner_ctn'>";
-                        purchase_status.InnerHtml += "      <div class='fix_corner_item' id='digital_copy_amt'>Digital Copy: $" + dc_amt + "</div>";
+                purchase_status.InnerHtml += "<div class='fix_corner'>";
+                purchase_status.InnerHtml += "  <div class='fix_corner_ctn'>";
+                purchase_status.InnerHtml += "      <div class='fix_corner_item' id='digital_copy_amt'>Digital Copy: $" + dc_amt + "</div>";
 
-                        if (true)
-                        {
-                            purchase_status.InnerHtml += "      <div class='fix_corner_item' id='a5_copy_amt'>A5 hardcopy: $0</div>";
-                            purchase_status.InnerHtml += "      <div class='fix_corner_item' id='kc_copy_amt'>Keychain: $0</div>";
-                            purchase_status.InnerHtml += "      <div class='fix_corner_item' id='ec_copy_amt'>Establishment Card: $0</div>";
-                            purchase_status.InnerHtml += "      <div class='fix_corner_item' id='mg_copy_amt'>Magnet: $0</div>";
-                            purchase_status.InnerHtml += "      <div class='fix_corner_item' id='lr_copy_amt'>Leatherette: $0</div>";
+                if (true)
+                {
+                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='a5_copy_amt'>A5 hardcopy: $0</div>";
+                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='kc_copy_amt'>Keychain: $0</div>";
+                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='ec_copy_amt'>Establishment Card: $0</div>";
+                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='mg_copy_amt'>Magnet: $0</div>";
+                    purchase_status.InnerHtml += "      <div class='fix_corner_item' id='lr_copy_amt'>Leatherette: $0</div>";
 
-                        }
-                        purchase_status.InnerHtml += "      <div class='fix_corner_item' id='Total_cost'>Total: $" + dc_amt + " SGD</div>";
-                        purchase_status.InnerHtml += "      <div class='fix_corner_item'><b>*Bold: purchase with purchase discount</b></div>";
-
-
-                        if (alert_message != "")
-            purchase_status.InnerHtml += "  </div>";
-                            purchase_status.InnerHtml += "</div>";
-                            sa.Attributes["value"] = dc_amt.ToString();
-                            dc.Attributes["value"] = (x - 1).ToString();
-                            js.Attributes["value"] = photofullpath.TrimEnd('|');
-                        }
+                }
+                purchase_status.InnerHtml += "      <div class='fix_corner_item' id='Total_cost'>Total: $" + dc_amt + " SGD</div>";
+                purchase_status.InnerHtml += "      <div class='fix_corner_item'><b>*Bold: purchase with purchase discount</b></div>";
 
 
+                if (alert_message != "")
+    purchase_status.InnerHtml += "  </div>";
+                    purchase_status.InnerHtml += "</div>";
+                    sa.Attributes["value"] = dc_amt.ToString();
+                    dc.Attributes["value"] = (x - 1).ToString();
+                    js.Attributes["value"] = photofullpath.TrimEnd('|');
+                }
 
-                        return;
-                    }*/
-                
+
+
+                return;
+            }*/
+            
+
+
             }
         }
 
@@ -519,11 +526,26 @@ namespace WebForm
         }
 
 
+        [WebMethod]
+        public static string GetCartItems()
+        {
+            if (incartItems != null)
+            {
+                return new JavaScriptSerializer().Serialize(incartItems);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        
+
         public class CartItem
         {
             public string productId { get; set; }
             public int quantity { get; set; }
         }
+
         public class CartItemWithCost
         {
             public string ProductId { get; set; }

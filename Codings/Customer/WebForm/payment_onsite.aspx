@@ -199,7 +199,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-danger" onclick="window.location.href='photoupload.aspx'">Yes</button>
+                    <button type="button" class="btn btn-danger" onclick="window.location.href='main.aspx'">Yes</button>
                 </div>
             </div>
         </div>

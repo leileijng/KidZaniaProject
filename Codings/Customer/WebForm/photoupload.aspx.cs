@@ -28,17 +28,40 @@ namespace WebForm
                 if (profile != "default")
                 {
                     Session["CapturedImageBase64"] = "data:image/jpeg;base64," + profile;
+                    //Response.Redirect("profile.aspx");
+                }
+                if (profile.Equals("/Content/photos/1.jpg") || profile.Equals("/Content/photos/2.jpg") || profile.Equals("/Content/photos/3.jpg"))
+                {
+                    Session["CapturedImageBase64"] = "data:image/jpeg;base64," + profile;
                     Response.Redirect("profile.aspx");
                 }
             }
 
             if (IsPostBack && FileUpload1.PostedFile != null && FileUpload1.PostedFile.FileName.Length > 0)
             {
+                photo_profile_ctn.InnerHtml = "<div>Select a face:</div>";
+                List<string> testingFacesPhotos = new List<string>();
+                testingFacesPhotos.Add("/Content/photos/1.jpg");
+                testingFacesPhotos.Add("/Content/photos/2.jpg");
+                testingFacesPhotos.Add("/Content/photos/3.jpg");
+                for (int x = 0; x < testingFacesPhotos.Count; x++)
+                {
+                    string Base64Face = testingFacesPhotos[x];
+                    photo_profile_ctn.InnerHtml += "<div class=\"gallery_profile\">";
+                    //ON CLICK will submit form to profile.aspx
+                    photo_profile_ctn.InnerHtml += "<button onclick='$(\"#pf\").val(\"" + Base64Face + "\");' type='submit' value='" + x + "'><img class='thumbnail' src='" + Base64Face + "'></button>";
+                    photo_profile_ctn.InnerHtml += "</div>";
+                }
+                FileUpload1.Visible = false;
+                btn_reset.Visible = true;
+
+                //Response.Redirect("profile.aspx");
+                /*
                 string fileName = Path.GetFileName(FileUpload1.PostedFile.FileName);
                 Byte[] b = new byte[FileUpload1.PostedFile.ContentLength];
                 FileUpload1.PostedFile.InputStream.Read(b, 0, b.Length);
 
-
+                
                 string apipath = "http://152.10.200.26:8081/api"; //path to VM2
 
                 Result_Detect_Face dFace = new Result_Detect_Face();
@@ -74,7 +97,7 @@ namespace WebForm
                 else
                 {
                     photo_profile_ctn.InnerHtml = "<div>Face not detected. Please upload another photo:</div>";
-                }
+                }*/
             }
 
         }
