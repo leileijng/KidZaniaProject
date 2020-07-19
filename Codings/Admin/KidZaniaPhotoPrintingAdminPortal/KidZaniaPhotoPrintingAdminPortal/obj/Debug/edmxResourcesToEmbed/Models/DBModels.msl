@@ -48,6 +48,7 @@
     <EntitySetMapping Name="printers">
       <EntityTypeMapping TypeName="DBModel.printer">
         <MappingFragment StoreEntitySet="printer">
+          <ScalarProperty Name="manuallyOff" ColumnName="manuallyOff" />
           <ScalarProperty Name="port" ColumnName="port" />
           <ScalarProperty Name="updated_by" ColumnName="updated_by" />
           <ScalarProperty Name="updated_at" ColumnName="updated_at" />

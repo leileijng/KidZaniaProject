@@ -56,6 +56,7 @@
           <Property Name="updated_at" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="updated_by" Type="varchar" MaxLength="50" />
           <Property Name="port" Type="varchar" MaxLength="45" />
+          <Property Name="manuallyOff" Type="bool" Nullable="false" />
         </EntityType>
         <EntityType Name="product">
           <Key>
@@ -355,6 +356,7 @@ FROM `profile` AS `profile`</DefiningQuery>
           <Property Name="updated_at" Type="DateTime" Nullable="false" />
           <Property Name="updated_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="port" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="manuallyOff" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="itemphotoes" Relationship="DBModel.itemphoto_ibfk_2" FromRole="printer" ToRole="itemphoto" />
           <NavigationProperty Name="staff" Relationship="DBModel.printer_ibfk_1" FromRole="printer" ToRole="staff" />
         </EntityType>
@@ -558,6 +560,7 @@ FROM `profile` AS `profile`</DefiningQuery>
           <EntitySetMapping Name="printers">
             <EntityTypeMapping TypeName="DBModel.printer">
               <MappingFragment StoreEntitySet="printer">
+                <ScalarProperty Name="manuallyOff" ColumnName="manuallyOff" />
                 <ScalarProperty Name="port" ColumnName="port" />
                 <ScalarProperty Name="updated_by" ColumnName="updated_by" />
                 <ScalarProperty Name="updated_at" ColumnName="updated_at" />

@@ -46,12 +46,12 @@
     </div>
 </div>
 <input type="file" id="newfile" />
-<button type="button" onclick="uploadFile()">Upload</button>
+<button type="button" onclick="javascript:jsWebClientPrint.print();">Upload</button>
 <script>
     function uploadFile() {
 
         $.ajax({
-            url: `/api/printingJobs`,
+            url: `/api/startPrinting`,
             type: 'POST',
             contentType: false,
             processData: false,

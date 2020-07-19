@@ -27,6 +27,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         public System.DateTime updated_at { get; set; }
         public string updated_by { get; set; }
         public string port { get; set; }
+        public bool manuallyOff { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<itemphoto> itemphotoes { get; set; }
