@@ -10,6 +10,7 @@
     <link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' />
     <link rel='stylesheet' href='/Scripts/css/misc.css' type='text/css' media='all' />
     <link rel="stylesheet" href="/Scripts/css/jquery-ui.css" />
+    <link href="Scripts/fonts/material-design-iconic-font/css/materialdesignicons.min.css" rel="stylesheet" />
 
     <script type="text/javascript" src="/Scripts/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="/Scripts/bootstrap.min.js"></script>
@@ -60,6 +61,93 @@
             font-size: 1.5rem;
         }
 
+         .modal-confirm {		
+		color: #636363;
+		width: 400px;
+		top: 115px;
+	}
+	.modal-confirm .modal-content {
+		border-radius: 5px;
+		border: none;
+        text-align: center;
+		font-size: 14px;
+	}
+	.modal-confirm .modal-header-delete {
+		border-bottom: none;   
+        position: relative;
+	}
+	.modal-confirm h4 {
+		text-align: center;
+		font-size: 26px;
+		/*margin: 30px 0 -10px;*/
+	}
+	.modal-confirm .close {
+		top: -5px;
+		right: -2px;
+        color: white;
+        text-shadow: 0 1px 0 #000;
+        opacity: 2.5;
+	}
+	.modal-confirm .modal-body {
+		color: #999;
+	}
+	.modal-confirm .modal-footer {
+		border: none;
+		text-align: center;		
+		border-radius: 5px;
+		font-size: 13px;
+		padding: 10px 70px 25px;
+	}
+	.modal-confirm .modal-footer a {
+		color: #999;
+	}		
+	.modal-confirm .icon-box {
+		width: 80px;
+		height: 80px;
+		margin: 0 auto;
+		border-radius: 50%;
+		z-index: 9;
+		text-align: center;
+		border: 3px solid #f15e5e;
+	}
+	.modal-confirm .icon-box i {
+		color: #f15e5e;
+		font-size: 46px;
+		display: inline-block;
+		margin-top: 3px;
+        margin-right: 0;
+	}
+    .modal-confirm .btn {
+        color: #fff;
+        border-radius: 4px;
+		background: #60c7c1;
+		text-decoration: none;
+		transition: all 0.4s;
+        line-height: normal;
+		min-width: 120px;
+        border: none;
+		min-height: 40px;
+		border-radius: 3px;
+		margin: 0 5px;
+		outline: none !important;
+    }
+	.modal-confirm .btn-info {
+        background: #c1c1c1;
+    }
+    .modal-confirm .btn-info:hover, .modal-confirm .btn-info:focus {
+        background: #a8a8a8;
+    }
+    .modal-confirm .btn-danger {
+        background: #f15e5e;
+    }
+    .modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
+        background: #ee3535;
+    }
+    .modal-header-delete{
+	    background-color: #f15e5e;
+        margin-bottom: 10px;
+	}
+
         </style>
 </head>
 <body>
@@ -95,21 +183,43 @@
     </header>
     <!-- HEADER -->
 
+     <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header modal-header-delete">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Cancel Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="icon-box">
+                    <i class="m-r-10 mdi mdi-close"></i>
+                </div>
+                <h4 class="modal-title">Are you sure?</h4>
+                <div class="modal-body">
+                    <p>Are you sure to cancel the order?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-danger" onclick="window.location.href='photoupload.aspx'">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div style="margin-top:130px;"></div>
 
     <form action="summary.aspx?retry=true" method="post">
         <div id="failure" runat="server"></div>
     </form>
-    <div style="text-align:center;margin-top: 10px;margin-bottom: 30px;"><img src="Content/img/process-checkout.png" /></div>
+    <div id="processcheckout"><img src="Content/img/process-checkout.png" /></div>
     <div id="payment_success" runat="server"></div>
     <br />
     <div id="summary_session" style="display:none" runat="server"></div>
-    <div style="width:200px; margin:0 auto;">
+    <div id="ticketBtn">
         <input type="button" style="font-size:18px" onclick="jsWebClientPrint.print('summary=' + $('#summary_session').html());" value="Print Collection Ticket" />
     </div>
     <br />
     <div style="width:66px; margin:0 auto;">
-        <a style="font-size:22px;" href="\onsite.aspx">Home</a>
+        <a style="font-size:22px;" href="main.aspx">Home</a>
     </div>
     <br />
     <%=Neodynamic.SDK.Web.WebClientPrint.CreateScript(HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/WebClientPrintAPI.ashx", HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Host + ":" + HttpContext.Current.Request.Url.Port + "/PrintESCPOSHandler.ashx", HttpContext.Current.Session.SessionID)%>
@@ -209,7 +319,30 @@
     </footer>
 
     <!-- FOOTER -->
+    <script>
+        jQuery(document).ready(function ($) {
 
+            if (window.history && window.history.pushState) {
+
+                $(window).on('popstate', function () {
+                    var hashLocation = location.hash;
+                    var hashSplit = hashLocation.split("#!/");
+                    var hashName = hashSplit[1];
+
+                    if (hashName !== '') {
+                        var hash = window.location.hash;
+                        if (hash === '') {
+                            $('#myModal').modal('show');
+                        }
+                        history.pushState(null, null, window.location.pathname);
+                    }
+                });
+
+                window.history.pushState(null, null, window.location.pathname);
+            }
+
+        });
+   </script>
 
 </body>
 </html>

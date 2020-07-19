@@ -23,6 +23,7 @@ namespace WebForm
                 profile_photo.InnerHtml = "<img style='max-height: 300px !important;' src='" + photobase64 + "' />";
                 Dictionary<string, string> photoprofile = getphotoprofile(photobase64); */
 
+
                 Dictionary<string, string> photoprofile = new Dictionary<string, string>();
                 photoprofile.Add("photoID1", "1.jpg");
                 photoprofile.Add("photoID2", "2.jpg");

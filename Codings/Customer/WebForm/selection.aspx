@@ -47,7 +47,7 @@
     <script src="/Scripts/lib/noty/noty.min.js"></script>
     <script src="/Scripts/lib/moment/moment.min.js"></script>
     <script src="/Scripts/lib/store/store.min.js"></script>
-
+    
     <title></title>
 
     <style>
@@ -1408,8 +1408,6 @@
         }
 
     </script>
-
-
 </head>
 <body>
     <!-- HEADER -->
@@ -1488,7 +1486,7 @@
         <div style="width: 100%; height: 150px; text-align: center; margin: 0 auto;" id="heading">
             <span class="heading1">Photo Selection</span>
         </div>
-        <div style="text-align: center; margin-top: 10px;">
+        <div id="processselection">
             <img src="Content/img/process-selection.png" />
         </div>
         <div style="text-align: center; margin-top: 10px;">
