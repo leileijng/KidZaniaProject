@@ -75,7 +75,7 @@ namespace WebForm
                     }
                     Response.Write("<html>" + metaheader + "<body>" + header + "<div id='statustext' style='position: relative; top: 165px; margin-top: 160px;width: 100%; height: 200px; text-align:center; margin:0 auto; font-size: 33px;'><div style=\"text -align:center;margin-top: 10px;margin:0 auto;\"><img src='Content/img/process-checkout.png' /></div><div style='display: inline-block;'>Please proceed to the checkout counter with the following code:<br><b>" + usercode + "</b><img src='"+ imgsrc + "'/></div></div>");
 
-                    payment_success.InnerHtml += "<div style='display: inline-block;'>Please proceed to the checkout counter with the following code:<br> <b id='ordercode'>" + usercode + "</b><p><img src='" + imgsrc + "' width='300'/></p></div>";
+                    payment_success.InnerHtml += "<div style='display: inline-block;'>Please proceed to the checkout counter with the following code:<br> <b id='ordercode'>" + usercode + "</b><p><img id='QRcode' src='" + imgsrc + "' width='300'/></p></div>";
 
                     //PlaceHolder1.Controls.Add(imgBarCode);
                 }

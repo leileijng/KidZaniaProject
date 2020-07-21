@@ -557,6 +557,40 @@ a:active {
     text-align: center;
 }
 
+/*--------------------------------------------------------------
+## process-img
+--------------------------------------------------------------*/
+#processcheckout {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+#processselection {
+    text-align: center;
+    margin-top: 10px;
+}
+
+#ticketBtn {
+    width: 200px;
+    margin: 0 auto;
+    margin-top: -30px;
+}
+@media (max-width: 768px) {
+    #processselection {
+        margin-top: -30px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    #processcheckout {
+        margin-top: -40px;
+    }
+    #processselection {
+        margin-top: -55px;
+        margin-bottom: 20px;
+    }
+}
 
 /*--------------------------------------------------------------
 ## table
@@ -714,6 +748,9 @@ a:active {
         overflow: visible;
         max-height: 100%;
     }
+    #QRcode {
+        display: none;
+    }
 }
 @media (max-width: 768px) {
     .btnmain {
@@ -727,7 +764,11 @@ a:active {
         width: 100% !important;
         height: 100%;
     }
+    #pfimg {
+        margin-top: -50px !important;
+    }
 }
+
     /*--------------------------------------------------------------
 ## Shopping cart
 --------------------------------------------------------------*/

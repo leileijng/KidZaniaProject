@@ -126,7 +126,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                         if (httpPostedFile != null)
                         {
                             // Construct file save path  
-                            var ext = Path.GetExtension(httpPostedFile.FileName);
+                            var ext = Path.GetExtension(httpPostedFile.FileName).ToLower();
                             var fileSavePath = Path.Combine(HostingEnvironment.MapPath("~/Content/Photos/"), imgName + ext);
                             if (!File.Exists(fileSavePath))
                             {

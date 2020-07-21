@@ -13,6 +13,10 @@ namespace WebForm
 {
     public partial class summary : System.Web.UI.Page
     {
+       
+
+        public static List<InCartItem> cartItems;
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -231,6 +235,8 @@ namespace WebForm
 
                 List<LineItem> lineitems = new List<LineItem>();
                 List<ItemPhoto> itemphotos = new List<ItemPhoto>();
+
+                cartItems = new List<InCartItem>();
                 foreach (Product p in allproducts)
                 {
                     if (p.PhotoProduct)
@@ -262,6 +268,14 @@ namespace WebForm
                                 itemPhoto.Updated_At = dt;
                                 itemphotos.Add(itemPhoto);
 
+                                InCartItem ci = new InCartItem();
+                                string[] photoID1 = photo.Split('/');
+                                string[] photoID2 = photoID1[photoID1.Length - 1].Split('.');
+                                string phID = photoID2[0];
+                                ci.photoId = "photoID" + phID;
+                                ci.productId = p.ProductId;
+                                ci.photoSource = photo;
+                                cartItems.Add(ci);
                                 //generate photoelements
                                 photoElements += "<div class='column'><img src='" + photo + "' style='width:60px'></div>";
 
@@ -293,9 +307,14 @@ namespace WebForm
                             lineitems.Add(newLineItem);
                             insertLineItem(newLineItem);
 
+                            InCartItem ci = new InCartItem();
+                            ci.photoId = "photoProduct";
+                            ci.productId = p.ProductId;
+                            ci.photoSource = Request.Form[element];
+                            cartItems.Add(ci);
                             //summarydiv.InnerHtml += p.ProductName + ": " + lineitems[lineitems.Count - 1].LineItem_Amount + "<br>";
 
-                            if(newLineItem.Product_Id == "dc")
+                            if (newLineItem.Product_Id == "dc")
                             {
                                 email_ctn.InnerHtml += "<span style='color: red;'> <b>Email required: </b></span ><input type='text' id='useremail' size ='50' runat ='server' /><span style='color: red; margin-left: 5px;' id ='email_status' ></span><div id='email_validator' runat='server' ></div> <p style='display:none' id='pidSession'>"+ pid +"</p> ";
                             }
@@ -303,6 +322,7 @@ namespace WebForm
                         }
                     }
                 }
+                Session["CartItems"] = cartItems;
                 summarydiv.InnerHtml += "<tr><th colspan='4' style='text-align:right'>Total Cost: <b>SGD " + Request.Form["summarytotalcost"]  + "</b></th></tr>";
             }
 
@@ -310,6 +330,7 @@ namespace WebForm
             else if (Request.QueryString["retry"] != null)
             {
                 if (Session["pid"] == null)
+                    Response.Redirect("http://photos.kidzania.com.sg");
                     Response.Redirect("http://photos.kidzania.com.sg");
                 string pid = Session["pid"].ToString();
                 string hc = "";
@@ -362,6 +383,13 @@ namespace WebForm
             }
         }
 
+        public class InCartItem
+        {
+            public string productId { get; set; }
+            public string photoId { get; set; }
+            public string photoSource { get; set; }
+        }
+
         public class Order
         {
             public string Order_Code;
@@ -401,8 +429,7 @@ namespace WebForm
             try
             {
                 string query = "insert into `order` ( pid, order_id, total_amount, status) VALUES('" + MySqlHelper.EscapeString(order.p_id) + "','" + MySqlHelper.EscapeString(order.Order_Code) + "','" + MySqlHelper.EscapeString(order.total_amount.ToString()) + "','" + MySqlHelper.EscapeString(order.status) + "');";
-                Debug.WriteLine("insert order sql:");
-                Debug.WriteLine(query);
+                
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
             }
@@ -429,8 +456,7 @@ namespace WebForm
             try
             {
                 string query = "insert into `lineitem` (lineitem_id, p_id, product_id, photos, item_amount, quantity, status) VALUES('" + MySqlHelper.EscapeString(lineitem.LineItem_Id) + "','" + MySqlHelper.EscapeString(lineitem.Pid) + "','" + MySqlHelper.EscapeString(lineitem.Product_Id) + "','" + MySqlHelper.EscapeString(lineitem.Photos) + "','" + MySqlHelper.EscapeString(lineitem.LineItem_Amount.ToString()) + "','" + MySqlHelper.EscapeString(lineitem.Quantity.ToString()) + "','" + MySqlHelper.EscapeString(lineitem.Status) + "');";
-                Debug.WriteLine("insert lineitem sql:");
-                Debug.WriteLine(query);
+            
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
             }
@@ -457,8 +483,7 @@ namespace WebForm
             try
             {
                 string query = "insert into `itemphoto` (itemphoto_id, photo, p_id, lineitem_id, updated_at) VALUES('" + MySqlHelper.EscapeString(itemphoto.ItemPhoto_Id) + "','" + MySqlHelper.EscapeString(itemphoto.Photo) + "','" + MySqlHelper.EscapeString(itemphoto.Pid) + "','" + MySqlHelper.EscapeString(itemphoto.LineItem_Id) + "','" + MySqlHelper.EscapeString(itemphoto.Updated_At.ToString("yyyy-MM-dd HH:mm:ss")) + "');";
-                Debug.WriteLine("insert itemphoto sql:");
-                Debug.WriteLine(query);
+              
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
             }
@@ -487,8 +512,7 @@ namespace WebForm
             try
             {
                 string query = "insert into `email` (pid, email) VALUES('" + MySqlHelper.EscapeString(pid) + "','" + MySqlHelper.EscapeString(email) + "');";
-                Debug.WriteLine("insert email sql:");
-                Debug.WriteLine(query);
+               
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
             }
@@ -573,8 +597,7 @@ namespace WebForm
             try
             {
                 string query = "insert into `profile` values ('" + MySqlHelper.EscapeString(pid) + "', ' " + MySqlHelper.EscapeString(profile) + "', 'processing');";
-                Debug.WriteLine("insert profile sql:");
-                Debug.WriteLine(query);
+             
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
             }

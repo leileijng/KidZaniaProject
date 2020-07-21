@@ -65,7 +65,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
 
                     if (string.IsNullOrEmpty(printersInfo) == false)
                         printersInfo = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(printersInfo));
-                    
+
                     HttpContext.Application.Set(sessionID + "printersInfo", printersInfo);
 
 
@@ -96,6 +96,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
 
                     HttpContext.Response.ContentType = "text/plain";
                     HttpContext.Response.Write(sidHasPrinters ? HttpContext.Application[sessionID + "printersInfo"] : "");
+
                 }
 
             }
@@ -106,8 +107,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
                 HttpContext.Response.Write(ex.Message + " - StackTrace: " + ex.StackTrace);
                 HttpContext.Response.End();
             }
-
-
+            
         }
     }
 }

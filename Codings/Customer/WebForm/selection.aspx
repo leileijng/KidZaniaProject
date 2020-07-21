@@ -47,7 +47,7 @@
     <script src="/Scripts/lib/noty/noty.min.js"></script>
     <script src="/Scripts/lib/moment/moment.min.js"></script>
     <script src="/Scripts/lib/store/store.min.js"></script>
-
+    
     <title></title>
 
     <style>
@@ -445,11 +445,32 @@
         var AllCosts = [];
 
         $(window).on("load", function () {
-            refresh_values();
+            $.ajax({
+                type: "POST",
+                url: '<%= ResolveUrl("selection.aspx/GetCartItems") %>',
+                dataType: 'text',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    var inCartItems = JSON.parse(msg.d);
+                    if (inCartItems != null) {
+                        $('.itemsChk').prop("checked", false);
+                        console.log(inCartItems);
+                        var i;
+                        for (i = 0; i < inCartItems.length; i++) {
+                            console.log(inCartItems[i]);
+                            var newCartItem = new CartItem(inCartItems[i].photoId, inCartItems[i].photoSource, inCartItems[i].productId);
+                            CartItems.push(newCartItem);
+                            $(`#item${inCartItems[i].photoId}${inCartItems[i].productId}`).prop("checked", true);
+                        }
+                        console.log(CartItems);
+                        openCart();
+                    }
+                }
+            });
         });
 
         $(document).ready(function () {
-            refresh_values();
             //get this product name
             $.ajax({
                 type: "POST",
@@ -1052,7 +1073,6 @@
                     CartItems.push(newCartItem);
                 }
             });
-            console.log(CartItems);
             openCart();
         }
         //When the select all digital is clicked the item will be inserted to the shopping cart
@@ -1208,7 +1228,7 @@
                     $(`#cartForm`).append(item_photo);
                 }
             }
-            console.log(AllCosts);
+            //console.log(AllCosts);
             var x;
             for (x = 0; x < AllCosts.length; x++) {
                 cost_item = $(`<input type="hidden" name="summary${AllCosts[x].ProductId}cost" value="${AllCosts[x].Cost}" />`);
@@ -1408,8 +1428,6 @@
         }
 
     </script>
-
-
 </head>
 <body>
     <!-- HEADER -->
@@ -1488,7 +1506,7 @@
         <div style="width: 100%; height: 150px; text-align: center; margin: 0 auto;" id="heading">
             <span class="heading1">Photo Selection</span>
         </div>
-        <div style="text-align: center; margin-top: 10px;">
+        <div id="processselection">
             <img src="Content/img/process-selection.png" />
         </div>
         <div style="text-align: center; margin-top: 10px;">

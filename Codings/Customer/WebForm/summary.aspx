@@ -51,6 +51,31 @@
     <script src="/Scripts/lib/moment/moment.min.js"></script>
     <script src="/Scripts/lib/store/store.min.js"></script>
     <script>
+
+        jQuery(document).ready(function ($) {
+            if (window.history && window.history.pushState) {
+
+                $(window).on('popstate', function () {
+                    var hashLocation = location.hash;
+                    var hashSplit = hashLocation.split("#!/");
+                    var hashName = hashSplit[1];
+
+                    if (hashName !== '') {
+                        var hash = window.location.hash;
+                        if (hash === '') {
+                            window.location.href = '/selection.aspx';
+                        }
+
+                        window.history.pushState(null, null, window.location.pathname);
+                    }
+                });
+
+                window.history.pushState(null, null, window.location.pathname);
+            }
+        });
+
+
+
         function isEmail(email) {
             var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             return regex.test(email);
@@ -492,7 +517,7 @@
         <!-- #site-info -->
         <!-- .site-info -->
     </footer>
-
+   
     <!-- FOOTER -->
 </body>
 </html>

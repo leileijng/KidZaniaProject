@@ -191,7 +191,7 @@
     <link rel='stylesheet'  href='/Scripts/css/style.css' type='text/css' media='all' />
     <link rel='stylesheet'  href='/Scripts/css/misc.css' type='text/css' media='all' />
     <link rel="stylesheet" href="/Scripts/css/jquery-ui.css" />
-    <script type="text/javascript" src="/Scripts/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery-3.3.1.min.js"></script>
     
     
 </head>
@@ -233,8 +233,8 @@
         <div style="width: 100%; height: 150px; text-align:center;margin:0 auto;" id="heading">
             <span class="heading1">Photo Selection</span>
         </div>
-         <div style="text-align: center; margin-top: 10px;">
-            <img src='/Content/img/process-selection.png' />
+         <div id="pfimg" style="text-align: center; margin-top: 10px;">
+            <img src='Content/img/selection.png' />
         </div>
         <div style="width: 100%; text-align:center;margin-top: 10px;margin:0 auto;" id="user_profile">
             <div id="profile_photo" runat="server"></div>
@@ -349,6 +349,5 @@
         <!-- .site-info -->
     </footer>
     <!-- FOOTER -->
-
 </body>
 </html>

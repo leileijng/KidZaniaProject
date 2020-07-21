@@ -33,8 +33,6 @@ namespace PrintTesting.APIs
                         HttpPostedFile httpPostedFile = httpContext.Request.Files[i];
                         if (httpPostedFile != null)
                         {
-
-
                             InstalledPrinter installedPrinter = new InstalledPrinter();
                             installedPrinter.PaperName = "A4";
                             installedPrinter.PrinterName = printername;
@@ -64,6 +62,39 @@ namespace PrintTesting.APIs
             }
             return BadRequest();
         }
+
+
+        [HttpPost]
+        [Route("api/startPrinting")]
+        [AllowAnonymous]
+        public IHttpActionResult startPrinting()
+        {
+            var httpContext = HttpContext.Current;
+            try
+            {
+                            PrintFile file = new PrintFile(System.Web.HttpContext.Current.Server.MapPath("~/Content/1.jpg"), "1.jpg");
+                            //Create a ClientPrintJob and send it back to the client!
+                            ClientPrintJob cpj = new ClientPrintJob();
+                            //set file to print...
+                            cpj.PrintFile = file;
+                            cpj.ClientPrinter = new InstalledPrinter("Canon iP8700 series (A5P1)");
+                            Debug.WriteLine("Hi:" + cpj.GetContent());
+                            System.Web.HttpContext.Current.Response.ContentType = "application/octet-stream";
+                            System.Web.HttpContext.Current.Response.BinaryWrite(cpj.GetContent());
+                            System.Web.HttpContext.Current.Response.End();
+                            return Ok("Job Created");
+                        
+
+                    
+                }
+            
+            catch (Exception e)
+            {
+                return BadRequest(e.Message.ToString());
+            }
+            return BadRequest();
+        }
+
 
         [HttpPost]
         [Route("api/printingJobs")]
