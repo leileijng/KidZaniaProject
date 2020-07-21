@@ -27,6 +27,10 @@
                         <td><input type="text" id="txtEmail" placeholder="Email" /> </td>
                     </tr>
                     <tr>
+                        <td>Name</td>
+                        <td><input type="text" id="txtName" placeholder="Name" /> </td>
+                    </tr>
+                    <tr>
                         <td>Password</td>
                         <td>
                             <input type="password" id="txtPassword"
@@ -38,6 +42,16 @@
                         <td>
                             <input type="password" id="txtConfirmPassword"
                                    placeholder="Confirm Password" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Role</td>
+                        <td>
+                            <select id="txtRoleId">
+                                <option value="1">Admin</option>
+                                <option value="2">Printing</option>
+                                <option value="3">Marketing</option>
+                            </select>
                         </td>
                     </tr>
                     <tr class="success">
@@ -101,8 +115,10 @@
                     method: 'POST',
                     data: {
                         email: $('#txtEmail').val(),
+                        name: $('#txtName').val(),
                         password: $('#txtPassword').val(),
-                        confirmPassword: $('#txtConfirmPassword').val()
+                        confirmPassword: $('#txtConfirmPassword').val(),
+                        roleId: $('#txtRoleId').val(),
                     },
                     success: function () {
                         $('#successModal').modal('show');

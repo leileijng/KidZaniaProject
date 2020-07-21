@@ -36,5 +36,12 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
             return View();
         }
 
+        [Authorize(Roles="admin")]
+        public ActionResult TestAuth()
+        {
+            ViewBag.Title = "Test Page";
+
+            return View();
+        }
     }
 }

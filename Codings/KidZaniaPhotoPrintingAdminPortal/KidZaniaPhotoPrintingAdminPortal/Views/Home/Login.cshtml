@@ -23,13 +23,13 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Usename: apple@gmail.com</td>
+                        <td>Email:</td>
                         <td>
                             <input type="text" id="txtUsername" placeholder="Username" />
                         </td>
                     </tr>
                     <tr>
-                        <td>Password: Apple123@</td>
+                        <td>Password:</td>
                         <td>
                             <input type="password" id="txtPassword"
                                    placeholder="Password" />
@@ -63,14 +63,16 @@
             });
 
             $('#btnLogin').click(function () {
+                let username = $('#txtUsername').val();
+                let password = $('#txtPassword').val();
                 $.ajax({
                     // Post username, password & the grant type to /token
                     url: '/token',
                     method: 'POST',
                     contentType: 'application/json',
                     data: {
-                        username: $('#txtUsername').val(),
-                        password: $('#txtPassword').val(),
+                        username: username,
+                        password: password,
                         grant_type: 'password'
                     },
                     // When the request completes successfully, save the
@@ -79,8 +81,21 @@
                     // this page yet. So please add it to the
                     // EmployeeService project before running it
                     success: function (response) {
+                        console.log("step1");
                         sessionStorage.setItem("accessToken", response.access_token);
-                        window.location.href = "Data";
+                        $.ajax({
+                            url: `/api/account/login?inUserName=${username}&inPassword=${password}`,
+                            method: 'POST',
+                            content:'json',
+                            success: function (data) {
+                                console.log("step1");
+
+                            },
+                            error: function (jqXHR) {
+                                $('#divErrorText').text(jqXHR.responseText);
+                                $('#divError').show('fade');
+                            }
+                        });
                     },
                     // Display errors if any in the Bootstrap alert <div>
                     error: function (jqXHR) {
