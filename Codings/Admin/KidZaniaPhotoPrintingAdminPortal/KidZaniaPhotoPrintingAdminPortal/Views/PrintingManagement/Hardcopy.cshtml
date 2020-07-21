@@ -564,7 +564,7 @@
                                 var orderPhotoId = orderPhotoIds[0];
                                 orderPhotoId = orderPhotoId.replace(/\//g, "_");
                                 $(`#printer${orderPhotoId}`).text(record.assigned_printer);
-                                $(`#status${orderPhotoId}`).text("Queueing");
+                                $(`#status${orderPhotoId}`).text("Status: Queueing");
                             }
                             // but different status
                             if (ordernum[x].status != record.photo_status) {
@@ -842,10 +842,9 @@
                     var photos = data;
                     autoPrintingStatus = true;
                     console.log("There is something to print");
-                    jsWebClientPrint.print(`photoId=${photos[0].photo_id}`);
-
-                    setTimeout(startAutoPrintingFunc, 3000);
-
+                    //jsWebClientPrint.print(`photoId=${photos[0].photo_id}`);
+                    sendPrintingJobs(`${photos[0].photo_id}`);
+                    setTimeout(startAutoPrintingFunc, 5000);
                 }
                 else {
                     console.log("nothing to print now");
@@ -855,6 +854,23 @@
         });
     }
 
+    function sendPrintingJobs(photoId) {
+
+        webformdata = { "photoId": photoId };
+        console.log(webformdata);
+        url = `/api/hardcopys/autoPrinting`;
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            contentType: 'application/json',
+            data: JSON.stringify(webformdata)
+        })
+            .done(function (data, textStatus, jqXHR) {
+                console.log(data);
+            });
+    
+    }
 
     function loadPrinterInfo() {
         $(`#availablePrinters`).html("");
