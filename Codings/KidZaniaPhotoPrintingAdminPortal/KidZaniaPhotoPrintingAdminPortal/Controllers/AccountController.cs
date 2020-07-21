@@ -16,6 +16,10 @@ using Microsoft.Owin.Security.OAuth;
 using KidZaniaPhotoPrintingAdminPortal.Models;
 using KidZaniaPhotoPrintingAdminPortal.Providers;
 using KidZaniaPhotoPrintingAdminPortal.Results;
+using Newtonsoft.Json.Linq;
+using System.Data.Entity;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace KidZaniaPhotoPrintingAdminPortal.Controllers
 {
@@ -23,6 +27,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+        private Models.Database database = new Models.Database();
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
@@ -64,6 +69,38 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
+        }
+
+        [AllowAnonymous]
+        [Route("Login")]
+        public async Task<bool> AuthenticateAsync(string inUserName, string inPassword)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(inUserName) || string.IsNullOrEmpty(inPassword))
+                    return false;
+                //Check whether there is a matching user name information first.
+                //Then, the subsequent code will verify the password by calling
+                //the VefiryPasswordHash method
+                var user = await database.staffs.SingleOrDefaultAsync(x => x.staff_id == inUserName);
+
+                // check if username exists
+                if (user == null)
+                    return false;
+
+                // check if password is correct
+                if (!VerifyPasswordHash(inPassword, user.passwordhash, user.passwordsalt))
+                    return false;
+
+                /********************************************************************/
+
+                // authentication successful
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         // POST api/Account/Logout
@@ -336,8 +373,77 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
             {
                 return GetErrorResult(result);
             }
-
+            else
+            {
+                string rolename = "";
+                if(model.RoleId == 1)
+                {
+                    rolename = "admin";
+                }
+                else if(model.RoleId == 2)
+                {
+                    rolename = "printing";
+                }
+                else if(model.RoleId == 3)
+                {
+                    rolename = "marketing";
+                }
+                else
+                {
+                    rolename = "pending";
+                }
+                var result1 = UserManager.AddToRole(user.Id, rolename);
+            }
+            try
+            {
+                byte[] passwordHash, passwordSalt;
+                CreatePasswordHash(model.Password, out passwordHash, out passwordSalt);
+                staff staff = new staff();
+                staff.staff_id = model.Email;
+                staff.name = model.Name;
+                staff.passwordhash = passwordHash;
+                staff.passwordsalt = passwordSalt;
+                staff.role_id = model.RoleId;
+                database.staffs.Add(staff);
+                database.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
             return Ok();
+        }
+
+        private static void CreatePasswordHash(string inPassword, out byte[] inPasswordHash, out byte[] inPasswordSalt)
+        {
+            if (inPassword == null) throw new ArgumentNullException("password");
+            if (string.IsNullOrWhiteSpace(inPassword)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+            //The password is hashed with a new random salt.
+            //https://crackstation.net/hashing-security.htm
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                inPasswordSalt = hmac.Key;
+                inPasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inPassword));
+            }
+        }
+
+        private static bool VerifyPasswordHash(string inPassword, byte[] inStoredHash, byte[] inStoredSalt)
+        {
+            if (inPassword == null) throw new ArgumentNullException("password");
+            if (string.IsNullOrWhiteSpace(inPassword)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+            if (inStoredHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
+            if (inStoredSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(inStoredSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(inPassword));
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != inStoredHash[i]) return false;
+                }
+            }
+
+            return true;
         }
 
         // POST api/Account/RegisterExternal

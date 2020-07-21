@@ -23,8 +23,8 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
     
         public string staff_id { get; set; }
         public string name { get; set; }
-        public string passwordhash { get; set; }
-        public string passwordsalt { get; set; }
+        public byte[] passwordhash { get; set; }
+        public byte[] passwordsalt { get; set; }
         public int role_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

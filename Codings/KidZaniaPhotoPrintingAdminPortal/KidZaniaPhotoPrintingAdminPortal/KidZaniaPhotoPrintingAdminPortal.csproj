@@ -874,6 +874,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Data.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Home\TestAuth.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

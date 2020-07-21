@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="kidzaniaModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="kidzaniaModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="email">
           <Key>
             <PropertyRef Name="pid" />
@@ -52,9 +52,11 @@
           <Property Name="printer_id" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="status" Type="bool" Nullable="false" />
-          <Property Name="reason" Type="varchar" MaxLength="50" />
+          <Property Name="error" Type="varchar" MaxLength="50" />
           <Property Name="updated_at" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="updated_by" Type="varchar" MaxLength="50" />
+          <Property Name="port" Type="varchar" MaxLength="45" />
+          <Property Name="manuallyoff" Type="bool" Nullable="false" />
         </EntityType>
         <EntityType Name="product">
           <Key>
@@ -99,8 +101,8 @@ warning 6002: The table/view 'def.kidzania.profile' does not have a primary key 
           </Key>
           <Property Name="staff_id" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="passwordhash" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="passwordsalt" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="passwordhash" Type="blob" Nullable="false" />
+          <Property Name="passwordsalt" Type="blob" Nullable="false" />
           <Property Name="role_id" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="itemphoto_ibfk_2">
@@ -248,8 +250,7 @@ FROM `profile` AS `profile`</DefiningQuery>
             <End Role="staff" EntitySet="staff" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="kidzaniaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -271,9 +272,9 @@ FROM `profile` AS `profile`</DefiningQuery>
           <Property Name="assigned_printer_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="printing_status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="updated_at" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="printer" Relationship="Self.itemphoto_ibfk_2" FromRole="itemphoto" ToRole="printer" />
           <NavigationProperty Name="order" Relationship="Self.itemphoto_ibfk_3" FromRole="itemphoto" ToRole="order" />
           <NavigationProperty Name="lineitem" Relationship="Self.itemphoto_ibfk_4" FromRole="itemphoto" ToRole="lineitem" />
+          <NavigationProperty Name="printer" Relationship="kidzaniaModel.itemphoto_ibfk_2" FromRole="itemphoto" ToRole="printer" />
         </EntityType>
         <EntityType Name="lineitem">
           <Key>
@@ -301,19 +302,6 @@ FROM `profile` AS `profile`</DefiningQuery>
           <NavigationProperty Name="itemphotoes" Relationship="Self.itemphoto_ibfk_3" FromRole="order" ToRole="itemphoto" />
           <NavigationProperty Name="lineitems" Relationship="Self.lineitem_ibfk_1" FromRole="order" ToRole="lineitem" />
         </EntityType>
-        <EntityType Name="printer">
-          <Key>
-            <PropertyRef Name="printer_id" />
-          </Key>
-          <Property Name="printer_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="status" Type="Boolean" Nullable="false" />
-          <Property Name="reason" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="updated_at" Type="DateTime" Nullable="false" />
-          <Property Name="updated_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="itemphotoes" Relationship="Self.itemphoto_ibfk_2" FromRole="printer" ToRole="itemphoto" />
-          <NavigationProperty Name="staff" Relationship="Self.printer_ibfk_1" FromRole="printer" ToRole="staff" />
-        </EntityType>
         <EntityType Name="product">
           <Key>
             <PropertyRef Name="product_id" />
@@ -332,7 +320,7 @@ FROM `profile` AS `profile`</DefiningQuery>
           <Property Name="updated_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="updated_at" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="lineitems" Relationship="Self.lineitem_ibfk_2" FromRole="product" ToRole="lineitem" />
-          <NavigationProperty Name="staff" Relationship="Self.product_ibfk_1" FromRole="product" ToRole="staff" />
+          <NavigationProperty Name="staff" Relationship="kidzaniaModel.product_ibfk_1" FromRole="product" ToRole="staff" />
         </EntityType>
         <EntityType Name="role">
           <Key>
@@ -340,20 +328,7 @@ FROM `profile` AS `profile`</DefiningQuery>
           </Key>
           <Property Name="role_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="role1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="staffs" Relationship="Self.staff_ibfk_1" FromRole="role" ToRole="staff" />
-        </EntityType>
-        <EntityType Name="staff">
-          <Key>
-            <PropertyRef Name="staff_id" />
-          </Key>
-          <Property Name="staff_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="passwordhash" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="passwordsalt" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="role_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="printers" Relationship="Self.printer_ibfk_1" FromRole="staff" ToRole="printer" />
-          <NavigationProperty Name="products" Relationship="Self.product_ibfk_1" FromRole="staff" ToRole="product" />
-          <NavigationProperty Name="role" Relationship="Self.staff_ibfk_1" FromRole="staff" ToRole="role" />
+          <NavigationProperty Name="staffs" Relationship="kidzaniaModel.staff_ibfk_1" FromRole="role" ToRole="staff" />
         </EntityType>
         <EntityType Name="profile">
           <Key>
@@ -365,18 +340,6 @@ FROM `profile` AS `profile`</DefiningQuery>
           <Property Name="profile1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
-        <Association Name="itemphoto_ibfk_2">
-          <End Role="printer" Type="Self.printer" Multiplicity="0..1" />
-          <End Role="itemphoto" Type="Self.itemphoto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="printer">
-              <PropertyRef Name="printer_id" />
-            </Principal>
-            <Dependent Role="itemphoto">
-              <PropertyRef Name="assigned_printer_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="itemphoto_ibfk_3">
           <End Role="order" Type="Self.order" Multiplicity="1" />
           <End Role="itemphoto" Type="Self.itemphoto" Multiplicity="*" />
@@ -425,56 +388,14 @@ FROM `profile` AS `profile`</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="printer_ibfk_1">
-          <End Role="staff" Type="Self.staff" Multiplicity="0..1" />
-          <End Role="printer" Type="Self.printer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="staff">
-              <PropertyRef Name="staff_id" />
-            </Principal>
-            <Dependent Role="printer">
-              <PropertyRef Name="updated_by" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="product_ibfk_1">
-          <End Role="staff" Type="Self.staff" Multiplicity="1" />
-          <End Role="product" Type="Self.product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="staff">
-              <PropertyRef Name="staff_id" />
-            </Principal>
-            <Dependent Role="product">
-              <PropertyRef Name="updated_by" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="staff_ibfk_1">
-          <End Role="role" Type="Self.role" Multiplicity="1" />
-          <End Role="staff" Type="Self.staff" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="role">
-              <PropertyRef Name="role_id" />
-            </Principal>
-            <Dependent Role="staff">
-              <PropertyRef Name="role_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="Database" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="emails" EntityType="Self.email" />
           <EntitySet Name="itemphotoes" EntityType="Self.itemphoto" />
           <EntitySet Name="lineitems" EntityType="Self.lineitem" />
           <EntitySet Name="orders" EntityType="Self.order" />
-          <EntitySet Name="printers" EntityType="Self.printer" />
           <EntitySet Name="products" EntityType="Self.product" />
           <EntitySet Name="roles" EntityType="Self.role" />
-          <EntitySet Name="staffs" EntityType="Self.staff" />
           <EntitySet Name="profiles" EntityType="Self.profile" />
-          <AssociationSet Name="itemphoto_ibfk_2" Association="Self.itemphoto_ibfk_2">
-            <End Role="printer" EntitySet="printers" />
-            <End Role="itemphoto" EntitySet="itemphotoes" />
-          </AssociationSet>
           <AssociationSet Name="itemphoto_ibfk_3" Association="Self.itemphoto_ibfk_3">
             <End Role="order" EntitySet="orders" />
             <End Role="itemphoto" EntitySet="itemphotoes" />
@@ -491,19 +412,101 @@ FROM `profile` AS `profile`</DefiningQuery>
             <End Role="product" EntitySet="products" />
             <End Role="lineitem" EntitySet="lineitems" />
           </AssociationSet>
-          <AssociationSet Name="printer_ibfk_1" Association="Self.printer_ibfk_1">
+          <EntitySet Name="printers" EntityType="kidzaniaModel.printer" />
+          <EntitySet Name="staffs" EntityType="kidzaniaModel.staff" />
+          <AssociationSet Name="itemphoto_ibfk_2" Association="kidzaniaModel.itemphoto_ibfk_2">
+            <End Role="printer" EntitySet="printers" />
+            <End Role="itemphoto" EntitySet="itemphotoes" />
+          </AssociationSet>
+          <AssociationSet Name="printer_ibfk_1" Association="kidzaniaModel.printer_ibfk_1">
             <End Role="staff" EntitySet="staffs" />
             <End Role="printer" EntitySet="printers" />
           </AssociationSet>
-          <AssociationSet Name="product_ibfk_1" Association="Self.product_ibfk_1">
+          <AssociationSet Name="product_ibfk_1" Association="kidzaniaModel.product_ibfk_1">
             <End Role="staff" EntitySet="staffs" />
             <End Role="product" EntitySet="products" />
           </AssociationSet>
-          <AssociationSet Name="staff_ibfk_1" Association="Self.staff_ibfk_1">
+          <AssociationSet Name="staff_ibfk_1" Association="kidzaniaModel.staff_ibfk_1">
             <End Role="role" EntitySet="roles" />
             <End Role="staff" EntitySet="staffs" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
+        <EntityType Name="printer">
+          <Key>
+            <PropertyRef Name="printer_id" />
+          </Key>
+          <Property Name="printer_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <Property Name="error" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="updated_at" Type="DateTime" Nullable="false" />
+          <Property Name="updated_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="port" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="manuallyoff" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="itemphotoes" Relationship="kidzaniaModel.itemphoto_ibfk_2" FromRole="printer" ToRole="itemphoto" />
+          <NavigationProperty Name="staff" Relationship="kidzaniaModel.printer_ibfk_1" FromRole="printer" ToRole="staff" />
+        </EntityType>
+        <EntityType Name="staff">
+          <Key>
+            <PropertyRef Name="staff_id" />
+          </Key>
+          <Property Name="staff_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="passwordhash" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="passwordsalt" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="role_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="printers" Relationship="kidzaniaModel.printer_ibfk_1" FromRole="staff" ToRole="printer" />
+          <NavigationProperty Name="products" Relationship="kidzaniaModel.product_ibfk_1" FromRole="staff" ToRole="product" />
+          <NavigationProperty Name="role" Relationship="kidzaniaModel.staff_ibfk_1" FromRole="staff" ToRole="role" />
+        </EntityType>
+        <Association Name="itemphoto_ibfk_2">
+          <End Type="kidzaniaModel.printer" Role="printer" Multiplicity="0..1" />
+          <End Type="kidzaniaModel.itemphoto" Role="itemphoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="printer">
+              <PropertyRef Name="printer_id" />
+            </Principal>
+            <Dependent Role="itemphoto">
+              <PropertyRef Name="assigned_printer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="printer_ibfk_1">
+          <End Type="kidzaniaModel.staff" Role="staff" Multiplicity="0..1" />
+          <End Type="kidzaniaModel.printer" Role="printer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="staff">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="printer">
+              <PropertyRef Name="updated_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="product_ibfk_1">
+          <End Type="kidzaniaModel.staff" Role="staff" Multiplicity="1" />
+          <End Type="kidzaniaModel.product" Role="product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="staff">
+              <PropertyRef Name="staff_id" />
+            </Principal>
+            <Dependent Role="product">
+              <PropertyRef Name="updated_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="staff_ibfk_1">
+          <End Type="kidzaniaModel.role" Role="role" Multiplicity="1" />
+          <End Type="kidzaniaModel.staff" Role="staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="role_id" />
+            </Principal>
+            <Dependent Role="staff">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -554,18 +557,6 @@ FROM `profile` AS `profile`</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="printers">
-            <EntityTypeMapping TypeName="kidzaniaModel.printer">
-              <MappingFragment StoreEntitySet="printer">
-                <ScalarProperty Name="printer_id" ColumnName="printer_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="reason" ColumnName="reason" />
-                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
-                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="products">
             <EntityTypeMapping TypeName="kidzaniaModel.product">
               <MappingFragment StoreEntitySet="product">
@@ -593,23 +584,37 @@ FROM `profile` AS `profile`</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="staffs">
-            <EntityTypeMapping TypeName="kidzaniaModel.staff">
-              <MappingFragment StoreEntitySet="staff">
-                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="passwordhash" ColumnName="passwordhash" />
-                <ScalarProperty Name="passwordsalt" ColumnName="passwordsalt" />
-                <ScalarProperty Name="role_id" ColumnName="role_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="profiles">
             <EntityTypeMapping TypeName="kidzaniaModel.profile">
               <MappingFragment StoreEntitySet="profile">
                 <ScalarProperty Name="pid" ColumnName="pid" />
                 <ScalarProperty Name="profile1" ColumnName="profile" />
                 <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="printers">
+            <EntityTypeMapping TypeName="kidzaniaModel.printer">
+              <MappingFragment StoreEntitySet="printer">
+                <ScalarProperty Name="manuallyoff" ColumnName="manuallyoff" />
+                <ScalarProperty Name="port" ColumnName="port" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="error" ColumnName="error" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="printer_id" ColumnName="printer_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="staffs">
+            <EntityTypeMapping TypeName="kidzaniaModel.staff">
+              <MappingFragment StoreEntitySet="staff">
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="passwordsalt" ColumnName="passwordsalt" />
+                <ScalarProperty Name="passwordhash" ColumnName="passwordhash" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="staff_id" ColumnName="staff_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
