@@ -1,11 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/Menu.cshtml";
 }
-
-@section scripts{
-    @Html.Raw(ViewBag.WCPScript);
-}
-
 <link href="~/assets/libs/css/animate.min.css" rel="stylesheet" />
 <div class="container-fluid dashboard-content">
     <!-- ============================================================== -->
@@ -88,7 +83,6 @@
                 </table>
 
             </div>
-            <a onclick="javascript:jsWebClientPrint.getPrinters();" class="btn btn-success" id="loadPrinterBtn" hidden></a>
 
             <div class="card border-3 border-bottom-KMC border-bottom-primary">
 
@@ -106,26 +100,22 @@
                         <div class="tab-content" id="myTabContent5">
                             <div class="tab-pane fade show active" id="home-simple" role="tabpanel" aria-labelledby="home-tab-simple">
                                 <label for="input-select"></label>
-                                <select class="form-control" id="input-select">
-                                    <option selected disabled>--Select Printers--</option>
-                                </select>
+                                <select class="form-control" id="input-select"></select>
                                 <div class="print">
                                     <img onclick="$('#keychainFile1').click();" id="keychainImg1" src="~/assets/images/upload.png" alt="upload" style="width:200px;">
                                     <input id="keychainFile1" onchange="readURL(this, '#keychainImg1');" type="file" hidden />
                                     <img onclick="$('#keychainFile2').click();" id="keychainImg2" src="~/assets/images/upload.png" alt="upload" style="width:200px;">
                                     <input id="keychainFile2" onchange="readURL(this, '#keychainImg2');" type="file" hidden />
-                                    <a href="#" onclick="javascript:jsWebClientPrint.print('files=' + $('#keychainFile1')[0].files[0].name + ',' + $('#keychainFile2')[0].files[0].name + '&printerName=' + encodeURIComponent($('#input-select').val()) + '&ordertype=' + encodeURIComponent('keychain'))" class="btn btn-rounded btn-primary" style="margin-top: 103px; margin-left: 30px;">Print</a>
+                                    <a href="#" onclick="printKeychain()" class="btn btn-rounded btn-primary" style="margin-top: 103px; margin-left: 30px;">Print</a>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="profile-simple" role="tabpanel" aria-labelledby="profile-tab-simple">
                                 <label for="input-select"></label>
-                                <select class="form-control" id="input-select2">
-                                    <option selected disabled>--Select Printers--</option>
-                                </select>
+                                <select class="form-control" id="input-select2"></select>
                                 <div class="print">
                                     <img onclick="$('#magnetFile').click();" id="magnetImg" src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-left: 121px;">
                                     <input id="magnetFile" onchange="readURL(this, '#magnetImg');" type="file" hidden />
-                                    <a href="#" onclick="javascript:jsWebClientPrint.print('files=' + $('#magnetFile')[0].files[0].name + '&printerName=' + encodeURIComponent($('#input-select2').val()) + '&ordertype=' + encodeURIComponent('magnet'))" class="btn btn-rounded btn-primary" style="margin-top: 103px; margin-left: 30px;">Print</a>
+                                    <a href="#" onclick="printMagnet()" class="btn btn-rounded btn-primary" style="margin-top: 103px; margin-left: 30px;">Print</a>
                                 </div>
                             </div>
 
@@ -161,7 +151,8 @@
     }
 </style>
 <script type="text/javascript">
-    loadTable();
+
+    //Display all records in collected order table and order table
     function loadTable() {
         $.ajax({
             type: "GET",
@@ -208,6 +199,28 @@
         });
     }
 
+    //Display all available printers
+    function loadPrinters() {
+        $.ajax({
+            type: "GET",
+            url: "/api/others/getPrinters",
+            dataType: "json",
+            success: function (data) {
+                let options = '<option selected disabled>--Select Printers--</option>';
+                console.log(data);
+                for (let x = 0; x < data.length; x++) {
+                    options += '<option>' + data[x] + '</option>';
+                }
+                $('#input-select').html(options);
+                $('#input-select2').html(options);
+            },
+            error: function (data) {
+                alert("No printer available!");
+            }
+        });
+    }
+
+    //Creating the row for order table and collected order table
     function createRow({ order_id, p_id, product, status }, desc) {
         //Get Timestamp
         var currentTime = new Date();
@@ -235,7 +248,9 @@
         return $rowElement;
     }
 
+    //Variable to check existing order
     var ord_id;
+    //Loading order details
     function expandOrder(order_id) {
         if (ord_id != null) {
             $(`#order${ord_id}`).css("background-color", "");
@@ -287,6 +302,7 @@
         });
     }
 
+    //Creating the row for order detail table
     function createDetail({ p_id, product_id, quantity, productname, lineitem_id, photos, status }, order_id) {
         let photo = photos.toString();
         let $cellElement = null;
@@ -332,6 +348,7 @@
         return $rowElement;
     }
 
+    //Check database for new order
     function checkOrder() {
         $.ajax({
             type: "GET",
@@ -366,6 +383,7 @@
         });
     }
 
+    //Collect or uncollect Order
     function changeStatus(id, order_id, photos, product_id) {
         let itemStatus = $(`#check${id}`).prop("checked");
         let status;
@@ -436,6 +454,7 @@
         //    })
     }
 
+    //Download Image to Local file
     function downloadImage(photos, order_id, product_id) {
         let path = $(`#input-select${product_id}`).val();
         $.ajax({
@@ -449,6 +468,7 @@
         })
     }
 
+    //Search Order Function
     function myFunction(num) {
 
         var input, filter, table, tr, td, i;
@@ -493,6 +513,7 @@
         }
     }
 
+    //Pause Order
     function pause(lineItemId, order) {
         let newid = lineItemId.split("|");
         for (let x = 0; x < newid.length - 1; x++) {
@@ -535,13 +556,8 @@
         }
     }
 
-    //Displaying picture in the add modal
+    //Displaying picture in the print section
     function readURL(input, id) {
-        if (id == '#keychainImg1') {
-            getBase64Image($('#keychainFile1')[0].files[0], 1);
-        } else if (id == '#keychainImg2') {
-            getBase64Image($('#keychainFile2')[0].files[0], 2);
-        }
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
@@ -554,59 +570,89 @@
         }
     }
 
-    var clientPrinters = null;
-    var wcppGetPrintersTimeout_ms = 60000; //60 sec
-    var wcppGetPrintersTimeoutStep_ms = 1000; //0.5 sec
-    function wcpGetPrintersOnSuccess() {
-        try {
-            // Display client installed printers
-            if (arguments[0].length > 0) {
-                if (JSON) {
-                    clientPrinters = arguments[0];
-
-                    if (clientPrinters.error) {
-                        alert(clientPrinters.error)
-                    } else {
-                        var p = clientPrinters.split("|");
-                        var options = '';
-                        for (var i = 0; i < p.length; i++) {
-                            options += '<option>' + p[i] + '</option>';
+    function printKeychain() {
+        let printername = $('#input-select').val();
+        var formData = new FormData();
+        var file1 = $('#keychainFile1')[0];
+        formData.append('file', file1.files[0]);
+        var file2 = $('#keychainFile2')[0];
+        formData.append('file', file2.files[0]);
+        $.ajax({
+            url: `/api/others/printKeychain?printername=${printername}`,
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (d) {
+                new noty({
+                    text: d.message,
+                    layout: 'center',
+                    theme: 'bootstrapTheme',
+                    type: 'success',
+                    callback: {
+                        onClose: function () {
+                            //clear input
+                            $('#keychainImg1').attr('src', '~/assets/images/upload.png');
+                            $('#keychainFile1').val('');
+                            $('#keychainImg2').attr('src', '~/assets/images/upload.png');
+                            $('#keychainFile2').val('');
                         }
-                        $('#input-select').html(options);
-                        $('#input-select2').html(options);
                     }
-                }
-            } else {
-                alert("No printers are installed in your system.");
+                }).show();
+            },
+            error: function (d) {
+                new noty({
+                    text: d.responseJSON.Message,
+                    theme: 'bootstrapTheme',
+                    layout: 'center',
+                    timeout: 3000,
+                    type: 'error'
+                }).show();
             }
-        } catch (e) {
-            alert(e.message)
-        }
+        });
     }
-    function wcpGetPrintersOnFailure() {
-        // Do something if printers cannot be got from the client
-        alert("No printers are installed in your system.");
-    }
-    var newNum1;
-    var newNum2;
-    function getBase64Image(file, count) {
-        var reader = new FileReader();
-        var num = '';
-        var str;
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-            str = reader.result.toString();
-            if (count == 1) {
-                newNum1 = str.substring(str.indexOf(",") + 1);
-            } else {
-                newNum2 = str.substring(str.indexOf(",") + 1);
+
+    function printMagnet() {
+        let printername = $('#input-select2').val();
+        var formData = new FormData();
+        var file = $('#magnetFile')[0];
+        formData.append('file', file.files[0]);
+        $.ajax({
+            url: `/api/others/printMagnet?printername=${printername}`,
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (d) {
+                new noty({
+                    text: d.message,
+                    layout: 'center',
+                    theme: 'bootstrapTheme',
+                    type: 'success',
+                    callback: {
+                        onClose: function () {
+                            //clear input
+                            $('#magnetImg').attr('src', '~/assets/images/upload.png');
+                            $('#magnetFile').val('');
+                        }
+                    }
+                }).show();
+            },
+            error: function (d) {
+                new noty({
+                    text: d.responseJSON.Message,
+                    theme: 'bootstrapTheme',
+                    layout: 'center',
+                    timeout: 3000,
+                    type: 'error'
+                }).show();
             }
-        }
+        });
     }
 
     $(document).ready(function () {
         $('#menuOthers').addClass("active");
-        $('#loadPrinterBtn').click();
-
+        loadTable();
+        loadPrinters();
     });
 </script>
