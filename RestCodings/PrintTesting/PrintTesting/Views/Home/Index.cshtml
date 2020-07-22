@@ -47,11 +47,12 @@
 </div>
 <input type="file" id="newfile" />
 <button type="button" onclick="javascript:jsWebClientPrint.print();">Upload</button>
+<button type="button" onclick="uploadFile()">Testing</button>
 <script>
     function uploadFile() {
 
         $.ajax({
-            url: `/api/startPrinting`,
+            url: `/api/resizeImg`,
             type: 'POST',
             contentType: false,
             processData: false,
