@@ -46,6 +46,7 @@ namespace WebForm
                         //string profile_id = photodata.Split('|')[1];
                         //string photoprofileimage = photo.Value;
 
+                    //testing purpose
                         string photodata = photo.Key;
                         string photoprofileimage = photo.Value;
                         string profile_id = photodata;

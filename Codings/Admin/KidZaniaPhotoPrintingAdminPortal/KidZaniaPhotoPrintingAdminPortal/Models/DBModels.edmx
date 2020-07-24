@@ -35,6 +35,7 @@
           <Property Name="item_amount" Type="decimal" Precision="5" Scale="2" Nullable="false" />
           <Property Name="status" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="updatedAt" Type="datetime" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="order">
           <Key>
@@ -44,6 +45,7 @@
           <Property Name="pid" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="total_amount" Type="decimal" Precision="5" Scale="2" Nullable="false" />
           <Property Name="status" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="updatedAt" Type="datetime" Precision="0" Nullable="false" />
         </EntityType>
         <EntityType Name="printer">
           <Key>
@@ -101,8 +103,8 @@ warning 6002: The table/view 'def.kidzania.profile' does not have a primary key 
           </Key>
           <Property Name="staff_id" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="passwordhash" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="passwordsalt" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="passwordhash" Type="blob" Nullable="false" />
+          <Property Name="passwordsalt" Type="blob" Nullable="false" />
           <Property Name="role_id" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="itemphoto_ibfk_1">
@@ -177,18 +179,6 @@ warning 6002: The table/view 'def.kidzania.profile' does not have a primary key 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="product_ibfk_1">
-          <End Role="staff" Type="Self.staff" Multiplicity="1" />
-          <End Role="product" Type="Self.product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="staff">
-              <PropertyRef Name="staff_id" />
-            </Principal>
-            <Dependent Role="product">
-              <PropertyRef Name="updated_by" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="staff_ibfk_1">
           <End Role="role" Type="Self.role" Multiplicity="1" />
           <End Role="staff" Type="Self.staff" Multiplicity="*" />
@@ -241,10 +231,6 @@ FROM `profile` AS `profile`</DefiningQuery>
             <End Role="staff" EntitySet="staff" />
             <End Role="printer" EntitySet="printer" />
           </AssociationSet>
-          <AssociationSet Name="product_ibfk_1" Association="Self.product_ibfk_1">
-            <End Role="staff" EntitySet="staff" />
-            <End Role="product" EntitySet="product" />
-          </AssociationSet>
           <AssociationSet Name="staff_ibfk_1" Association="Self.staff_ibfk_1">
             <End Role="role" EntitySet="role" />
             <End Role="staff" EntitySet="staff" />
@@ -288,10 +274,6 @@ FROM `profile` AS `profile`</DefiningQuery>
             <End Role="staff" EntitySet="staffs" />
             <End Role="printer" EntitySet="printers" />
           </AssociationSet>
-          <AssociationSet Name="product_ibfk_1" Association="DBModel.product_ibfk_1">
-            <End Role="staff" EntitySet="staffs" />
-            <End Role="product" EntitySet="products" />
-          </AssociationSet>
           <AssociationSet Name="staff_ibfk_1" Association="DBModel.staff_ibfk_1">
             <End Role="role" EntitySet="roles" />
             <End Role="staff" EntitySet="staffs" />
@@ -330,6 +312,7 @@ FROM `profile` AS `profile`</DefiningQuery>
           <Property Name="item_amount" Type="Decimal" Nullable="false" />
           <Property Name="status" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="updatedAt" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="itemphotoes" Relationship="DBModel.itemphoto_ibfk_1" FromRole="lineitem" ToRole="itemphoto" />
           <NavigationProperty Name="order" Relationship="DBModel.lineitem_ibfk_1" FromRole="lineitem" ToRole="order" />
           <NavigationProperty Name="product" Relationship="DBModel.lineitem_ibfk_2" FromRole="lineitem" ToRole="product" />
@@ -342,6 +325,7 @@ FROM `profile` AS `profile`</DefiningQuery>
           <Property Name="pid" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="total_amount" Type="Decimal" Nullable="false" />
           <Property Name="status" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="updatedAt" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="itemphotoes" Relationship="DBModel.itemphoto_ibfk_3" FromRole="order" ToRole="itemphoto" />
           <NavigationProperty Name="lineitems" Relationship="DBModel.lineitem_ibfk_1" FromRole="order" ToRole="lineitem" />
         </EntityType>
@@ -378,7 +362,6 @@ FROM `profile` AS `profile`</DefiningQuery>
           <Property Name="updated_by" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="updated_at" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="lineitems" Relationship="DBModel.lineitem_ibfk_2" FromRole="product" ToRole="lineitem" />
-          <NavigationProperty Name="staff" Relationship="DBModel.product_ibfk_1" FromRole="product" ToRole="staff" />
         </EntityType>
         <EntityType Name="role">
           <Key>
@@ -394,11 +377,10 @@ FROM `profile` AS `profile`</DefiningQuery>
           </Key>
           <Property Name="staff_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="passwordhash" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="passwordsalt" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="passwordhash" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="passwordsalt" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <Property Name="role_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="printers" Relationship="DBModel.printer_ibfk_1" FromRole="staff" ToRole="printer" />
-          <NavigationProperty Name="products" Relationship="DBModel.product_ibfk_1" FromRole="staff" ToRole="product" />
           <NavigationProperty Name="role" Relationship="DBModel.staff_ibfk_1" FromRole="staff" ToRole="role" />
         </EntityType>
         <EntityType Name="profile">
@@ -483,18 +465,6 @@ FROM `profile` AS `profile`</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="product_ibfk_1">
-          <End Type="DBModel.staff" Role="staff" Multiplicity="1" />
-          <End Type="DBModel.product" Role="product" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="staff">
-              <PropertyRef Name="staff_id" />
-            </Principal>
-            <Dependent Role="product">
-              <PropertyRef Name="updated_by" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="staff_ibfk_1">
           <End Type="DBModel.role" Role="role" Multiplicity="1" />
           <End Type="DBModel.staff" Role="staff" Multiplicity="*" />
@@ -537,6 +507,7 @@ FROM `profile` AS `profile`</DefiningQuery>
           <EntitySetMapping Name="lineitems">
             <EntityTypeMapping TypeName="DBModel.lineitem">
               <MappingFragment StoreEntitySet="lineitem">
+                <ScalarProperty Name="updatedAt" ColumnName="updatedAt" />
                 <ScalarProperty Name="quantity" ColumnName="quantity" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="item_amount" ColumnName="item_amount" />
@@ -550,6 +521,7 @@ FROM `profile` AS `profile`</DefiningQuery>
           <EntitySetMapping Name="orders">
             <EntityTypeMapping TypeName="DBModel.order">
               <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="updatedAt" ColumnName="updatedAt" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="total_amount" ColumnName="total_amount" />
                 <ScalarProperty Name="pid" ColumnName="pid" />

@@ -30,6 +30,7 @@
     <Property Name="item_amount" Type="decimal" Precision="5" Scale="2" Nullable="false" />
     <Property Name="status" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="updatedAt" Type="datetime" Precision="0" Nullable="false" />
   </EntityType>
   <EntityType Name="order">
     <Key>
@@ -39,6 +40,7 @@
     <Property Name="pid" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="total_amount" Type="decimal" Precision="5" Scale="2" Nullable="false" />
     <Property Name="status" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="updatedAt" Type="datetime" Precision="0" Nullable="false" />
   </EntityType>
   <EntityType Name="printer">
     <Key>
@@ -96,8 +98,8 @@ warning 6002: The table/view 'def.kidzania.profile' does not have a primary key 
     </Key>
     <Property Name="staff_id" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="passwordhash" Type="varchar" MaxLength="255" Nullable="false" />
-    <Property Name="passwordsalt" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="passwordhash" Type="blob" Nullable="false" />
+    <Property Name="passwordsalt" Type="blob" Nullable="false" />
     <Property Name="role_id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="itemphoto_ibfk_1">
@@ -172,18 +174,6 @@ warning 6002: The table/view 'def.kidzania.profile' does not have a primary key 
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="product_ibfk_1">
-    <End Role="staff" Type="Self.staff" Multiplicity="1" />
-    <End Role="product" Type="Self.product" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="staff">
-        <PropertyRef Name="staff_id" />
-      </Principal>
-      <Dependent Role="product">
-        <PropertyRef Name="updated_by" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="staff_ibfk_1">
     <End Role="role" Type="Self.role" Multiplicity="1" />
     <End Role="staff" Type="Self.staff" Multiplicity="*" />
@@ -235,10 +225,6 @@ FROM `profile` AS `profile`</DefiningQuery>
     <AssociationSet Name="printer_ibfk_1" Association="Self.printer_ibfk_1">
       <End Role="staff" EntitySet="staff" />
       <End Role="printer" EntitySet="printer" />
-    </AssociationSet>
-    <AssociationSet Name="product_ibfk_1" Association="Self.product_ibfk_1">
-      <End Role="staff" EntitySet="staff" />
-      <End Role="product" EntitySet="product" />
     </AssociationSet>
     <AssociationSet Name="staff_ibfk_1" Association="Self.staff_ibfk_1">
       <End Role="role" EntitySet="role" />

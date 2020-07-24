@@ -13,16 +13,27 @@
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="page-header">
-                <h2 class="pageheader-title">Hardcopy Printing</h2>
-                <div class="section-block">
-                    <div class="form-check" style="display: none; " id="startAutoPrintingP">
+                <div>
+                    <h2 class="pageheader-title">
+
+                        Hardcopy Printing
+                    </h2>
+                    <div  style="display: none;" id="startAutoPrintingP">
+                    <label class="switch">
+                        <input id="borderless" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                        <p style="margin: 0; font-size:1.1rem; padding-left:5px; padding-top:5px;">Borderless</p>
+                    <p style="margin-left:40px; margin-top:8px;">
                         <input type="checkbox" class="form-check-input" id="autoPrintingChk">
                         <label class="form-check-label" for="exampleCheck1">Auto Printing</label>
-                    </div>
+                    </p>
+                        </div>
+                </div>
+                <div class="section-block">
+
                     <a class="btn btn-demo" id="sidebarCollapse" data-toggle="modal" data-target="#myModal2"><i class="fa fa-print" style="padding-right: 6px;"></i>Manage Printers</a>
 
-                    <a onclick="javascript:jsWebClientPrint.print('photoId=' + $('#photoToPrint').val());" id="loadPrinterBtn"></a>
-                    <input style="display: none" value="" id="photoToPrint">
                 </div>
             </div>
         </div>
@@ -45,8 +56,8 @@
                     <input type="text" id="reasonsInput" name="reasonsInput" class="form-control" placeholder="Reason*" />
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger">Confirm</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal" id="dismissPausePrinterModal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="pausePrinter()" id="pausePrinterConfirmation">Confirm</button>
                 </div>
             </div>
         </div>
@@ -57,6 +68,7 @@
         <!-- justified tabs  -->
         <!-- ============================================================== -->
         <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
+           
             <input id="myInput" type="text" onkeyup="searchFunction()" placeholder="Search..">
             <div class="tab-regular">
                 <ul class="nav nav-tabs" id="myTab7" role="tablist">
@@ -150,6 +162,11 @@
     var ordernum = [];
     var autoPrintingStatus = false;
     var autoPrintingOn = false;
+    var borderlessOn = false;
+
+    var availablePs = [];
+    var unavailablePs = [];
+
 
     function rotate(el) {
         $(el).toggleClass("down");
@@ -655,7 +672,22 @@
                 for (let x = 0; x < newid.length; x++) {
                     ordernum.push(newid[x]);
                 }
-                if (ordernum == null || ordernum.length == 0) {
+                //get list of collected orders
+                var numberOfCollectedOrders = 0;
+                for (let n = 0; n < ordernum.length; n++) {
+                    if (ordernum[n].status == "Collected") {
+                        numberOfCollectedOrders++;
+                    }
+                }
+                if (numberOfCollectedOrders == 0) {
+                    if ($(`#noCollectedOrderFound`)[0]) {
+                        $(`#noCollectedOrderFound`).css("display", "table-row");
+                    }
+                    else {
+                        $(`#completedOrders`).append($(`<tr class="noOrderFoundRow" id="noCollectedOrderFound"><td colspan="4"> No order found.</td></tr>`));
+                    }
+                }
+                if (ordernum - numberOfCollectedOrders == 0) {
                     if ($(`#noProcessingOrderFound`)[0]) {
                         $(`#noProcessingOrderFound`).css("display", "table-row");
                     }
@@ -809,7 +841,7 @@
     $(document).ready(function () {
         $('#menuHardcopy').addClass("active");
         // Fetch the initial table
-        loadTable();
+        //loadTable();
 
         //updating printer info
         updatePrinterInfo();
@@ -830,6 +862,16 @@
         }
     });
     
+    $('#borderless').change(function () {
+        if ($("#borderless").is(':checked')) {
+            console.log("Is Borderless");
+            borderlessOn = true;
+        }
+        else {
+            console.log("Is Not Borderless");
+            borderlessOn = false;
+        }
+    });
 
     function startAutoPrintingFunc() {
         $.ajax({
@@ -837,7 +879,6 @@
             url: "/api/hardcopys/waitingPhotos",
             dataType: "json",
             success: function (data) {
-                console.log("call me hhh");
                 if (data != null && data.length != 0) {
                     var photos = data;
                     autoPrintingStatus = true;
@@ -856,7 +897,7 @@
 
     function sendPrintingJobs(photoId) {
 
-        webformdata = { "photoId": photoId };
+        webformdata = { "photoId": photoId, "borderless": borderlessOn };
         console.log(webformdata);
         url = `/api/hardcopys/autoPrinting`;
 
@@ -872,12 +913,79 @@
     
     }
 
+    function loadPausePrinter(printerId) {
+        $('#reasonsInput').val("");
+        $('#PausedModal').val(printerId);
+    }
+
+    function pausePrinter() {
+        var printerId = $('#PausedModal').val();
+        var reasonToPause = $('#reasonsInput').val();
+
+        $('#dismissPausePrinterModal').attr("disabled", "true");
+        $('#pausePrinterConfirmation').attr("disabled", "true");
+
+        if (reasonToPause != "" && reasonToPause != null) {
+            var webformdata = { "id": printerId, "reason": reasonToPause };
+            $.ajax({
+                type: 'POST',
+                url: `/api/hardcopys/pausePrinter`,
+                contentType: 'application/json',
+                data: JSON.stringify(webformdata)
+            }).done(function (data, textStatus, jqXHR) {
+                loadPrinterInfo();
+                $('#dismissPausePrinterModal').removeAttr("disabled");
+                $('#pausePrinterConfirmation').removeAttr("disabled");
+                $('#dismissPausePrinterModal').click();
+            }).fail(function (data, textStatus, jqXHR) {
+                new noty({
+                    text: data.responseJSON.message,
+                    theme: 'bootstrapTheme',
+                    layout: 'center',
+                    timeout: 3000,
+                    type: 'error'
+                }).show();
+            });
+        }
+        else {
+            new noty({
+                text: "Please provide valid reason!",
+                theme: 'bootstrapTheme',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error',
+                callback: {
+                    onCloseClick: function () {
+                        $('#dismissPausePrinterModal').removeAttr("disabled");
+                        $('#pausePrinterConfirmation').removeAttr("disabled");
+                    }
+                }
+            }).show();
+        }
+    }
+
+    function resumePrinter(printerId) {
+            var webformdata = { "id": printerId };
+            $.ajax({
+                type: 'POST',
+                url: `/api/hardcopys/resumePrinter`,
+                contentType: 'application/json',
+                data: JSON.stringify(webformdata)
+            }).done(function (data, textStatus, jqXHR) {
+                loadPrinterInfo();
+            }).fail(function (data, textStatus, jqXHR) {
+                new noty({
+                    text: data.responseJSON.message,
+                    theme: 'bootstrapTheme',
+                    layout: 'center',
+                    timeout: 3000,
+                    type: 'error'
+                }).show();
+            });
+        }
+
     function loadPrinterInfo() {
-        $(`#availablePrinters`).html("");
-        $(`#unavailablePrinters`).html("");
         var i;
-        var NA = false;
-        var AP = false;
         printerAvailable = false;
         $.ajax({
             type: "GET",
@@ -885,50 +993,128 @@
             dataType: "json",
             success: function (clientPrinters) {
                 for (i = 0; i < clientPrinters.length; i++) {
-                    if (clientPrinters[i].status && clientPrinters[i].error == null) {
-                        $('#startAutoPrintingP').css("display", "block");
-                        $('#availableLoading').css("display", "none");
-                        var $printerdiv = $(`<div class="row printer"><div class="column icon" style="color:green"><i class="fas fa-print" style="padding-right: 6px;"></i></div>
-                        <div class="column middle"><p class="MP">${clientPrinters[i].printerName}</p> <p class="subInfo">Port: ${clientPrinters[i].port}</p></div>
-                        <div class="column side"><button type="button" class="btn btn-outline-secondary" data-target="#PausedModal" data-toggle="modal"> Pause</button></div></div>`);
-                        $(`#availablePrinters`).append($printerdiv);
-                        AP = true;
-                        printerAvailable = true;
-                        $("#autoPrintingChk").css("display", "block");
-                        $("#autoPrintingChk").removeAttr("disabled");
-                    }
-                    else {
-                        NA = true;
-                        $('#unavailableLoading').css("display", "none");
-                        if (clientPrinters[i].error !== null) {
+                    //printer is available
+                    if (clientPrinters[i].status && !clientPrinters[i].manuallyOff) {
 
-                            var $printerdiv = $(`<div class="row printer"><div class="column icon" style="color:red"><i class="fas fa-print" style="padding-right: 6px;"></i></div>
-                        <div class="column middle"><p class="MP">${clientPrinters[i].printerName}</p> <p class="subInfo">${clientPrinters[i].error}</p></div>
-                        <div class="column side"><button type="button" class="btn btn-primary">Resume</button></div></div>`);
+                        $('#startAutoPrintingP').css("display", "flex");
+                        $('#availableLoading').css("display", "none");
+                        
+                        printerAvailable = true;
+                        $("#autoPrintingChk").removeAttr("disabled");
+
+                        //check whether this printer is in the available list 
+                        var inAvailable = false;
+                        var x;
+                        for (x = 0; x < availablePs.length; x++) {
+                            if (availablePs[x] == clientPrinters[i].printerName) {
+                                inAvailable = true;
+                            }
+                        }
+                        if (!inAvailable) {
+                            availablePs.push(clientPrinters[i].printerName);
+                            //create block
+                            var $printerdiv = $(`<div class="row printer" id="printerOn${clientPrinters[i].printerId}"><div class="column icon" style="color:green"><i class="fas fa-print" style="padding-right: 6px;"></i></div>
+                        <div class="column middle"><p class="MP">${clientPrinters[i].printerName}</p> <p class="subInfo">Port: ${clientPrinters[i].port}</p></div>
+                        <div class="column side"><button type="button" class="btn btn-outline-secondary" data-target="#PausedModal" data-toggle="modal" onclick="loadPausePrinter('${clientPrinters[i].printerId}')">Pause</button></div></div>`);
+                            $(`#availablePrinters`).append($printerdiv);
+                        }
+
+                        //check whether this printer is in unavailable list 
+                        var n;
+                        for (n = 0; n < unavailablePs.length; n++) {
+                            if (unavailablePs[n] == clientPrinters[i].printerName) {
+                                unavailablePs.splice(n, 1);
+                                $(`#printerOff${clientPrinters[i].printerId}`).remove();
+                            }
+                        }
+                    }
+
+                    else {
+                        $('#unavailableLoading').css("display", "none");
+
+                        //check whether this printer is in the unavailable list 
+                        var inUnavailable = false;
+                        var x;
+                        for (x = 0; x < unavailablePs.length; x++) {
+                            if (unavailablePs[x] == clientPrinters[i].printerName) {
+                                inUnavailable = true;
+                            }
+                        }
+                        if (!inUnavailable) {
+                            unavailablePs.push(clientPrinters[i].printerName);
+                            //create block
+
+                            if (clientPrinters[i].manuallyOff || clientPrinters[i].error != null) {
+                                var $printerdiv = $(`<div class="row printer" id="printerOff${clientPrinters[i].printerId}"><div class="column icon" style="color:red"><i class="fas fa-print" style="padding-right: 6px;"></i></div>
+                        <div class="column middle"><p class="MP">${clientPrinters[i].printerName}</p> <p class="subInfo" id="errorInfo${clientPrinters[i].printerId}">${clientPrinters[i].error}</p></div>
+                        <div class="column side"><button type="button" class="btn btn-primary" id="resumeBtn${clientPrinters[i].printerId}" onclick="resumePrinter('${clientPrinters[i].printerId}')">Resume</button></div></div>`);
+                            }
+
+                            else {
+                                var $printerdiv = $(`<div class="row printer" id="printerOff${clientPrinters[i].printerId}"><div class="column icon" style="color:red"><i class="fas fa-print" style="padding-right: 6px;"></i></div>
+                        <div class="column middle"><p class="MP">${clientPrinters[i].printerName}</p> <p class="subInfo" id="errorInfo${clientPrinters[i].printerId}">Not Connected</p></div>
+                        <div class="column side"><button type="button" class="btn btn-primary" id="resumeBtn${clientPrinters[i].printerId}" style="display: none" onclick="resumePrinter('${clientPrinters[i].printerId}')">Resume</button></div></div>`);
+                            }
+
+                            $(`#unavailablePrinters`).append($printerdiv);
                         }
                         else {
-                            var $printerdiv = $(`<div class="row printer"><div class="column icon" style="color:red"><i class="fas fa-print" style="padding-right: 6px;"></i></div>
-                        <div class="column middle"><p class="MP">${clientPrinters[i].printerName}</p> <p class="subInfo">Not Connected</p></div>
-                        <div class="column side"><button type="button" class="btn btn-primary" style="display: none">Resume</button></div></div>`);
+                            if (clientPrinters[i].error == null) {
+                                $(`#errorInfo${clientPrinters[i].printerId}`).text(`Not Connected`);
+                                $(`#resumeBtn${clientPrinters[i].printerId}`).css("display", "none");
+                            }
+                            else {
+                                $(`#errorInfo${clientPrinters[i].printerId}`).text(`${clientPrinters[i].error}`);
+                                $(`#resumeBtn${clientPrinters[i].printerId}`).css("display", "block");
+                            }
                         }
 
-                        $(`#unavailablePrinters`).append($printerdiv);
+                        //check whether this printer is in available list 
+                        var n;
+                        for (n = 0; n < availablePs.length; n++) {
+                            if (availablePs[n] == clientPrinters[i].printerName) {
+                                availablePs.splice(n, 1);
+                                $(`#printerOn${clientPrinters[i].printerId}`).remove();
+                            }
+                        }
+
                     }
                 }
-                if (!NA) {
-                    $('#unavailableLoading').css("display", "none");
-                    $(`#unavailablePrinters`).append($(`<div class="row printer">All Printers are available</div>`));
-                }
-                if (!AP) {
+
+                
+                if (availablePs.length == 0) {
                     $("#autoPrintingChk").attr("disabled", true);
                     $('#availableLoading').css("display", "none");
                     $('#startAutoPrintingP').css("display", "none");
-                    $(`#availablePrinters`).append($(`<div class="row printer">All Printers are not available</div>`));
+
+                    if ($(`#allNotAvailable`)[0]) {
+                        $(`#allNotAvailable`).css("display", "block");
+                    }
+                    else {
+                        $(`#availablePrinters`).append($(`<div class="row printer" id="allNotAvailable">All Printers are not available</div>`));
+                    }
                     if (autoPrintingOn) {
                         autoPrintingOn = false;
                         $("#startAutoPrintingP").css("display", "none");
                         alert("No printer is available. The auto printing system has been terminated!");
                     }
+                }
+                else {
+                    $(`#allNotAvailable`).remove();
+                }
+
+                if (unavailablePs.length == 0) {
+                    $('#unavailableLoading').css("display", "none");
+
+                    if ($(`#allAvailable`)[0]) {
+                        $(`#allAvailable`).css("display", "block");
+                    }
+                    else {
+                        $(`#unavailablePrinters`).append($(`<div class="row printer" id="allAvailable">All Printers are available</div>`));
+                    }
+                }
+                else {
+                    $(`#allAvailable`).remove();
                 }
 
             }

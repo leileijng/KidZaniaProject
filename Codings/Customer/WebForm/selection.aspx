@@ -1503,24 +1503,18 @@
 
 
     <div>
-        <div style="width: 100%; height: 150px; text-align: center; margin: 0 auto;" id="heading">
+        <div style="width: 100%; height: 150px; text-align:center;margin:0 auto;" id="heading">
             <span class="heading1">Photo Selection</span>
         </div>
-        <div id="processselection">
-            <img src="Content/img/process-selection.png" />
-        </div>
-        <div style="text-align: center; margin-top: 10px;">
-            <img src="Content/img/selection.png" />
-        </div>
 
-        <div style="width: 100%; text-align: center; margin-top: 10px; margin: 0 auto;" id="user_profile">
+        <div style="text-align:center;margin-top: 10px;margin:0 auto;"><img src='Content/img/process-selection.png' /></div>
+        
+        <div style="width: 100%; text-align:center;margin-top: 10px;margin:0 auto;" id="user_profile">
             <div id="profile_photo" runat="server"></div>
             <div id="purchase_status" runat="server"></div>
         </div>
-
-        <div>
-            <hr class="hr1" />
-        </div>
+    
+        <div><hr class="hr1"/></div> 
 
         <!-- PRICING TABLE -->
         <div style="text-align: center; width: 100%; display: none;">

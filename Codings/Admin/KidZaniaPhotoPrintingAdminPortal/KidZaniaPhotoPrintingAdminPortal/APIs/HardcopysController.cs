@@ -179,6 +179,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 string lineItemId = lineitem.lineitem_id;
                 var photos = database.itemphotoes.Where(i => i.lineitem_id == lineItemId).ToList();
 
+
                 for (int i = 0; i < photos.Count; i++)
                 {
                     string photoId = photos[i].itemphoto_id;
@@ -186,12 +187,89 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     photoItem.printing_status = data["status"].ToString();
                 }
 
+                if (data["status"].ToString().Equals("Collected"))
+                {
+                    var order = lineitem.order;
+
+                    List<lineitem> linesInOrder = database.lineitems.Where(i => i.order.order_id == order.order_id).ToList();
+                    bool allCollected = true;
+
+                    for (int i = 0; i < linesInOrder.Count; i++)
+                    {
+                        if (!linesInOrder[i].status.Equals("Collected"))
+                        {
+                            allCollected = false;
+                        }
+                    }
+                    if (allCollected)
+                    {
+                        order.status = "Ready";
+                    }
+                }
+
+                else if (data["status"].ToString().Equals("Paused"))
+                {
+                    for (int i = 0; i < photos.Count; i++)
+                    {
+                        string[] photoNames = photos[i].photo.Split('/');
+                        string photoId = photoNames[photoNames.Length - 1];
+                        CancelPrintingJob(orderCode, photoId);
+                    }
+                }
+
                 database.SaveChanges();
-                return Ok(new { message = "Photo status has been updated to " + data["status"] + "!" });
+                return Ok(new { message = "Line Item Status has been updated to " + data["status"] + "!" });
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message.ToString());
+            }
+        }
+
+        [HttpPost]
+        [Route("api/hardcopys/pausePrinter")]
+        public IHttpActionResult PausePrinter([FromBody]JObject data)
+        {
+            try
+            {
+                string printerId = data["id"].ToString();
+                string error = data["reason"].ToString();
+
+                printer foundPrinter = database.printers.SingleOrDefault(i => i.printer_id.Equals(printerId));
+                foundPrinter.error = error;
+                foundPrinter.manuallyOff = true;
+
+                database.SaveChanges();
+
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message.ToString());
+            }
+        }
+
+        [HttpPost]
+        [Route("api/hardcopys/resumePrinter")]
+        public IHttpActionResult ResumePrinter([FromBody]JObject data)
+        {
+            try
+            {
+                string printerId = data["id"].ToString();
+
+                printer foundPrinter = database.printers.SingleOrDefault(i => i.printer_id.Equals(printerId));
+                foundPrinter.error = null;
+                foundPrinter.manuallyOff = false;
+
+                database.SaveChanges();
+
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message.ToString());
             }
         }
 
@@ -233,18 +311,23 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                                         {
                                             case 16:
                                                 localPrinter.error = "Out of Paper";
+                                                localPrinter.status = false;
                                                 break;
                                             case 5:
                                                 localPrinter.error = "Out of Paper";
+                                                localPrinter.status = false;
                                                 break;
                                             case 4:
                                                 localPrinter.error = "Paper Jam";
+                                                localPrinter.status = false;
                                                 break;
                                             case 144:
                                                 localPrinter.error = "Out of Paper";
+                                                localPrinter.status = false;
                                                 break;
                                             case 4194432:
                                                 localPrinter.error = "Lid Open";
+                                                localPrinter.status = false;
                                                 break;
                                             default:
                                                 localPrinter.error = null;
@@ -258,7 +341,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                                     }
                                     localPrinter.updated_at = DateTime.Now;
                                     var foundPrinter = database.printers.SingleOrDefault(i => i.printer_id.Equals(localPrinter.printer_id));
-                                    if (foundPrinter != null)
+                                    if (foundPrinter != null && !foundPrinter.manuallyOff)
                                     {
                                         foundPrinter.name = localPrinter.name;
                                         foundPrinter.port = localPrinter.port;
@@ -286,7 +369,6 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
         }
 
-
         [HttpPost]
         [Route("api/hardcopys/updatePrintingStatus")]
         public IHttpActionResult updatePrintingJobStatus()
@@ -312,12 +394,15 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                             var photoItem = database.itemphotoes.SingleOrDefault(x => x.lineitem_id.Equals(orderCode + "_a5") && x.photo.Contains(fileName));
                             if (photoItem != null)
                             {
-                                photoItem.printing_status = jobStatus;
-                                if (jobStatus.Equals("Printing"))
+                                if(jobStatus.Trim(' ') != "")
                                 {
-                                    photoItem.lineitem.status = "Printing";
+                                    photoItem.printing_status = jobStatus;
+                                    if (jobStatus.Equals("Printing"))
+                                    {
+                                        photoItem.lineitem.status = "Printing";
+                                    }
+                                    photoItem.updated_at = DateTime.Now;
                                 }
-                                photoItem.updated_at = DateTime.Now;
                             }
                             else
                             {
@@ -379,13 +464,13 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
         }
 
         
-        
         [HttpPost]
         [Route("api/hardcopys/autoPrinting")]
         public IHttpActionResult AutoPrinting([FromBody]JObject data)
         {
             string photoId = data["photoId"].ToString();
-            Debug.WriteLine("Now Print " + photoId);
+            bool borderlessOn = bool.Parse(data["borderless"].ToString());
+            
             try
             {
                 var photos = database.itemphotoes.SingleOrDefault(i => i.itemphoto_id.Equals(photoId));
@@ -407,8 +492,21 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     string orderCode = photos.order.order_id;
 
                     PrintDocument pd = new PrintDocument();
+                    PrinterSettings ps = new PrinterSettings();
+
                     pd.DocumentName = orderCode + "_" + photoName;
                     pd.PrintController = new StandardPrintController();
+
+                    if (borderlessOn)
+                    {
+                        Margins margins = new Margins(0, 0, 0, 0);
+                        pd.DefaultPageSettings.Margins = margins;
+                        pd.OriginAtMargins = true;
+                        IEnumerable<PaperSize> paperSizes = ps.PaperSizes.Cast<PaperSize>();
+                        PaperSize sizeA5 = paperSizes.First<PaperSize>(size => size.Kind == PaperKind.A5); // setting paper size to A5 size
+                        pd.DefaultPageSettings.PaperSize = sizeA5;
+                    }
+
                     string current_photo_path = System.Web.HttpContext.Current.Server.MapPath("~/Content/Photos/" + photoName);
                     pd.PrintPage += (sndr, args) =>
                     {
@@ -417,28 +515,52 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                         if (i.Width > i.Height)
                             i.RotateFlip(RotateFlipType.Rotate90FlipNone);
 
-
-                        //Logic below maintains Aspect Ratio.
-                        if ((double)i.Width / (double)i.Height > (double)m.Width / (double)m.Height) // image is wider
+                        if (!borderlessOn)
                         {
-                            m.Height = (int)((double)i.Height / (double)i.Width * (double)m.Width);
+                            //Logic below maintains Aspect Ratio.
+                            if ((double)i.Width / (double)i.Height > (double)m.Width / (double)m.Height) // image is wider
+                            {
+                                m.Height = (int)((double)i.Height / (double)i.Width * (double)m.Width);
+                            }
+                            else
+                            {
+                                m.Width = (int)((double)i.Width / (double)i.Height * (double)m.Height);
+                            }
+                            //Calculating optimal orientation.
+                            //pd.DefaultPageSettings.Landscape = m.Width > m.Height;
+
+                            //Putting image in center of page.
+                            m.Y = (int)((((System.Drawing.Printing.PrintDocument)(sndr)).DefaultPageSettings.PaperSize.Height - m.Height) / 2);
+                            m.X = (int)((((System.Drawing.Printing.PrintDocument)(sndr)).DefaultPageSettings.PaperSize.Width - m.Width) / 2);
+
+
+                            if ((i.Width == 6000 && i.Height == 4000) || (i.Width == 4000 && i.Height == 6000))
+                                args.Graphics.DrawImage(i, 120, -5, m.Width - 70, m.Height - 130);
+                            else
+                                args.Graphics.DrawImage(i, 120, -5, m.Width - 70, m.Height - 80);
+
                         }
                         else
                         {
-                            m.Width = (int)((double)i.Width / (double)i.Height * (double)m.Height);
+                            Rectangle p = args.PageBounds;
+
+                            if ((double)i.Width / (double)i.Height > (double)p.Width / (double)p.Height) // image is wider
+                            {
+                                p.Height = (int)((double)i.Height / (double)i.Width * (double)p.Width);
+                            }
+                            else
+                            {
+                                p.Width = (int)((double)p.Width / (double)p.Height * (double)p.Height);
+                            }
+
+                            if ((i.Width == 6000 && i.Height == 4000) || (i.Width == 4000 && i.Height == 6000))
+                                args.Graphics.DrawImage(i, -10, -10, p.Width + 20, p.Height);
+                            else
+                            {
+                                args.Graphics.DrawImage(i, -10, -10, p.Width + 20, p.Height);
+                            }
+
                         }
-                        //Calculating optimal orientation.
-                        //pd.DefaultPageSettings.Landscape = m.Width > m.Height;
-
-                        //Putting image in center of page.
-                        m.Y = (int)((((System.Drawing.Printing.PrintDocument)(sndr)).DefaultPageSettings.PaperSize.Height - m.Height) / 2);
-                        m.X = (int)((((System.Drawing.Printing.PrintDocument)(sndr)).DefaultPageSettings.PaperSize.Width - m.Width) / 2);
-
-
-                        if ((i.Width == 6000 && i.Height == 4000) || (i.Width == 4000 && i.Height == 6000))
-                            args.Graphics.DrawImage(i, 120, -5, m.Width - 70, m.Height - 130);
-                        else
-                            args.Graphics.DrawImage(i, 120, -5, m.Width - 70, m.Height - 80);
 
                     };
                     pd.PrinterSettings.PrinterName = bestPrinter;
@@ -457,8 +579,51 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
 
         }
-
+  
         
+        public bool CancelPrintingJob(string photoId, string order)
+        {             
+            string searchQuery;
+            ManagementObjectSearcher searchPrintJobs;
+            ManagementObjectCollection prntJobCollection;
+            try
+            {
+                // Query to get all the queued printer jobs.
+                searchQuery = "SELECT * FROM Win32_PrintJob";
+                // Create an object using the above query.
+                searchPrintJobs = new ManagementObjectSearcher(searchQuery);
+                // Fire the query to get the collection of the printer jobs.
+                prntJobCollection = searchPrintJobs.Get();
+
+                // Look for the job you want to delete/cancel.
+                foreach (ManagementObject prntJob in prntJobCollection)
+                {
+                    string jobDocument = prntJob.Properties["Document"].Value.ToString();
+                    
+                    if (jobDocument.Contains(order) && jobDocument.Contains(photoId))
+                    {
+                        string jobStatus = Convert.ToString(prntJob.Properties["JobStatus"]?.Value);
+                        if(jobStatus != "Printing")
+                        {
+                            prntJob.Delete();
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception sysException)
+            {
+                // Log the exception.
+                return false; 
+            }
+        }
+
+
         public List<string> availablePrinters()
         {
             string query = string.Format("SELECT * from Win32_Printer");

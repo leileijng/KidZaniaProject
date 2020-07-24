@@ -34,10 +34,6 @@
       <End Role="staff" EntitySet="staffs" />
       <End Role="printer" EntitySet="printers" />
     </AssociationSet>
-    <AssociationSet Name="product_ibfk_1" Association="DBModel.product_ibfk_1">
-      <End Role="staff" EntitySet="staffs" />
-      <End Role="product" EntitySet="products" />
-    </AssociationSet>
     <AssociationSet Name="staff_ibfk_1" Association="DBModel.staff_ibfk_1">
       <End Role="role" EntitySet="roles" />
       <End Role="staff" EntitySet="staffs" />
@@ -76,6 +72,7 @@
     <Property Name="item_amount" Type="Decimal" Nullable="false" />
     <Property Name="status" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="updatedAt" Type="DateTime" Nullable="false" />
     <NavigationProperty Name="itemphotoes" Relationship="DBModel.itemphoto_ibfk_1" FromRole="lineitem" ToRole="itemphoto" />
     <NavigationProperty Name="order" Relationship="DBModel.lineitem_ibfk_1" FromRole="lineitem" ToRole="order" />
     <NavigationProperty Name="product" Relationship="DBModel.lineitem_ibfk_2" FromRole="lineitem" ToRole="product" />
@@ -88,6 +85,7 @@
     <Property Name="pid" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="total_amount" Type="Decimal" Nullable="false" />
     <Property Name="status" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="updatedAt" Type="DateTime" Nullable="false" />
     <NavigationProperty Name="itemphotoes" Relationship="DBModel.itemphoto_ibfk_3" FromRole="order" ToRole="itemphoto" />
     <NavigationProperty Name="lineitems" Relationship="DBModel.lineitem_ibfk_1" FromRole="order" ToRole="lineitem" />
   </EntityType>
@@ -124,7 +122,6 @@
     <Property Name="updated_by" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="updated_at" Type="DateTime" Nullable="false" />
     <NavigationProperty Name="lineitems" Relationship="DBModel.lineitem_ibfk_2" FromRole="product" ToRole="lineitem" />
-    <NavigationProperty Name="staff" Relationship="DBModel.product_ibfk_1" FromRole="product" ToRole="staff" />
   </EntityType>
   <EntityType Name="role">
     <Key>
@@ -140,11 +137,10 @@
     </Key>
     <Property Name="staff_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="passwordhash" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-    <Property Name="passwordsalt" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="passwordhash" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <Property Name="passwordsalt" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
     <Property Name="role_id" Type="Int32" Nullable="false" />
     <NavigationProperty Name="printers" Relationship="DBModel.printer_ibfk_1" FromRole="staff" ToRole="printer" />
-    <NavigationProperty Name="products" Relationship="DBModel.product_ibfk_1" FromRole="staff" ToRole="product" />
     <NavigationProperty Name="role" Relationship="DBModel.staff_ibfk_1" FromRole="staff" ToRole="role" />
   </EntityType>
   <EntityType Name="profile">
@@ -225,18 +221,6 @@
         <PropertyRef Name="staff_id" />
       </Principal>
       <Dependent Role="printer">
-        <PropertyRef Name="updated_by" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="product_ibfk_1">
-    <End Type="DBModel.staff" Role="staff" Multiplicity="1" />
-    <End Type="DBModel.product" Role="product" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="staff">
-        <PropertyRef Name="staff_id" />
-      </Principal>
-      <Dependent Role="product">
         <PropertyRef Name="updated_by" />
       </Dependent>
     </ReferentialConstraint>

@@ -36,6 +36,5 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<lineitem> lineitems { get; set; }
-        public virtual staff staff { get; set; }
     }
 }

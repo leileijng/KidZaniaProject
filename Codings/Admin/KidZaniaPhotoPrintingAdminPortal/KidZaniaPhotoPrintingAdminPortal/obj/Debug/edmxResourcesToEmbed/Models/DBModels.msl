@@ -25,6 +25,7 @@
     <EntitySetMapping Name="lineitems">
       <EntityTypeMapping TypeName="DBModel.lineitem">
         <MappingFragment StoreEntitySet="lineitem">
+          <ScalarProperty Name="updatedAt" ColumnName="updatedAt" />
           <ScalarProperty Name="quantity" ColumnName="quantity" />
           <ScalarProperty Name="status" ColumnName="status" />
           <ScalarProperty Name="item_amount" ColumnName="item_amount" />
@@ -38,6 +39,7 @@
     <EntitySetMapping Name="orders">
       <EntityTypeMapping TypeName="DBModel.order">
         <MappingFragment StoreEntitySet="order">
+          <ScalarProperty Name="updatedAt" ColumnName="updatedAt" />
           <ScalarProperty Name="status" ColumnName="status" />
           <ScalarProperty Name="total_amount" ColumnName="total_amount" />
           <ScalarProperty Name="pid" ColumnName="pid" />

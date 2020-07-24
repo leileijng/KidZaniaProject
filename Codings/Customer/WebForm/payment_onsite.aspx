@@ -321,9 +321,7 @@
     <!-- FOOTER -->
     <script>
         jQuery(document).ready(function ($) {
-
             if (window.history && window.history.pushState) {
-
                 $(window).on('popstate', function () {
                     var hashLocation = location.hash;
                     var hashSplit = hashLocation.split("#!/");

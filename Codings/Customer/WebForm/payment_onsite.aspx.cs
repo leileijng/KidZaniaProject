@@ -128,7 +128,7 @@ namespace WebForm
             try
             {
                 conn.Open();
-                string query = "UPDATE `order` SET status = '" + status + "' where pid = '" + MySqlHelper.EscapeString(pid) + "'";
+                string query = "UPDATE `order` SET status = '" + status + "', `updatedAt`='"+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +"' where pid = '" + MySqlHelper.EscapeString(pid) + "'";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
                 conn.Close();
@@ -157,7 +157,7 @@ namespace WebForm
             try
             {
                 conn.Open();
-                string query = "UPDATE `lineitem` SET status = '" + status + "' where p_id = '" + MySqlHelper.EscapeString(pid) + "'";
+                string query = "UPDATE `lineitem` SET status = '" + status + "', `updatedAt`='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' where p_id = '" + MySqlHelper.EscapeString(pid) + "'";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
                 conn.Close();
@@ -186,7 +186,7 @@ namespace WebForm
             try
             {
                 conn.Open();
-                string query = "UPDATE `itemphoto` SET printing_status = '" + status + "' where p_id = '" + MySqlHelper.EscapeString(pid) + "'";
+                string query = "UPDATE `itemphoto` SET printing_status = '" + status + "', `updated_at`='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' where p_id = '" + MySqlHelper.EscapeString(pid) + "'";
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.ExecuteNonQuery();
                 conn.Close();

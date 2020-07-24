@@ -46,13 +46,17 @@ namespace WebForm
 
             string profile_id = "";
 
-            /*
+            
             Dictionary<string, string> photoprofile = new Dictionary<string, string>();
             string alert_message = "";
             if (Request.Form["pf"] != null)
             {
                 string profile = "";
                 string pf = Request.Form["pf"];
+                //testing purpose
+                string photoPath = pf.Replace("photoID", "");
+                profile_photo.InnerHtml = "<img style='max-height: 300px !important;' src='/Content/photos/" + photoPath + ".jpg' />";
+                
                 if (!pf.Contains("|"))
                 {
                     string datval = Session["dateval"].ToString();
@@ -78,26 +82,42 @@ namespace WebForm
                     alert_message = "There is an existing order with this profile.";
                 }
                 Session["profile"] = profile;
+                /*
                 photoprofile = getphotoselection(profile);
                 if (photoprofile.Count == 0)
                     Response.Redirect("/onsite/");
+                    */
                 profile_id = profile.Split('|')[1];
             }
-  
-            if (photoprofile.Count > 0)
+
+            if (alert_message != "")
             {
-                if (Session["CapturedImageBase64"] != null)
-                {
-                    string photobase64 = Session["CapturedImageBase64"].ToString();
-                    //profile_photo.InnerHtml = "<img style='height: 150px;' src='" + photopath + "' />";
-                    profile_photo.InnerHtml = "<img style='max-height: 300px !important;' src='" + photobase64 + "' />";
-                }
-                Dictionary<string, string> photomatch = photoprofile; //comment it for debugging.
-                ///COMMENT UNTIL HERE FOR DEBUGGING*/
+                purchase_status.InnerHtml += "<div class='fix_corner'>";
+                purchase_status.InnerHtml += "  <div class='fix_corner_ctn'>";
+                purchase_status.InnerHtml += "     <br> <div class='fix_corner_item'><b><span style='color:red;'>ALERT!!! " + alert_message + "</span></b></div>";
+                purchase_status.InnerHtml += "  </div>";
+                purchase_status.InnerHtml += "</div>";
+            }
+
+            /*
+                      if (photoprofile.Count > 0)
+                      {
+                          if (Session["CapturedImageBase64"] != null)
+                          {
+                              string photobase64 = Session["CapturedImageBase64"].ToString();
+                              //profile_photo.InnerHtml = "<img style='height: 150px;' src='" + photopath + "' />";
+                              profile_photo.InnerHtml = "<img style='max-height: 300px !important;' src='" + photobase64 + "' />";
+                          }
+                          Dictionary<string, string> photomatch = photoprofile; //comment it for debugging.
+                          ///COMMENT UNTIL HERE FOR DEBUGGING*/
             ///
-            if(Session["CartItems"] != null)
+
+            if (Session["CartItems"] != null)
             {
                 incartItems = (List<InCartItem>)Session["CartItems"];
+                string pid = Session["pid"].ToString();
+                deletePreviousOrder(pid);
+                Debug.WriteLine("Deleted!");
             }
 
             Dictionary<string, string> photomatch = new Dictionary<string, string>();
@@ -203,7 +223,10 @@ namespace WebForm
                             x++;
                             photofullpath += photo.Key + "|";
 
-                        }
+
+                    
+
+            }
                 /*
                 int dc_amt = 20; //Default digital copy price
 
@@ -224,8 +247,8 @@ namespace WebForm
                 purchase_status.InnerHtml += "      <div class='fix_corner_item'><b>*Bold: purchase with purchase discount</b></div>";
 
 
-                if (alert_message != "")
-    purchase_status.InnerHtml += "  </div>";
+                if (alert_message != ""){
+                purchase_status.InnerHtml += "  </div>";
                     purchase_status.InnerHtml += "</div>";
                     sa.Attributes["value"] = dc_amt.ToString();
                     dc.Attributes["value"] = (x - 1).ToString();
@@ -311,7 +334,9 @@ namespace WebForm
 
             MySql.Data.MySqlClient.MySqlConnection conn;
             string myConnectionString;
-            myConnectionString = "server=127.0.0.1;uid=root;pwd=zzaaqq11;database=frphotosg;SslMode=none";
+            //myConnectionString = "server=127.0.0.1;uid=root;pwd=zzaaqq11;database=frphotosg;SslMode=none";
+
+            myConnectionString = @"server=localhost;userid=root;password=12345;database=kidzania";
             try
             {
                 conn = new MySql.Data.MySqlClient.MySqlConnection();
@@ -339,20 +364,89 @@ namespace WebForm
             return status;
         }
 
+        public static void deletePreviousOrder(string pid)
+        {
+            //delete itemphoto
+            try {
+                MySql.Data.MySqlClient.MySqlConnection conn;
+                string myConnectionString;
+                //myConnectionString = "server=127.0.0.1;uid=root;pwd=zzaaqq11;database=frphotosg;SslMode=none";
+                myConnectionString = @"server=localhost;userid=root;password=12345;database=kidzania";
+
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = myConnectionString;
+                conn.Open();
+                string query = "DELETE FROM `kidzania`.`itemphoto` WHERE `p_id`='"+ pid +"';";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine("Delete item photo failed");
+                Debug.WriteLine(ex.Message.ToString());
+            }
+
+            //delete lineitem
+            try
+            {
+                MySql.Data.MySqlClient.MySqlConnection conn;
+                string myConnectionString;
+                //myConnectionString = "server=127.0.0.1;uid=root;pwd=zzaaqq11;database=frphotosg;SslMode=none";
+                myConnectionString = @"server=localhost;userid=root;password=12345;database=kidzania";
+
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = myConnectionString;
+                conn.Open();
+                string query = "DELETE FROM `kidzania`.`lineitem` WHERE `p_id`='" + pid + "';";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Delete line item failed");
+                Debug.WriteLine(ex.Message.ToString());
+            }
+            try
+            {
+                MySql.Data.MySqlClient.MySqlConnection conn;
+                string myConnectionString;
+                //myConnectionString = "server=127.0.0.1;uid=root;pwd=zzaaqq11;database=frphotosg;SslMode=none";
+                myConnectionString = @"server=localhost;userid=root;password=12345;database=kidzania";
+
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = myConnectionString;
+                conn.Open();
+                string query = "DELETE FROM `kidzania`.`order` WHERE `pid`='" + pid + "';";
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Delete order failed");
+                Debug.WriteLine(ex.Message.ToString());
+            }
+        }
+
         public static void Insert_profile(string profile, string pid)
         {
             MySql.Data.MySqlClient.MySqlConnection conn;
             string myConnectionString;
-            myConnectionString = "server=127.0.0.1;uid=root;pwd=zzaaqq11;database=frphotosg;SslMode=none";
+            //myConnectionString = "server=127.0.0.1;uid=root;pwd=zzaaqq11;database=frphotosg;SslMode=none";
+            myConnectionString = @"server=localhost;userid=root;password=12345;database=kidzania";
+            
             conn = new MySql.Data.MySqlClient.MySqlConnection();
             conn.ConnectionString = myConnectionString;
             conn.Open();
-            string query = "INSERT INTO profiles (pid, profile, status) VALUES('" + pid + "','" + profile + "','selection');";
+            string query = "INSERT INTO profile (pid, profile, status) VALUES('" + pid + "','" + profile + "','selection');";
             MySqlCommand cmd = new MySqlCommand(query, conn);
             cmd.ExecuteNonQuery();
             conn.Close();
         }
         
+
         public static List<Product> GetProductsFromDB()
         {
             string connstring = @"server=localhost;userid=root;password=12345;database=kidzania";
@@ -433,9 +527,7 @@ namespace WebForm
             }
             return new JavaScriptSerializer().Serialize(foundProduct);
         }
-
-
-
+        
         
         [WebMethod]
         public static string CalculateTotalCost(string cartItems)
@@ -545,6 +637,7 @@ namespace WebForm
             public string productId { get; set; }
             public int quantity { get; set; }
         }
+
 
         public class CartItemWithCost
         {

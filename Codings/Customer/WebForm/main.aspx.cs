@@ -25,6 +25,7 @@ namespace WebForm
             string pid = "kidzsg" + RandomString(5) + DateTime.Now.ToString("ddMMyy");
             Session["pid"] = pid;
             Session["onsite"] = true;
+            Session["CartItems"] = null;
         }
 
 
@@ -33,6 +34,7 @@ namespace WebForm
             string path = HttpContext.Current.Request.Url.AbsolutePath;
             string ipaddr = ip_addr.Value;
 
+            /*
             if (path.Contains("/onsite/") && !ipaddr.StartsWith("203.116."))
             {
                 if (!ipaddr.StartsWith("101.127") && !ipaddr.StartsWith("66.96")) //Chris Development ip address - to be remove
@@ -45,6 +47,7 @@ namespace WebForm
             else if (!path.Contains("/onsite/"))
                 Session["onsite"] = false;
 
+                */
             string dateval = datepicker.Value;
 
             if (dateval == "")
@@ -66,6 +69,7 @@ namespace WebForm
             string path = HttpContext.Current.Request.Url.AbsolutePath;
             string ipaddr = ip_addr.Value;
 
+            /*
             if (path.Contains("/onsite/") && !ipaddr.StartsWith("203.116."))
             {
                 if (!ipaddr.StartsWith("101.127")) //Chris Development ip address - to be remove
@@ -76,6 +80,7 @@ namespace WebForm
             }
             else if (!path.Contains("/onsite/"))
                 Session["onsite"] = false;
+                */
 
             string dateval = datepicker.Value;
             if (dateval == "")
@@ -97,6 +102,7 @@ namespace WebForm
             string path = HttpContext.Current.Request.Url.AbsolutePath;
             string ipaddr = ip_addr.Value;
 
+            /*
             if (path.Contains("/onsite/") && !ipaddr.StartsWith("203.116."))
             {
                 if (!ipaddr.StartsWith("101.127")) //Chris Development ip address - to be remove
@@ -107,7 +113,7 @@ namespace WebForm
             }
             else if (!path.Contains("/onsite/"))
                 Session["onsite"] = false;
-
+                */
             string dateval = datepicker.Value;
             if (dateval == "")
                 dateval = DateTime.Now.ToString("ddMMyyyy").ToString();
@@ -116,6 +122,7 @@ namespace WebForm
                 DateTime date = DateTime.ParseExact(dateval, "MM/dd/yyyy", CultureInfo.InvariantCulture);
                 dateval = date.ToString("ddMMyyyy").ToString();
             }
+            
 
             string threshold = Range1.Value;
             Session["DateVal"] = dateval;

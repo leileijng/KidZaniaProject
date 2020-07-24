@@ -18,19 +18,16 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
         public staff()
         {
             this.printers = new HashSet<printer>();
-            this.products = new HashSet<product>();
         }
     
         public string staff_id { get; set; }
         public string name { get; set; }
-        public string passwordhash { get; set; }
-        public string passwordsalt { get; set; }
+        public byte[] passwordhash { get; set; }
+        public byte[] passwordsalt { get; set; }
         public int role_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<printer> printers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<product> products { get; set; }
         public virtual role role { get; set; }
     }
 }
