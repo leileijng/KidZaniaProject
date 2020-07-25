@@ -48,6 +48,7 @@
                         <td>Role</td>
                         <td>
                             <select id="txtRoleId">
+                                <option value="0">Pending</option>
                                 <option value="1">Admin</option>
                                 <option value="2">Printing</option>
                                 <option value="3">Marketing</option>
@@ -62,31 +63,7 @@
                     </tr>
                 </tbody>
             </table>
-            <!--Bootstrap modal dialog that shows up when regsitration is successful-->
-            <div class="modal fade" tabindex="-1" id="successModal"
-                 data-keyboard="false" data-backdrop="static">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">
-                                &times;
-                            </button>
-                            <h4 class="modal-title">Success</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <h2 class="modal-title">Registration Successful!</h2>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-success"
-                                    data-dismiss="modal">
-                                Close
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
             <!--Bootstrap alert to display any validation errors-->
             <div id="divError" class="alert alert-danger collapse">
 
@@ -121,7 +98,7 @@
                         roleId: $('#txtRoleId').val(),
                     },
                     success: function () {
-                        $('#successModal').modal('show');
+                        window.location.replace("/Home/Login");
                     },
                     error: function (jqXHR) {
                         $('#divErrorText').text(jqXHR.responseText);

@@ -1,0 +1,1155 @@
+﻿@{
+    Layout = "~/Views/Shared/Menu.cshtml";
+}
+@section scripts{
+    @Html.Raw(ViewBag.WCPScript);
+}
+
+<link href="~/assets/libs/css/animate.min.css" rel="stylesheet" />
+<div class="container-fluid dashboard-content ">
+    <!-- ============================================================== -->
+    <!-- pageheader  -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="page-header">
+                <div>
+                    <h2 class="pageheader-title">
+
+                        Hardcopy Printing
+                    </h2>
+                    <div  style="display: none;" id="startAutoPrintingP">
+                    <label class="switch">
+                        <input id="borderless" type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                        <p style="margin: 0; font-size:1.1rem; padding-left:5px; padding-top:5px;">Borderless</p>
+                    <p style="margin-left:40px; margin-top:8px;">
+                        <input type="checkbox" class="form-check-input" id="autoPrintingChk">
+                        <label class="form-check-label" for="exampleCheck1">Auto Printing</label>
+                    </p>
+                        </div>
+                </div>
+                <div class="section-block">
+
+                    <a class="btn btn-demo" id="sidebarCollapse" data-toggle="modal" data-target="#myModal2"><i class="fa fa-print" style="padding-right: 6px;"></i>Manage Printers</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- end pageheader  -->
+    <!-- ============================================================== -->
+    <!-- Paused Order Modal -->
+    <div id="PausedModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header modal-header-delete">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Pause Printer</h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <p>Please provide a reason for pausing printer</p>
+                    <input type="text" id="reasonsInput" name="reasonsInput" class="form-control" placeholder="Reason*" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal" id="dismissPausePrinterModal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="pausePrinter()" id="pausePrinterConfirmation">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- ====================================== -->
+        <!-- justified tabs  -->
+        <!-- ============================================================== -->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
+           
+            <input id="myInput" type="text" onkeyup="searchFunction()" placeholder="Search..">
+            <div class="tab-regular">
+                <ul class="nav nav-tabs" id="myTab7" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab-justify" data-toggle="tab" href="#home-justify" role="tab" aria-controls="home" aria-selected="true" onclick="toggleTable()">Processing Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab-justify" data-toggle="tab" href="#profile-justify" role="tab" aria-controls="profile" aria-selected="false" onclick="toggleTable()">Collected Orders</a>
+                    </li>
+                </ul>
+                <div class="tab-content border-3 border-bottom-IC border-bottom-primary" id="myTabContent7">
+                    <div class="tab-pane fade" id="profile-justify" role="tabpanel" aria-labelledby="profile-tab-justify">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Time</th>
+                                    <th>Order Code</th>
+                                    <th>Assigned Printer(s)</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="completedOrders"> </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tab-pane fade show active" id="home-justify" role="tabpanel" aria-labelledby="home-tab-justify">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Order Code</th>
+                                    <th>
+                                        <div class="dropdown">
+                                            <div class="dropdown-toggle" data-toggle="dropdown" id="statusFilter">
+                                                Status
+                                                <span class="caret"></span>
+                                            </div>
+                                            <ul class="dropdown-menu p-0">
+                                                <li style="border-bottom: 1px solid rgb(230, 230, 242);" class="pb-1 pl-3 pt-1" onclick="filterOrderByStatus('All')">All</li>
+                                                <li style="border-bottom: 1px solid rgb(230, 230, 242);" class="pb-1 pl-3 pt-1" onclick="filterOrderByStatus('Waiting')">Waiting Orders</li>
+                                                <li style="border-bottom: 1px solid rgb(230, 230, 242);" class="pb-1 pl-3 pt-1" onclick="filterOrderByStatus('Printing')">Printing Orders</li>
+                                                <li class="pl-3 pt-1 pb-1" onclick="filterOrderByStatus('Completed')">Completed Orders</li>
+                                            </ul>
+                                        </div>
+                                    </th>
+                                    <th>Assigned Printer(s)</th>
+                                    <th>Done/All</th>
+                                    <th>Est. Waiting Time (min)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="completedTable"></tbody>
+                            <tbody id="printingTable"></tbody>
+                            <tbody id="waitingTable"></tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .dropdown-menu {
+        min-width: 180px !important;
+    }
+
+    .dropdown-toggle:hover {
+        cursor: pointer;
+    }
+
+    .dropdown-menu li:hover {
+        cursor: pointer;
+        background-color: antiquewhite;
+    }
+</style>
+<script src="~/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/noty/jquery.noty.js"></script>
+<script src="~/Scripts/noty/layouts/center.js"></script>
+<script src="~/Scripts/noty/themes/bootstrap.js"></script>
+<script src="~/Scripts/noty/themes/default.js"></script>
+<script src="~/Scripts/noty/themes/relax.js"></script>
+<script type="text/javascript">
+
+    var printerAvailable = false;
+    var currentTable = "processingOrders";
+    var orderNo;
+    var ordernum = [];
+    var autoPrintingStatus = false;
+    var autoPrintingOn = false;
+    var borderlessOn = false;
+
+    var availablePs = [];
+    var unavailablePs = [];
+
+
+    function rotate(el) {
+        $(el).toggleClass("down");
+    }
+
+    function changeStatus(id, status) {
+        var effects = 'animate__animated animate__fadeIn animate__slow';
+        var deleteEffects = 'animate__animated animate__fadeOut animate__slow';
+        var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+        
+        webformdata = { "status": status };
+        url = `/api/hardcopys/${id}`;
+
+        $.ajax({
+            type: 'PUT',
+            url: url,
+            contentType: 'application/json',
+            data: JSON.stringify(webformdata)
+        }).done(function (data, textStatus, jqXHR) {
+            $(`#order${id}`).addClass(deleteEffects).one(effectsend, function () {
+                $(`#order${id}`).removeClass(deleteEffects);
+                $(`#order${id}`).closest("tr").remove();
+                $(`.completed${id}`).remove();
+                $(`.printing${id}`).remove();
+                $(`.waiting${id}`).remove();
+            });
+            new noty({
+                text: data.message,
+                layout: 'center',
+                theme: 'bootstrapTheme',
+                type: 'success',
+                timeout: 3000,
+            }).show();
+        }).fail(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.responseJSON.message,
+                theme: 'bootstrapTheme',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error'
+            }).show();
+        });
+    }
+
+    function loadTable() {
+        $(`#completedTable`).html("");
+        $(`#printingTable`).html("");
+        $(`#waitingTable`).html("");
+        $(`#completedOrders`).html("");
+        $.ajax({
+            type: "GET",
+            url: "/api/hardcopys",
+            dataType: "json",
+            success: function (data) {
+                var i;
+                
+                var collectedPhotoNumber = 0;
+                var processingPhotoNumber = 0;
+
+                var startAutoPrinting = false;
+
+                for (i = 0; i < data.length; i++) {
+                    ordernum.push({ "id": data[i].photo_id, "status": data[i].photo_status });
+                    if (data[i].lineitem_status == "Collected") {
+                        collectedPhotoNumber++;
+                        createCollectedRow(data[i]);
+                    }
+                    else if (data[i].lineitem_status == "Completed") {
+                        processingPhotoNumber++;
+                        createCompletedRow(data[i]);
+                    }
+                    else if (data[i].lineitem_status == "Printing") {
+                        processingPhotoNumber++;
+                        createPrintingRow(data[i], data);
+                    }
+                    else if (data[i].lineitem_status == "Waiting") {
+                        processingPhotoNumber++;
+                        createWaitingRow(data[i]);
+                    }
+                    if (autoPrintingOn && data[i].photo_status == "Waiting") {
+                        startAutoPrinting = true;
+                    }
+                }
+
+                if (processingPhotoNumber == 0) {
+                    $(`#waitingTable`).append($(`<tr class="noOrderFoundRow" id="noProcessingOrderFound"><td colspan="7"> No order found.</td></tr>`));
+                }
+                if (collectedPhotoNumber == 0) {
+                    $(`#completedOrders`).append($(`<tr class="noOrderFoundRow" id="noCollectedOrderFound"><td colspan="4"> No order found.</td></tr>`));
+                }
+                if (startAutoPrinting) {
+                    //enableAutoPrinting();
+                }
+            },
+            error: function (data) {
+            }
+        });
+    }
+
+    function createCollectedRow(data) {
+        orderNo = data.order_id;
+        if (!checkForOrderExist(data.order_id)) {
+            var $orderRow = null;
+            var $photoRow = null;
+            var d = new Date(data.updated_time);
+            var hour = d.getHours();
+            var minutes = d.getMinutes();
+            var seconds = d.getSeconds();
+            if (hour.toString().length < 2)
+                hour = "0" + hour;
+            if (minutes.toString().length < 2)
+                minutes = "0" + minutes;
+            if (seconds.toString().length < 2)
+                seconds = "0" + seconds;
+
+            var updateTime = hour + ":" + minutes + ":" + seconds;
+            var printer = data.assigned_printer;
+            $orderRow = $(`<tr id="order${orderNo}" class="completedOrderRow"><td><i data-toggle="collapse" data-target=".collected${orderNo}" class="fa fa-chevron-right rotate" onclick="rotate(this)"></i></td>
+                                <td>${updateTime}</td>
+                                <td>${orderNo}</td>
+                                <td id="collectedprinter${orderNo}">${printer}</td>
+                            </tr>`);
+            
+            $photoRow = $(`<tr class="collected${orderNo} collapse"><td></td><td colspan="3" id="collectedPhoto${orderNo}"><div class="m-r-10"><img src="${data.photo_path}" alt="user" class="rounded" width="55"></div>
+                                    </td>
+                                    <td></td>
+                                </tr>`);
+
+            $(`#completedOrders`).append($orderRow);
+            $(`#completedOrders`).append($photoRow);
+        }
+
+        else {
+            var previousPrinter = $(`#collectedprinter${orderNo}`).text();
+            var printers = previousPrinter + ", " + data.assigned_printer;
+            $(`#collectedprinter${orderNo}`).text(printers);
+            $(`#collectedPhoto${orderNo}`).append(`<div class="m-r-10"><img src="${data.photo_path}" alt="user" class="rounded" width="55"></div>`);
+        }
+
+    }
+
+    function checkForOrderExist(orderId) {
+        if ($(`#order${orderId}`).length) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function createWaitingRow(data) {
+        var orderNo = data.order_id;
+        var orderPhotoIds = data.photo_id.split(".");
+        var orderPhotoId = orderPhotoIds[0];
+        orderPhotoId = orderPhotoId.replace(/\//g, "_");
+        if (!checkForOrderExist(data.order_id)) {
+
+            $orderRow = $(`<tr id="order${orderNo}" class="orderRow waiting"><td><i data-toggle="collapse" data-target=".waiting${orderNo}" class="fa fa-chevron-right rotate" onclick="rotate(this)"></i></td>
+                        <td>${orderNo}</td><td><span class="badge badge-light">Waiting</span></td><td id="printer${orderNo}">-</td><td id="progress${orderNo}">0/${data.photo_qty}</td><td>-</td>
+                        <td><label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" onclick="changeStatus('${orderNo}', 'Paused')"><span class="custom-control-label">Pause</span></label></td></tr>`);
+            $(`#waitingTable`).append($orderRow);
+            $photoRow = $(`<tr class="waiting${orderNo} collapse"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td id="printer${orderPhotoId}">${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+            $(`#waitingTable`).append($photoRow);
+        }
+        else {
+            $photoRow = $(`<tr class="waiting${orderNo} collapse"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td id="printer${orderPhotoId}">${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+            $(`#waitingTable`).append($photoRow);
+        }
+    }
+
+    function createPrintingRow(data, record) {
+        var orderNo = data.order_id;
+        var orderPhotoIds = data.photo_id.split(".");
+        var orderPhotoId = orderPhotoIds[0];
+        orderPhotoId = orderPhotoId.replace(/\//g, "_");
+        if (!checkForOrderExist(data.order_id)) {
+            var x;
+            var numberOfPrinting = 0;
+            for (x = 0; x < record.length; x++) {
+                if (record[x].order_id == data.order_id) {
+                    if (record[x].photo_status == "Completed") {
+                        numberOfPrinting++;
+                    }
+                }
+            }
+
+            $orderRow = $(`<tr id="order${orderNo}" class="orderRow printing"><td><i data-toggle="collapse" data-target=".printing${orderNo}" class="fa fa-chevron-right rotate" onclick="rotate(this)"></i></td>
+                        <td>${orderNo}</td><td><span class="badge badge-success">Printing</span></td><td id="printer${orderNo}">-</td><td id="progress${orderNo}">${numberOfPrinting}/${data.photo_qty}</td><td>-</td>
+                        <td></td></tr>`);
+            $(`#printingTable`).append($orderRow);
+
+            if (data.photo_status == "Completed") {
+                $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                $(`#printingTable`).append($photoRow);
+            }
+            if (data.photo_status == "Printing") {
+                $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                $(`#printingTable`).append($photoRow);
+            }
+            if (data.photo_status == "Waiting") {
+                $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                $(`#printingTable`).append($photoRow);
+            }
+
+        }
+
+        else {
+            if (data.photo_status == "Completed") {
+                $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                $(`#printingTable`).append($photoRow);
+            }
+            if (data.photo_status == "Printing") {
+                $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                $(`#printingTable`).append($photoRow);
+            }
+            if (data.photo_status == "Waiting") {
+                $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                $(`#printingTable`).append($photoRow);
+            }
+        }
+    }
+
+    function createCompletedRow(data) {
+        var orderNo = data.order_id;
+        var orderPhotoIds = data.photo_id.split(".");
+        var orderPhotoId = orderPhotoIds[0];
+        orderPhotoId = orderPhotoId.replace(/\//g, "_");
+        if (!checkForOrderExist(data.order_id)) {
+            $orderRow = $(`<tr id="order${orderNo}" class="orderRow completed"><td><i data-toggle="collapse" data-target=".completed${orderNo}" class="fa fa-chevron-right rotate" onclick="rotate(this)"></i></td>
+                                    <td>${orderNo}</td><td><span class="badge badge-danger">Completed</span></td><td id="printer${orderNo}">-</td><td id="progress${orderNo}">${data.photo_qty}/${data.photo_qty}</td><td>-</td>
+                                    <td><label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" onclick="changeStatus('${orderNo}', 'Collected')"><span class="custom-control-label">Collect</span></label></td></tr>`);
+            $(`#completedTable`).append($orderRow);
+
+
+            $photoRow = $(`<tr class="completed${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+            $(`#completedTable`).append($photoRow);
+        }
+
+        else {
+            $photoRow = $(`<tr class="completed${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+            $(`#completedTable`).append($photoRow);
+        }
+    }
+
+    function updatePrintingRow(record) {
+        var i;
+        for (i = 0; i < record.length; i++) {
+            data = record[i];
+            var orderNo = data.order_id;
+            var orderPhotoIds = data.photo_id.split(".");
+            var orderPhotoId = orderPhotoIds[0];
+            orderPhotoId = orderPhotoId.replace(/\//g, "_");
+
+            if (i == 0) {
+                var x;
+                var numberOfPrinting = 0;
+                for (x = 0; x < record.length; x++) {
+                    if (record[x].order_id == data.order_id) {
+                        if (record[x].photo_status == "Completed") {
+                            numberOfPrinting++;
+                        }
+                    }
+                }
+
+                $orderRow = $(`<tr id="order${orderNo}" class="orderRow printing"><td><i data-toggle="collapse" data-target=".printing${orderNo}" class="fa fa-chevron-right rotate" onclick="rotate(this)"></i></td>
+                        <td>${orderNo}</td><td><span class="badge badge-success">Printing</span></td><td id="printer${orderNo}">-</td><td id="progress${orderNo}">${numberOfPrinting}/${data.photo_qty}</td><td>-</td>
+                        <td></td></tr>`);
+                $(`#printingTable`).append($orderRow);
+
+                var effects = 'animate__animated animate__fadeIn animate__slow';
+                var deleteEffects = 'animate__animated animate__fadeOut animate__slow';
+                var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+
+                $(`#order${orderNo}`).addClass(effects).one(effectsend, function () {
+                    $(`#order${orderNo}`).removeClass(effects);
+                });
+
+                if (data.photo_status == "Completed") {
+                    $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                    $(`#printingTable`).append($photoRow);
+                }
+                if (data.photo_status == "Printing") {
+                    $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                    $(`#printingTable`).append($photoRow);
+
+                }
+                if (data.photo_status == "Waiting") {
+                    $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                    $(`#printingTable`).append($photoRow);
+                }
+            }
+            else {
+                if (data.photo_status == "Completed") {
+                    $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                    $(`#printingTable`).append($photoRow);
+                }
+                if (data.photo_status == "Printing") {
+                    $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                    $(`#printingTable`).append($photoRow);
+                }
+                if (data.photo_status == "Waiting") {
+                    $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                    $(`#printingTable`).append($photoRow);
+                }
+            }
+        }
+        
+    }
+
+    function updateCompletedRow(record) {
+        var x;
+        for (x = 0; x < record.length; x++) {
+            data = record[x];
+            var orderNo = data.order_id;
+            var orderPhotoIds = data.photo_id.split(".");
+            var orderPhotoId = orderPhotoIds[0];
+            orderPhotoId = orderPhotoId.replace(/\//g, "_");
+            if (x == 0) {
+
+                $orderRow = $(`<tr id="order${orderNo}" class="orderRow completed"><td><i data-toggle="collapse" data-target=".completed${orderNo}" class="fa fa-chevron-right rotate" onclick="rotate(this)"></i></td>
+                                    <td>${orderNo}</td><td><span class="badge badge-danger">Completed</span></td><td id="printer${orderNo}">-</td><td id="progress${orderNo}">${data.photo_qty}/${data.photo_qty}</td><td>-</td>
+                                    <td><label class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" onclick="changeStatus('${orderNo}', 'Collected')"><span class="custom-control-label">Collect</span></label></td></tr>`);
+                $(`#completedTable`).append($orderRow);
+
+                var effects = 'animate__animated animate__fadeIn animate__slow';
+                var deleteEffects = 'animate__animated animate__fadeOut animate__slow';
+                var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+
+                $(`#order${orderNo}`).addClass(effects).one(effectsend, function () {
+                    $(`#order${orderNo}`).removeClass(effects);
+                });
+
+                $photoRow = $(`<tr class="completed${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                $(`#completedTable`).append($photoRow);
+            }
+            else {
+
+                $photoRow = $(`<tr class="completed${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
+                                    <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
+                $(`#completedTable`).append($photoRow);
+            }
+        }
+    }
+
+    function updateStatusRow(record) {
+        $(`#order${record.order_id}`).closest("tr").remove();
+        $(`#order${record.order_id}`).remove();
+        if (record.lineitem_status == "Printing") {
+            $(`.completed${record.order_id}`).remove();
+            $(`.waiting${record.order_id}`).remove();
+        }
+        else if (record.lineitem_status == "Waiting") {
+            $(`.printing${record.order_id}`).remove();
+            $(`.completed${record.order_id}`).remove();
+        }
+        else if (record.lineitem_status == "Completed") {
+            $(`.printing${record.order_id}`).remove();
+            $(`.waiting${record.order_id}`).remove();
+        }
+
+        $.ajax({
+            type: "GET",
+            url: `/api/hardcopys/getPhotoByOrderId/${record.order_id}`,
+            dataType: "json",
+            success: function (data) {
+                if (data[0].lineitem_status == "Printing") {
+                    updatePrintingRow(data);
+                }
+                if (record.lineitem_status == "Completed") {
+                    updateCompletedRow(data);
+                }
+            }
+        });
+    }
+
+    function checkOrder() {
+        var effects = 'animate__animated animate__fadeIn animate__slow';
+        var deleteEffects = 'animate__animated animate__fadeOut animate__slow';
+        var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+
+        var startAutoPrinting = false;
+        $.ajax({
+            type: "GET",
+            url: "/api/hardcopys",
+            dataType: "json",
+            success: function (data) {
+                let newid = [];
+                data.forEach(function (record) {
+                    let checker = false;
+                    for (let x = 0; x < ordernum.length; x++) {
+                        if (ordernum[x].id == record.photo_id) {
+                            // exist 
+                            checker = true;
+                            if (record.assigned_printer != null && record.photo_status == "Queueing") {
+                                var orderPhotoIds = record.photo_id.split(".");
+                                var orderPhotoId = orderPhotoIds[0];
+                                orderPhotoId = orderPhotoId.replace(/\//g, "_");
+                                $(`#printer${orderPhotoId}`).text(record.assigned_printer);
+                                $(`#status${orderPhotoId}`).text("Status: Queueing");
+                            }
+                            // but different status
+                            if (ordernum[x].status != record.photo_status) {
+                                if (record.photo_status == "Collected" || record.photo_status == "Paused") {
+                                    checker = false;
+                                    ordernum.splice(x, 1);
+                                }
+                                else {
+                                    checker = true;
+                                    ordernum[x].status = record.photo_status;
+                                    //the photo status changed to the same as lineitem status, no need to refresh the row
+                                    var orderPhotoIds = record.photo_id.split(".");
+                                    var orderPhotoId = orderPhotoIds[0];
+                                    orderPhotoId = orderPhotoId.replace(/\//g, "_");
+                                    var trStatus = $(`#status${orderPhotoId}`).closest('tr').attr("class");
+
+                                    if (trStatus.indexOf(record.lineitem_status.toLowerCase()) >= 0) {
+                                        checker = true;
+                                        //change status only , no need change row
+                                        if (record.lineitem_status == "Printing" && record.photo_status == "Completed") {
+                                            var progress = $(`#progress${record.order_id}`).text();
+                                            var currentJobs = progress.split(/\//g);
+                                            var currentJob = Number(currentJobs[0]) + 1;
+                                            $(`#progress${record.order_id}`).text(`${currentJob}/${currentJobs[1]}`);
+                                        }
+                                        $(`#status${orderPhotoId}`).text("Status:" + record.photo_status);
+                                        $(`#printer${orderPhotoId}`).text(record.assigned_printer);
+                                    }
+                                    else {
+                                        checker = true;
+                                        updateStatusRow(record);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (!checker) {
+                        if (record.photo_status != "Paused") {
+                            newid.push({ "id": record.photo_id, "status": record.photo_status });
+                            if (record.lineitem_status == "Waiting") {
+                                $('#noProcessingOrderFound').css("display", "none");
+                                if (autoPrintingOn) {
+                                    startAutoPrinting = true;
+                                }
+                                createWaitingRow(record);
+                                $(`#order${orderNo}`).addClass(effects).one(effectsend, function () {
+                                    $(`#order${orderNo}`).removeClass(effects);
+                                });
+                            }
+                            else if (record.lineitem_status == "Printing") {
+                                $('#noProcessingOrderFound').css("display", "none");
+                                createPrintingRow(record, data);
+                                $(`#order${orderNo}`).addClass(effects).one(effectsend, function () {
+                                    $(`#order${orderNo}`).removeClass(effects);
+                                });
+                            }
+                            else if (record.lineitem_status == "Collected") {
+                                $('#noCollectedOrderFound').css("display", "none");
+                                createCollectedRow(record);
+                            }
+                            else if (record.lineitem_status == "Completed") {
+                                $('#noProcessingOrderFound').css("display", "none");
+                                createCompletedRow(record);
+                                $(`#order${orderNo}`).addClass(effects).one(effectsend, function () {
+                                    $(`#order${orderNo}`).removeClass(effects);
+                                });
+                            }
+
+                        }
+                    }
+                });
+                
+                if (startAutoPrinting) {
+                    function checkPrintingStatus() {
+                        //console.log("Now there are jobs?" + autoPrintingStatus);
+                        if (autoPrintingStatus) {
+                            console.log("I'm waiting!");
+                            setTimeout(checkPrintingStatus, 1000);
+                        }
+                        else {
+                            console.log("Okay Let's go!");
+                            startAutoPrintingFunc();
+                        }
+                    }
+                    checkPrintingStatus();
+                }
+                for (let x = 0; x < newid.length; x++) {
+                    ordernum.push(newid[x]);
+                }
+                //get list of collected orders
+                var numberOfCollectedOrders = 0;
+                for (let n = 0; n < ordernum.length; n++) {
+                    if (ordernum[n].status == "Collected") {
+                        numberOfCollectedOrders++;
+                    }
+                }
+                if (numberOfCollectedOrders == 0) {
+                    if ($(`#noCollectedOrderFound`)[0]) {
+                        $(`#noCollectedOrderFound`).css("display", "table-row");
+                    }
+                    else {
+                        $(`#completedOrders`).append($(`<tr class="noOrderFoundRow" id="noCollectedOrderFound"><td colspan="4"> No order found.</td></tr>`));
+                    }
+                }
+                if (ordernum - numberOfCollectedOrders == 0) {
+                    if ($(`#noProcessingOrderFound`)[0]) {
+                        $(`#noProcessingOrderFound`).css("display", "table-row");
+                    }
+                    else {
+                        $(`#waitingTable`).append($(`<tr class="noOrderFoundRow" id="noProcessingOrderFound"><td colspan="7"> No order found.</td></tr>`));
+                    }
+                }
+            }
+        });
+    }
+
+    function toggleTable() {
+        $("#myInput").val("");
+        if ($('#profile-tab-justify').hasClass("active")) {
+            currentTable = "processingOrders";
+        }
+        else if ($('#home-tab-justify').hasClass("active")) {
+            currentTable = "completedOrders";
+        }
+    }
+
+    function filterOrderByStatus(status) {
+        $('#completedTable').css("display", "none");
+        $('#printingTable').css("display", "none");
+        $('#waitingTable').css("display", "none");
+
+        if (status == "Completed") {
+            $('#completedTable').css("display", "");
+        }
+        else if (status == "Printing") {
+            $('#printingTable').css("display", "");
+        }
+        else if (status == "Waiting") {
+            $('#waitingTable').css("display", "");
+        }
+        else {
+            $('#completedTable').css("display", "");
+            $('#printingTable').css("display", "");
+            $('#waitingTable').css("display", "");
+        }
+        $('#statusFilter').text(status);
+        $(".fa-chevron-right").attr("aria-expanded", "false");
+        $(".fa-chevron-right").removeClass('down');
+        $('.collapse').removeClass('show');
+    }
+
+    function searchFunction() {
+        var input, filter, td, i;
+        var input = $("#myInput").val();
+        var filter = input.toUpperCase();
+        var trList;
+        if (currentTable == "processingOrders") {
+            trList = $('#waitingTable .orderRow');
+            secondtrList = $('#printingTable .orderRow');
+            thirdtrList = $('#completedTable .orderRow');
+        }
+        else if (currentTable == "completedOrders") {
+            trList = $('#completedOrders .completedOrderRow');
+        }
+        
+
+        //don't initiate search unless user types at least 3 characters. This will greatly improve performance and usability especially with large tables.
+        if (filter.length >= 3) {
+            $(".fa-chevron-right").attr("aria-expanded", "false");
+            $(".fa-chevron-right").removeClass('down');
+            $('.collapse').removeClass('show');
+            var findOrder = false;
+            for (i = 0; i < trList.length; i++) {
+                var match = false;
+                var tdList = trList[i].getElementsByTagName("td");
+                //loop through every td
+                for (j = 0; j < tdList.length; j++) {
+                    var td = tdList[j];
+                    if (td) {
+                        if (td.innerText.toUpperCase().indexOf(filter) > -1) {
+                            match = true;
+                            findOrder = true;
+                        }
+                    }
+                }
+                if (match == true) {
+                    trList[i].style.display = "";
+                }
+                else {
+                    trList[i].style.display = "none";
+                }
+
+            }
+            if (currentTable == "processingOrders") {
+                for (i = 0; i < secondtrList.length; i++) {
+                    var match = false;
+                    var tdList = secondtrList[i].getElementsByTagName("td");
+                    //loop through every td
+                    for (j = 0; j < tdList.length; j++) {
+                        var td = tdList[j];
+                        if (td) {
+                            if (td.innerText.toUpperCase().indexOf(filter) > -1) {
+                                match = true;
+                                findOrder = true;
+                            }
+                        }
+                    }
+                    if (match == true) {
+                        secondtrList[i].style.display = "";
+                    }
+                    else {
+                        secondtrList[i].style.display = "none";
+                    }
+
+                }
+                for (i = 0; i < thirdtrList.length; i++) {
+                    var match = false;
+                    var tdList = thirdtrList[i].getElementsByTagName("td");
+                    //loop through every td
+                    for (j = 0; j < tdList.length; j++) {
+                        var td = tdList[j];
+                        if (td) {
+                            if (td.innerText.toUpperCase().indexOf(filter) > -1) {
+                                match = true;
+                                findOrder = true;
+                            }
+                        }
+                    }
+                    if (match == true) {
+                        thirdtrList[i].style.display = "";
+                    }
+                    else {
+                        thirdtrList[i].style.display = "none";
+                    }
+
+                }
+            }
+            if (!findOrder) {
+                $('.noOrderFoundRow').css("display", "");
+            }
+        }
+        else {
+            for (i = 0; i < trList.length; i++) {
+                trList[i].style.display = "";
+            }
+            for (i = 0; i < secondtrList.length; i++) {
+                secondtrList[i].style.display = "";
+            }
+            for (i = 0; i < thirdtrList.length; i++) {
+                thirdtrList[i].style.display = "";
+            }
+            $('.noOrderFoundRow').css("display", "none");
+        }
+    }
+
+    $(document).ready(function () {
+        $('#menuHardcopy').addClass("active");
+        // Fetch the initial table
+        //loadTable();
+
+        //updating printer info
+        updatePrinterInfo();
+        updatePrintingStatus();
+        setInterval(checkOrder, 5000);
+        setInterval(loadPrinterInfo, 5000);
+    });
+    
+    
+    $('#autoPrintingChk').change(function () {
+        if ($("#autoPrintingChk").is(':checked')) {
+            autoPrintingOn = true;
+            startAutoPrintingFunc();
+        }
+        else {
+            autoPrintingOn = false;
+            alert("You have off the auto-printing mode!");
+        }
+    });
+    
+    $('#borderless').change(function () {
+        if ($("#borderless").is(':checked')) {
+            console.log("Is Borderless");
+            borderlessOn = true;
+        }
+        else {
+            console.log("Is Not Borderless");
+            borderlessOn = false;
+        }
+    });
+
+    function startAutoPrintingFunc() {
+        $.ajax({
+            type: "GET",
+            url: "/api/hardcopys/waitingPhotos",
+            dataType: "json",
+            success: function (data) {
+                if (data != null && data.length != 0) {
+                    var photos = data;
+                    autoPrintingStatus = true;
+                    console.log("There is something to print");
+                    //jsWebClientPrint.print(`photoId=${photos[0].photo_id}`);
+                    sendPrintingJobs(`${photos[0].photo_id}`);
+                    setTimeout(startAutoPrintingFunc, 5000);
+                }
+                else {
+                    console.log("nothing to print now");
+                    autoPrintingStatus = false;
+                }
+            }
+        });
+    }
+
+    function sendPrintingJobs(photoId) {
+
+        webformdata = { "photoId": photoId, "borderless": borderlessOn };
+        console.log(webformdata);
+        url = `/api/hardcopys/autoPrinting`;
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            contentType: 'application/json',
+            data: JSON.stringify(webformdata)
+        })
+            .done(function (data, textStatus, jqXHR) {
+                console.log(data);
+            });
+    
+    }
+
+    function loadPausePrinter(printerId) {
+        $('#reasonsInput').val("");
+        $('#PausedModal').val(printerId);
+    }
+
+    function pausePrinter() {
+        var printerId = $('#PausedModal').val();
+        var reasonToPause = $('#reasonsInput').val();
+
+        $('#dismissPausePrinterModal').attr("disabled", "true");
+        $('#pausePrinterConfirmation').attr("disabled", "true");
+
+        if (reasonToPause != "" && reasonToPause != null) {
+            var webformdata = { "id": printerId, "reason": reasonToPause };
+            $.ajax({
+                type: 'POST',
+                url: `/api/hardcopys/pausePrinter`,
+                contentType: 'application/json',
+                data: JSON.stringify(webformdata)
+            }).done(function (data, textStatus, jqXHR) {
+                loadPrinterInfo();
+                $('#dismissPausePrinterModal').removeAttr("disabled");
+                $('#pausePrinterConfirmation').removeAttr("disabled");
+                $('#dismissPausePrinterModal').click();
+            }).fail(function (data, textStatus, jqXHR) {
+                new noty({
+                    text: data.responseJSON.message,
+                    theme: 'bootstrapTheme',
+                    layout: 'center',
+                    timeout: 3000,
+                    type: 'error'
+                }).show();
+            });
+        }
+        else {
+            new noty({
+                text: "Please provide valid reason!",
+                theme: 'bootstrapTheme',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error',
+                callback: {
+                    onCloseClick: function () {
+                        $('#dismissPausePrinterModal').removeAttr("disabled");
+                        $('#pausePrinterConfirmation').removeAttr("disabled");
+                    }
+                }
+            }).show();
+        }
+    }
+
+    function resumePrinter(printerId) {
+            var webformdata = { "id": printerId };
+            $.ajax({
+                type: 'POST',
+                url: `/api/hardcopys/resumePrinter`,
+                contentType: 'application/json',
+                data: JSON.stringify(webformdata)
+            }).done(function (data, textStatus, jqXHR) {
+                loadPrinterInfo();
+            }).fail(function (data, textStatus, jqXHR) {
+                new noty({
+                    text: data.responseJSON.message,
+                    theme: 'bootstrapTheme',
+                    layout: 'center',
+                    timeout: 3000,
+                    type: 'error'
+                }).show();
+            });
+        }
+
+    function loadPrinterInfo() {
+        var i;
+        printerAvailable = false;
+        $.ajax({
+            type: "GET",
+            url: "/api/hardcopys/printerInfo",
+            dataType: "json",
+            success: function (clientPrinters) {
+                for (i = 0; i < clientPrinters.length; i++) {
+                    //printer is available
+                    if (clientPrinters[i].status && !clientPrinters[i].manuallyOff) {
+
+                        $('#startAutoPrintingP').css("display", "flex");
+                        $('#availableLoading').css("display", "none");
+                        
+                        printerAvailable = true;
+                        $("#autoPrintingChk").removeAttr("disabled");
+
+                        //check whether this printer is in the available list 
+                        var inAvailable = false;
+                        var x;
+                        for (x = 0; x < availablePs.length; x++) {
+                            if (availablePs[x] == clientPrinters[i].printerName) {
+                                inAvailable = true;
+                            }
+                        }
+                        if (!inAvailable) {
+                            availablePs.push(clientPrinters[i].printerName);
+                            //create block
+                            var $printerdiv = $(`<div class="row printer" id="printerOn${clientPrinters[i].printerId}"><div class="column icon" style="color:green"><i class="fas fa-print" style="padding-right: 6px;"></i></div>
+                        <div class="column middle"><p class="MP">${clientPrinters[i].printerName}</p> <p class="subInfo">Port: ${clientPrinters[i].port}</p></div>
+                        <div class="column side"><button type="button" class="btn btn-outline-secondary" data-target="#PausedModal" data-toggle="modal" onclick="loadPausePrinter('${clientPrinters[i].printerId}')">Pause</button></div></div>`);
+                            $(`#availablePrinters`).append($printerdiv);
+                        }
+
+                        //check whether this printer is in unavailable list 
+                        var n;
+                        for (n = 0; n < unavailablePs.length; n++) {
+                            if (unavailablePs[n] == clientPrinters[i].printerName) {
+                                unavailablePs.splice(n, 1);
+                                $(`#printerOff${clientPrinters[i].printerId}`).remove();
+                            }
+                        }
+                    }
+
+                    else {
+                        $('#unavailableLoading').css("display", "none");
+
+                        //check whether this printer is in the unavailable list 
+                        var inUnavailable = false;
+                        var x;
+                        for (x = 0; x < unavailablePs.length; x++) {
+                            if (unavailablePs[x] == clientPrinters[i].printerName) {
+                                inUnavailable = true;
+                            }
+                        }
+                        if (!inUnavailable) {
+                            unavailablePs.push(clientPrinters[i].printerName);
+                            //create block
+
+                            if (clientPrinters[i].manuallyOff || clientPrinters[i].error != null) {
+                                var $printerdiv = $(`<div class="row printer" id="printerOff${clientPrinters[i].printerId}"><div class="column icon" style="color:red"><i class="fas fa-print" style="padding-right: 6px;"></i></div>
+                        <div class="column middle"><p class="MP">${clientPrinters[i].printerName}</p> <p class="subInfo" id="errorInfo${clientPrinters[i].printerId}">${clientPrinters[i].error}</p></div>
+                        <div class="column side"><button type="button" class="btn btn-primary" id="resumeBtn${clientPrinters[i].printerId}" onclick="resumePrinter('${clientPrinters[i].printerId}')">Resume</button></div></div>`);
+                            }
+
+                            else {
+                                var $printerdiv = $(`<div class="row printer" id="printerOff${clientPrinters[i].printerId}"><div class="column icon" style="color:red"><i class="fas fa-print" style="padding-right: 6px;"></i></div>
+                        <div class="column middle"><p class="MP">${clientPrinters[i].printerName}</p> <p class="subInfo" id="errorInfo${clientPrinters[i].printerId}">Not Connected</p></div>
+                        <div class="column side"><button type="button" class="btn btn-primary" id="resumeBtn${clientPrinters[i].printerId}" style="display: none" onclick="resumePrinter('${clientPrinters[i].printerId}')">Resume</button></div></div>`);
+                            }
+
+                            $(`#unavailablePrinters`).append($printerdiv);
+                        }
+                        else {
+                            if (clientPrinters[i].error == null) {
+                                $(`#errorInfo${clientPrinters[i].printerId}`).text(`Not Connected`);
+                                $(`#resumeBtn${clientPrinters[i].printerId}`).css("display", "none");
+                            }
+                            else {
+                                $(`#errorInfo${clientPrinters[i].printerId}`).text(`${clientPrinters[i].error}`);
+                                $(`#resumeBtn${clientPrinters[i].printerId}`).css("display", "block");
+                            }
+                        }
+
+                        //check whether this printer is in available list 
+                        var n;
+                        for (n = 0; n < availablePs.length; n++) {
+                            if (availablePs[n] == clientPrinters[i].printerName) {
+                                availablePs.splice(n, 1);
+                                $(`#printerOn${clientPrinters[i].printerId}`).remove();
+                            }
+                        }
+
+                    }
+                }
+
+                
+                if (availablePs.length == 0) {
+                    $("#autoPrintingChk").attr("disabled", true);
+                    $('#availableLoading').css("display", "none");
+                    $('#startAutoPrintingP').css("display", "none");
+
+                    if ($(`#allNotAvailable`)[0]) {
+                        $(`#allNotAvailable`).css("display", "block");
+                    }
+                    else {
+                        $(`#availablePrinters`).append($(`<div class="row printer" id="allNotAvailable">All Printers are not available</div>`));
+                    }
+                    if (autoPrintingOn) {
+                        autoPrintingOn = false;
+                        $("#startAutoPrintingP").css("display", "none");
+                        alert("No printer is available. The auto printing system has been terminated!");
+                    }
+                }
+                else {
+                    $(`#allNotAvailable`).remove();
+                }
+
+                if (unavailablePs.length == 0) {
+                    $('#unavailableLoading').css("display", "none");
+
+                    if ($(`#allAvailable`)[0]) {
+                        $(`#allAvailable`).css("display", "block");
+                    }
+                    else {
+                        $(`#unavailablePrinters`).append($(`<div class="row printer" id="allAvailable">All Printers are available</div>`));
+                    }
+                }
+                else {
+                    $(`#allAvailable`).remove();
+                }
+
+            }
+        });
+    }
+
+    function updatePrinterInfo() {
+        $.ajax({
+            url: `/api/hardcopys/updatePrinterInfo`,
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            success: function (d) {
+                //console.log("Now starts getting printer info!");
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+    }
+
+    function updatePrintingStatus() {
+        $.ajax({
+            url: `/api/hardcopys/updatePrintingStatus`,
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            success: function (d) {
+                //console.log("Now start updating Printing Status!");
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+    }
+    
+
+</script>

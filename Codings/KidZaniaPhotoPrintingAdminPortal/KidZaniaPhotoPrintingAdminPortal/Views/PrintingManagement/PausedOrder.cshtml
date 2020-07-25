@@ -1,0 +1,422 @@
+﻿@{
+    /**/
+
+    Layout = "~/Views/Shared/Menu.cshtml";
+}
+
+<div id="cancelModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header modal-header-delete">
+                <h5 class="modal-title" id="cancelModalTitle" style="color:white;">Cancel </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body pb-0">
+                <div style="color:#F15E5E">
+                    <i class="fa fa-spinner fa-spin" style="font-size:60px"></i>
+                </div>
+                <div class="row m-3" style="text-align:center" id="cancelOrderBody">
+                </div>
+                <p style="font-size:1.2rem; margin-bottom: 0">Are you sure to cancel <br><b id="lineitemTxt"></b> in <b id="orderCodeTxt"></b> ?</p>
+                <input type="hidden" id="cancelLineItemId" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal" id="cancelOrderNoBtn">No</button>
+                <button onclick="cancel()" type="button" class="btn btn-danger" id="cancelOrderYesBtn">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="deletePhotoModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header modal-header-delete">
+                <h5 class="modal-title" id="deletePhotoTitle" style="color:white;">Delete Photo </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body pb-0 pt-1">
+                <div class="m-3" style="text-align:center" id="deletePhotoBody">
+                </div>
+                <p style="font-size:1.2rem; margin-bottom: 0">Are you sure to delete this photo for <br><b id="deletePhotoLineItem"></b> in <b id="deletePhotoOrder"></b> ?</p>
+                <input type="hidden" id="deletePhotoId" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal" id="deletePhotoNoBtn">No</button>
+                <button onclick="deletePhoto()" type="button" class="btn btn-danger" id="deletePhotoYesBtn">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid dashboard-content ">
+    <!-- ============================================================== -->
+    <!-- pageheader  -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="page-header">
+                <h2 class="pageheader-title">Paused Orders</h2>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- end pageheader  -->
+    <!-- ============================================================== -->
+
+
+    <div class="row">
+        <!-- ====================================== -->
+        <!-- justified tabs  -->
+        <!-- ============================================================== -->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
+            <div class="section-block">
+
+
+            </div>
+            <div class="tab-regular">
+                <ul class="nav nav-tabs" id="myTab7" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" style="background-color: #FF0000; color:white; border-color: #FF0000" id="home-tab-justify" data-toggle="tab" href="#home-justify" role="tab" aria-controls="home" aria-selected="true"><i class="fas fa-ban" style="padding-right: 10px;"></i>Paused Orders</a>
+                    </li>
+
+
+                </ul>
+                <div class="tab-content border-3 border-bottom-BO border-bottom-primary" id="myTabContent7">
+                    <div class="tab-pane fade show active" id="home-justify" role="tabpanel" aria-labelledby="home-tab-justify">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Order Code</th>
+                                    <th>Paused Item</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="pausedOrderTable"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end justified tabs  -->
+        <!-- ============================================================== -->
+    </div>
+</div>
+<style>
+    .fa-edit:hover{
+        cursor:pointer;
+    }
+    .fa-trash:hover {
+        cursor: pointer;
+    }
+</style>
+<script src="~/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/noty/jquery.noty.js"></script>
+<script src="~/Scripts/noty/layouts/center.js"></script>
+<script src="~/Scripts/noty/themes/bootstrap.js"></script>
+<script src="~/Scripts/noty/themes/default.js"></script>
+<script src="~/Scripts/noty/themes/relax.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#menuPaused').addClass("active");
+        // Fetch the initial table
+        loadTable();
+
+        setInterval(loadTable, 90000);
+    });
+
+    function rotate(el) {
+        $(el).toggleClass("down");
+    }
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#uploadhover').attr('src', e.target.result);
+                var imgNameStr = input.files[0].name;
+                var imgNames = imgNameStr.split(".");
+                var imgName = imgNames[0];
+                console.log(imgName);
+                $(input).parent().siblings("img").attr('src', e.target.result);
+                var photoId = $(input).parent().siblings("img").attr('id');
+                var webformdata = { "imgName": imgNameStr, "photoId": photoId };
+                console.log(webformdata);
+                var formData = new FormData();
+                var file = input.files[0];
+                formData.append('file', file);
+                $.ajax({
+                    url: `/api/paused/UploadPhoto/${imgName}`,
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (d) {
+                        console.log(d);
+                        $.ajax({
+                            type: 'PUT',
+                            url: `/api/paused/updateImgPath`,
+                            contentType: 'application/json',
+                            data: JSON.stringify(webformdata)
+                        }).done(function (data, textStatus, jqXHR) {
+                            console.log("The photo path is canceled!");
+                            new noty({
+                                text: data.message,
+                                layout: 'center',
+                                theme: 'bootstrapTheme',
+                                type: 'success',
+                                timeout: 3000,
+                                callback: {
+                                    onClose: function () {
+                                        location.reload();
+                                    }
+                                }
+                            }).show();
+                        }).fail(function (data, textStatus, jqXHR) {
+                            new noty({
+                                text: data.responseJSON.message,
+                                theme: 'bootstrapTheme',
+                                layout: 'center',
+                                timeout: 3000,
+                                type: 'error'
+                            }).show();
+                        });
+                    },
+                    error: function (d) {
+                        alert('Upload file went wrong');
+                        console.log(d);
+                    }
+                });
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    //Loading cancel modal
+    function loadCancel(lineitemId, orderNo, lineitemName, photos) {
+        $(`#cancelLineItemId`).val(`${lineitemId}`);
+        $('#cancelModalTitle').text(`Cancel ${lineitemName}`);
+        $('#lineitemTxt').text(`${lineitemName}`);
+        $('#orderCodeTxt').text(`${orderNo}`);
+        var photoPaths = photos.split(",");
+        var i;
+        $('#cancelOrderBody').html("");
+        for (i = 0; i < photoPaths.length; i++) {
+            var photoElement = $(`<div class="col-md-3"><img src="${photoPaths[i]}" alt="user" class="rounded" width="100%"></div>`);
+            $('#cancelOrderBody').append(photoElement);
+        }
+    }
+
+    //Loading delete photo modal
+    function loadDeletePhoto(photoId, photoPath, lineItemName, orderNo) {
+        $(`#deletePhotoId`).val(`${photoId}`);
+        $('#deletePhotoBody').html("");
+        var photoElement = $(`<img src="${photoPath}" style="width: 200px">`);
+        $('#deletePhotoBody').append(photoElement);
+        $('#deletePhotoLineItem').text(lineItemName);
+        $('#deletePhotoOrder').text(orderNo);
+    }
+
+    function cancel() {
+        $(`#cancelOrderNoBtn`).prop('disabled', true);
+        $(`#cancelOrderYesBtn`).prop('disabled', true);
+        var lineItem_id = $(`#cancelLineItemId`).val();
+        webformdata = { "status": "Cancelled" };
+        $.ajax({
+            type: 'PUT',
+            url: `/api/paused/${lineItem_id}`,
+            contentType: 'application/json',
+            data: JSON.stringify(webformdata)
+        }).done(function (data, textStatus, jqXHR) {
+            console.log("The line item is canceled!");
+            new noty({
+                text: data.message,
+                layout: 'center',
+                theme: 'bootstrapTheme',
+                type: 'success',
+                timeout: 3000,
+                callback: {
+                    onClose: function () {
+                        location.reload();
+                    }
+                }
+            }).show();
+        }).fail(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.responseJSON.message,
+                theme: 'bootstrapTheme',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error'
+            }).show();
+        });
+    }
+
+    function deletePhoto() {
+        $(`#deletePhotoNoBtn`).prop('disabled', true);
+        $(`#deletePhotoYesBtn`).prop('disabled', true);
+        var photoItem_Id = $(`#deletePhotoId`).val();
+        webformdata = { "photoId": photoItem_Id };
+        $.ajax({
+            type: 'DELETE',
+            url: `/api/paused/deletePhoto`,
+            contentType: 'application/json',
+            data: JSON.stringify(webformdata)
+        }).done(function (data, textStatus, jqXHR) {
+            console.log("The item photo is deleted!");
+            new noty({
+                text: data.message,
+                layout: 'center',
+                theme: 'bootstrapTheme',
+                type: 'success',
+                timeout: 3000,
+                callback: {
+                    onClose: function () {
+                        location.reload();
+                    }
+                }
+            }).show();
+        }).fail(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.responseJSON.message,
+                theme: 'bootstrapTheme',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error'
+            }).show();
+        });
+    }
+
+    function resume(el, lineItem_id) {
+        $(el).prop('disabled', true);
+        $(`#cancelButton${lineItem_id}`).prop('disabled', true);
+        webformdata = { "status": "Waiting" };
+        $.ajax({
+            type: 'PUT',
+            url: `/api/paused/${lineItem_id}`,
+            contentType: 'application/json',
+            data: JSON.stringify(webformdata)
+        }).done(function (data, textStatus, jqXHR) {
+            console.log("Collected updated!");
+            new noty({
+                text: data.message,
+                layout: 'center',
+                theme: 'bootstrapTheme',
+                type: 'success',
+                timeout: 3000,
+                callback: {
+                    onClose: function () {
+                        location.reload();
+                    }
+                }
+            }).show();
+        }).fail(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.responseJSON.message,
+                theme: 'bootstrapTheme',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error'
+            }).show();
+        });
+    }
+
+    function loadTable() {
+        $(`#pausedOrderTable`).html("");
+
+        $.ajax({
+            type: "GET",
+            url: "/api/paused",
+            dataType: "json",
+            success: function (data) {
+                var i;
+                var lineItem_id;
+                var $orderRow = null;
+                var $photoRow = null;
+                var photos = [];
+                if (data.length == 0) {
+                    $(`#pausedOrderTable`).append($(`<tr class="noOrderFoundRow"><td colspan="4">No Paused / Canceled Order found!</td></tr>`));
+                }
+                console.log(data);
+                for (i = 0; i < data.length; i++) {
+                    if (data[i].lineitem_status == "Paused") {
+                        if (data[i].lineItem_id != lineItem_id) {
+                            photos = [];
+                            var x;
+                            for (x = 0; x < data.length; x++) {
+                                if (data[i].lineItem_id == data[x].lineItem_id) {
+                                    photos.push(data[x].photo_path);
+                                }
+                            }
+                            console.log(photos);
+
+                            lineItem_id = data[i].lineItem_id;
+
+                            $orderRow = $(`<tr>
+                                        <td><i data-toggle="collapse" data-target=".paused${data[i].lineItem_id}" class="fa fa-chevron-right rotate" onclick="rotate(this)"></i></td>
+                                        <td>${data[i].order_id}</td>
+                                        <td>${data[i].lineItem_name}</td>
+                                        <td>
+                                            <label class="custom-control custom-button">
+                                                <button data-target="#cancelModal" data-toggle="modal" type="button" id="cancelButton${data[i].lineItem_id}" onclick="loadCancel('${data[i].lineItem_id}', '${data[i].order_id}', '${data[i].lineItem_name}', '${photos}')" class="btn btn-outline-grey">Cancel</button>
+                                                <button type="button" id="resumeButton${data[i].lineItem_id}" class="btn btn-primary" onclick="resume(this, '${data[i].lineItem_id}')"> Resume</button>
+                                            </label>
+                                        </td>
+                                    </tr>`);
+                            $(`#pausedOrderTable`).append($orderRow);
+
+
+                            $photoRow = $(`<tr class="paused${data[i].lineItem_id} collapse"><td></td><td colspan="2"><div class="row" id="img${data[i].lineItem_id}">
+                                <div class="col-md-3"><img src="${data[i].photo_path}" alt="user" class="rounded" width="55" id="${data[i].photo_id}"><p style="margin-top: 5px;"><i class="fa fa-edit" onclick="$('#fileid').click();" style="width:26px"></i><input id='fileid' onchange="readURL(this);" type='file' hidden /> 
+                                <i class="fa fa-trash" style="width:25px" onclick="loadDeletePhoto('${data[i].photo_id}', '${data[i].photo_path}', '${data[i].lineItem_name}', '${data[i].order_id}')" data-target="#deletePhotoModal" data-toggle="modal"></i></p></div>
+                            </div></td><td></td></tr>`);
+                            $(`#pausedOrderTable`).append($photoRow);
+                        }
+
+                        else {
+                            $(`#img${data[i].lineItem_id}`).append(`<div class="col-md-3"><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"><p style="margin-top: 5px; "> <i class="fa fa-edit" onclick="editPhoto('${data[i].photo_id}')" style="width:26px"></i> <i class="fa fa-trash" style="width:25px" onclick="loadDeletePhoto('${data[i].photo_id}', '${data[i].photo_path}', '${data[i].lineItem_name}', '${data[i].order_id}')" data-target="#deletePhotoModal" data-toggle="modal"></i></p></div>`);
+                        }
+                    }
+                }
+                for (i = 0; i < data.length; i++) {
+                    if (data[i].lineitem_status == "Cancelled") {
+                        if (data[i].lineItem_id != lineItem_id) {
+                            lineItem_id = data[i].lineItem_id;
+
+                            $orderRow = $(`<tr>
+                                        <td><i data-toggle="collapse" data-target=".paused${data[i].lineItem_id}" class="fa fa-chevron-right rotate" onclick="rotate(this)"></i></td>
+                                        <td>${data[i].order_id}</td>
+                                        <td>${data[i].lineItem_name}</td>
+                                        <td>Canceled
+                                        </td>
+                                    </tr>`);
+                            $(`#pausedOrderTable`).append($orderRow);
+
+
+                            $photoRow = $(`<tr class="paused${data[i].lineItem_id} collapse"><td></td><td colspan="2"><div class="row" id="img${data[i].lineItem_id}">
+                                <div class="col-md-3"><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></div>
+                            </div></td><td></td></tr>`);
+                            $(`#pausedOrderTable`).append($photoRow);
+                        }
+
+                        else {
+                            $(`#img${data[i].lineItem_id}`).append(`<div class="col-md-3"><img src="${data[i].photo_path}" alt="user" class="rounded" width="55"></div>`);
+                        }
+                    }
+                }
+            },
+            error: function (data) {
+                $(`#pausedOrderTable`).append($(`<tr class="noOrderFoundRow"><td colspan="4">Connection/Backend Problem!</td></tr>`));
+            }
+        });
+    }
+
+</script>

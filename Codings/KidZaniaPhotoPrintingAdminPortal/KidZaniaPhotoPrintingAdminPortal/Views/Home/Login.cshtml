@@ -81,15 +81,20 @@
                     // this page yet. So please add it to the
                     // EmployeeService project before running it
                     success: function (response) {
-                        console.log("step1");
                         sessionStorage.setItem("accessToken", response.access_token);
                         $.ajax({
                             url: `/api/account/login?inUserName=${username}&inPassword=${password}`,
                             method: 'POST',
                             content:'json',
                             success: function (data) {
-                                console.log("step1");
-
+                                sessionStorage.setItem('staff', data);
+                                if (data.role == "Admin" || data.role == "Marketing") {
+                                    window.location.replace("/ItemManagement/Index");
+                                } else if (data.role == "Hardcopy") {
+                                    window.location.replace("/PrintingManagement/Hardcopy");
+                                } else if (data.role == "Others") {
+                                    window.location.replace("/PrintingManagement/Others");
+                                }
                             },
                             error: function (jqXHR) {
                                 $('#divErrorText').text(jqXHR.responseText);

@@ -73,12 +73,12 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
 
         [AllowAnonymous]
         [Route("Login")]
-        public async Task<bool> AuthenticateAsync(string inUserName, string inPassword)
+        public async Task<IHttpActionResult> AuthenticateAsync(string inUserName, string inPassword)
         {
             try
             {
                 if (string.IsNullOrEmpty(inUserName) || string.IsNullOrEmpty(inPassword))
-                    return false;
+                    return BadRequest();
                 //Check whether there is a matching user name information first.
                 //Then, the subsequent code will verify the password by calling
                 //the VefiryPasswordHash method
@@ -86,20 +86,25 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
 
                 // check if username exists
                 if (user == null)
-                    return false;
+                    return BadRequest();
 
                 // check if password is correct
                 if (!VerifyPasswordHash(inPassword, user.passwordhash, user.passwordsalt))
-                    return false;
+                    return BadRequest();
 
                 /********************************************************************/
-
+                var newuser = new
+                {
+                    staff_id = user.staff_id,
+                    name = user.name,
+                    role = user.role.role1,
+                };
                 // authentication successful
-                return true;
+                return Ok(newuser);
             }
             catch (Exception e)
             {
-                return false;
+                return BadRequest(e.ToString());
             }
         }
 
@@ -378,19 +383,19 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
                 string rolename = "";
                 if(model.RoleId == 1)
                 {
-                    rolename = "admin";
+                    rolename = "Admin";
                 }
                 else if(model.RoleId == 2)
                 {
-                    rolename = "printing";
+                    rolename = "Printing";
                 }
                 else if(model.RoleId == 3)
                 {
-                    rolename = "marketing";
+                    rolename = "Marketing";
                 }
                 else
                 {
-                    rolename = "pending";
+                    rolename = "Pending";
                 }
                 var result1 = UserManager.AddToRole(user.Id, rolename);
             }

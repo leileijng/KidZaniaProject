@@ -8,13 +8,6 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
-        {
-            ViewBag.Title = "Home Page";
-
-            return View();
-        }
-
         public ActionResult Login()
         {
             ViewBag.Title = "Login Page";
@@ -22,26 +15,13 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
             ViewBag.Title = "Register Page";
 
             return View();
         }
-
-        public ActionResult Data()
-        {
-            ViewBag.Title = "Data Page";
-
-            return View();
-        }
-
-        [Authorize(Roles="admin")]
-        public ActionResult TestAuth()
-        {
-            ViewBag.Title = "Test Page";
-
-            return View();
-        }
+        
     }
 }

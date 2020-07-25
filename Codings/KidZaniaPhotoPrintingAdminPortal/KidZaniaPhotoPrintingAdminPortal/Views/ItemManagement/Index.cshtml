@@ -1,0 +1,1064 @@
+﻿@{
+    Layout = "~/Views/Shared/Menu.cshtml";
+}
+<link href="~/assets/libs/css/animate.min.css" rel="stylesheet" />
+<div class="container-fluid dashboard-content ">
+    <!-- ============================================================== -->
+    <!-- pageheader  -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="page-header">
+                <h2 class="pageheader-title">Manage Items </h2>
+                <p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- end pageheader  -->
+    <!-- ============================================================== -->
+    <!-- Delete Modal -->
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header modal-header-delete">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Delete Item</h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="icon-box">
+                    <i class="m-r-10 mdi mdi-close"></i>
+                </div>
+                <h4 class="modal-title">Are you sure?</h4>
+                <div class="modal-body">
+                    <p id="deleteRec"></p>
+                    <input type="hidden" id="deleteId" />
+                    <input type="hidden" id="deletePhoto" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <button onclick="deleteSouvenir()" type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="test" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header modal-header-delete">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Cancel Order</h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="icon-box">
+                    <i class="m-r-10 mdi mdi-close"></i>
+                </div>
+                <h4 class="modal-title">Are you sure?</h4>
+                <div class="modal-body">
+                    <p>Do you really want to cancel this order?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-danger">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add New Item</h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="addModalForm">
+                        <div style="display: flex;">
+                            <div style="-ms-flex:1; flex:1;">
+                                <img onclick="$('#fileid').click();" id="uploadhover" src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-top: -14px;">
+                                <input id='fileid' onchange="readURL(this);" type='file' hidden />
+                                <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
+                                    <p>Visibility<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input id="addVis" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-6" style="float: right; margin-right: 9px;">
+                                    <p style="margin-right: -26px;">Photo Product<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input id="addPhotoProduct" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div style="-ms-flex:1; flex:1;">
+                                <div class="form-group col-md-12">
+                                    <label for="addItemId" class="font-small font-weight-medium">
+                                        Item Id <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="addItemId" name="addItemId" class="form-control" placeholder="Please key in item id" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="addNameInput" class="font-small font-weight-medium">
+                                        Item Name <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="addNameInput" name="addNameInput" class="form-control" placeholder="Please key in item name" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="addPriceInput" class="font-small font-weight-medium">
+                                        Original Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="addPriceInput" name="addPriceInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="addPWPInput" class="font-small font-weight-medium">
+                                        PWP Price (incl.GST) <span class="compulsoryInput d-inline"> </span>
+                                    </label>
+                                    <input type="text" id="addPWPInput" name="addPWPInput" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="addQCInput" class="font-small font-weight-medium">
+                                        Quantity Constraints <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <select class="custom-select d-block w-100" id="addQCInput" name="addQCInput" required>
+                                        <option>--None--</option>
+                                        <option>Even Numbered Units</option>
+                                        <option>Max 1 Unit</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12" style="margin-top: -10px;">
+                            <label for="addCommentsInput" class="font-small font-weight-medium">
+                                Description
+                            </label>
+                            <textarea type="text" id="addCommentsInput" name="addCommentsInput" class="form-control" placeholder="Enter Description"></textarea>
+                            <span></span>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-grey">Clear</button>
+                            <button type="button" onclick="addProduct();" class="btn btn-primary" id="addSubmitBtn">Add Item</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header modal-header-edit">
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white;">Edit Item</h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="editModalForm">
+                        <div style="display: flex;">
+                            <div style="-ms-flex:1; flex:1;">
+                                <div class="imgContainer">
+                                    <img alt="upload" style="width:200px; margin-top: -14px;" id="editPhoto">
+                                    <div onclick="$('#newphoto').click();" class="editImgbutton"><a href="#"> Change Photo </a></div>
+                                    <input id='newphoto' onchange="editPhoto(this); del = true;" type='file' hidden />
+                                </div>
+                                <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
+                                    <p class="p-0">Visibility<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input id="visibilityInp" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-6" style="float: right; margin-right: 9px;">
+                                    <p class="p-0" style="margin-right: -26px;">Photo Product<span class="compulsoryInput d-inline"> *</span></p>
+                                    <!-- Rounded switch -->
+                                    <label class="switch">
+                                        <input id="photoProdInp" type="checkbox">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div style="-ms-flex:1; flex:1;">
+                                <div class="form-group col-md-12">
+                                    <label for="ItemNameInp" class="font-small font-weight-medium">
+                                        Item Name <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="ItemNameInp" name="ItemNameInp" class="form-control" placeholder="Please key in item name" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="priceNameInp" class="font-small font-weight-medium">
+                                        Original Price (incl.GST) <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <input type="text" id="priceNameInp" name="priceNameInp" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="pwpNameInp" class="font-small font-weight-medium">
+                                        PWP Price (incl.GST) <span class="compulsoryInput d-inline"> </span>
+                                    </label>
+                                    <input type="text" id="pwpNameInp" name="pwpNameInp" class="form-control" placeholder="$ e.g. 25.00" />
+                                    <span></span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="QCInput" class="font-small font-weight-medium">
+                                        Quantity Constraints <span class="compulsoryInput d-inline"> *</span>
+                                    </label>
+                                    <select class="custom-select d-block w-100" id="inp-select">
+                                        <option>--None--</option>
+                                        <option>Even Numbered Units</option>
+                                        <option>Max 1 Unit</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12" style="margin-top: -10px;">
+                            <label for="commentsInp" class="font-small font-weight-medium">
+                                Description
+                            </label>
+                            <textarea type="text" id="commentsInp" name="commentsInp" class="form-control" placeholder="Enter Description"></textarea>
+                            <span></span>
+                        </div>
+                        <input type="hidden" id="idInp" />
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-grey">Reset</button>
+                            <button type="button" onclick="updateSouvenir()" class="btn btn-primary" id="SubmitBtn">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- ============================================================== -->
+        <!-- basic table  -->
+        <!-- ============================================================== -->
+        <div class="col-lg-12 col-md-6 col-sm-12 col-12">
+            <div class="card">
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div class="row" id="headerRow">
+                            <div class="col-sm-3 col-md-3" style="flex:1;">
+                                <div class="add">
+                                    <button href="#exampleModal" onclick="$('#uploadhover').attr('src', '/assets/images/upload.png')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                        Add New Item
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="gst" style="flex:1;">
+                                <label>GST %:</label>
+                                <input type="text" class="percentage-inputmask" id="gstper">
+                            </div>
+                        </div>
+                        <table id="example" class="table table-striped table-bordered second">
+                            <thead>
+                                <tr>
+                                    <th>Item ID</th>
+                                    <th>Image</th>
+                                    <th>Item Name</th>
+                                    <th>Description</th>
+                                    <th>Original Price/GST</th>
+                                    <th>PWP Price/GST</th>
+                                    <th>Quantity Constraints</th>
+                                    <th>Photo Product</th>
+                                    <th>Visibility</th>
+                                    <th>Actions</th>
+                                    <th>Updated By</th>
+                                    <th>Date Updated</th>
+                                </tr>
+                            </thead>
+                            <tbody class="souvenir"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- end basic table  -->
+        <!-- ============================================================== -->
+    </div>
+</div>
+
+<script src="~/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="~/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+<script src="~/assets/vendor/multi-select/js/jquery.multi-select.js"></script>
+<script src="~/assets/libs/js/main-js.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="~/assets/vendor/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+<script src="~/assets/vendor/datatables/js/buttons.bootstrap4.min.js"></script>
+<script src="~/assets/vendor/datatables/js/data-table.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/rowgroup/1.0.4/js/dataTables.rowGroup.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+<script src="~/assets/libs/js/validate.min.js"></script>
+<script src="~/Scripts/moment.js"></script>
+<script src="~/Scripts/noty/jquery.noty.js"></script>
+<script src="~/Scripts/noty/layouts/center.js"></script>
+<script src="~/Scripts/noty/themes/bootstrap.js"></script>
+<script src="~/Scripts/noty/themes/default.js"></script>
+<script src="~/Scripts/noty/themes/relax.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#menuItem').addClass("active");
+
+
+    });
+</script>
+<style>
+
+    .imgContainer {
+        position: relative;
+    }
+
+    #uploadhover {
+        cursor: pointer;
+    }
+
+    #headerRow {
+        margin-bottom: 20px;
+    }
+
+    .editImgbutton {
+        position: absolute;
+        width: 200px;
+        left: 0;
+        top: 80px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity .35s ease;
+    }
+
+        .editImgbutton a {
+            width: 200px;
+            padding: 12px 48px;
+            text-align: center;
+            color: white;
+            background-color: rgba(71, 143, 225, 0.8);
+            z-index: 4;
+            font-size: 0.85rem;
+        }
+
+    .imgContainer:hover .editImgbutton {
+        opacity: 1;
+    }
+
+    form .error {
+        color: #ff0000;
+    }
+</style>
+<script>
+    //Loading the tables with data from database
+    loadSouvenirs()
+
+    //Array of id which will be used to edit gst
+    var prod_id = [];
+
+    //AJAX Call to retrieve data from backend
+    function loadSouvenirs() {
+        $.ajax({
+            type: "GET",
+            url: "/api/products",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if ((data[0].original_GST * 100) % data[0].original_price == 0) {
+                    $("#gstper").val(data[0].original_GST * 100 / data[0].original_price);
+                } else {
+                    $("#gstper").val((data[0].original_GST * 100 / data[0].original_price).toFixed(2));
+                }
+                loadTable(data);
+            },
+            error: function (data) {
+                console.log(data);
+                let $cellElement = null;
+                let $rowElement = $('<tr></tr>');
+                $cellElement = $(`<td style="text-align:center" colspan="12">Connection/Backend Problem!</td>`);
+                $rowElement.append($cellElement);
+                $('.souvenir').append($rowElement);//inserting a new row
+            }
+        });
+    }
+
+    //Loading Tables with data
+    function loadTable(data) {
+        if ($("table.second").length) {
+            $(document).ready(function () {
+                var table = $('table.second').DataTable({
+                    lengthChange: false,
+                    buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+                });
+                table.buttons().container()
+                    .appendTo('#example_wrapper .col-md-6:eq(0)');
+            });
+        }
+        $('.souvenir').html('');//Clear the <tbody> element first
+        if (data != null || data.length > 0) {
+            for (let x = 0; x < data.length; x++) {
+                let record = data[x];
+                let $rowElement = createRow(record);
+                $('.souvenir').append($rowElement);
+                var effects = 'animate__animated animate__fadeIn animate__slow';
+                var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+                $(`#${record.product_id}`).addClass(effects).one(effectsend, function () {
+                    $(`#${record.product_id}`).removeClass(effects);
+                });
+                if (record.quantity_constraint == "Even Numbered Units") {
+                    $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
+                }
+                else if (record.quantity_constraint == "Max 1 Unit") {
+                    $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
+                }
+                else { }
+            }
+        }
+        else {
+            let $cellElement = null;
+            let $rowElement = $('<tr></tr>');
+
+            $cellElement = $(`<td style="text-align:center" colspan="12">No data available in table</td>`);
+            $rowElement.append($cellElement);
+            $('#dataTableBody').append($rowElement);//inserting a new row
+        }
+    }
+
+    //Creating tr for the souvenir table
+    function createRow(record) {
+        let $cellElement = null;
+        let $hyperlinkElement = null;
+        let $rowElement = $(`<tr id="${record.product_id}"></tr>`);
+        prod_id.push(record.product_id);
+        $cellElement = $(`<td>${record.product_id}</td>`);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td><div><img id="img${record.product_id}" src="${record.image}" alt="user" width="55"></div></td>`);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td id="name${record.product_id}">${record.name}</td>`);
+        $rowElement.append($cellElement);
+        if (record.description != "") {
+            $cellElement = $(`<td id="description${record.product_id}">${record.description}</td>`);
+        }
+        else {
+            $cellElement = $(`<td><span id="description${record.product_id}">-</span></td>`);
+        }
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
+        $rowElement.append($cellElement);
+        if (record.pwp_price != null) {
+            $cellElement = $(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
+        } else {
+            $cellElement = $(`<td><span id="pwpPrice${record.product_id}">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
+        }
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
+                                            <option>--None--</option>
+                                            <option>Even Numbered Units</option>
+                                            <option>Max 1 Unit</option>
+                                        </select></td>`);
+        $rowElement.append($cellElement);
+        if (record.photo_product == true) {
+            $cellElement = $(`<td>
+                                        <i id="photoprod${record.product_id}" class="fas fa-check mr-1"></i>
+                                  </td>`);
+        }
+        else {
+            $cellElement = $(`<td>
+                                        <i id="photoprod${record.product_id}" class="fas fa-times mr-1"></i>
+                                  </td>`);
+        }
+        $rowElement.append($cellElement);
+        if (record.visibility == true) {
+            $cellElement = $(`<td>
+                                        <i id="vis${record.product_id}" class="fas fa-check mr-1"></i>
+                                  </td>`);
+        }
+        else {
+            $cellElement = $(`<td>
+                                        <i id="vis${record.product_id}" class="fas fa-times mr-1"></i>
+                                  </td>`);
+        }
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td></td>`);
+        $hyperlinkElement = $(`<a class="edit" onclick="loadEdit('${record.product_id}')" href="#editModal" data-toggle="modal"><i class="fa fa-edit"></i></a>`);
+        $cellElement.append($hyperlinkElement);
+        $hyperlinkElement = $(`<a href="#myModal" onclick="loadDelete('${record.product_id}')" class="trigger-btn" data-toggle="modal"><i class="fa fa-trash mr-1"></i></a>`);
+        $cellElement.append($hyperlinkElement);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td id="by${record.product_id}">${record.updated_by}</td>`);
+        $rowElement.append($cellElement);
+        $cellElement = $(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
+        $rowElement.append($cellElement);
+        return $rowElement;
+    }
+
+    //Loading edit modal
+    function loadEdit(id) {
+        $.ajax({
+            type: "GET",
+            url: `/api/products/${id}`,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $('#ItemNameInp').val(data.name);
+                $('#priceNameInp').val(data.original_price.toFixed(2));
+                if (data.pwp_price != null) {
+                    $('#pwpNameInp').val(data.pwp_price.toFixed(2));
+                } else {
+                    $('#pwpNameInp').val("");
+                }
+                $('#commentsInp').val(data.description);
+                $('#idInp').val(data.product_id);
+                if (data.quantity_constraint != null) {
+                    $('#inp-select').val(data.quantity_constraint);
+                } else {
+                    $('#inp-select').val("--None--");
+                }
+                if (data.photo_product == true) {
+                    $('#photoProdInp').prop('checked', true);
+                } else {
+                    $('#photoProdInp').prop('checked', false);
+                }
+                if (data.visibility == true) {
+                    $('#visibilityInp').prop('checked', true);
+                } else {
+                    $('#visibilityInp').prop('checked', false);
+                }
+                $('#editPhoto').attr('src', data.image);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    //Update souvenir in the backend and frontend
+    function updateSouvenir() {
+        if ($('#editModalForm').valid()) {
+            let gst = $('#gstper').val();
+            let id = $('#idInp').val();
+            let name = $('#ItemNameInp').val();
+            let oriPrice = $('#priceNameInp').val();
+            let pwpPrice = $('#pwpNameInp').val();
+            let description = $('#commentsInp').val();
+            let qc = $('#inp-select').val();
+            let visibility;
+            if ($('#visibilityInp').is(":checked")) {
+                visibility = true;
+            }
+            else {
+                visibility = false;
+            }
+            let photoprod;
+            if ($('#photoProdInp').is(":checked")) {
+                photoprod = true;
+            }
+            else {
+                photoprod = false;
+            }
+            let webformdata = new editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
+            console.log(JSON.stringify(webformdata));
+            var formData = new FormData();
+            var file = $('#newphoto')[0];
+            formData.append('file', file.files[0]);
+            $.ajax({
+                url: `/api/products/UploadFile/${id}`,
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (d) {
+                    console.log(d);
+                    $.ajax({
+                        type: 'PUT',
+                        url: `/API/products/${id}`,
+                        contentType: 'application/json',
+                        data: JSON.stringify(webformdata)
+                    }).done(function (data, textStatus, jqXHR) {
+                        new noty({
+                            text: data.message,
+                            layout: 'center',
+                            theme: 'bootstrapTheme',
+                            type: 'success',
+                            callback: {
+                                onClose: function () {
+                                    $('#editModal').trigger('click');
+                                    let effects = 'animate__animated animate__pulse';
+                                    let effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+                                    $.ajax({
+                                        type: "GET",
+                                        url: `/api/products/${id}`,
+                                        dataType: "json",
+                                        success: function (record) {
+                                            $(`#img${id}`).attr('src', '');
+                                            $(`#img${id}`).attr('src', record.image);
+
+                                            if (record.quantity_constraint == "Even Numbered Units") {
+                                                $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
+                                            }
+                                            else if (record.quantity_constraint == "Max 1 Unit") {
+                                                $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
+                                            }
+                                            else {
+                                                $(`#input-select${record.product_id}`)[0].selectedIndex = 0;
+                                            }
+                                            $(`#photoprod${record.product_id}`).removeClass();
+                                            if (record.photo_product == true) {
+                                                $(`#photoprod${record.product_id}`).addClass('fas fa-check mr-1');
+                                            } else {
+                                                $(`#photoprod${record.product_id}`).addClass('fas fa-times mr-1');
+                                            }
+                                            $(`#vis${record.product_id}`).removeClass();
+                                            if (record.visibility == true) {
+                                                $(`#vis${record.product_id}`).addClass('fas fa-check mr-1');
+                                            } else {
+                                                $(`#vis${record.product_id}`).addClass('fas fa-times mr-1');
+                                            }
+                                            var table = $('table.second').DataTable();
+                                            $(`#${id}`).addClass(effects).one(effectsend, function () {
+                                                $(`#${id}`).removeClass(effects);
+                                            });
+                                            table.cell(`#${id}`, 2).data(`<td id="name${record.product_id}">${record.name}</td>`);
+                                            if (record.description != '') {
+                                                table.cell(`#${id}`, 3).data(record.description);
+                                            }
+                                            else {
+                                                table.cell(`#${id}`, 3).data("-");
+                                            }
+                                            table.cell(`#${id}`, 4).data(`<td><span id="oriPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.original_price}</span><small id="oriGST${record.product_id}" class="text-mute"> /&#36;${(record.original_GST).toFixed(2)} </small></td>`);
+                                            if (record.pwp_price != null) {
+                                                table.cell(`#${id}`, 5).data(`<td><span id="pwpPrice${record.product_id}" class="text-dark font-weight-bold">&#36;${record.pwp_price}</span><small id="pwpGST${record.product_id}" class="text-mute"> /&#36;${(record.pwp_GST).toFixed(2)} </small></td>`);
+                                            } else {
+                                                table.cell(`#${id}`, 5).data(`<td><span id="pwpPrice${record.product_id}">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
+                                            }
+                                            table.cell(`#${id}`, 10).data(`<td id="by${record.product_id}">${record.updated_by}</td>`);
+                                            table.cell(`#${id}`, 11).data(`<td id="at${record.product_id}">${moment(record.updated_at).format('DD MMMM YYYY')}</td>`);
+                                            table.draw();
+                                        },
+                                        error: function (d) {
+                                            console.log(d);
+                                        }
+                                    });
+
+                                }
+                            }
+                        }).show();
+                    }).fail(function (data, textStatus, jqXHR) {
+                        new noty({
+                            text: data.responseJSON.message,
+                            theme: 'bootstrapTheme',
+                            layout: 'center',
+                            timeout: 3000,
+                            type: 'error'
+                        }).show();
+                    });
+                },
+                error: function (d) {
+                    alert('Upload file went wrong');
+                    console.log(d);
+                }
+            });
+        }
+    }
+
+    //Replace picture in the edit modal
+    function editPhoto(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#editPhoto')
+                    .attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    //Loading delete modal
+    function loadDelete(id) {
+        $.ajax({
+            type: "GET",
+            url: `/api/products/${id}`,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                $("#deleteRec").text(`Do you really want to delete ${data.name} record?`);
+                $("#deleteId").val(id);
+                let img = data.image.toString();
+                let newimg = img.split("/");
+                $("#deletePhoto").val(newimg[newimg.length - 1]);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    //Delete souvenir in the backend and frontend
+    function deleteSouvenir() {
+        var id = $("#deleteId").val();
+        var image = $("#deletePhoto").val();
+        $.ajax({
+            type: "DELETE",
+            url: `/api/products/removefile?image=${image}`,
+        }).done(function (data, textStatus, jqXHR) {
+            $.ajax({
+                type: "DELETE",
+                url: `/api/products/${id}`,
+                dataType: "json",
+            }).done(function (data, textStatus, jqXHR) {
+                new noty({
+                    text: data.message,
+                    layout: 'center',
+                    theme: 'bootstrapTheme',
+                    type: 'success',
+                    callback: {
+                        onClose: function () {
+                            $('#myModal').trigger('click');
+                            $(`#${id}`).removeClass('animate__animated animate__fadeIn animate__slow');
+                            var effects = 'animate__animated animate__fadeOut animate__fast';
+                            var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd'
+                            $(`#${id}`).addClass(effects).one(effectsend, function () {
+                                var table = $('table.second').DataTable();
+                                table.row(`#${id}`).remove().draw();
+                            });
+                        }
+                    }
+                }).show();
+            }).fail(function (data, textStatus, jqXHR) {
+                new noty({
+                    text: data.responseJSON.message,
+                    theme: 'bootstrapTheme',
+                    layout: 'center',
+                    timeout: 3000,
+                    type: 'error'
+                }).show();
+            });
+        }).fail(function (data, textStatus, jqXHR) {
+            alert("failed to delete file!");
+        });
+    }
+
+    //Edit GST Function
+    $("#gstper").change(function () {
+        let gst = $('#gstper').val();
+        for (let x = 0; x < prod_id.length; x++) {
+            let oriprice = $(`#oriPrice${prod_id[x]}`).text().substring(1);
+            let pwpprice = $(`#pwpPrice${prod_id[x]}`).text().substring(1);
+            let origst = (parseInt(oriprice) * parseFloat(gst) / 100);
+            let pwpgst = (parseInt(pwpprice) * parseFloat(gst) / 100);
+            $(`#oriGST${prod_id[x]}`).text(` /$${origst.toFixed(2)}`);
+            if (!isNaN(pwpgst)) {
+                $(`#pwpGST${prod_id[x]}`).text(` /$${pwpgst.toFixed(2)}`);
+            }
+        }
+        $.ajax({
+            type: "PUT",
+            url: `/api/products/editGST?gst=${gst}`,
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
+
+    //Creating Object to pass to the backend for creating souvenir
+    function addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst) {
+        this.name = name;
+        this.image = image;
+        this.original_price = oriPrice;
+        this.pwp_price = pwpPrice;
+        this.description = description;
+        this.quantity_constraint = qc;
+        this.visibility = visibility;
+        this.photo_product = photoprod;
+        this.gst = gst;
+    }
+
+    //Creating Object to pass to the backend for editing souvenir
+    function editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst) {
+        this.name = name;
+        this.original_price = oriPrice;
+        this.pwp_price = pwpPrice;
+        this.description = description;
+        this.quantity_constraint = qc;
+        this.visibility = visibility;
+        this.photo_product = photoprod;
+        this.gst = gst;
+    }
+
+    //Displaying picture in the add modal
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#uploadhover')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    //Add souvenir in the frontend and backend
+    function addProduct() {
+        console.log($('#addModalForm').valid());
+        if ($('#addModalForm').valid()) {
+            let id = $('#addItemId').val();
+            let gst = $('#gstper').val();
+            let image = $('#fileid').val().split("\\").pop();
+            let name = $('#addNameInput').val();
+            let oriPrice = $('#addPriceInput').val();
+            let pwpPrice = $('#addPWPInput').val();
+            let description = $('#addCommentsInput').val();
+            let qc = $('#addQCInput').val();
+            let visibility;
+            if ($('#addVis').is(":checked")) {
+                visibility = true;
+            }
+            else {
+                visibility = false;
+            }
+            let photoprod;
+            if ($('#addPhotoProduct').is(":checked")) {
+                photoprod = true;
+            }
+            else {
+                photoprod = false;
+            }
+            let webformdata = new addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
+            console.log(JSON.stringify(webformdata));
+
+            var formData = new FormData();
+            var file = $('#fileid')[0];
+            formData.append('file', file.files[0]);
+            $.ajax({
+                url: `/api/products/UploadFile/${id}`,
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (d) {
+                    console.log(d);
+                    $.ajax({
+                        type: 'POST',
+                        url: `/API/products/${id}`,
+                        contentType: 'application/json',
+                        data: JSON.stringify(webformdata)
+                    }).done(function (data, textStatus, jqXHR) {
+                        new noty({
+                            text: data.message,
+                            layout: 'center',
+                            theme: 'bootstrapTheme',
+                            type: 'success',
+                            callback: {
+                                onClose: function () {
+                                    $('#exampleModal').trigger('click');
+                                    $.ajax({
+                                        type: "GET",
+                                        url: `/api/products/${id}`,
+                                        dataType: "json",
+                                        success: function (record) {
+                                            console.log(record);
+                                            let $rowElement = createRow(record);
+                                            var table = $('table.second').DataTable();
+                                            table.row.add($rowElement);
+                                            table.draw();
+                                            var effects = 'animate__animated animate__fadeIn animate__slow';
+                                            var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+                                            $(`#${record.product_id}`).addClass(effects).one(effectsend, function () {
+                                                $(`#${record.product_id}`).removeClass(effects);
+                                            });
+                                            //$('.souvenir').prepend($rowElement);
+                                            if (record.quantity_constraint == "Even Numbered Units") {
+                                                $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
+                                            }
+                                            else if (record.quantity_constraint == "Max 1 Unit") {
+                                                $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
+                                            }
+                                            else { }
+
+                                        },
+                                        error: function (record) {
+                                            console.log(record);
+                                        }
+                                    });
+                                }
+                            }
+                        }).show();
+                    }).fail(function (data, textStatus, jqXHR) {
+                        new noty({
+                            text: data.responseJSON.message,
+                            theme: 'bootstrapTheme',
+                            layout: 'center',
+                            timeout: 3000,
+                            type: 'error'
+                        }).show();
+                    });
+                },
+                error: function (d) {
+                    alert('Upload file went wrong');
+                    console.log(d);
+                }
+            });
+        }
+    }
+
+    //JQuery Validation
+    $().ready(function () {
+        jQuery.validator.addMethod("price", function (value, element) {
+            return this.optional(element) || /^\d{0,4}(\.\d{0,2})?$/i.test(value);
+        }, "You must include only two decimal places");
+        jQuery.validator.addMethod("whitespace", function (value, element) {
+            var length = $.trim(value).length;
+            let checker = true;
+            if (length == 0 && value.length != 0) {
+                checker = false;
+            }
+            return checker;
+        }, "Value cannot be whitespace");
+        jQuery.validator.addMethod("alphanumeric", function (value, element) {
+            return this.optional(element) || /^[a-z0-9\-_.,\s]+$/i.test(value);
+        }, "Please enter alphanumerical value (only - _ . and , is allowed)");
+        jQuery.validator.addMethod("exist", function (value, element) {
+            var table = document.getElementById('example');
+            let checker = true;
+            for (var r = 1, n = table.rows.length; r < n; r++) {
+                if (value == table.rows[r].cells[0].innerHTML) {
+                    checker = false;
+                }
+            }
+            return checker;
+        });
+        $("#editModalForm").validate({
+            rules: {
+                ItemNameInp: {
+                    required: true,
+                    whitespace: true,
+                    maxlength: 50,
+                    alphanumeric: true,
+                },
+                priceNameInp: {
+                    required: true,
+                    number: true,
+                    min: 0,
+                    price: true,
+                },
+                pwpNameInp: {
+                    number: true,
+                    min: 0,
+                    price: true,
+                },
+                commentsInp: {
+                    alphanumeric: true,
+                    whitespace: true,
+                    maxlength: 300,
+                },
+            },
+            messages: {
+                ItemNameInp: {
+                    required: "Please enter Item Name",
+                    maxlength: "Please reduce the item id to below 50 characters",
+                },
+                priceNameInp: {
+                    required: "Please enter Original price",
+                    number: "Please enter a valid number",
+                    min: "Please enter value that is greater or equal to 0",
+                },
+                pwpNameInp: {
+                    number: "Please enter a valid number",
+                    min: "Please enter value that is greater or equal to 0",
+                },
+                commentsInp: {
+                    maxlength: "Please reduce description to below 300 characters",
+                },
+            }
+        });
+        $("#addModalForm").validate({
+            rules: {
+                addItemId: {
+                    required: true,
+                    whitespace: true,
+                    maxlength: 50,
+                    alphanumeric: true,
+                    exist: true,
+                },
+                addNameInput: {
+                    required: true,
+                    whitespace: true,
+                    maxlength: 50,
+                    alphanumeric: true,
+                },
+                addPriceInput: {
+                    required: true,
+                    number: true,
+                    min: 0,
+                    price: true,
+                },
+                addPWPInput: {
+                    number: true,
+                    min: 0,
+                    price: true,
+                },
+                addCommentsInput: {
+                    alphanumeric: true,
+                    whitespace: true,
+                    maxlength: 300,
+                }
+            },
+            messages: {
+                addItemId: {
+                    required: "Please enter Item Id",
+                    maxlength: "Please reduce the item id to below 50 characters",
+                    exist: "The Item Id already exists"
+                },
+                addNameInput: {
+                    required: "Please enter Item Name",
+                    maxlength: "Please reduce the item id to below 50 characters",
+                },
+                addPriceInput: {
+                    required: "Please enter Original price",
+                    number: "Please enter a valid number",
+                    min: "Please enter value that is greater or equal to 0",
+                },
+                addPWPInput: {
+                    number: "Please enter a valid number",
+                    min: "Please enter value that is greater or equal to 0",
+                },
+                addCommentsInput: {
+                    maxlength: "Please reduce description to below 300 characters",
+                },
+            },
+        });
+    });
+</script>
