@@ -387,9 +387,13 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
                 }
                 else if(model.RoleId == 2)
                 {
-                    rolename = "Printing";
+                    rolename = "Hardcopy";
                 }
                 else if(model.RoleId == 3)
+                {
+                    rolename = "Others";
+                }
+                else if (model.RoleId == 4)
                 {
                     rolename = "Marketing";
                 }

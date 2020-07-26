@@ -38,7 +38,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     }).Where(y => y.p_id == x.pid && (y.product_id == "ec" || y.product_id == "kc" || y.product_id == "mg")).ToList(),
                     status = x.status
                 }
-                ).Where(x => x.status == "paid" && x.product.Count != 0).ToList();
+                ).Where(x => x.status == "Waiting" || x.status == "Ready" && x.product.Count != 0).ToList();
                 return Ok(order);
             }
             catch (Exception e)
@@ -69,7 +69,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     }).Where(y => y.p_id == x.pid && (y.product_id == "ec" || y.product_id == "kc" || y.product_id == "mg")).ToList(),
                     status = x.status
                 }
-                ).SingleOrDefault(x => x.status == "paid" && x.product.Count != 0 && x.order_id == id);
+                ).SingleOrDefault(x => (x.status == "Waiting" || x.status== "Ready") && x.product.Count != 0 && x.order_id == id);
                 return Ok(order);
             }
             catch (Exception e)

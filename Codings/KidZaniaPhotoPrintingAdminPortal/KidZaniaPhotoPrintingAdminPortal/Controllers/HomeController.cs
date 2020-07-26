@@ -15,7 +15,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
             ViewBag.Title = "Register Page";

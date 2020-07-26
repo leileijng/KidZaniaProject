@@ -85,12 +85,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             try
             {
                 var prod = database.products.Single(x => x.product_id == id);
-                var name = data["name"].ToString();
-                var original_price = Decimal.Parse(data["original_price"].ToString());
-                var description = data["description"].ToString();
                 var quantity_constraint = data["quantity_constraint"].ToString();
-                var visibility = bool.Parse(data["visibility"].ToString());
-                var photo_product = bool.Parse(data["photo_product"].ToString());
                 var gst = Decimal.Parse(data["gst"].ToString());
                 if (data["pwp_price"].ToString() != "")
                 {
@@ -103,11 +98,12 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     prod.pwp_price = null;
                     prod.pwp_GST = null;
                 }
-                prod.name = name;
-                prod.original_price = original_price;
-                prod.description = description;
-                prod.original_GST = original_price * gst / 100;
+                prod.name = data["name"].ToString();
+                prod.original_price = Decimal.Parse(data["original_price"].ToString());
+                prod.description = data["description"].ToString();
+                prod.original_GST = Decimal.Parse(data["original_price"].ToString()) * gst / 100;
                 prod.updated_at = DateTime.Now;
+                prod.updated_by = data["staffid"].ToString();
                 if (quantity_constraint == "--None--")
                 {
                     prod.quantity_constraint = null;
@@ -116,14 +112,14 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 {
                     prod.quantity_constraint = quantity_constraint;
                 }
-                prod.visibility = visibility;
-                prod.photo_product = photo_product;
+                prod.visibility = bool.Parse(data["visibility"].ToString());
+                prod.photo_product = bool.Parse(data["photo_product"].ToString());
                 database.SaveChanges();
-                return Ok(new { message = name + " details was successfully updated!" });
+                return Ok(new { message = data["name"].ToString() + " details was successfully updated!" });
             }
             catch (Exception e)
             {
-                return BadRequest("Item details failed to update!");
+                return BadRequest("Item details failed to update! " + e.ToString());
             }
         }
 
@@ -146,9 +142,9 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 }
                 return Ok(new { message = "Product deleted!" });
             }
-            catch (Exception exceptionObject)
+            catch (Exception e)
             {
-                return BadRequest("Unable to delete product!");
+                return BadRequest("Unable to delete product! " + e.ToString());
             }
         }
 
@@ -183,13 +179,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             try
             {
                 product prod = new product();
-                var name = data["name"].ToString();
-                var image = data["image"].ToString();
-                var original_price = Decimal.Parse(data["original_price"].ToString());
-                var description = data["description"].ToString();
                 var quantity_constraint = data["quantity_constraint"].ToString();
-                var visibility = bool.Parse(data["visibility"].ToString());
-                var photo_product = bool.Parse(data["photo_product"].ToString());
                 var gst = Decimal.Parse(data["gst"].ToString());
                 if (data["pwp_price"].ToString() != "")
                 {
@@ -197,11 +187,11 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     prod.pwp_price = pwp_price;
                     prod.pwp_GST = pwp_price * gst / 100;
                 }
-                prod.name = name;
-                prod.image = "/Content/ProductPhoto/" + id + image.Substring(image.IndexOf('.'));
-                prod.original_price = original_price;
-                prod.description = description;
-                prod.original_GST = original_price * gst / 100;
+                prod.name = data["name"].ToString();
+                prod.image = "/Content/ProductPhoto/" + id + data["image"].ToString().Substring(data["image"].ToString().IndexOf('.'));
+                prod.original_price = Decimal.Parse(data["original_price"].ToString());
+                prod.description = data["description"].ToString();
+                prod.original_GST = Decimal.Parse(data["original_price"].ToString()) * gst / 100;
                 prod.updated_at = DateTime.Now;
                 prod.product_id = id;
                 if (quantity_constraint == "--None--")
@@ -212,12 +202,12 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 {
                     prod.quantity_constraint = quantity_constraint;
                 }
-                prod.visibility = visibility;
-                prod.photo_product = photo_product;
-                prod.updated_by = "staff1";
+                prod.visibility = bool.Parse(data["visibility"].ToString()); 
+                prod.photo_product = bool.Parse(data["photo_product"].ToString());
+                prod.updated_by = data["staffid"].ToString() ;
                 database.products.Add(prod);
                 database.SaveChanges();
-                return Ok(new { message = name + " record has been created!" });
+                return Ok(new { message = data["name"].ToString() + " record has been created!" });
             }
             catch (Exception e)
             {

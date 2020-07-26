@@ -570,6 +570,7 @@
             let pwpPrice = $('#pwpNameInp').val();
             let description = $('#commentsInp').val();
             let qc = $('#inp-select').val();
+            let staffid = "@User.Identity.Name";
             let visibility;
             if ($('#visibilityInp').is(":checked")) {
                 visibility = true;
@@ -584,7 +585,7 @@
             else {
                 photoprod = false;
             }
-            let webformdata = new editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
+            let webformdata = new editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst, staffid);
             console.log(JSON.stringify(webformdata));
             var formData = new FormData();
             var file = $('#newphoto')[0];
@@ -792,7 +793,7 @@
     });
 
     //Creating Object to pass to the backend for creating souvenir
-    function addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst) {
+    function addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst, staffid) {
         this.name = name;
         this.image = image;
         this.original_price = oriPrice;
@@ -801,11 +802,12 @@
         this.quantity_constraint = qc;
         this.visibility = visibility;
         this.photo_product = photoprod;
+        this.staffid = staffid;
         this.gst = gst;
     }
 
     //Creating Object to pass to the backend for editing souvenir
-    function editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst) {
+    function editFormData(name, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst, staffid) {
         this.name = name;
         this.original_price = oriPrice;
         this.pwp_price = pwpPrice;
@@ -813,6 +815,7 @@
         this.quantity_constraint = qc;
         this.visibility = visibility;
         this.photo_product = photoprod;
+        this.staffid = staffid;
         this.gst = gst;
     }
 
@@ -842,6 +845,7 @@
             let pwpPrice = $('#addPWPInput').val();
             let description = $('#addCommentsInput').val();
             let qc = $('#addQCInput').val();
+            let staffid = "@User.Identity.Name";
             let visibility;
             if ($('#addVis').is(":checked")) {
                 visibility = true;
@@ -856,7 +860,7 @@
             else {
                 photoprod = false;
             }
-            let webformdata = new addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst);
+            let webformdata = new addFormData(name, image, oriPrice, pwpPrice, description, qc, visibility, photoprod, gst, staffid);
             console.log(JSON.stringify(webformdata));
 
             var formData = new FormData();
@@ -948,8 +952,8 @@
             return checker;
         }, "Value cannot be whitespace");
         jQuery.validator.addMethod("alphanumeric", function (value, element) {
-            return this.optional(element) || /^[a-z0-9\-_.,\s]+$/i.test(value);
-        }, "Please enter alphanumerical value (only - _ . and , is allowed)");
+            return this.optional(element) || /^[a-z0-9\-'_.,\s]+$/i.test(value);
+        }, "Please enter alphanumerical value (only - _ ' . and , is allowed)");
         jQuery.validator.addMethod("exist", function (value, element) {
             var table = document.getElementById('example');
             let checker = true;

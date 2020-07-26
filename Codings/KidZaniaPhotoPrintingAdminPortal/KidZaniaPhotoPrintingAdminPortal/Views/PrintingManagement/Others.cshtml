@@ -389,7 +389,7 @@
         let status;
         let url;
         if (itemStatus == true) {
-            status = "Collected";
+            status = "Completed";
             url = `/API/others/moveImage/${order_id}?photos=${photos}&product_id=${product_id}`;
         }
         else {
@@ -592,9 +592,10 @@
                     callback: {
                         onClose: function () {
                             //clear input
-                            $('#keychainImg1').attr('src', '~/assets/images/upload.png');
+                            $("#my_image").attr("src", "second.jpg");
+                            $('#keychainImg1').attr('src', '/assets/images/upload.png');
                             $('#keychainFile1').val('');
-                            $('#keychainImg2').attr('src', '~/assets/images/upload.png');
+                            $('#keychainImg2').attr('src', '/assets/images/upload.png');
                             $('#keychainFile2').val('');
                         }
                     }
@@ -632,7 +633,7 @@
                     callback: {
                         onClose: function () {
                             //clear input
-                            $('#magnetImg').attr('src', '~/assets/images/upload.png');
+                            $('#magnetImg').attr('src', '/assets/images/upload.png');
                             $('#magnetFile').val('');
                         }
                     }
