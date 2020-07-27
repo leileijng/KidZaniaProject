@@ -1,0 +1,161 @@
+﻿<script src="~/Scripts/jquery-3.3.1.js"></script>
+<link href="~/Content/animate.min.css" rel="stylesheet" />
+<h2 style="text-align:center;">Order Queue</h2>
+
+<div class="row">
+    <div class="column left">
+        <div class="thumbnail" style="min-height:620px;">
+            <h2 style="text-align:center;">Completed Orders</h2>
+            <div id="readyOrders" style="text-align:center;" class="caption">
+            </div>
+        </div>
+    </div>
+    <div class="column right">
+        <div class="thumbnail" style="min-height:620px;">
+            <h2 style="text-align:center;">Orders in Queue</h2>
+            <div id="waitingOrders" style="text-align:center;" class="caption">
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+    .column {
+        float: left;
+        padding: 10px;
+        height: 300px; /* Should be removed. Only for demonstration */
+    }
+
+    .left {
+        width: 25%;
+    }
+
+    .right {
+        width: 75%;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        //Create Order
+        checkReadyOrder();
+        checkWaitingOrder();
+        //Check Order
+        setInterval(checkReadyOrder, 5000);
+        setInterval(checkWaitingOrder, 5000);
+    });
+
+    //Animation effects
+    var effects = 'animate__animated animate__fadeIn animate__slow';
+    var deleteEffects = 'animate__animated animate__fadeOut animate__slow';
+    var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+
+    //OrderChecker
+    var readyOrder = [];
+    var waitingOrder = [];
+
+    //Check Completed Orders
+    function checkReadyOrder() {
+        $.ajax({
+            type: "GET",
+            url: `/api/order/ReadyOrders`,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                let newOrder = '';
+                data.forEach(function (record) {
+                    let checker = false;
+                    for (let x = 0; x < readyOrder.length; x++) {
+                        if (readyOrder[x] == record.orderid) {
+                            x = readyOrder.length;
+                            checker = true;
+                        }
+                    }
+                    if (!checker) {
+                        readyOrder.push(record.orderid);
+                        newOrder = `<div id="ready${record.orderid}" style="text-align: center; font-size:24px; width:100px; border:1px solid; display: inline-block; border-color:blue;">
+                    ${record.orderid}
+                </div>`;
+                        $('#readyOrders').append(newOrder);
+                        $(`#ready${record.orderid}`).addClass(effects).one(effectsend, function () {
+                            $(`#ready${record.orderid}`).removeClass(effects);
+                        });
+                    }
+                });
+                for (let y = 0; y < readyOrder.length; y++) {
+                    let checker = false;
+                    for (let x = 0; x < data.length; x++) {
+                        if (data[x].orderid == readyOrder[y]) {
+                            x = readyOrder.length;
+                            checker = true;
+                        }
+                    }
+                    if (!checker) {
+                        console.log(y+ "  "+ readyOrder[y]);
+                        $(`#ready${readyOrder[y]}`).addClass(deleteEffects).one(effectsend, function () {
+                            $(`#ready${readyOrder[y]}`).removeClass(deleteEffects);
+                            $(`#ready${readyOrder[y]}`).remove();
+                            readyOrder.splice(y, 1);
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    //Check Completed Orders
+    function checkWaitingOrder() {
+        $.ajax({
+            type: "GET",
+            url: `/api/order/WaitingOrders`,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                let newOrder = '';
+                data.forEach(function (record) {
+                    let checker = false;
+                    for (let x = 0; x < waitingOrder.length; x++) {
+                        if (waitingOrder[x] == record.orderid) {
+                            x = waitingOrder.length;
+                            checker = true;
+                        }
+                    }
+                    if (!checker) {
+                        waitingOrder.push(record.orderid);
+                        newOrder = `<div id="waiting${record.orderid}" style="text-align: center; font-size:24px; width: 100px; border:1px solid; display: inline-block; border-color:forestgreen;">
+                            ${record.orderid}
+                </div>`;
+
+                        $('#waitingOrders').append(newOrder);
+                        $(`#waiting${record.orderid}`).addClass(effects).one(effectsend, function () {
+                            $(`#waiting${record.orderid}`).removeClass(effects);
+                        });
+                    }
+                });
+                for (let y = 0; y < waitingOrder.length; y++) {
+                    let checker = false;
+                    for (let x = 0; x < data.length; x++) {
+                        if (data[x].orderid == waitingOrder[y]) {
+                            x = waitingOrder.length;
+                            checker = true;
+                        }
+                    }
+                    if (!checker) {
+                        $(`#waiting${waitingOrder[y]}`).addClass(deleteEffects).one(effectsend, function () {
+                            $(`#waiting${waitingOrder[y]}`).remove();
+                            $(`#waiting${waitingOrder[y]}`).removeClass(deleteEffects);
+                            waitingOrder.splice(y, 1);
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+</script>
