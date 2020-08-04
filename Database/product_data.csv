@@ -1,0 +1,7 @@
+product_id,name,image,description,original_price,original_GST,pwp_price,pwp_GST,quantity_constraint,visibility,photo_product,updated_by,updated_at
+a5,"A5 Hardcopy",/Content/ProductPhoto/a5.jpg,"Phasellus non ante gravida, ultricies neque a",30.00,2.10,10.00,0.70,NULL,1,1,staff1@gmail.com,"2020-06-16 00:11:51"
+dc,"Digital Copy",/Content/ProductPhoto/dc.jpg,"Phasellus non ante gravida, ultricies neque a",20.00,1.40,NULL,NULL,"Max 1 Unit",1,0,staff1@gmail.com,"2020-06-11 22:45:36"
+ec,"Establishment Card",/Content/ProductPhoto/ec.jpg,"Phasellus non ante gravida, ultricies neque a",30.00,2.10,19.00,1.33,NULL,1,1,staff1@gmail.com,"2020-06-12 23:44:32"
+kc,Keychain,/Content/ProductPhoto/kc.jpg,"Phasellus non ante gravida, ultricies neque a",30.00,2.10,19.00,1.33,"Even Numbered Units",1,1,staff1@gmail.com,"2020-06-08 13:20:36"
+lt,Leatherette,/Content/ProductPhoto/lt.png,"Phasellus non ante gravida, ultricies neque a",30.00,2.10,11.00,0.77,NULL,1,0,staff1@gmail.com,"2020-06-17 01:46:48"
+mg,Magnet,/Content/ProductPhoto/mg.jpg,"Phasellus non ante gravida, ultricies neque asdas",30.00,2.10,18.00,1.26,NULL,1,1,staff1@gmail.com,"2020-06-29 15:50:08"

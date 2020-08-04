@@ -1,0 +1,3 @@
+staff_id,name,passwordhash,passwordsalt,role_id
+staff1@gmail.com,John,...,...,1
+stafftest@gmail.com,Test,...,...,2
