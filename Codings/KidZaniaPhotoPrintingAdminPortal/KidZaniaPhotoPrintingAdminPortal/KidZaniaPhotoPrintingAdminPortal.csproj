@@ -230,6 +230,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APIs\DashboardController.cs" />
     <Compile Include="APIs\HardcopysController.cs" />
     <Compile Include="APIs\OthersOrderController.cs" />
     <Compile Include="APIs\PausedController.cs" />
@@ -271,6 +272,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemManagementController.cs" />
+    <Compile Include="Controllers\MarketingController.cs" />
     <Compile Include="Controllers\PrintingManagementController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1577,6 +1579,7 @@
     <Content Include="Views\PrintingManagement\Others.cshtml" />
     <Content Include="Views\PrintingManagement\PausedOrder.cshtml" />
     <Content Include="Views\Shared\Menu.cshtml" />
+    <Content Include="Views\Marketing\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

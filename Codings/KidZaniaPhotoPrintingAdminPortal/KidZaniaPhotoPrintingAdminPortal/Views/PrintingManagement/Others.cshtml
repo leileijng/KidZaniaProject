@@ -356,6 +356,7 @@
             dataType: "json",
             success: function (data) {
                 data.forEach(function (record) {
+                    console.log(record);
                     let pausechecker = false;
                     if (record.product[0].status == "Paused") {
                         pausechecker = true;
@@ -517,16 +518,13 @@
     function pause(lineItemId, order) {
         let newid = lineItemId.split("|");
         for (let x = 0; x < newid.length - 1; x++) {
-            webformdata = { "status": "Paused" };
             $.ajax({
                 type: 'PUT',
-                url: `/api/hardcopys/${newid[x]}`,
-                contentType: 'application/json',
-                data: JSON.stringify(webformdata)
+                url: `/api/others/${newid[x]}?status=Paused`,
             }).done(function (data, textStatus, jqXHR) {
-                console.log("Collected updated!");
+                console.log(data);
                 new noty({
-                    text: data.message,
+                    text: data,
                     layout: 'center',
                     theme: 'bootstrapTheme',
                     type: 'success',

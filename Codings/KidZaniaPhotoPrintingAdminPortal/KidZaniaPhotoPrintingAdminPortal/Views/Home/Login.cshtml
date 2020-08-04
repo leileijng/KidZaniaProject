@@ -87,12 +87,12 @@
                             method: 'POST',
                             content:'json',
                             success: function (data) {
-                                sessionStorage.setItem('staff', data);
+                                sessionStorage.setItem("staff", data)
                                 if (data.role == "Admin" || data.role == "Marketing") {
                                     window.location.replace("/ItemManagement/Index");
                                 } else if (data.role == "Hardcopy") {
                                     window.location.replace("/PrintingManagement/Hardcopy");
-                                } else if (data.role == "Others") {
+                                } else if (data.role == "Keychain&Magnet") {
                                     window.location.replace("/PrintingManagement/Others");
                                 }
                             },

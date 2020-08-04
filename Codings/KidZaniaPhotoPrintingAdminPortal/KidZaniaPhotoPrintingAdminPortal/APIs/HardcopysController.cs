@@ -102,7 +102,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
         {
             try
             {
-                var printers = database.printers.Where(i => i.name.Contains("A5")).Select(x => new
+                var printers = database.printers.Where(i => i.name.Contains("MG")).Select(x => new
                 {
                     printerId = x.printer_id,
                     printerName = x.name,
