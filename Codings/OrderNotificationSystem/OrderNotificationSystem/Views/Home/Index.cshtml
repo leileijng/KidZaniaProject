@@ -1,44 +1,96 @@
-﻿<script src="~/Scripts/jquery-3.3.1.js"></script>
+﻿@{
+    ViewBag.title = "Collection Order";
+}
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="~/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link href="~/assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+<link rel="stylesheet" href="~/assets/libs/css/style.css">
+<link rel="stylesheet" href="~/assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+<script src="~/Scripts/jquery-3.3.1.js"></script>
 <link href="~/Content/animate.min.css" rel="stylesheet" />
-<h2 style="text-align:center;">Order Queue</h2>
-
-<div class="row">
-    <div class="column left">
-        <div class="thumbnail" style="min-height:620px;">
-            <h2 style="text-align:center;">Completed Orders</h2>
-            <div id="readyOrders" style="text-align:center;" class="caption">
+<!-- ============================================================== -->
+<!-- main wrapper -->
+<!-- ============================================================== -->
+<div class="dashboard-main-wrapper">
+    <!-- ============================================================== -->
+    <!-- wrapper  -->
+    <!-- ============================================================== -->
+    <div class="dashboard-wrapper" style="margin-left:0;">
+        <div class="container-fluid dashboard-content" style="padding-top: 0;padding-bottom: 0;">
+            <!-- ============================================================== -->
+            <!-- pageheader -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="page-header" style="text-align:center;">
+                        <h2 class="pageheader-title"><img src="~/assets/images/kidzania1.png" width="125" height="30" style="margin-right:10px; margin-top: -10px;">Collection Notification</h2>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="column right">
-        <div class="thumbnail" style="min-height:620px;">
-            <h2 style="text-align:center;">Orders in Queue</h2>
-            <div id="waitingOrders" style="text-align:center;" class="caption">
+            <!-- ============================================================== -->
+            <!-- end pageheader -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- media list -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="card">
+                        <h3 class="card-header" style="background-color: palegreen;">
+                            <i class="fas fa-check-square" style="margin-right:10px;"></i>Ready To Collect...<img src="~/assets/images/s6_ch_urbano.png" width="63" height="88" style="margin-right:10px;">
+                        </h3>
+                        <div class="card-body" style="text-align: center; background-color: honeydew;">
+                            <ul class="list-unstyled" id="readyOrders"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="card">
+                        <h3 class="card-header" style="border: 1px solid #d2d2d2;">
+                            Preparing...<img src="~/assets/images/preparing.png" width="60" height="85" style="margin-right:10px;">
+                        </h3>
+                        <div class="card-body" id="waitingOrders" style="display:flex; flex-wrap: wrap; text-align: center; background-color: #f5f5f5;">
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- ============================================================== -->
+            <!-- end media list -->
+            <!-- ============================================================== -->
         </div>
+        <img src="~/assets/images/rights-keepeers.png">
     </div>
+    <!-- ============================================================== -->
+    <!-- end main wrapper -->
+    <!-- ============================================================== -->
 </div>
+
+<script src="~/assets/vendor/jquery/jquery-3.3.1.min.js"></script>
+<script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+<script src="~/assets/vendor/slimscroll/jquery.slimscroll.js"></script>
+<script src="~/assets/libs/js/main-js.js"></script>
 <style>
-
+    @@media (min-width:1500px){
+    .container{
+    max-width: none;
+        }
+    }
     .column {
-        float: left;
+        flex: 0 0 50%;
         padding: 10px;
-        height: 300px; /* Should be removed. Only for demonstration */
     }
 
-    .left {
-        width: 25%;
+    .column:nth-child(odd) {
+        border-right: 1px solid #d2d2d2;
     }
 
-    .right {
-        width: 75%;
+    .dashboard-main-wrapper {
+        padding-top: 40px;
     }
 
-    /* Clear floats after the columns */
-    .row:after {
-        content: "";
-        display: table;
-        clear: both;
+    .page-header {
+        border-bottom: 0;
     }
 </style>
 <script>
@@ -79,9 +131,11 @@
                     }
                     if (!checker) {
                         readyOrder.push(record.orderid);
-                        newOrder = `<div id="ready${record.orderid}" style="text-align: center; font-size:24px; width:100px; border:1px solid; display: inline-block; border-color:blue;">
-                    ${record.orderid}
-                </div>`;
+                        newOrder = `<li id="ready${record.orderid}"class="media">
+                            <div class="media-body">
+                                <h3 class="mt-0 mb-1">${record.orderid}</h3>
+                            </div>
+                        </li>`;
                         $('#readyOrders').append(newOrder);
                         $(`#ready${record.orderid}`).addClass(effects).one(effectsend, function () {
                             $(`#ready${record.orderid}`).removeClass(effects);
@@ -97,7 +151,7 @@
                         }
                     }
                     if (!checker) {
-                        console.log(y+ "  "+ readyOrder[y]);
+                        console.log(y + "  " + readyOrder[y]);
                         $(`#ready${readyOrder[y]}`).addClass(deleteEffects).one(effectsend, function () {
                             $(`#ready${readyOrder[y]}`).removeClass(deleteEffects);
                             $(`#ready${readyOrder[y]}`).remove();
@@ -128,9 +182,11 @@
                     }
                     if (!checker) {
                         waitingOrder.push(record.orderid);
-                        newOrder = `<div id="waiting${record.orderid}" style="text-align: center; font-size:24px; width: 100px; border:1px solid; display: inline-block; border-color:forestgreen;">
-                            ${record.orderid}
-                </div>`;
+                        newOrder = `<div id="waiting${record.orderid}" class="column">
+                                    <div class="media-body">
+                                        <h4 class="mt-0 mb-1">${record.orderid}</h4>
+                                    </div>
+                                </div>`;
 
                         $('#waitingOrders').append(newOrder);
                         $(`#waiting${record.orderid}`).addClass(effects).one(effectsend, function () {
