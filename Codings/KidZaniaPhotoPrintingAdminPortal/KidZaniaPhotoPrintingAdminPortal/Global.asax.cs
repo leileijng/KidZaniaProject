@@ -19,5 +19,17 @@ namespace KidZaniaPhotoPrintingAdminPortal
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+        protected void Application_EndRequest(Object sender, EventArgs e)
+        {
+            if (HttpContext.Current.Response.Status.StartsWith("401"))
+            {
+                HttpContext.Current.Response.ClearContent();
+                Response.Redirect("/Error/Unauthorized");
+            } else if (HttpContext.Current.Response.Status.StartsWith("404"))
+            {
+                HttpContext.Current.Response.ClearContent();
+                Response.Redirect("/Error/NotFound");
+            }
+        }
     }
 }
