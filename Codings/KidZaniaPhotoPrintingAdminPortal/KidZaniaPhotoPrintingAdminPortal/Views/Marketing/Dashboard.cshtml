@@ -41,8 +41,8 @@
                     <div class="metric-value d-inline-block">
                         <h1 class="mb-1 text-primary" id="NumberOfOrder">32,100 </h1>
                     </div>
-                    <div class="metric-label d-inline-block float-right text-success">
-                        <i class="fa fa-fw fa-caret-up"></i><span id="RateOfOrder">5.27%</span>
+                    <div class="metric-label d-inline-block float-right text-success" id="ColorOfOrder">
+                        <i class="fa fa-fw fa-caret-up" id="IconOfOrder"></i><span id="RateOfOrder">5.27%</span>
                     </div>
                 </div>
             </div>
@@ -56,8 +56,8 @@
                     <div class="metric-value d-inline-block">
                         <h1 class="mb-1 text-primary" id="numberOfRevenue">$5,656</h1>
                     </div>
-                    <div class="metric-label d-inline-block float-right text-danger">
-                        <i class="fa fa-fw fa-caret-down"></i><span id="RateOfRevenue">1.08%</span>
+                    <div class="metric-label d-inline-block float-right text-danger" id="ColorOfRevenue">
+                        <i class="fa fa-fw fa-caret-down" id="IconOfRevenue"></i><span id="RateOfRevenue">1.08%</span>
                     </div>
                 </div>
             </div>
@@ -71,8 +71,8 @@
                     <div class="metric-value d-inline-block">
                         <h1 class="mb-1 text-primary" id="numberOfPhotos">22</h1>
                     </div>
-                    <div class="metric-label d-inline-block float-right text-success">
-                        <i class="fa fa-fw fa-caret-up" ></i><span id="rateOfPhotos">4.87%</span>
+                    <div class="metric-label d-inline-block float-right text-success" id="ColorOfPhotos">
+                        <i class="fa fa-fw fa-caret-up" id="IconOfPhotos"></i><span id="rateOfPhotos">4.87%</span>
                     </div>
                 </div>
             </div>
@@ -82,12 +82,9 @@
         <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="text-muted" id="numberOfPO">Processing Orders</h5>
+                    <h5 class="text-muted" id="numberOfPO">Waiting Orders</h5>
                     <div class="metric-value d-inline-block">
                         <h1 class="mb-1 text-primary">12</h1>
-                    </div>
-                    <div class="metric-label d-inline-block float-right text-danger">
-                        <i class="fa fa-fw fa-caret-down"></i><span id="rateOfPO">7.00%</span>
                     </div>
                 </div>
             </div>
@@ -102,7 +99,7 @@
             <div class="card">
                 <h5 class="card-header">Revenue</h5>
                 <div class="card-body">
-                    <canvas id="revenue" width="400" height="150"></canvas>
+                    <div id="lineChart"></div>
                 </div>
                 <div class="card-body border-top">
                     <div class="row">
@@ -113,7 +110,7 @@
                             </p>
                         </div>
                         <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 p-3">
-                            <h2 class="font-weight-normal mb-3"><span>$48,325</span>                                                    </h2>
+                            <h2 class="font-weight-normal mb-3"><span>$48,325</span></h2>
                             <div class="mb-0 mt-3 legend-item">
                                 <span class="fa-xs text-primary mr-1 legend-title "><i class="fa fa-fw fa-square-full"></i></span>
                                 <span class="legend-text">Current Week</span>
@@ -137,27 +134,11 @@
         <!-- ============================================================== -->
         <div class="col-xl-4 col-lg-12 col-md-4 col-sm-12 col-12">
             <div class="card">
-                <h5 class="card-header">Total Sale</h5>
+                <h5 class="card-header">Total Sales</h5>
                 <div class="card-body">
-                    <canvas id="total-sale" width="220" height="155"></canvas>
-                    <div class="chart-widget-list">
-                        <p>
-                            <span class="fa-xs text-primary mr-1 legend-title"><i class="fa fa-fw fa-square-full"></i></span><span class="legend-text"> Direct</span>
-                            <span class="float-right">$300.56</span>
-                        </p>
-                        <p>
-                            <span class="fa-xs text-secondary mr-1 legend-title"><i class="fa fa-fw fa-square-full"></i></span>
-                            <span class="legend-text">Affilliate</span>
-                            <span class="float-right">$135.18</span>
-                        </p>
-                        <p>
-                            <span class="fa-xs text-brand mr-1 legend-title"><i class="fa fa-fw fa-square-full"></i></span> <span class="legend-text">Sponsored</span>
-                            <span class="float-right">$48.96</span>
-                        </p>
-                        <p class="mb-0">
-                            <span class="fa-xs text-info mr-1 legend-title"><i class="fa fa-fw fa-square-full"></i></span> <span class="legend-text"> E-mail</span>
-                            <span class="float-right">$154.02</span>
-                        </p>
+                    <div id="donutchartForProductSales"></div>
+                    <div class="chart-widget-list" id="productLegend">
+
                     </div>
                 </div>
             </div>
@@ -313,10 +294,18 @@
         <!-- ============================================================== -->
     </div>
 </div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
+
     $(document).ready(function () {
         $('#menuDashboard').addClass("active");
         loadRealTimeData();
+
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawPieChart);
+
+        google.charts.load('current', { packages: ['corechart', 'line'] });
+        google.charts.setOnLoadCallback(drawLineChart);
     });
 
     //AJAX Call to retrieve data from backend
@@ -327,11 +316,147 @@
             dataType: "json",
             success: function (data) {
                 console.log(data);
+                $('#NumberOfOrder').text(data.todayOrderNumber);
+                $('#numberOfRevenue').text(`$${data.todayRevenueNumber.toFixed(2)}`);
+                $('#numberOfPhotos').text(data.todayPhotoNumber);
+
+                var orderRate = data.rateOrder;
+                var revenueRate = data.rateRevenue;
+                var photoRate = data.ratePhoto;
+
+                $('#RateOfOrder').text(orderRate);
+                if (orderRate < 0) {
+                    $('#IconOfOrder').removeClass('fa-caret-up');
+                    $('#IconOfOrder').addClass('fa-caret-down');
+                    $('#ColorOfOrder').removeClass('text-success');
+                    $('#ColorOfOrder').addClass('text-danger');
+                }
+                else {
+                    $('#IconOfOrder').addClass('fa-caret-up');
+                    $('#IconOfOrder').removeClass('fa-caret-down');
+                    $('#ColorOfOrder').addClass('text-success');
+                    $('#ColorOfOrder').removeClass('text-danger');
+                }
+
+                $('#RateOfRevenue').text(revenueRate);
+                if (revenueRate < 0) {
+                    $('#IconOfRevenue').removeClass('fa-caret-up');
+                    $('#IconOfRevenue').addClass('fa-caret-down');
+                    $('#ColorOfRevenue').removeClass('text-success');
+                    $('#ColorOfRevenue').addClass('text-danger');
+                }
+                else {
+                    $('#IconOfRevenue').addClass('fa-caret-up');
+                    $('#IconOfRevenue').removeClass('fa-caret-down');
+                    $('#ColorOfRevenue').addClass('text-success');
+                    $('#ColorOfRevenue').removeClass('text-danger');
+                }
+
+                $('#rateOfPhotos').text(photoRate);
+                if (photoRate < 0) {
+                    $('#IconOfPhotos').removeClass('fa-caret-up');
+                    $('#IconOfPhotos').addClass('fa-caret-down');
+                    $('#ColorOfPhotos').removeClass('text-success');
+                    $('#ColorOfPhotos').addClass('text-danger');
+                }
+                else {
+                    $('#IconOfPhotos').addClass('fa-caret-up');
+                    $('#IconOfPhotos').removeClass('fa-caret-down');
+                    $('#ColorOfPhotos').addClass('text-success');
+                    $('#ColorOfPhotos').removeClass('text-danger');
+                }
             },
             error: function (data) {
                 console.log("Error");
                 console.log(data);
             }
         });
+    }
+</script>
+
+<script type="text/javascript">
+
+    function drawPieChart() {
+        $.ajax({
+            type: "GET",
+            url: "/api/dashboard/retrivePieChartData",
+            dataType: "json",
+            success: function (data) {
+                loadPieChart(data);
+            },
+            error: function (data) {
+                console.log("Error");
+                console.log(data);
+            }
+        });
+    }
+
+    function loadPieChart(pieData) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Sales Product');
+        data.addColumn('number', 'Product Revenue');
+        var dataRows = [];
+
+        var listOfColors = ['#EF9191', '#9791EF', '#ECEF91', '#91EF98', '#91ADEF', '#839573', '#41C6BF'];
+        var pieColors = [];
+        for (i = 0; i < pieData.length; i++) {
+            dataRows.push([pieData[i].product_name, { v: pieData[i].amount, f: `$${pieData[i].amount.toFixed(2)}` }]);
+            var $proLegend = $(`<p><span class="fa-xs mr-1 legend-title" style="color: ${listOfColors[i]}"><i class="fa fa-fw fa-square-full"></i></span><span class="legend-text">${pieData[i].product_name}</span><span class="float-right">$${pieData[i].amount.toFixed(2)}</span></p>`)
+            $('#productLegend').append($proLegend);
+            pieColors.push(listOfColors[i]);
+        }
+        data.addRows(dataRows);
+        console.log(data);
+
+        var options = {
+            pieSliceText: 'none',
+            pieHole: 0.5,
+            legend: 'none',
+            chartArea: {
+                left: "3%",
+                top: "3%",
+                height: "94%",
+                width: "94%"
+            },
+            colors: pieColors
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchartForProductSales'));
+        chart.draw(data, options);
+    }
+
+    function drawLineChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'X');
+        data.addColumn('number', 'Dogs');
+        data.addColumn('number', 'Cats');
+
+        data.addRows([
+            [0, 0, 0], [1, 10, 5], [2, 23, 15], [3, 17, 9], [4, 18, 10], [5, 9, 5],
+            [6, 11, 3], [7, 27, 19], [8, 33, 25], [9, 40, 32], [10, 32, 24], [11, 35, 27],
+            [12, 30, 22], [13, 40, 32], [14, 42, 34], [15, 47, 39], [16, 44, 36], [17, 48, 40],
+            [18, 52, 44], [19, 54, 46], [20, 42, 34], [21, 55, 47], [22, 56, 48], [23, 57, 49],
+            [24, 60, 52], [25, 50, 42], [26, 52, 44], [27, 51, 43], [28, 49, 41], [29, 53, 45],
+            [30, 55, 47], [31, 60, 52], [32, 61, 53], [33, 59, 51], [34, 62, 54], [35, 65, 57],
+            [36, 62, 54], [37, 58, 50], [38, 55, 47], [39, 61, 53], [40, 64, 56], [41, 65, 57],
+            [42, 63, 55], [43, 66, 58], [44, 67, 59], [45, 69, 61], [46, 69, 61], [47, 70, 62],
+            [48, 72, 64], [49, 68, 60], [50, 66, 58], [51, 65, 57], [52, 67, 59], [53, 70, 62],
+            [54, 71, 63], [55, 72, 64], [56, 73, 65], [57, 75, 67], [58, 70, 62], [59, 68, 60],
+            [60, 64, 56], [61, 60, 52], [62, 65, 57], [63, 67, 59], [64, 68, 60], [65, 69, 61],
+            [66, 70, 62], [67, 72, 64], [68, 75, 67], [69, 80, 72]
+        ]);
+
+        var options = {
+            hAxis: {
+                title: 'Time'
+            },
+            vAxis: {
+                title: 'Number of Orders'
+            },
+            colors: ['#a52714', '#097138']
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('lineChart'));
+        chart.draw(data, options);
     }
 </script>

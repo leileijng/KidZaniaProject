@@ -41,12 +41,12 @@ namespace OrderNotificationSystem.Controllers
                 {
                     orderid = x.order_id,
                     status = x.status
-                }).Where(x => x.status == "Waiting").ToList();
+                }).Where(x => x.status == "Printing").ToList();
                 return Ok(orders);
             }
             catch (Exception e)
             {
-                return BadRequest("Fail to retrieve waiting orders!");
+                return BadRequest("Fail to retrieve printing orders!");
             }
         }
     }
