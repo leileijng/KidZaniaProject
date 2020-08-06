@@ -6,13 +6,15 @@ using System.Web.Mvc;
 
 namespace KidZaniaPhotoPrintingAdminPortal.Controllers
 {
-    public class MarketingController : Controller
+    public class ErrorController : Controller
     {
-        [Authorize(Roles = "Marketing")]
-        public ActionResult Dashboard()
+        // GET: Error
+        public ActionResult NotFound()
         {
-            ViewBag.Title = "Dashboard";
-
+            return View();
+        }
+        public ActionResult Unauthorized()
+        {
             return View();
         }
     }
