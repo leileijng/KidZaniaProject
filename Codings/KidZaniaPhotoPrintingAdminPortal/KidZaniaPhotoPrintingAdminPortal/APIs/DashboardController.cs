@@ -25,8 +25,6 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             //1
             int todayOrderNumber = todayOrders.Count;
             int yesterdayOrderNumber = yesterdayOrders.Count;
-            Debug.WriteLine("yesterday order is .." + yesterdayOrderNumber);
-            Debug.WriteLine("today order is .." + todayOrderNumber);
 
             //2
             decimal todayRevenueNumber = 0;
@@ -131,6 +129,51 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
         {
             public string product_name { get; set; }
             public decimal amount { get; set; }
+        }
+
+        [HttpGet]
+        [Route("api/dashboard/retriveLineChartData")]
+        public IHttpActionResult retriveLineChartData()
+        {
+            DateTime today = DateTime.Now;
+            List<order> todayOrders = database.orders.Where(i => i.updatedAt.Day == today.Day && i.updatedAt.Month == today.Month && i.updatedAt.Year == today.Year).OrderBy(i => i.updatedAt).ToList();
+            
+            DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 11, 0, 0);
+            //DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
+            DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 0, 0);
+
+
+
+            if (DateTime.Compare(start, end) > 0)
+            {
+                //return yesterday's chart
+                return BadRequest();
+            }
+            else
+            {
+                List<SalesFequency> salesFequencies = new List<SalesFequency>();
+                for (int i = 0; i <= end.Hour - start.Hour; i++)
+                {
+                    SalesFequency sf = new SalesFequency();
+                    sf.TimeSpan = (start.Hour + i).ToString() + ":00 - " + (start.Hour + i + 1).ToString() + ":00";
+                    sf.numberOfOrders = 0;
+                    foreach (order o in todayOrders)
+                    {
+                        if (o.updatedAt.Hour == start.Hour + i)
+                        {
+                            sf.numberOfOrders++;
+                        }
+                    }
+                    salesFequencies.Add(sf);
+                }
+
+                return Ok(salesFequencies);
+            }
+        }
+        public class SalesFequency
+        {
+            public string TimeSpan { get; set; }
+            public int numberOfOrders { get; set; }
         }
     }
 }
