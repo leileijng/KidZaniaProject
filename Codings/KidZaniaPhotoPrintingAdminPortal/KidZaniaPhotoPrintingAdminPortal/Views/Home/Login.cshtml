@@ -8,48 +8,53 @@
     <title></title>
     <meta charset="utf-8" />
     <link href="~/Content/bootstrap-4.5.0-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/libs/css/Login-Register/css/style.css" rel="stylesheet" />
+    <link href="~/assets/libs/css/Login-Register/fonts/material-icon/css/material-design-iconic-font.min.css" rel="stylesheet" />
+
 </head>
-<body style="padding-top:20px">
-    <div class="col-md-10 col-md-offset-1">
-        <div class="well">
-            <!--Table to capture username and password-->
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="success">
-                        <th colspan="2">
-                            User Login
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Email:</td>
-                        <td>
-                            <input type="text" id="txtUsername" placeholder="Username" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Password:</td>
-                        <td>
-                            <input type="password" id="txtPassword"
-                                   placeholder="Password" />
-                        </td>
-                    </tr>
-                    <tr class="success">
-                        <td colspan="2">
-                            <input id="btnLogin" class="btn btn-success" type="button"
-                                   value="Login" />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <!--Bootstrap alert to display error message if the login fails-->
-            <div id="divError" class="alert alert-danger collapse">
+<body>
+    <div class="main">
 
+        <!-- Sign in  Form -->
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content" style="padding-bottom: 51px;">
+                    <div class="signin-image">
+                        <img src="~/assets/images/kidzania.png" width="200" height="30" style="margin-left: 50px;" alt="sign in image">
+                        <figure><img src="~/assets/images/cartoon1.png" alt="sign in image"></figure>
+                        <a href="~/Views/Home/Register.cshtml" class="signup-image-link">Create an account</a>
+                    </div>
 
-                <a id="linkClose" href="#" class="close">&times;</a>
-                <div id="divErrorText"></div>
+                    <div class="signin-form">
+                        <h2 class="form-title">Login</h2>
+                        <form method="POST" class="register-form" id="login-form">
+                            <div class="form-group">
+                                <label for="txtUsername"><i class="zmdi zmdi-email"></i></label>
+                                <input type="text" name="txtUsername" id="txtUsername" placeholder="Your Email" />
+                            </div>
+                            <div class="form-group">
+                                <label for="txtPassword"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="txtPassword" id="txtPassword" placeholder="Password" />
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="button" name="btnLogin" id="btnLogin" class="form-submit" value="Log in" />
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
             </div>
+        </section>
+        <div id="divError" class="alert alert-danger collapse">
+
+
+            <a id="linkClose" href="#" class="close">&times;</a>
+            <div id="divErrorText"></div>
         </div>
     </div>
 
@@ -85,7 +90,7 @@
                         $.ajax({
                             url: `/api/account/login?inUserName=${username}&inPassword=${password}`,
                             method: 'POST',
-                            content:'json',
+                            content: 'json',
                             success: function (data) {
                                 sessionStorage.setItem("staff", data)
                                 if (data.role == "Admin" || data.role == "Marketing") {
@@ -113,7 +118,7 @@
             });
         });
     </script>
-</body>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
 
 
