@@ -8,7 +8,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
 {
     public class MarketingController : Controller
     {
-        [Authorize(Roles = "Marketing")]
+        [Authorize(Roles = "Admin,Marketing")]
         public ActionResult Dashboard()
         {
             ViewBag.Title = "Dashboard";

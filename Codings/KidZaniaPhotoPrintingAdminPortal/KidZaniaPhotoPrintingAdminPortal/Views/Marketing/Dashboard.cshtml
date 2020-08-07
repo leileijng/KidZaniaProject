@@ -95,7 +95,7 @@
     <!-- revenue  -->
     <!-- ============================================================== -->
     <div class="row">
-        <div class="col-xl-8 col-lg-12 col-md-8 col-sm-12 col-12">
+        <div class=" col-lg-12 col-sm-12 col-12">
             <div class="card">
                 <h5 class="card-header">Revenue</h5>
                 <div class="card-body">
@@ -103,24 +103,29 @@
                 </div>
                 <div class="card-body border-top">
                     <div class="row">
-                        <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 p-3">
-                            <h4> Today's Earning: $2,800.30</h4>
+                        <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 p-3 pr-5 mr-5">
+                            <h4 style="font-size:0.9rem">Average Completed Orders / Hour:</h4>
                             <p>
-                                Suspendisse potenti. Done csit amet rutrum.
+                                Today's Peak Period: <span id="peakToday"></span>
                             </p>
                         </div>
-                        <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 p-3">
-                            <h2 class="font-weight-normal mb-3"><span>$48,325</span></h2>
+                        <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 p-3 pl-5 ml-4">
+                            <h2 class="font-weight-normal mb-3"><span id="avgToday"></span></h2>
                             <div class="mb-0 mt-3 legend-item">
                                 <span class="fa-xs text-primary mr-1 legend-title "><i class="fa fa-fw fa-square-full"></i></span>
-                                <span class="legend-text">Current Week</span>
+                                <span class="legend-text">Today</span>
                             </div>
                         </div>
-                        <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 p-3">
+                        <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 p-3 pl-0 ml-0">
                             <h2 class="font-weight-normal mb-3">
-                                <span>$59,567</span>
+                                <span id="avgYesterday"></span>
                             </h2>
-                            <div class="text-muted mb-0 mt-3 legend-item"> <span class="fa-xs text-secondary mr-1 legend-title"><i class="fa fa-fw fa-square-full"></i></span><span class="legend-text">Previous Week</span></div>
+                            <div class="text-muted mb-0 mt-3 legend-item"> 
+                            <span class="fa-xs text-secondary mr-1 legend-title">
+                                <i class="fa fa-fw fa-square-full"></i>
+                                </span>
+                            <span class="legend-text">Yesterday</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -132,17 +137,7 @@
         <!-- ============================================================== -->
         <!-- total sale  -->
         <!-- ============================================================== -->
-        <div class="col-xl-4 col-lg-12 col-md-4 col-sm-12 col-12">
-            <div class="card">
-                <h5 class="card-header">Total Sales</h5>
-                <div class="card-body">
-                    <div id="donutchartForProductSales"></div>
-                    <div class="chart-widget-list" id="productLegend">
-
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <!-- ============================================================== -->
         <!-- end total sale  -->
         <!-- ============================================================== -->
@@ -151,76 +146,24 @@
         <!-- ============================================================== -->
         <!-- top selling products  -->
         <!-- ============================================================== -->
-        <div class="col-xl-7 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card">
-                <h5 class="card-header">Top Selling Products</h5>
+                <h5 class="card-header">Newly Updated Orders</h5>
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table">
                             <thead class="bg-light">
                                 <tr class="border-0">
-                                    <th class="border-0">#</th>
-                                    <th class="border-0">Image</th>
-                                    <th class="border-0">Product Name</th>
-                                    <th class="border-0">Product Id</th>
-                                    <th class="border-0">Quantity</th>
-                                    <th class="border-0">Price</th>
-                                    <th class="border-0">Order Time</th>
-                                    <th class="border-0">Customer</th>
+                                    <th class="border-0">Order Number</th>
+                                    <th class="border-0">Products</th>
+                                    <th class="border-0">Photo Quantity</th>
+                                    <th class="border-0">Order Status</th>
+                                    <th class="border-0">Total Amount</th>
+                                    <th class="border-0">Updated Time</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic.jpg" alt="user" class="rounded" width="45"></div>
-                                    </td>
-                                    <td>Product #1 </td>
-                                    <td>id000001 </td>
-                                    <td>20</td>
-                                    <td>$80.00</td>
-                                    <td>27-08-2018 01:22:12</td>
-                                    <td>Patricia J. King </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic-2.jpg" alt="user" class="rounded" width="45"></div>
-                                    </td>
-                                    <td>Product #2 </td>
-                                    <td>id000002 </td>
-                                    <td>12</td>
-                                    <td>$180.00</td>
-                                    <td>25-08-2018 21:12:56</td>
-                                    <td>Rachel J. Wicker </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic-3.jpg" alt="user" class="rounded" width="45"></div>
-                                    </td>
-                                    <td>Product #3 </td>
-                                    <td>id000003 </td>
-                                    <td>23</td>
-                                    <td>$820.00</td>
-                                    <td>24-08-2018 14:12:77</td>
-                                    <td>Michael K. Ledford </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>
-                                        <div class="m-r-10"><img src="~/assets/images/product-pic-4.jpg" alt="user" class="rounded" width="45"></div>
-                                    </td>
-                                    <td>Product #4 </td>
-                                    <td>id000004 </td>
-                                    <td>34</td>
-                                    <td>$340.00</td>
-                                    <td>23-08-2018 09:12:35</td>
-                                    <td>Michael K. Ledford </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="8"><a href="#" class="btn btn-outline-light float-right">View Details</a></td>
-                                </tr>
+                            <tbody id="ordersTable">
+                                
                             </tbody>
                         </table>
                     </div>
@@ -233,58 +176,13 @@
         <!-- ============================================================== -->
         <!-- revenue locations  -->
         <!-- ============================================================== -->
-        <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="col-xl-4 col-lg-12 col-md-4 col-sm-12 col-12">
             <div class="card">
-                <h5 class="card-header">Revenue by Location</h5>
+                <h5 class="card-header">Top Selling Products</h5>
                 <div class="card-body">
-                    <div id="locationmap" style="width:100%; height:200px"></div>
-                </div>
-                <div class="card-body border-top">
-                    <div class="row">
-                        <div class="col-xl-6">
-                            <div class="sell-ratio">
-                                <h5 class="mb-1 mt-0 font-weight-normal">New York</h5>
-                                <div class="progress-w-percent">
-                                    <span class="progress-value">72k </span>
-                                    <div class="progress progress-sm">
-                                        <div class="progress-bar" role="progressbar" style="width: 72%;" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-6">
-                            <div class="sell-ratio">
-                                <h5 class="mb-1 mt-0 font-weight-normal">San Francisco</h5>
-                                <div class="progress-w-percent">
-                                    <span class="progress-value">39k</span>
-                                    <div class="progress progress-sm">
-                                        <div class="progress-bar" role="progressbar" style="width: 39%;" aria-valuenow="39" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-6">
-                            <div class="sell-ratio">
-                                <h5 class="mb-1 mt-0 font-weight-normal">Sydney</h5>
-                                <div class="progress-w-percent">
-                                    <span class="progress-value">25k </span>
-                                    <div class="progress progress-sm">
-                                        <div class="progress-bar" role="progressbar" style="width: 39%;" aria-valuenow="39" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-6">
-                            <div class="sell-ratio">
-                                <h5 class="mb-1 mt-0 font-weight-normal">Singapore</h5>
-                                <div class="progress-w-percent mb-0">
-                                    <span class="progress-value">61k </span>
-                                    <div class="progress progress-sm">
-                                        <div class="progress-bar" role="progressbar" style="width: 61%;" aria-valuenow="61" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="donutchartForProductSales"></div>
+                    <div class="chart-widget-list" id="productLegend">
+
                     </div>
                 </div>
             </div>
@@ -300,7 +198,8 @@
     $(document).ready(function () {
         $('#menuDashboard').addClass("active");
         loadRealTimeData();
-
+        loadOrderDetailsTable();
+        
         google.charts.load("current", { packages: ["corechart"] });
         google.charts.setOnLoadCallback(drawPieChart);
 
@@ -315,7 +214,6 @@
             url: "/api/dashboard/retrieveRealTimeData",
             dataType: "json",
             success: function (data) {
-                console.log(data);
                 $('#NumberOfOrder').text(data.todayOrderNumber);
                 $('#numberOfRevenue').text(`$${data.todayRevenueNumber.toFixed(2)}`);
                 $('#numberOfPhotos').text(data.todayPhotoNumber);
@@ -372,9 +270,37 @@
             }
         });
     }
-</script>
 
-<script type="text/javascript">
+    function loadOrderDetailsTable() {
+        $('#ordersTable').html("");
+        console.log("function called");
+        $.ajax({
+            type: "GET",
+            url: "/api/dashboard/retriveNewlyUpdatedOrders",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    var $orderRow = $(`<tr>
+                                    <td>${data[i].OrderCode}</td>
+                                    <td>${data[i].Products}</td>
+                                    <td>${data[i].NumberOfPhotos}</td>
+                                    <td>${data[i].OrderStatus}</td>
+                                    <td>$${data[i].TotalAmount.toFixed(2)}</td>
+                                    <td>${data[i].UpdatedTime}</td>
+                                </tr>`);
+                    $('#ordersTable').append($orderRow);
+                }
+                var $refreshrRow = $(`<tr><td colspan="6"><a onclick="loadOrderDetailsTable()" class="btn btn-outline-light float-right">Refresh</a></td></tr>`);
+                $('#ordersTable').append($refreshrRow);
+                
+            },
+            error: function (data) {
+                console.log("Error");
+                console.log(data);
+            }
+        });
+    }
 
     function drawPieChart() {
         $.ajax({
@@ -424,14 +350,43 @@
         var chart = new google.visualization.PieChart(document.getElementById('donutchartForProductSales'));
         chart.draw(data, options);
     }
+
     function drawLineChart() {
         $.ajax({
             type: "GET",
             url: "/api/dashboard/retriveLineChartData",
             dataType: "json",
             success: function (data) {
-                console.log(data);
-                loadLineChart(data);
+                var sumYest = 0;
+                for (var i = 0; i < data.length; i++) {
+                    sumYest += data[i].yesterdayNumberOfOrders;
+                }
+                var averageYest = sumYest / data.length;
+                $('#avgYesterday').text(averageYest);
+
+                if (data[0].todayNumberOfOrders == -1) {
+                    $('#avgToday').text("N.A.");
+                    $('#peakToday').text("N.A.");
+                    loadYesterdayLineChart(data);
+                } else {
+                    var sumToday = 0;
+                    var peakNumberOfOrders = 0;
+                    var peakPeriod = "";
+                    for (var i = 0; i < data.length; i++) {
+                        sumToday += data[i].todayNumberOfOrders;
+                        if (data[i].todayNumberOfOrders > peakNumberOfOrders) {
+                            peakNumberOfOrders = data[i].todayNumberOfOrders;
+                            peakPeriod = data[i].TimeSpan;
+                        }
+                        else if (data[i].todayNumberOfOrders == peakNumberOfOrders) {
+                            peakPeriod += ", " + data[i].TimeSpan;
+                        }
+                    }
+                    var averageToday = sumToday / data.length;
+                    $('#avgToday').text(averageToday);
+                    $('#peakToday').text(peakPeriod);
+                    loadLineChart(data);
+                }
             },
             error: function (data) {
                 console.log("Error");
@@ -440,16 +395,17 @@
         });
         
     }
-    function loadLineChart(chartData) {
 
+    function loadLineChart(chartData) {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Time Span');
-        data.addColumn('number', 'Number Of Orders');
-        data.addColumn('number', 'Number Of Orders');
+        data.addColumn('number', 'Number Of Yesterday Orders');
+        data.addColumn('number', 'Number Of Today Orders');
+        data.addColumn('number', 'Number Of Today Orders');
         var dataRows = [];
         
         for (i = 0; i < chartData.length; i++) {
-            dataRows.push([chartData[i].TimeSpan, chartData[i].numberOfOrders, chartData[i].numberOfOrders]);
+            dataRows.push([chartData[i].TimeSpan, chartData[i].yesterdayNumberOfOrders, chartData[i].todayNumberOfOrders, chartData[i].todayNumberOfOrders]);
         }
         data.addRows(dataRows);
 
@@ -463,6 +419,31 @@
 
         var chart = new google.visualization.ComboChart(document.getElementById('lineChart'));
         chart.draw(data, options);
-        
     }
+    
+    function loadYesterdayLineChart(chartData) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Time Span');
+        data.addColumn('number', 'Number Of Yesterday Orders');
+        data.addColumn('number', 'Number Of Yesterday Orders');
+        var dataRows = [];
+
+        for (i = 0; i < chartData.length; i++) {
+            dataRows.push([chartData[i].TimeSpan, chartData[i].yesterdayNumberOfOrders, chartData[i].yesterdayNumberOfOrders]);
+        }
+        data.addRows(dataRows);
+
+        var options = {
+            vAxis: { title: 'Number of Orders Completed' },
+            hAxis: { title: 'Time' },
+            seriesType: 'bars',
+            legend: 'none',
+            series: { 1: { type: 'line' } }
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('lineChart'));
+        chart.draw(data, options);
+
+    }
+
 </script>

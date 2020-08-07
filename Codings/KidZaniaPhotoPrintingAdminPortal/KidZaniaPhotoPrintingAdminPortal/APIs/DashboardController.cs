@@ -136,44 +136,107 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
         public IHttpActionResult retriveLineChartData()
         {
             DateTime today = DateTime.Now;
+            DateTime yesterday = today.AddDays(-1);
             List<order> todayOrders = database.orders.Where(i => i.updatedAt.Day == today.Day && i.updatedAt.Month == today.Month && i.updatedAt.Year == today.Year).OrderBy(i => i.updatedAt).ToList();
+            List<order> yesterdayOrders = database.orders.Where(i => i.updatedAt.Day == yesterday.Day && i.updatedAt.Month == yesterday.Month && i.updatedAt.Year == yesterday.Year).OrderBy(i => i.updatedAt).ToList();
             
             DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 11, 0, 0);
-            //DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
-            DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 0, 0);
+            DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
+            end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 18, 0, 0);
 
+            if (end.Hour > 18)
+            {
+                end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 18, 0, 0);
+            }
 
-
+            bool isTodayOperating = true;
             if (DateTime.Compare(start, end) > 0)
             {
-                //return yesterday's chart
-                return BadRequest();
+                isTodayOperating = false;
+                end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 18, 0, 0);
             }
-            else
-            {
                 List<SalesFequency> salesFequencies = new List<SalesFequency>();
                 for (int i = 0; i <= end.Hour - start.Hour; i++)
                 {
                     SalesFequency sf = new SalesFequency();
-                    sf.TimeSpan = (start.Hour + i).ToString() + ":00 - " + (start.Hour + i + 1).ToString() + ":00";
-                    sf.numberOfOrders = 0;
-                    foreach (order o in todayOrders)
+                    sf.TimeSpan = (start.Hour + i).ToString() + ":00-" + (start.Hour + i + 1).ToString() + ":00";
+
+                    sf.yesterdayNumberOfOrders = 0;
+                    foreach (order yo in yesterdayOrders)
                     {
-                        if (o.updatedAt.Hour == start.Hour + i)
+                        if (yo.updatedAt.Hour == start.Hour + i)
                         {
-                            sf.numberOfOrders++;
+                            sf.yesterdayNumberOfOrders++;
                         }
                     }
-                    salesFequencies.Add(sf);
+                    if (isTodayOperating)
+                    {
+                        sf.todayNumberOfOrders = 0;
+                        foreach (order o in todayOrders)
+                        {
+                            if (o.updatedAt.Hour == start.Hour + i)
+                            {
+                                sf.todayNumberOfOrders++;
+                            }
+                        }
+                    }
+                else
+                {
+                    sf.todayNumberOfOrders = -1;
                 }
+                    salesFequencies.Add(sf);
 
-                return Ok(salesFequencies);
+
             }
+            return Ok(salesFequencies);
         }
         public class SalesFequency
         {
             public string TimeSpan { get; set; }
-            public int numberOfOrders { get; set; }
+            public int todayNumberOfOrders { get; set; }
+            public int yesterdayNumberOfOrders { get; set; }
+        }
+
+
+        [HttpGet]
+        [Route("api/dashboard/retriveNewlyUpdatedOrders")]
+        public IHttpActionResult retriveNewlyUpdatedOrders()
+        {
+            List<order> selectedOrders = database.orders.OrderByDescending(i => i.updatedAt).ToList();
+            selectedOrders.RemoveRange(10, selectedOrders.Count - 10);
+            List<OrderDetails> orders = new List<OrderDetails>();
+            foreach(order o in selectedOrders)
+            {
+                OrderDetails od = new OrderDetails();
+                od.OrderCode = o.order_id;
+                od.Products = "";
+                od.NumberOfPhotos = 0;
+                foreach (lineitem li in o.lineitems)
+                {
+                    od.Products += li.product.product_id + ", ";
+                    if (li.product.photo_product)
+                    {
+                        od.NumberOfPhotos += li.quantity;
+                    }
+                }
+                od.Products = od.Products.TrimEnd(' ');
+                od.Products = od.Products.TrimEnd(',');
+                od.OrderStatus = o.status;
+                od.TotalAmount = o.total_amount;
+                od.UpdatedTime = o.updatedAt.ToString("MM/dd/yyyy HH:mm:ss");
+                orders.Add(od);
+            }
+            return Ok(orders);
+        }
+
+        public class OrderDetails
+        {
+            public string OrderCode { get; set; }
+            public string Products { get; set; }
+            public int NumberOfPhotos { get; set; }
+            public string OrderStatus { get; set; }
+            public decimal TotalAmount { get; set; }
+            public string UpdatedTime { get; set; }
         }
     }
 }
