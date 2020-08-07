@@ -8,72 +8,78 @@
     <title></title>
     <meta charset="utf-8" />
     <link href="~/Content/bootstrap-4.5.0-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/libs/css/Login-Register/css/style.css" rel="stylesheet" />
+    <link href="~/assets/libs/css/Login-Register/fonts/material-icon/css/material-design-iconic-font.min.css" rel="stylesheet" />
 </head>
 <body style="padding-top:20px">
-    <div class="col-md-10 col-md-offset-1">
-        <div class="well">
-            <!--This table contains the fields that we want to capture to register a new user-->
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="success">
-                        <th colspan="2">
-                            New User Registration
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Email</td>
-                        <td><input type="text" id="txtEmail" placeholder="Email" /> </td>
-                    </tr>
-                    <tr>
-                        <td>Name</td>
-                        <td><input type="text" id="txtName" placeholder="Name" /> </td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td>
-                            <input type="password" id="txtPassword"
-                                   placeholder="Password" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Confirm Password</td>
-                        <td>
-                            <input type="password" id="txtConfirmPassword"
-                                   placeholder="Confirm Password" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Role</td>
-                        <td>
-                            <select id="txtRoleId">
-                                <option value="0">Pending</option>
-                                <option value="1">Admin</option>
-                                <option value="2">Hardcopy</option>
-                                <option value="3">Keychain & Magnet</option>
-                                <option value="4">Marketing</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr class="success">
-                        <td colspan="2">
-                            <input id="btnRegister" class="btn btn-success"
-                                   type="button" value="Register" />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-           
-            <!--Bootstrap alert to display any validation errors-->
-            <div id="divError" class="alert alert-danger collapse">
+    <div class="main">
 
-
-                <a id="linkClose" href="#" class="close">&times;</a>
-                <div id="divErrorText"></div>
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <form method="POST" class="register-form" id="register-form">
+                            <div class="form-group">
+                                <label for="txtEmail"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="txtEmail" id="txtEmail" placeholder="Your Email" />
+                            </div>
+                            <div class="form-group">
+                                <label for="txtName"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="txtName" id="txtName" placeholder="Your Name" />
+                            </div>
+                            <div class="form-group">
+                                <label for="id=" txtPassword"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="txtPassword" id="txtPassword" placeholder="Password" />
+                            </div>
+                            <div class="form-group">
+                                <label for="txtConfirmPassword"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="txtConfirmPassword" id="txtConfirmPassword" placeholder="Repeat your password" />
+                            </div>
+                            <div class="form-group">
+                                <label for="txtRoleId"></label>
+                                <select id="txtRoleId">
+                                    <option value="" disabled selected>Choose a role</option>
+                                    <option value="0">Pending</option>
+                                    <option value="1">Admin</option>
+                                    <option value="2">Hardcopy</option>
+                                    <option value="3">Keychain & Magnet</option>
+                                    <option value="4">Marketing</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="button" name="btnRegister" id="btnRegister" class="form-submit" value="Register" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <img src="~/assets/images/kidzania.png" width="200" height="30" style="margin-left: 50px; margin-bottom: -38px;" alt="sign up image">
+                        <img src="~/assets/images/cartoon2.png" alt="kidzania">
+                        <a href="~/Views/Home/Login.cshtml" class="signup-image-link">I am already member</a>
+                    </div>
+                </div>
             </div>
+        </section>
+        <div id="divError" class="alert alert-danger collapse">
+
+            <a id="linkClose" href="#" class="close">&times;</a>
+            <div id="divErrorText"></div>
         </div>
     </div>
+
+    <style>
+        option[value=""][disabled] {
+            display: none;
+        }
+
+        select {
+            appearance: auto !important;
+            border: 1.5px solid rgba(0, 0, 0, 0.3);
+            padding: 8px 16px;
+            width: 100%;
+        }
+    </style>
 
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
@@ -109,5 +115,5 @@
             });
         });
     </script>
-</body>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
