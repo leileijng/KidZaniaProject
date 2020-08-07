@@ -100,22 +100,27 @@
             padding-top: 8px;
             margin-bottom: -9px;
         }
-        .column{
+
+        .column {
             padding: 5px;
         }
-        .MP{
+
+        .MP {
             padding: 0 !important;
             margin: 0 !important;
             font-size: 1.04rem;
         }
+
         .subInfo {
             font-size: 0.98rem;
             color: dimgrey;
-            font-weight:lighter !important;
+            font-weight: lighter !important;
         }
-        .btn-primary{
+
+        .btn-primary {
             padding: 9px 13px !important;
         }
+
         .MP-Available {
             padding-left: 17px;
             padding-top: 12px;
@@ -292,22 +297,36 @@
             display: flex;
         }
 
-            .column.side {
-                -webkit-flex: 0.5;
-                -ms-flex: 0.5;
-                flex: 0.5;
-            }
+        .column.side {
+            -webkit-flex: 0.5;
+            -ms-flex: 0.5;
+            flex: 0.5;
+        }
+
         .column.icon {
             -webkit-flex: 0.1;
             -ms-flex: 0.1;
             flex: 0.1;
             padding-top: 10px;
         }
-            .column.middle {
-                -webkit-flex: 2;
-                -ms-flex: 2;
-                flex: 2;
-            }
+
+        .column.middle {
+            -webkit-flex: 2;
+            -ms-flex: 2;
+            flex: 2;
+        }
+        .nav-item {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .navbar-right-top {
+            position: absolute;
+            right: 10px;
+        }
+        #logoutBtn:hover {
+            color: #ff407b;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -349,105 +368,23 @@
                 <div class="collapse navbar-collapse " id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto navbar-right-top">
                         <li class="nav-item">
-                            <div id="custom-search" class="top-search-bar">
-                                <input class="form-control" type="text" placeholder="Search..">
-                            </div>
+                            <a>Hi, @User.Identity.Name</a>
                         </li>
-                        <li class="nav-item dropdown notification">
-                            <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
-                            <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
-                                <li>
-                                    <div class="notification-title"> Notification</div>
-                                    <div class="notification-list">
-                                        <div class="list-group">
-                                            <a href="#" class="list-group-item list-group-item-action active">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="~/assets/images/avatar-2.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block">
-                                                        <span class="notification-list-user-name">Jeremy Rakestraw</span>accepted your invitation to join the team.
-                                                        <div class="notification-date">2 min ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="list-group-item list-group-item-action">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="~/assets/images/avatar-3.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block">
-                                                        <span class="notification-list-user-name">John Abraham </span>is now following you
-                                                        <div class="notification-date">2 days ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="list-group-item list-group-item-action">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="~/assets/images/avatar-4.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block">
-                                                        <span class="notification-list-user-name">Monaan Pechi</span> is watching your main repository
-                                                        <div class="notification-date">2 min ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="list-group-item list-group-item-action">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="~/assets/images/avatar-5.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block">
-                                                        <span class="notification-list-user-name">Jessica Caruso</span>accepted your invitation to join the team.
-                                                        <div class="notification-date">2 min ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="list-footer"> <a href="#">View all notifications</a></div>
-                                </li>
-                            </ul>
+                        <li class="nav-item">
+                            <a style="cursor:pointer;" id="logoutBtn" onclick="logout()">Log Out</a>
                         </li>
-                        <li class="nav-item dropdown connection">
-                            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-fw fa-th"></i> </a>
-                            <ul class="dropdown-menu dropdown-menu-right connection-dropdown">
-                                <li class="connection-list">
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="~/assets/images/github.png" alt=""> <span>Github</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="~/assets/images/dribbble.png" alt=""> <span>Dribbble</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="~/assets/images/dropbox.png" alt=""> <span>Dropbox</span></a>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="~/assets/images/bitbucket.png" alt=""> <span>Bitbucket</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="~/assets/images/mail_chimp.png" alt=""><span>Mail chimp</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="~/assets/images/slack.png" alt=""> <span>Slack</span></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="conntection-footer"><a href="#">More</a></div>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown nav-user">
-                            <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
-                            <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
-                                <div class="nav-user-info">
-                                    <h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
-                                    <span class="status"></span><span class="ml-2">Available</span>
-                                </div>
-                                <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-power-off mr-2"></i>Logout</a>
-                            </div>
-                        </li>
+                        @if (@User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                @Html.ActionLink("Register", "Register", "Home", new { area = "" }, null)
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="navbar-collapse collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        
                     </ul>
                 </div>
             </nav>
@@ -598,6 +535,25 @@
 
 
     <script type="text/javascript">
+        function logout() {
+            // Log out from the cookie based logon.
+            var token = sessionStorage.getItem("accessToken");
+            var headers = {};
+            if (token) {
+                headers.Authorization = 'Bearer ' + token;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/Account/Logout',
+                headers: headers
+            }).done(function (data) {
+                // Successfully logged out. Delete the token.
+                window.location.href = "/Home/Login";
+            }).fail(function (data) {
+                console.log(data);
+            });
+        }
         $(document).ready(function () {
             $('#menuDashboard').click(function () {
                 location.replace('/marketing/dashboard');

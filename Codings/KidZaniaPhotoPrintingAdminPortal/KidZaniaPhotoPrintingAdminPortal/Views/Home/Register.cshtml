@@ -97,6 +97,7 @@
                         password: $('#txtPassword').val(),
                         confirmPassword: $('#txtConfirmPassword').val(),
                         roleId: $('#txtRoleId').val(),
+                        role: $('#txtRoleId option:selected').text()
                     },
                     success: function () {
                         window.location.replace("/Home/Login");

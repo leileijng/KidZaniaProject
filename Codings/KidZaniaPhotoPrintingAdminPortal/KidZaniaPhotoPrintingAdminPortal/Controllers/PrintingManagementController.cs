@@ -23,14 +23,14 @@ namespace KidZaniaPhotoPrintingAdminPortal.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin,Others")]
+        [Authorize(Roles = "Admin,Keychain & Magnet")]
         public ActionResult Others()
         {
             ViewBag.Title = "Keychain Magnet Printing";
             return View();
         }
 
-        [Authorize(Roles = "Admin,Hardcopy,Others")]
+        [Authorize(Roles = "Admin,Hardcopy,Keychain & Magnet")]
         public ActionResult PausedOrder()
         {
             ViewBag.Title = "Paused Order";
