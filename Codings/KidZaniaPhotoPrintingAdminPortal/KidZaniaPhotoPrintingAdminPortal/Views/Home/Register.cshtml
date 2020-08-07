@@ -84,6 +84,11 @@
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 
+    <script src="~/Scripts/noty/jquery.noty.js"></script>
+    <script src="~/Scripts/noty/layouts/center.js"></script>
+    <script src="~/Scripts/noty/themes/bootstrap.js"></script>
+    <script src="~/Scripts/noty/themes/default.js"></script>
+    <script src="~/Scripts/noty/themes/relax.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
 
@@ -109,8 +114,33 @@
                         window.location.replace("/Home/Login");
                     },
                     error: function (jqXHR) {
-                        $('#divErrorText').text(jqXHR.responseText);
-                        $('#divError').show('fade');
+                        var errorJson = $.parseJSON(jqXHR.responseText);
+                        console.log(errorJson.ModelState[""]);
+                        for (let x = 0; x < errorJson.ModelState[""].length; x++) {
+                            if (errorJson.ModelState[""][x].includes("Email") && errorJson.ModelState[""][x].includes("is already taken")) {
+                                new noty({
+                                    text: errorJson.ModelState[""][x],
+                                    theme: 'bootstrapTheme',
+                                    layout: 'center',
+                                    timeout: 3000,
+                                    type: 'error',
+                                    callback: {
+                                        onClose: function () {
+                                            window.location.replace("/Home/Login");
+                                        }
+                                    },
+                                }).show();
+                            }
+                            else {
+                                new noty({
+                                    text: errorJson.ModelState[""][x],
+                                    theme: 'bootstrapTheme',
+                                    layout: 'center',
+                                    timeout: 3000,
+                                    type: 'error'
+                                }).show();
+                            }
+                        }
                     }
                 });
             });
