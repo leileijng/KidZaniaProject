@@ -59,6 +59,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.Models
 
         [Required]
         [Display(Name = "RoleId")]
+        [Range(0,4, ErrorMessage = "Role Id is incorrect!")]
         public int RoleId { get; set; }
     }
 

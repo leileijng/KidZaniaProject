@@ -368,7 +368,7 @@
                 <div class="collapse navbar-collapse " id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto navbar-right-top">
                         <li class="nav-item">
-                            <a>Hi, @User.Identity.Name</a>
+                            <a id="welcomeMsg"></a>
                         </li>
                         <li class="nav-item">
                             <a style="cursor:pointer;" id="logoutBtn" onclick="logout()">Log Out</a>
@@ -551,6 +551,7 @@
                 url: '/api/Account/Logout',
                 headers: headers
             }).done(function (data) {
+                sessionStorage.removeItem("staff");
                 // Successfully logged out. Delete the token.
                 window.location.href = "/Home/Login";
             }).fail(function (data) {
@@ -558,6 +559,8 @@
             });
         }
         $(document).ready(function () {
+            var staff = JSON.parse(sessionStorage.getItem("staff"));
+            $('#welcomeMsg').text(`Hi, ` + staff.name);
             $('#menuDashboard').click(function () {
                 location.replace('/marketing/dashboard');
             })

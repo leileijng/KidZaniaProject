@@ -88,7 +88,7 @@
                             method: 'POST',
                             content: 'json',
                             success: function (data) {
-                                sessionStorage.setItem("staff", data);
+                                sessionStorage.setItem("staff", JSON.stringify(data));
                                 console.log(data.role);
                                 if (data.role == "Admin" || data.role == "Marketing") {
                                     window.location.replace("/Marketing/Dashboard");
@@ -97,7 +97,7 @@
                                 } else if (data.role == "Keychain & Magnet") {
                                     window.location.replace("/PrintingManagement/Others");
                                 } else {
-                                    //window.location.replace("/Error/Unauthorized");
+                                    window.location.replace("/Error/Unauthorized");
                                 }
                             },
                             error: function (jqXHR) {
