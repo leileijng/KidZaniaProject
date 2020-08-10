@@ -1013,12 +1013,12 @@ a:active {
 
     .mobile-menu {
         position: absolute;
-        top: 0;
+        top: 44px;
         left: 0;
         width: 250px;
         background-color: #666;
         padding: 10px;
-        margin-left: -260px;
+        /*margin-left: -260px;*/
         display: none
     }
 
@@ -1030,6 +1030,9 @@ a:active {
             list-style: none;
             padding: 0
         }
+    .show {
+    display: block;
+    }
 
     #mobile-primary-menu li {
         border-bottom: 2px solid #fff;
@@ -1044,10 +1047,10 @@ a:active {
                 text-decoration: none
             }
 
-    #mobile-primary-menu ul {
-        margin: 0;
-        display: none
-    }
+#mobile-primary-menu ul {
+    margin: 0;
+    /*display: none*/
+}
 
     #mobile-primary-menu li li {
         border-top: 1px dotted #fff;

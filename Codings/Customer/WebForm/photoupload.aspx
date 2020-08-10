@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title></title>
+    <title>Photo Upload</title>
     <script type="text/javascript" src="Scripts/jquery-3.3.1.js"></script>
     <link rel='stylesheet' href='/Scripts/css/style.css' type='text/css' media='all' />
     <link rel='stylesheet' href='/Scripts/css/misc.css' type='text/css' media='all' />
@@ -53,13 +53,18 @@
     max-width: 200px;
     }</style>
 
+    <script>
+        function mobileMenu() {
+            document.getElementById("mobile-primary-menu").classList.toggle("show");
+        }
+    </script>
 </head>
 <body>
     <!-- HEADER -->
     <header id="masthead" class="site-header" role="banner">
     <div class="masthead">
         <div class="wrapper">
-            <button class="mobile-menu-button"><span></span><span></span><span></span></button>
+            <button onclick="mobileMenu()" class="mobile-menu-button"><span></span><span></span><span></span></button>
             <div class="menu-quicklinks-container">
                 <ul id="menu-quicklinks" class="menu">
                     <li id="menu-item-452" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-206 current_page_item menu-item-452"><a href="https://kidzania.com.sg/">Homepage</a></li>
@@ -83,6 +88,19 @@
     </div>
     <!-- masthead -->
     <!-- #site-navigation -->
+        <div id="mobile-primary-menu" class="mobile-menu">
+            <ul id="mobile-quicklink-menu" class="menu">
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-206 current_page_item menu-item-452"><a href="https://kidzania.com.sg/">Homepage</a></li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1282"><a href="https://kidzania.com.sg/faq/">FAQs</a></li>
+                <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1544"><a href="https://kidzania.com.sg/our-partners/">Our Partners</a></li>
+                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2237"><a target="_blank" href="/M-Login/">Media</a></li>
+                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1760"><a href="/contact-us/">Contact Us</a></li>
+            </ul>
+            <div class="mobile-book-tickets">
+                <a href="https://ticketing.kidzania.com.sg" onclick="floodlightBookTickets();" class="navbar-brand" target="_blank">
+                    <img src="/Content/img/btn-book-tickets.png" /></a>
+            </div>
+        </div>
     </header>
     <!-- HEADER -->
 
