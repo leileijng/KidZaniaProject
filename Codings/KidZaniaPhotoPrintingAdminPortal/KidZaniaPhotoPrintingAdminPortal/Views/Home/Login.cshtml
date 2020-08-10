@@ -22,7 +22,6 @@
                     <div class="signin-image">
                         <img src="~/assets/images/kidzania.png" width="200" height="30" style="margin-left: 50px;" alt="sign in image">
                         <figure><img src="~/assets/images/cartoon1.png" alt="sign in image"></figure>
-                        <a href="~/Home/Register" class="signup-image-link">Create an account</a>
                     </div>
 
                     <div class="signin-form">
@@ -30,16 +29,13 @@
                         <form method="POST" class="register-form" id="login-form">
                             <div class="form-group">
                                 <label for="txtUsername"><i class="zmdi zmdi-email"></i></label>
-                                <input type="text" name="txtUsername" id="txtUsername" placeholder="Your Email" />
+                                <input type="text" name="txtUsername" id="txtUsername" placeholder="Your Email"  style="background-color: transparent !important" />
                             </div>
                             <div class="form-group">
                                 <label for="txtPassword"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="txtPassword" id="txtPassword" placeholder="Password" />
+                                <input type="password" name="txtPassword" id="txtPassword" placeholder="Password" style="background-color: transparent !important"/>
                             </div>
-                            <div class="form-group">
-                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
-                            </div>
+
                             <div class="form-group form-button">
                                 <input type="button" name="btnLogin" id="btnLogin" class="form-submit" value="Log in" />
                             </div>
@@ -92,7 +88,8 @@
                             method: 'POST',
                             content: 'json',
                             success: function (data) {
-                                sessionStorage.setItem("staff", data)
+                                sessionStorage.setItem("staff", data);
+                                console.log(data.role);
                                 if (data.role == "Admin" || data.role == "Marketing") {
                                     window.location.replace("/Marketing/Dashboard");
                                 } else if (data.role == "Hardcopy") {
@@ -100,7 +97,7 @@
                                 } else if (data.role == "Keychain & Magnet") {
                                     window.location.replace("/PrintingManagement/Others");
                                 } else {
-                                    window.location.replace("/Error/Unauthorized");
+                                    //window.location.replace("/Error/Unauthorized");
                                 }
                             },
                             error: function (jqXHR) {

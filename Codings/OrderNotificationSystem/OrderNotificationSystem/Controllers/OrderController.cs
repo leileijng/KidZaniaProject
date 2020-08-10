@@ -41,7 +41,7 @@ namespace OrderNotificationSystem.Controllers
                 {
                     orderid = x.order_id,
                     status = x.status
-                }).Where(x => x.status == "Printing").ToList();
+                }).Where(x => x.status == "Preparing").ToList();
                 return Ok(orders);
             }
             catch (Exception e)
