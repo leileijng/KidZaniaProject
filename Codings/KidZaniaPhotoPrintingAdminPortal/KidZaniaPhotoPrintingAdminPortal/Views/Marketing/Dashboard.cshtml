@@ -112,7 +112,7 @@
                         <div class="offset-xl-1 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 p-3 pl-5 ml-4">
                             <h2 class="font-weight-normal mb-3"><span id="avgToday"></span></h2>
                             <div class="mb-0 mt-3 legend-item">
-                                <span class="fa-xs text-primary mr-1 legend-title "><i class="fa fa-fw fa-square-full"></i></span>
+                                <span class="fa-xs mr-1 legend-title" style="color:#EB984E" ><i class="fa fa-fw fa-square-full"></i></span>
                                 <span class="legend-text">Today</span>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                                 <span id="avgYesterday"></span>
                             </h2>
                             <div class="text-muted mb-0 mt-3 legend-item"> 
-                            <span class="fa-xs text-secondary mr-1 legend-title">
+                            <span class="fa-xs mr-1 legend-title" style="color:#85C1E9">
                                 <i class="fa fa-fw fa-square-full"></i>
                                 </span>
                             <span class="legend-text">Yesterday</span>
@@ -178,7 +178,18 @@
         <!-- ============================================================== -->
         <div class="col-xl-4 col-lg-12 col-md-4 col-sm-12 col-12">
             <div class="card">
-                <h5 class="card-header">Top Selling Products</h5>
+                <div class="card-header" style="display:flex; padding-bottom:0; padding-right:0;">
+                    <h5>Top Selling Products</h5>
+
+                    <ul class="nav nav-pills" style="margin-left:18%;">
+                        <li class="nav-item" style="padding-right:0">
+                            <a class="nav-link active" style="font-size:0.8rem; padding: 5px 10px; cursor:pointer" id="todayPieBtn" onclick="drawPieChart()">Today</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="font-size:0.8rem;padding: 5px 10px; cursor:pointer" id="yestPieBtn" onclick="drawYesterdayPie()">Yesterday</a>
+                        </li>
+                    </ul>
+                </div>
                 <div class="card-body">
                     <div id="donutchartForProductSales"></div>
                     <div class="chart-widget-list" id="productLegend">
@@ -192,14 +203,29 @@
         <!-- ============================================================== -->
     </div>
 </div>
+<style>
+    .dot {
+        height: 8px;
+        width: 8px;
+        background-color: red;
+        border-radius: 100%;
+        display: inline-block;
+        margin-right: 6px;
+        margin-bottom: 4px;
+    }
+</style>
+
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
-
+    var orderList = [];
+    var todayPie = true;
     $(document).ready(function () {
         $('#menuDashboard').addClass("active");
         loadRealTimeData();
         loadOrderDetailsTable();
-        
+
+        setInterval(updateOrderDetailsTable, 30000);
+
         google.charts.load("current", { packages: ["corechart"] });
         google.charts.setOnLoadCallback(drawPieChart);
 
@@ -222,7 +248,7 @@
                 var revenueRate = data.rateRevenue;
                 var photoRate = data.ratePhoto;
 
-                $('#RateOfOrder').text(orderRate + "%");
+                $('#RateOfOrder').text(orderRate * 100 + "%");
                 if (orderRate < 0) {
                     $('#IconOfOrder').removeClass('fa-caret-up');
                     $('#IconOfOrder').addClass('fa-caret-down');
@@ -236,7 +262,7 @@
                     $('#ColorOfOrder').removeClass('text-danger');
                 }
 
-                $('#RateOfRevenue').text(revenueRate + "%");
+                $('#RateOfRevenue').text(revenueRate * 100 + "%");
                 if (revenueRate < 0) {
                     $('#IconOfRevenue').removeClass('fa-caret-up');
                     $('#IconOfRevenue').addClass('fa-caret-down');
@@ -250,7 +276,7 @@
                     $('#ColorOfRevenue').removeClass('text-danger');
                 }
 
-                $('#rateOfPhotos').text(photoRate + "%");
+                $('#rateOfPhotos').text(photoRate * 100 + "%");
                 if (photoRate < 0) {
                     $('#IconOfPhotos').removeClass('fa-caret-up');
                     $('#IconOfPhotos').addClass('fa-caret-down');
@@ -273,14 +299,13 @@
 
     function loadOrderDetailsTable() {
         $('#ordersTable').html("");
-        console.log("function called");
         $.ajax({
             type: "GET",
             url: "/api/dashboard/retriveNewlyUpdatedOrders",
             dataType: "json",
             success: function (data) {
-                console.log(data);
                 for (var i = 0; i < data.length; i++) {
+                    orderList.push(data[i].OrderCode);
                     var $orderRow = $(`<tr>
                                     <td>${data[i].OrderCode}</td>
                                     <td>${data[i].Products}</td>
@@ -291,7 +316,22 @@
                                 </tr>`);
                     $('#ordersTable').append($orderRow);
                 }
-                var $refreshrRow = $(`<tr><td colspan="6"><a onclick="loadOrderDetailsTable()" class="btn btn-outline-light float-right">Refresh</a></td></tr>`);
+                var today = new Date();
+                var hr = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                if (hr < 10) {
+                    hr = '0' + today.getHours();
+                }
+                if (min < 10) {
+                    min = '0' + today.getMinutes();
+                }
+                if (sec < 10) {
+                    sec = '0' + today.getSeconds();
+                }
+                var time = hr + ":" + min + ":" + sec + " ";
+
+                var $refreshrRow = $(`<tr><td colspan="6"><p class="float-right"> Last Update at:<span id="orderTableUpdatedAt"> ${time} </span><a onclick="updateOrderDetailsTable()" class="btn btn-outline-light">Refresh</a></p></td></tr>`);
                 $('#ordersTable').append($refreshrRow);
                 
             },
@@ -302,13 +342,131 @@
         });
     }
 
+    function updateOrderDetailsTable() {
+        $.ajax({
+            type: "GET",
+            url: "/api/dashboard/retriveNewlyUpdatedOrders",
+            dataType: "json",
+            success: function (data) {
+                $('.dot').remove();
+                console.log(data);
+                var dataUpdate = false;
+                for (var i = 0; i < data.length; i++) {
+                    var exist = false;
+                    for (var n = 0; n < orderList.length; n++) {
+                        if (orderList[n] == data[i].OrderCode) {
+                            exist = true;
+                        }
+                    }
+                    if (!exist) {
+                        dataUpdate = true;
+                        console.log("New Row" + data[i].OrderCode);
+                        var $orderRow = $(`<tr>
+                                    <td><span class="dot"></span>${data[i].OrderCode}</td>
+                                    <td>${data[i].Products}</td>
+                                    <td>${data[i].NumberOfPhotos}</td>
+                                    <td>${data[i].OrderStatus}</td>
+                                    <td>$${data[i].TotalAmount.toFixed(2)}</td>
+                                    <td>${data[i].UpdatedTime}</td>
+                                </tr>`);
+                        orderList.splice(orderList.length - 1, 1);
+                        orderList.push(data[i].OrderCode);
+                        $orderRow.hide();
+                        $('#ordersTable tr:first').before($orderRow);
+                        $orderRow.fadeIn("slow");
+                        $('#ordersTable tr:last').prev().fadeOut('slow', function () {
+                            $('#ordersTable tr:last').prev().remove();
+                        });
+                    }
+                }
+                if (dataUpdate) {
+                    loadRealTimeData();
+                    drawLineChart();
+                    if (todayPie) {
+                        drawPieChart();
+                    }
+                    else {
+                        drawYesterdayPie();
+                    }
+                }
+                var today = new Date();
+                var hr = today.getHours();
+                var min = today.getMinutes();
+                var sec = today.getSeconds();
+                if (hr < 10) {
+                    hr = '0' + today.getHours();
+                }
+                if (min < 10) {
+                    min = '0' + today.getMinutes();
+                }
+                if (sec < 10) {
+                    sec = '0' + today.getSeconds();
+                }
+                var time = hr + ":" + min + ":" + sec + " ";
+                $('#orderTableUpdatedAt').text(time);
+
+            },
+            error: function (data) {
+                console.log("Error");
+                console.log(data);
+            }
+        });
+    }
+
     function drawPieChart() {
+        todayPie = true;
+        $('#donutchartForProductSales').html("");
+        $('#yestPieBtn').removeClass("active");
+        $('#todayPieBtn').addClass("active");
+        $('#productLegend').html("");
         $.ajax({
             type: "GET",
             url: "/api/dashboard/retrivePieChartData",
             dataType: "json",
             success: function (data) {
-                loadPieChart(data);
+                var total = 0;
+                for (var i = 0; i < data.length; i++) {
+                    total += data[i].amount;
+                }
+                if (total != 0) {
+                    loadPieChart(data);
+                }
+                else {
+                    console.log("Today's not available");
+                    var $NAp = $(`<p>Today's Top Selling Product Chart is Not Available now!</p><p>There is no order placed yet!</p>`);
+                    $('#donutchartForProductSales').append($NAp);
+                }
+            },
+            error: function (data) {
+                console.log("Error");
+                console.log(data);
+            }
+        });
+    }
+
+    function drawYesterdayPie() {
+        todayPie = false;
+        $('#donutchartForProductSales').html("");
+        $('#todayPieBtn').removeClass("active");
+        $('#yestPieBtn').addClass("active");
+        $('#productLegend').html("");
+        $.ajax({
+            type: "GET",
+            url: "/api/dashboard/retriveYesterdayPieChartData",
+            dataType: "json",
+            success: function (data) {
+                var total = 0;
+                for (var i = 0; i < data.length; i++) {
+                    total += data[i].amount;
+                }
+                if (total != 0) {
+                    loadPieChart(data);
+                }
+                else {
+                    console.log("Yesterday's not available");
+                    var $NAp = $(`<p>Yesterday's Top Selling Product Chart is Not Available now!</p><p>There was no order placed for yesterday!</p>`);
+                    $('#donutchartForProductSales').append($NAp);
+                }
             },
             error: function (data) {
                 console.log("Error");
@@ -322,7 +480,6 @@
         data.addColumn('string', 'Sales Product');
         data.addColumn('number', 'Product Revenue');
         var dataRows = [];
-
         var listOfColors = ['#EF9191', '#9791EF', '#ECEF91', '#91EF98', '#91ADEF', '#839573', '#41C6BF'];
         var pieColors = [];
         for (i = 0; i < pieData.length; i++) {
@@ -414,7 +571,8 @@
             hAxis: { title: 'Time' },
             seriesType: 'bars',
             legend: 'none',
-            series: { 1 : { type: 'line' } }
+            series: { 2: { type: 'line' } },
+            colors: ['#85C1E9', '#EB984E', '#C0392B']
         };
 
         var chart = new google.visualization.ComboChart(document.getElementById('lineChart'));
