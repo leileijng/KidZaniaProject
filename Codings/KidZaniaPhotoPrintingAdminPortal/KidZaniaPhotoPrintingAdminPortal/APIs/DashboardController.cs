@@ -78,12 +78,12 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             decimal ratePhoto = 1;
             if (yesterdayOrderNumber != 0 && yesterdayPhotoNumber!=0)
             {
-                rateOrder = Math.Round(((decimal)todayOrderNumber - (decimal)yesterdayOrderNumber) / (decimal)yesterdayOrderNumber, 2);
-                rateRevenue = Math.Round(((decimal)todayRevenueNumber - (decimal)yesterdayRevenueNumber) / (decimal)yesterdayRevenueNumber, 2);
+                rateOrder = Math.Round(((decimal)todayOrderNumber - (decimal)yesterdayOrderNumber) / (decimal)yesterdayOrderNumber, 4);
+                rateRevenue = Math.Round(((decimal)todayRevenueNumber - (decimal)yesterdayRevenueNumber) / (decimal)yesterdayRevenueNumber, 4);
             }
             if (yesterdayPhotoNumber != 0)
             {
-                ratePhoto = Math.Round(((decimal)todayPhotoNumber - (decimal)yesterdayPhotoNumber) / (decimal)yesterdayPhotoNumber, 2);
+                ratePhoto = Math.Round(((decimal)todayPhotoNumber - (decimal)yesterdayPhotoNumber) / (decimal)yesterdayPhotoNumber, 4);
             }
             return Ok(new {
                 todayOrderNumber,
@@ -124,6 +124,36 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
             return Ok(salesPro);
         }
+
+        [HttpGet]
+        [Route("api/dashboard/retriveYesterdayPieChartData")]
+        public IHttpActionResult retriveYesterdayPieChartData()
+        {
+            DateTime yesterday = DateTime.Now.AddDays(-1);
+            List<lineitem> todayLineItems = database.lineitems.Where(i => i.updatedAt.Day == yesterday.Day && i.updatedAt.Month == yesterday.Month && i.updatedAt.Year == yesterday.Year && i.status != "Unpaid").ToList();
+            List<product> products = database.products.Where(i => i.visibility == true).ToList();
+            List<SalesProduct> salesPro = new List<SalesProduct>();
+            foreach (product p in products)
+            {
+                SalesProduct s = new SalesProduct();
+                s.product_name = p.name;
+                s.amount = 0;
+                salesPro.Add(s);
+            }
+
+            foreach (lineitem l in todayLineItems)
+            {
+                for (int i = 0; i < salesPro.Count; i++)
+                {
+                    if (l.product.name.Equals(salesPro[i].product_name))
+                    {
+                        salesPro[i].amount += l.item_amount;
+                    }
+                }
+            }
+            return Ok(salesPro);
+        }
+
 
         public class SalesProduct
         {
