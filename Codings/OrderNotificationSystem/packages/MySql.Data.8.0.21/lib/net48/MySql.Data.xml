@@ -106,6 +106,18 @@
             </summary>
             <returns>An object containing the encoded, encrypted, or converted password.</returns>
         </member>
+        <member name="T:MySql.Data.MySqlClient.Authentication.MySqlPemReader">
+            <summary>
+            Provides functionality to read, decode and convert PEM files to objects supported in .NET.
+            </summary>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.Authentication.MySqlPemReader.ConvertPemToRSAProvider(System.Byte[])">
+            <summary>
+            Converts the binary data of a PEM file to an <see cref="T:System.Security.Cryptography.RSACryptoServiceProvider"/> object. 
+            </summary>
+            <param name="rawPublicKey">A binary representation of the public key provided by the server.</param>
+            <returns>An <see cref="T:System.Security.Cryptography.RSACryptoServiceProvider"/> object containing the data found in the public key.</returns>
+        </member>
         <member name="T:MySql.Data.MySqlClient.Authentication.MySqlNativePasswordPlugin">
             <summary>
             Allows connections to a user account set with the mysql_native_password authentication plugin.
@@ -2297,7 +2309,7 @@
       </code>
     </example>
         </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlConnection.BeginTransaction(System.Data.IsolationLevel)">
+        <member name="M:MySql.Data.MySqlClient.MySqlConnection.BeginTransaction(System.Data.IsolationLevel,System.String)">
             <summary>Begins a database transaction with the specified isolation level.</summary><param name="iso">The isolation level under which the transaction should run. </param><returns>An object representing the new transaction.</returns><exception cref="T:System.InvalidOperationException">Parallel exceptions are not supported.</exception><remarks>
       <para>This command is equivalent to the MySQL BEGIN TRANSACTION command.</para>
       <para>
@@ -10829,7 +10841,7 @@
             DNS resolver that runs queries against a server.
             </summary>
         </member>
-        <member name="M:MySql.Data.Common.DnsResolver.CreateResolver(System.String,Ubiety.Dns.Core.Common.TransportType)">
+        <member name="M:MySql.Data.Common.DnsResolver.CreateResolver(System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:Ubiety.Dns.Core.Resolver"/> class.
             </summary>
@@ -10958,6 +10970,13 @@
             Stores a list of SSH clients having different connection settings.
             </summary>
         </member>
+        <member name="M:MySql.Data.Common.MySqlSshClientManager.RemoveUnsupportedAlgorithms(Renci.SshNet.SshClient)">
+            <summary>
+            Removes the MySQL unsupported encryptions (SSH Ciphers), MACs and key exchange algorithms.
+            </summary>
+            <param name="client">The <see cref="T:Renci.SshNet.SshClient"/> instance containing the list of supported elements.</param>
+            <remarks>See https://confluence.oraclecorp.com/confluence/display/GPS/Approved+Security+Technologies%3A+Standards+-+SSH+Ciphers+and+Versions for an updated list.</remarks>
+        </member>
         <member name="M:MySql.Data.Common.MySqlSshClientManager.SetupSshClient(System.String,System.String,System.String,System.String,System.String,System.UInt32,System.String,System.UInt32,System.Boolean)">
             <summary>
             Initializes an <see cref="T:Renci.SshNet.SshClient"/> instance if no SSH client with similar connection options has already been initialized.
@@ -10972,6 +10991,13 @@
             <param name="port">The local port number.</param>
             <param name="isXProtocol">Flag to indicate if the connection will be created for the classic or X Protocol.</param>
             <returns></returns>
+        </member>
+        <member name="M:MySql.Data.Common.MySqlSshClientManager.ValidateDeprecatedAlgorithms(Renci.SshNet.SshClient)">
+            <summary>
+            Raises warning messages if the SSH client is using a deprecated encryption, MAC or key exchanged algorithm.
+            </summary>
+            <param name="client">The <see cref="T:Renci.SshNet.SshClient"/> instance containing the
+            encryption, MAC algorithm and key exchange algorithm currently being used.</param>
         </member>
         <member name="M:MySql.Data.Common.MySqlTokenizer.ReadQuotedToken(System.Char)">
             <summary>
@@ -11512,6 +11538,11 @@
               Looks up a localized string similar to The default connection encoding was not found. Please report this as a bug along with your connection string and system details..
             </summary>
         </member>
+        <member name="P:MySql.Data.Resources.DeprecatedSshAlgorithm">
+            <summary>
+              Looks up a localized string similar to The {0} algorithm being used by the server({1}) has been deprecated and will be removed in a future version. It is recommended that you configure the server to use a non-deprecated {0} algorithm..
+            </summary>
+        </member>
         <member name="P:MySql.Data.Resources.DistributedTxnNotSupported">
             <summary>
               Looks up a localized string similar to MySQL Connector/NET does not currently support distributed transactions..
@@ -11555,6 +11586,11 @@
         <member name="P:MySql.Data.Resources.ErrorCreatingSocket">
             <summary>
               Looks up a localized string similar to Error creating socket connection.
+            </summary>
+        </member>
+        <member name="P:MySql.Data.Resources.ExecuteProcedureUnauthorized">
+            <summary>
+              Looks up a localized string similar to Verify that user &apos;{0}&apos;@&apos;{1}&apos; has enough privileges to execute..
             </summary>
         </member>
         <member name="P:MySql.Data.Resources.FatalErrorDuringExecute">
@@ -11780,7 +11816,17 @@
             DETERMINISTIC
             DISTINCT
             DISTINCTROW
-            D [rest of string was truncated]&quot;;.
+            DIV
+            DO
+            DOUBLE
+            DROP
+            DUAL
+            EACH
+            ELSE
+            ELSEIF
+            ENCLOSED
+            END
+            ESC [rest of string was truncated]&quot;;.
              </summary>
         </member>
         <member name="P:MySql.Data.Resources.LocalInfileDisabled">

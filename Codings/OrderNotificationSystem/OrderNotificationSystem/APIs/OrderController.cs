@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace OrderNotificationSystem.Controllers
+namespace OrderNotificationSystem.APIs
 {
     public class OrderController : ApiController
     {
@@ -47,6 +47,23 @@ namespace OrderNotificationSystem.Controllers
             catch (Exception e)
             {
                 return BadRequest("Fail to retrieve printing orders!");
+            }
+        }
+
+        [HttpPut]
+        [Route("api/order/CompleteOrder")]
+        public IHttpActionResult CompleteOrder(string orderId)
+        {
+            try
+            {
+                var order = database.orders.SingleOrDefault(x => x.order_id == orderId);
+                order.status = "Completed";
+                database.SaveChanges();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Fail to update order status!");
             }
         }
     }

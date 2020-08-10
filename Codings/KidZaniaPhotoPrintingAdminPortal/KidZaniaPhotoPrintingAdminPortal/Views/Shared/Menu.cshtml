@@ -560,7 +560,7 @@
         }
         $(document).ready(function () {
             var staff = JSON.parse(sessionStorage.getItem("staff"));
-            $('#welcomeMsg').text(`Hi, ` + staff.name);
+            $('#welcomeMsg').text(`Hi, ` + staff.name + `!`);
             $('#menuDashboard').click(function () {
                 location.replace('/marketing/dashboard');
             })

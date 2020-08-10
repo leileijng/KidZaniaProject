@@ -95,6 +95,7 @@
 </style>
 <script>
     $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip()
         //Create Order
         checkReadyOrder();
         checkWaitingOrder();
@@ -131,9 +132,9 @@
                     }
                     if (!checker) {
                         readyOrder.push(record.orderid);
-                        newOrder = `<li id="ready${record.orderid}"class="media">
-                            <div class="media-body">
-                                <h3 class="mt-0 mb-1">${record.orderid}</h3>
+                        newOrder = `<li id="ready${record.orderid}" class="media">
+                            <div onmouseover="displayChk('${record.orderid}')" onmouseout="removeChk('${record.orderid}')" class="media-body">
+                                <h3 class="mt-0 mb-1"><input hidden style="margin-right:5px;" id="complete${record.orderid}" onclick="completeItem('${record.orderid}')" type="checkbox"/>${record.orderid}</h3>
                             </div>
                         </li>`;
                         $('#readyOrders').append(newOrder);
@@ -214,4 +215,34 @@
         });
     }
 
+    function displayChk(orderid) {
+        $(`#complete${orderid}`).removeAttr("hidden");
+    }
+
+    function removeChk(orderid) {
+        $(`#complete${orderid}`).attr("hidden", true);
+    }
+
+    function completeItem(orderid) {
+        $.ajax({
+            url: `/api/order/CompleteOrder?orderid=${orderid}`,
+            type: 'PUT',
+            contentType: 'application/json',
+            success: function (data) {
+                console.log(data);
+                for (let y = 0; y < readyOrder.length; y++) {
+                    if (readyOrder[y] == orderid) {
+                        $(`#ready${readyOrder[y]}`).addClass(deleteEffects).one(effectsend, function () {
+                            $(`#ready${readyOrder[y]}`).removeClass(deleteEffects);
+                            $(`#ready${readyOrder[y]}`).remove();
+                            readyOrder.splice(y, 1);
+                        });
+                    }
+                }
+            },
+            error: function (data) {
+                alert("fail to update order status!");
+            }
+        });
+    }
 </script>

@@ -116,6 +116,31 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
         }
 
+        [Route("api/others/pause")]
+        [HttpPut]
+        public IHttpActionResult pauseOrder(string orderid)
+        {
+            try
+            {
+                var lineitems = database.lineitems.Where(y => y.lineitem_id.Contains(orderid) && (y.lineitem_id.Contains("mg") || y.lineitem_id.Contains("kc") || y.lineitem_id.Contains("ec"))).ToList();
+                foreach(var oneline in lineitems)
+                {
+                    oneline.status = "Paused";
+                }
+                var itemphotoes = database.itemphotoes.Where(y => y.lineitem_id.Contains(orderid) && (y.lineitem_id.Contains("mg") || y.lineitem_id.Contains("kc") || y.lineitem_id.Contains("ec"))).ToList();
+                foreach (var itemphoto in itemphotoes)
+                {
+                    itemphoto.printing_status = "Paused";
+                }
+                database.SaveChanges();
+                return Ok("Update Successful!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
         [Route("api/others/downloadImage/{order_id}")]
         [HttpPut]
         public IHttpActionResult UploadFile(string order_id, string photos, string path)
