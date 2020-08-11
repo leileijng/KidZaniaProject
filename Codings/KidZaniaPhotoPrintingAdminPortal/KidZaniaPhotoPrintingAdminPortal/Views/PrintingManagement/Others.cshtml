@@ -429,7 +429,7 @@
             var deleteEffects = 'animate__animated animate__fadeOut animate__slow';
             var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
             if ($('#completedMsg')) {
-                $('#Msg').remove();
+                $('#completedMsg').remove();
             }
             $(`#order${order}`).addClass(deleteEffects).one(effectsend, function () {
                 $(`#order${order}`).removeClass(deleteEffects);
