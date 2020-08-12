@@ -35,7 +35,13 @@
                             <th>Pause</th>
                         </tr>
                     </thead>
-                    <tbody id="myTable"></tbody>
+                    <tbody id="myTable">
+                        <tr id="waitingMsg">
+                            <td colspan="12">
+                                There's no waiting order!
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <div class="card border-3 border-bottom-NV border-bottom-primary">
@@ -51,7 +57,13 @@
                             <th>Order Code</th>
                         </tr>
                     </thead>
-                    <tbody id="collectedTable"></tbody>
+                    <tbody id="collectedTable">
+                        <tr id="completedMsg">
+                            <td colspan="12">
+                                There's no completed order!
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -163,7 +175,7 @@
                     let counter = 0;
                     let pausechecker = false;
                     for (let x = 0; x < record.product.length; x++) {
-                        if (record.product[x].status == "Completed") {
+                        if (record.product[x].status == "Collected") {
                             counter++;
                         }
                         else if (record.product[x].status == "Paused") {
@@ -172,10 +184,12 @@
                     }
                     if (counter == record.product.length) {
                         let $rowElement = createRow(record, false);
+                        $('#collectedTable').html("");
                         $('#collectedTable').append($rowElement);
                     }
                     else if (!pausechecker) {
                         let $rowElement = createRow(record, true);
+                        $('#myTable').html("");
                         $('#myTable').append($rowElement);
                     }
                     var effects = 'animate__animated animate__fadeIn animate__slower';
@@ -242,7 +256,7 @@
                 lineitemid += product[x].lineitem_id + "|";
             }
             console.log(lineitemid);
-            $cellElement = $(`<td id="pauseBtn"><a onclick="pause('${lineitemid}', '${order_id}')"><i class="fas fa-ban" id="block${order_id}" style="color:red"></i></a></td>`);
+            $cellElement = $(`<td id="pauseBtn"><a onclick="pause('${order_id}')"><i class="fas fa-ban" id="block${order_id}" style="color:red"></i></a></td>`);
             $rowElement.append($cellElement);
         }
         return $rowElement;
@@ -278,7 +292,7 @@
                     else {
                         $(`#input-select${record.product_id}`)[0].selectedIndex = 2;
                     }
-                    if (record.status == "Completed") {
+                    if (record.status == "Collected") {
                         $(`#check${record.lineitem_id}`).attr('checked', true);
                     }
                     else if (record.product_id == "ec" && record.status != "Completed") {
@@ -364,6 +378,9 @@
                     let orderChecker = document.getElementById(`order${record.order_id}`);
                     if (orderChecker == null && pausechecker == false) {
                         let $rowElement = createRow(record, true);
+                        if ($('#waitingMsg')) {
+                            $('#waitingMsg').remove();
+                        }
                         $('#myTable').append($rowElement);
                         var effects = 'animate__animated animate__fadeIn animate__slow';
                         var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
@@ -390,11 +407,11 @@
         let status;
         let url;
         if (itemStatus == true) {
-            status = "Completed";
+            status = "Collected";
             url = `/API/others/moveImage/${order_id}?photos=${photos}&product_id=${product_id}`;
         }
         else {
-            status = "Paid";
+            status = "Waiting";
             url = `/API/others/removeImage/${order_id}?photos=${photos}&product_id=${product_id}`;
         }
         $.ajax({
@@ -411,7 +428,9 @@
             var effects = 'animate__animated animate__fadeIn animate__slow';
             var deleteEffects = 'animate__animated animate__fadeOut animate__slow';
             var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
-
+            if ($('#completedMsg')) {
+                $('#completedMsg').remove();
+            }
             $(`#order${order}`).addClass(deleteEffects).one(effectsend, function () {
                 $(`#order${order}`).removeClass(deleteEffects);
                 $(`#order${order}`).find('td:last-child').remove();
@@ -429,7 +448,7 @@
 
             $(`#order${order}`).addClass(deleteEffects).one(effectsend, function () {
                 $(`#order${order}`).removeClass(deleteEffects);
-                $(`#order${order}`).append($(`<td id="pauseBtn"><a onclick="blockOrder('${order}')"><i class="fas fa-ban" style="color:gray"></i></a></td>`));
+                $(`#order${order}`).append($(`<td id="pauseBtn"><a onclick="pause('${order}')"><i class="fas fa-ban" style="color:gray"></i></a></td>`));
                 let tr = $(`#order${order}`).closest("tr").remove().clone();
                 $('#myTable').append(tr);
                 $(`#order${order}`).addClass(effects).one(effectsend, function () {
@@ -447,12 +466,6 @@
                 console.log(data);
             })
         }
-        //    $.ajax({
-        //        type: 'PUT',
-        //        url: `/API/others/completeOrder/${id}?status=${status}`,
-        //    }).fail(function (data, textStatus, jqXHR) {
-        //        console.log(data);
-        //    })
     }
 
     //Download Image to Local file
@@ -515,43 +528,40 @@
     }
 
     //Pause Order
-    function pause(lineItemId, order) {
-        let newid = lineItemId.split("|");
-        for (let x = 0; x < newid.length - 1; x++) {
-            $.ajax({
-                type: 'PUT',
-                url: `/api/others/${newid[x]}?status=Paused`,
-            }).done(function (data, textStatus, jqXHR) {
-                console.log(data);
-                new noty({
-                    text: data,
-                    layout: 'center',
-                    theme: 'bootstrapTheme',
-                    type: 'success',
-                    timeout: 3000,
-                    callback: {
-                        onClose: function () {
-                            var effects = 'animate__animated animate__fadeIn animate__slow';
-                            var deleteEffects = 'animate__animated animate__fadeOut animate__slow';
-                            var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
+    function pause(order) {
+        $.ajax({
+            type: 'PUT',
+            url: `/api/others/pause?orderid=${order}`,
+        }).done(function (data, textStatus, jqXHR) {
+            console.log(data);
+            new noty({
+                text: data,
+                layout: 'center',
+                theme: 'bootstrapTheme',
+                type: 'success',
+                timeout: 3000,
+                callback: {
+                    onClose: function () {
+                        var effects = 'animate__animated animate__fadeIn animate__slow';
+                        var deleteEffects = 'animate__animated animate__fadeOut animate__slow';
+                        var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd';
 
-                            $(`#order${order}`).addClass(deleteEffects).one(effectsend, function () {
-                                $(`#order${order}`).removeClass(deleteEffects);
-                                $(`#order${order}`).closest("tr").remove();
-                            });
-                        }
+                        $(`#order${order}`).addClass(deleteEffects).one(effectsend, function () {
+                            $(`#order${order}`).removeClass(deleteEffects);
+                            $(`#order${order}`).closest("tr").remove();
+                        });
                     }
-                }).show();
-            }).fail(function (data, textStatus, jqXHR) {
-                new noty({
-                    text: data.responseJSON.message,
-                    theme: 'bootstrapTheme',
-                    layout: 'center',
-                    timeout: 3000,
-                    type: 'error'
-                }).show();
-            });
-        }
+                }
+            }).show();
+        }).fail(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.responseJSON.message,
+                theme: 'bootstrapTheme',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error'
+            }).show();
+        });
     }
 
     //Displaying picture in the print section

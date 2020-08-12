@@ -38,7 +38,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     }).Where(y => y.p_id == x.pid && (y.product_id == "ec" || y.product_id == "kc" || y.product_id == "mg")).ToList(),
                     status = x.status
                 }
-                ).Where(x => (x.status == "Waiting" || x.status == "Ready") && x.product.Count != 0).ToList();
+                ).Where(x => (x.status == "Waiting" || x.status == "Collected") && x.product.Count != 0).ToList();
                 return Ok(order);
             }
             catch (Exception e)
@@ -69,7 +69,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     }).Where(y => y.p_id == x.pid && (y.product_id == "ec" || y.product_id == "kc" || y.product_id == "mg")).ToList(),
                     status = x.status
                 }
-                ).SingleOrDefault(x => (x.status == "Waiting" || x.status== "Ready") && x.product.Count != 0 && x.order_id == id);
+                ).SingleOrDefault(x => (x.status == "Waiting" || x.status== "Collected") && x.product.Count != 0 && x.order_id == id);
                 return Ok(order);
             }
             catch (Exception e)
@@ -106,6 +106,31 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 if (allCollected)
                 {
                     order.status = "Ready";
+                }
+                database.SaveChanges();
+                return Ok("Update Successful!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.ToString());
+            }
+        }
+
+        [Route("api/others/pause")]
+        [HttpPut]
+        public IHttpActionResult pauseOrder(string orderid)
+        {
+            try
+            {
+                var lineitems = database.lineitems.Where(y => y.lineitem_id.Contains(orderid) && (y.lineitem_id.Contains("mg") || y.lineitem_id.Contains("kc") || y.lineitem_id.Contains("ec"))).ToList();
+                foreach(var oneline in lineitems)
+                {
+                    oneline.status = "Paused";
+                }
+                var itemphotoes = database.itemphotoes.Where(y => y.lineitem_id.Contains(orderid) && (y.lineitem_id.Contains("mg") || y.lineitem_id.Contains("kc") || y.lineitem_id.Contains("ec"))).ToList();
+                foreach (var itemphoto in itemphotoes)
+                {
+                    itemphoto.printing_status = "Paused";
                 }
                 database.SaveChanges();
                 return Ok("Update Successful!");
