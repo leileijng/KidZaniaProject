@@ -102,7 +102,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
         {
             try
             {
-                var printers = database.printers.Where(i => i.name.Contains("MG")).Select(x => new
+                var printers = database.printers.Where(i => i.name.Contains("A5")).Select(x => new
                 {
                     printerId = x.printer_id,
                     printerName = x.name,
@@ -175,15 +175,17 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             {
                 var lineitem = database.lineitems.SingleOrDefault(x => x.product.product_id.Equals("a5") && x.order.order_id == orderCode);
                 lineitem.status = data["status"].ToString();
+                lineitem.updatedAt = DateTime.Now;
                 string lineItemId = lineitem.lineitem_id;
                 var photos = database.itemphotoes.Where(i => i.lineitem_id == lineItemId).ToList();
-
+                
 
                 for (int i = 0; i < photos.Count; i++)
                 {
                     string photoId = photos[i].itemphoto_id;
                     var photoItem = database.itemphotoes.SingleOrDefault(m => m.itemphoto_id == photoId);
                     photoItem.printing_status = data["status"].ToString();
+                    photoItem.updated_at = DateTime.Now;
                 }
 
                 if (data["status"].ToString().Equals("Collected"))
@@ -203,6 +205,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     if (allCollected)
                     {
                         order.status = "Ready";
+                        order.updatedAt = DateTime.Now;
                     }
                 }
 
@@ -263,7 +266,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
 
                 database.SaveChanges();
 
-                return Ok();
+                return Ok(printerId + "has been resumed!");
 
             }
             catch (Exception ex)
@@ -396,9 +399,33 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                                 if(jobStatus.Trim(' ') != "")
                                 {
                                     photoItem.printing_status = jobStatus;
+                                    Debug.WriteLine(jobStatus);
                                     if (jobStatus.Equals("Printing"))
                                     {
                                         photoItem.lineitem.status = "Printing";
+                                        photoItem.order.status = "Preparing";
+                                    }
+                                    else if (jobStatus.Equals("Deleting | Printing"))
+                                    {
+                                        photoItem.printing_status = "Waiting";
+                                        lineitem li = photoItem.lineitem;
+                                        List<itemphoto> otherItemPhoto = database.itemphotoes.Where(i => i.lineitem.lineitem_id == li.lineitem_id).ToList();
+                                        bool allWaiting = true;
+                                        foreach (itemphoto p in otherItemPhoto)
+                                        {
+                                            if(p.itemphoto_id != photoItem.itemphoto_id)
+                                            {
+                                                if (p.printing_status != "Queueing" || p.printing_status != "Waiting")
+                                                {
+
+                                                    allWaiting = false;
+                                                }
+                                            }
+                                        }
+                                        if (allWaiting)
+                                        {
+                                            li.status = "Waiting";
+                                        }
                                     }
                                     photoItem.updated_at = DateTime.Now;
                                 }
@@ -451,7 +478,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                             }
                         }
                         database.SaveChanges();
-                        await Task.Delay(1000);
+                        await Task.Delay(500);
                     }
                 });
                 return Ok();

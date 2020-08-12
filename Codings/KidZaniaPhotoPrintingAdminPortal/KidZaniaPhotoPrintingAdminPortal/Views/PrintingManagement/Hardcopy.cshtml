@@ -15,7 +15,6 @@
             <div class="page-header">
                 <div>
                     <h2 class="pageheader-title">
-
                         Hardcopy Printing
                     </h2>
                     <div  style="display: none;" id="startAutoPrintingP">
@@ -72,10 +71,10 @@
             <input id="myInput" type="text" onkeyup="searchFunction()" placeholder="Search..">
             <div class="tab-regular">
                 <ul class="nav nav-tabs" id="myTab7" role="tablist">
-                    <li class="nav-item">
+                    <li class="nav-item" style="padding:0">
                         <a class="nav-link active" id="home-tab-justify" data-toggle="tab" href="#home-justify" role="tab" aria-controls="home" aria-selected="true" onclick="toggleTable()">Processing Orders</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="padding:0">
                         <a class="nav-link" id="profile-tab-justify" data-toggle="tab" href="#profile-justify" role="tab" aria-controls="profile" aria-selected="false" onclick="toggleTable()">Collected Orders</a>
                     </li>
                 </ul>
@@ -267,6 +266,7 @@
     }
 
     function createCollectedRow(data) {
+        console.log("create collected row");
         orderNo = data.order_id;
         if (!checkForOrderExist(data.order_id)) {
             var $orderRow = null;
@@ -295,7 +295,7 @@
                                     <td></td>
                                 </tr>`);
 
-            $(`#completedOrders`).append($orderRow);
+            $(`#completedOrders tr:first`).before($orderRow);
             $(`#completedOrders`).append($photoRow);
         }
 
@@ -316,7 +316,9 @@
         }
     }
 
-    function createWaitingRow(data) {
+    function createWaitingRow(data) 
+    {
+        console.log(data);
         var orderNo = data.order_id;
         var orderPhotoIds = data.photo_id.split(".");
         var orderPhotoId = orderPhotoIds[0];
@@ -375,6 +377,15 @@
                 $(`#printingTable`).append($photoRow);
             }
 
+            var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+            if (currentLineItemPrinter == "-") {
+                currentLineItemPrinter = "";
+            }
+            else {
+                currentLineItemPrinter += " & ";
+            }
+            var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+            $(`#printer${orderNo}`).text(newLineItemPrinters);
         }
 
         else {
@@ -393,6 +404,16 @@
                                     <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
                 $(`#printingTable`).append($photoRow);
             }
+
+            var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+            if (currentLineItemPrinter == "-") {
+                currentLineItemPrinter = "";
+            }
+            else {
+                currentLineItemPrinter += " & ";
+            }
+            var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+            $(`#printer${orderNo}`).text(newLineItemPrinters);
         }
     }
 
@@ -411,12 +432,30 @@
             $photoRow = $(`<tr class="completed${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
                                     <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
             $(`#completedTable`).append($photoRow);
+            var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+            if (currentLineItemPrinter == "-") {
+                currentLineItemPrinter = "";
+            }
+            else {
+                currentLineItemPrinter += " & ";
+            }
+            var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+            $(`#printer${orderNo}`).text(newLineItemPrinters);
         }
 
         else {
             $photoRow = $(`<tr class="completed${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
                                     <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
             $(`#completedTable`).append($photoRow);
+            var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+            if (currentLineItemPrinter == "-") {
+                currentLineItemPrinter = "";
+            }
+            else {
+                currentLineItemPrinter += " & ";
+            }
+            var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+            $(`#printer${orderNo}`).text(newLineItemPrinters);
         }
     }
 
@@ -462,13 +501,21 @@
                     $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
                                     <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
                     $(`#printingTable`).append($photoRow);
-
                 }
                 if (data.photo_status == "Waiting") {
                     $photoRow = $(`<tr class="printing${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
                                     <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
                     $(`#printingTable`).append($photoRow);
                 }
+                var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+                if (currentLineItemPrinter == "-") {
+                    currentLineItemPrinter = "";
+                }
+                else {
+                    currentLineItemPrinter += " & ";
+                }
+                var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+                $(`#printer${orderNo}`).text(newLineItemPrinters);
             }
             else {
                 if (data.photo_status == "Completed") {
@@ -486,6 +533,15 @@
                                     <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
                     $(`#printingTable`).append($photoRow);
                 }
+                var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+                if (currentLineItemPrinter == "-") {
+                    currentLineItemPrinter = "";
+                }
+                else {
+                    currentLineItemPrinter += " & ";
+                }
+                var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+                $(`#printer${orderNo}`).text(newLineItemPrinters);
             }
         }
         
@@ -517,12 +573,30 @@
                 $photoRow = $(`<tr class="completed${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
                                     <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
                 $(`#completedTable`).append($photoRow);
+                var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+                if (currentLineItemPrinter == "-") {
+                    currentLineItemPrinter = "";
+                }
+                else {
+                    currentLineItemPrinter += " & ";
+                }
+                var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+                $(`#printer${orderNo}`).text(newLineItemPrinters);
             }
             else {
 
                 $photoRow = $(`<tr class="completed${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
                                     <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
                 $(`#completedTable`).append($photoRow);
+                var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+                if (currentLineItemPrinter == "-") {
+                    currentLineItemPrinter = "";
+                }
+                else {
+                    currentLineItemPrinter += " & ";
+                }
+                var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+                $(`#printer${orderNo}`).text(newLineItemPrinters);
             }
         }
     }
@@ -554,6 +628,13 @@
                 if (record.lineitem_status == "Completed") {
                     updateCompletedRow(data);
                 }
+                if (record.lineitem_status == "Waiting") {
+                    console.log(data);
+                    for (i = 0; i < data.length; i++) {
+
+                        createWaitingRow(data[i]);
+                    }
+                }
             }
         });
     }
@@ -581,6 +662,17 @@
                                 var orderPhotoId = orderPhotoIds[0];
                                 orderPhotoId = orderPhotoId.replace(/\//g, "_");
                                 $(`#printer${orderPhotoId}`).text(record.assigned_printer);
+
+                                var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+                                if (currentLineItemPrinter == "-") {
+                                    currentLineItemPrinter = "";
+                                }
+                                else {
+                                    currentLineItemPrinter += " & ";
+                                }
+                                var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+                                $(`#printer${orderNo}`).text(newLineItemPrinters);
+
                                 $(`#status${orderPhotoId}`).text("Status: Queueing");
                             }
                             // but different status
@@ -611,6 +703,7 @@
                                         $(`#printer${orderPhotoId}`).text(record.assigned_printer);
                                     }
                                     else {
+                                        console.log("is it here?");
                                         checker = true;
                                         updateStatusRow(record);
                                     }
@@ -842,8 +935,7 @@
         $('#menuHardcopy').addClass("active");
         // Fetch the initial table
         //loadTable();
-
-        //updating printer info
+        
         updatePrinterInfo();
         updatePrintingStatus();
         setInterval(checkOrder, 5000);

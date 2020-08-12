@@ -84,7 +84,7 @@
                 <div class="card-body">
                     <h5 class="text-muted" id="numberOfPO">Waiting Orders</h5>
                     <div class="metric-value d-inline-block">
-                        <h1 class="mb-1 text-primary">12</h1>
+                        <h1 class="mb-1 text-primary" id="numberOfWaitingOrders">0</h1>
                     </div>
                 </div>
             </div>
@@ -97,7 +97,7 @@
     <div class="row">
         <div class=" col-lg-12 col-sm-12 col-12">
             <div class="card">
-                <h5 class="card-header">Revenue</h5>
+                <h5 class="card-header">Hourly Productivity</h5>
                 <div class="card-body">
                     <div id="lineChart"></div>
                 </div>
@@ -240,15 +240,17 @@
             url: "/api/dashboard/retrieveRealTimeData",
             dataType: "json",
             success: function (data) {
+                console.log(data);
                 $('#NumberOfOrder').text(data.todayOrderNumber);
                 $('#numberOfRevenue').text(`$${data.todayRevenueNumber.toFixed(2)}`);
                 $('#numberOfPhotos').text(data.todayPhotoNumber);
-
+                $('#numberOfWaitingOrders').text(data.waitingOrders);
+                
                 var orderRate = data.rateOrder;
-                var revenueRate = data.rateRevenue;
+                var revenueRate = data.rateRevenue.toFixed(4);
                 var photoRate = data.ratePhoto;
 
-                $('#RateOfOrder').text(orderRate * 100 + "%");
+                $('#RateOfOrder').text((orderRate * 100).toFixed(2) + "%");
                 if (orderRate < 0) {
                     $('#IconOfOrder').removeClass('fa-caret-up');
                     $('#IconOfOrder').addClass('fa-caret-down');
@@ -262,7 +264,7 @@
                     $('#ColorOfOrder').removeClass('text-danger');
                 }
 
-                $('#RateOfRevenue').text(revenueRate * 100 + "%");
+                $('#RateOfRevenue').text((revenueRate * 100).toFixed(2)+ "%");
                 if (revenueRate < 0) {
                     $('#IconOfRevenue').removeClass('fa-caret-up');
                     $('#IconOfRevenue').addClass('fa-caret-down');
@@ -276,7 +278,7 @@
                     $('#ColorOfRevenue').removeClass('text-danger');
                 }
 
-                $('#rateOfPhotos').text(photoRate * 100 + "%");
+                $('#rateOfPhotos').text((photoRate * 100).toFixed(2) + "%");
                 if (photoRate < 0) {
                     $('#IconOfPhotos').removeClass('fa-caret-up');
                     $('#IconOfPhotos').addClass('fa-caret-down');
@@ -304,9 +306,14 @@
             url: "/api/dashboard/retriveNewlyUpdatedOrders",
             dataType: "json",
             success: function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    orderList.push(data[i].OrderCode);
-                    var $orderRow = $(`<tr>
+                console.log(data);
+                if (data == "No Order has been found") {
+                    $('#ordersTable').append($(`<tr><td colspan="6">There is no order found in database.</td></tr>`));
+                }
+                else {
+                    for (var i = 0; i < data.length; i++) {
+                        orderList.push(data[i].OrderCode);
+                        var $orderRow = $(`<tr>
                                     <td>${data[i].OrderCode}</td>
                                     <td>${data[i].Products}</td>
                                     <td>${data[i].NumberOfPhotos}</td>
@@ -314,8 +321,10 @@
                                     <td>$${data[i].TotalAmount.toFixed(2)}</td>
                                     <td>${data[i].UpdatedTime}</td>
                                 </tr>`);
-                    $('#ordersTable').append($orderRow);
+                        $('#ordersTable').append($orderRow);
+                    }
                 }
+                
                 var today = new Date();
                 var hr = today.getHours();
                 var min = today.getMinutes();
@@ -514,6 +523,7 @@
             url: "/api/dashboard/retriveLineChartData",
             dataType: "json",
             success: function (data) {
+                console.log(data);
                 var sumYest = 0;
                 for (var i = 0; i < data.length; i++) {
                     sumYest += data[i].yesterdayNumberOfOrders;
@@ -531,11 +541,11 @@
                     var peakPeriod = "";
                     for (var i = 0; i < data.length; i++) {
                         sumToday += data[i].todayNumberOfOrders;
-                        if (data[i].todayNumberOfOrders > peakNumberOfOrders) {
+                        if (data[i].todayNumberOfOrders > peakNumberOfOrders || data[i].todayNumberOfOrders!=0) {
                             peakNumberOfOrders = data[i].todayNumberOfOrders;
                             peakPeriod = data[i].TimeSpan;
                         }
-                        else if (data[i].todayNumberOfOrders == peakNumberOfOrders) {
+                        else if (data[i].todayNumberOfOrders == peakNumberOfOrders || data[i].todayNumberOfOrders != 0) {
                             peakPeriod += ", " + data[i].TimeSpan;
                         }
                     }

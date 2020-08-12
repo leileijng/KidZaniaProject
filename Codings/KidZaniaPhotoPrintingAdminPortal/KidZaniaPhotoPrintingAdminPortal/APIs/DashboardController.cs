@@ -73,9 +73,9 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
 
 
-            decimal rateOrder = 1;
-            decimal rateRevenue = 1;
-            decimal ratePhoto = 1;
+            decimal rateOrder = -1;
+            decimal rateRevenue = -1;
+            decimal ratePhoto = -1;
             if (yesterdayOrderNumber != 0 && yesterdayPhotoNumber!=0)
             {
                 rateOrder = Math.Round(((decimal)todayOrderNumber - (decimal)yesterdayOrderNumber) / (decimal)yesterdayOrderNumber, 4);
@@ -199,7 +199,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                             sf.yesterdayNumberOfOrders++;
                         }
                     }
-                    if (isTodayOperating)
+                    if (isTodayOperating && todayOrders.Count > 0)
                     {
                         sf.todayNumberOfOrders = 0;
                         foreach (order o in todayOrders)
@@ -233,7 +233,14 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
         public IHttpActionResult retriveNewlyUpdatedOrders()
         {
             List<order> selectedOrders = database.orders.OrderByDescending(i => i.updatedAt).ToList();
-            selectedOrders.RemoveRange(10, selectedOrders.Count - 10);
+            if(selectedOrders == null || selectedOrders.Count == 0)
+            {
+                return Ok("No Order has been found");
+            }
+            else if(selectedOrders.Count > 10) {
+                selectedOrders.RemoveRange(10, selectedOrders.Count - 10);
+            }
+            
             List<OrderDetails> orders = new List<OrderDetails>();
             foreach(order o in selectedOrders)
             {
