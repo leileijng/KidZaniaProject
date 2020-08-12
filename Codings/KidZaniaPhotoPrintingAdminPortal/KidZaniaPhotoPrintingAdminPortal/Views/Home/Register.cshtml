@@ -114,32 +114,71 @@
                         window.location.replace("/Home/Login");
                     },
                     error: function (jqXHR) {
+                        console.log(jqXHR);
                         var errorJson = $.parseJSON(jqXHR.responseText);
                         console.log(errorJson.ModelState[""]);
-                        for (let x = 0; x < errorJson.ModelState[""].length; x++) {
-                            if (errorJson.ModelState[""][x].includes("Email") && errorJson.ModelState[""][x].includes("is already taken")) {
-                                new noty({
-                                    text: errorJson.ModelState[""][x],
-                                    theme: 'bootstrapTheme',
-                                    layout: 'center',
-                                    timeout: 3000,
-                                    type: 'error',
-                                    callback: {
-                                        onClose: function () {
-                                            window.location.replace("/Home/Login");
-                                        }
-                                    },
-                                }).show();
+                        if (errorJson.ModelState[""]) {
+                            for (let x = 0; x < errorJson.ModelState[""].length; x++) {
+                                if (errorJson.ModelState[""][x].includes("Email") && errorJson.ModelState[""][x].includes("is already taken")) {
+                                    new noty({
+                                        text: errorJson.ModelState[""][x],
+                                        theme: 'bootstrapTheme',
+                                        layout: 'center',
+                                        timeout: 3000,
+                                        type: 'error',
+                                        callback: {
+                                            onClose: function () {
+                                                window.location.replace("/Home/Login");
+                                            }
+                                        },
+                                    }).show();
+                                }
+                                else {
+                                    new noty({
+                                        text: errorJson.ModelState[""][x],
+                                        theme: 'bootstrapTheme',
+                                        layout: 'center',
+                                        timeout: 3000,
+                                        type: 'error'
+                                    }).show();
+                                }
                             }
-                            else {
-                                new noty({
-                                    text: errorJson.ModelState[""][x],
-                                    theme: 'bootstrapTheme',
-                                    layout: 'center',
-                                    timeout: 3000,
-                                    type: 'error'
-                                }).show();
-                            }
+                        }
+                        if (jqXHR.responseJSON.ModelState["model.Password"]) {
+                            new noty({
+                                text: jqXHR.responseJSON.ModelState["model.Password"],
+                                theme: 'bootstrapTheme',
+                                layout: 'center',
+                                timeout: 3000,
+                                type: 'error'
+                            }).show();
+                        }
+                        if (jqXHR.responseJSON.ModelState["model.ConfirmPassword"]) {
+                            new noty({
+                                text: jqXHR.responseJSON.ModelState["model.ConfirmPassword"],
+                                theme: 'bootstrapTheme',
+                                layout: 'center',
+                                timeout: 3000,
+                                type: 'error'
+                            }).show();
+                        }
+                        if (jqXHR.responseJSON.ModelState["model.RoleId"]) {
+                            new noty({
+                                text: "Role is required",
+                                theme: 'bootstrapTheme',
+                                layout: 'center',
+                                timeout: 3000,
+                                type: 'error'
+                            }).show();
+                        }
+                        if (jqXHR.responseJSON.ModelState["model.Email"]) {
+                            new noty({
+                                text: jqXHR.responseJSON.ModelState["model.Email"][0],
+                                theme: 'bootstrapTheme',
+                                layout: 'center',
+                                timeout: 3000,
+                                type: 'error'
+                            }).show();
                         }
                     }
                 });
