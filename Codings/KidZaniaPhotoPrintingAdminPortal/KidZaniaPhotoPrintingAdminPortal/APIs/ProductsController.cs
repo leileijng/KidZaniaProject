@@ -43,7 +43,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
             catch (Exception e)
             {
-                return BadRequest(e.ToString());
+                return BadRequest(e.InnerException.InnerException.Message);
             }
         }
 
@@ -74,7 +74,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
             catch (Exception e)
             {
-                return BadRequest(e.ToString());
+                return BadRequest(e.InnerException.InnerException.Message);
             }
         }
 
@@ -119,7 +119,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
             catch (Exception e)
             {
-                return BadRequest("Item details failed to update! " + e.ToString());
+                return BadRequest("Item details failed to update! " + e.InnerException.InnerException.Message);
             }
         }
 
@@ -144,7 +144,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
             catch (Exception e)
             {
-                return BadRequest("Unable to delete product! " + e.ToString());
+                return BadRequest("Unable to delete product! " + e.InnerException.InnerException.Message);
             }
         }
 
@@ -211,7 +211,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
             catch (Exception e)
             {
-                return BadRequest("Unable to create product!");
+                return BadRequest("Unable to create product!" + e.InnerException.InnerException.Message);
             }
         }
 

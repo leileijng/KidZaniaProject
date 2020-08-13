@@ -674,7 +674,7 @@
                         }).show();
                     }).fail(function (data, textStatus, jqXHR) {
                         new noty({
-                            text: data.responseJSON.message,
+                            text: data.responseJSON.Message,
                             theme: 'bootstrapTheme',
                             layout: 'center',
                             timeout: 3000,
@@ -726,44 +726,44 @@
     function deleteSouvenir() {
         var id = $("#deleteId").val();
         var image = $("#deletePhoto").val();
+
         $.ajax({
             type: "DELETE",
-            url: `/api/products/removefile?image=${image}`,
+            url: `/api/products/${id}`,
+            dataType: "json",
         }).done(function (data, textStatus, jqXHR) {
+            new noty({
+                text: data.message,
+                layout: 'center',
+                theme: 'bootstrapTheme',
+                type: 'success',
+                callback: {
+                    onClose: function () {
+                        $('#myModal').trigger('click');
+                        $(`#${id}`).removeClass('animate__animated animate__fadeIn animate__slow');
+                        var effects = 'animate__animated animate__fadeOut animate__fast';
+                        var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd'
+                        $(`#${id}`).addClass(effects).one(effectsend, function () {
+                            var table = $('table.second').DataTable();
+                            table.row(`#${id}`).remove().draw();
+                        });
+                    }
+                }
+            }).show();
             $.ajax({
                 type: "DELETE",
-                url: `/api/products/${id}`,
-                dataType: "json",
-            }).done(function (data, textStatus, jqXHR) {
-                new noty({
-                    text: data.message,
-                    layout: 'center',
-                    theme: 'bootstrapTheme',
-                    type: 'success',
-                    callback: {
-                        onClose: function () {
-                            $('#myModal').trigger('click');
-                            $(`#${id}`).removeClass('animate__animated animate__fadeIn animate__slow');
-                            var effects = 'animate__animated animate__fadeOut animate__fast';
-                            var effectsend = 'animationend oAnimationEnd mozAnimationEnd webkitAnimationEnd'
-                            $(`#${id}`).addClass(effects).one(effectsend, function () {
-                                var table = $('table.second').DataTable();
-                                table.row(`#${id}`).remove().draw();
-                            });
-                        }
-                    }
-                }).show();
+                url: `/api/products/removefile?image=${image}`,
             }).fail(function (data, textStatus, jqXHR) {
-                new noty({
-                    text: data.responseJSON.message,
-                    theme: 'bootstrapTheme',
-                    layout: 'center',
-                    timeout: 3000,
-                    type: 'error'
-                }).show();
+                alert("failed to delete file!");
             });
         }).fail(function (data, textStatus, jqXHR) {
-            alert("failed to delete file!");
+            new noty({
+                text: data.responseJSON.Message,
+                theme: 'bootstrapTheme',
+                layout: 'center',
+                timeout: 3000,
+                type: 'error'
+            }).show();
         });
     }
 
