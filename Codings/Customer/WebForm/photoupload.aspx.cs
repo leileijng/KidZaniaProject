@@ -30,7 +30,7 @@ namespace WebForm
                     Session["CapturedImageBase64"] = "data:image/jpeg;base64," + profile;
                     //Response.Redirect("profile.aspx");
                 }
-                if (profile.Equals("/Content/photos/1.jpg") || profile.Equals("/Content/photos/2.jpg") || profile.Equals("/Content/photos/3.jpg"))
+                if (profile.Equals("/Content/photos/PU1.jpg") || profile.Equals("/Content/photos/PU2.jpg") || profile.Equals("/Content/photos/PU3.jpg") || profile.Equals("/Content/photos/PU4.jpg"))
                 {
                     Session["CapturedImageBase64"] = "data:image/jpeg;base64," + profile;
                     Response.Redirect("profile.aspx");
@@ -41,9 +41,10 @@ namespace WebForm
             {
                 photo_profile_ctn.InnerHtml = "<div>Select a face:</div>";
                 List<string> testingFacesPhotos = new List<string>();
-                testingFacesPhotos.Add("/Content/photos/1.jpg");
-                testingFacesPhotos.Add("/Content/photos/2.jpg");
-                testingFacesPhotos.Add("/Content/photos/3.jpg");
+                testingFacesPhotos.Add("/Content/photos/PU1.jpg");
+                testingFacesPhotos.Add("/Content/photos/PU2.jpg");
+                testingFacesPhotos.Add("/Content/photos/PU3.jpg");
+                testingFacesPhotos.Add("/Content/photos/PU4.jpg");
                 for (int x = 0; x < testingFacesPhotos.Count; x++)
                 {
                     string Base64Face = testingFacesPhotos[x];
