@@ -1,0 +1,28 @@
+use kidzania;
+DELETE FROM kidzania.itemphoto;
+DELETE FROM kidzania.lineitem;
+DELETE FROM kidzania.`order`;
+
+INSERT INTO `order` VALUES 
+('AKWAW','kidzsgAKWAW280720',30.00,'Waiting',DATE_ADD(date(now()), INTERVAL 18 HOUR)),
+('AVVGW','kidzsgAVVGW280720',30.00,'Waiting',DATE_ADD(date(now()), INTERVAL 18 HOUR)),
+('BARIJ','kidzsgBARIJ070820',106.00,'Preparing',DATE_ADD(date(now()), INTERVAL 17 HOUR)),
+('CAVXG','kidzsgCAVXG270720',30.00,'Preparing',DATE_ADD(date(now()), INTERVAL 17 HOUR)),
+('CJTFI','kidzsgCJTFI270720',50.00,'Preparing',DATE_ADD(date(now()), INTERVAL 17 HOUR));
+
+INSERT INTO `lineitem` VALUES 
+('AKWAW_a5','kidzsgAKWAW280720','a5','/Content/Photos/1.jpg',30.00,'Waiting',1,DATE_ADD(date(now()), INTERVAL 18 HOUR)),
+('AVVGW_a5','kidzsgAVVGW280720','a5','/Content/Photos/1.jpg',30.00,'Waiting',1,DATE_ADD(date(now()), INTERVAL 18 HOUR)),
+('BARIJ_a5','kidzsgBARIJ070820','a5','/Content/Photos/1.jpg|/Content/Photos/2.jpg',20.00,'Printing',2,DATE_ADD(date(now()), INTERVAL 17 HOUR)),
+('CAVXG_a5','kidzsgCAVXG270720','a5','/Content/Photos/3.jpg',30.00,'Completed',1,DATE_ADD(date(now()), INTERVAL 17 HOUR)),
+('CJTFI_a5','kidzsgCJTFI270720','a5','/Content/Photos/3.jpg|/Content/Photos/1.jpg|/Content/Photos/2.jpg',50.00,'Collected',3,DATE_ADD(date(now()), INTERVAL 17 HOUR));
+
+INSERT INTO `itemphoto` VALUES 
+('AKWAW_a5_/Content/Photos/1.jpg','/Content/Photos/1.jpg','kidzsgAKWAW280720','AKWAW_a5',NULL,'Waiting',DATE_ADD(date(now()), INTERVAL 18 HOUR)),
+('AVVGW_a5_/Content/Photos/1.jpg','/Content/Photos/1.jpg','kidzsgAVVGW280720','AVVGW_a5',NULL,'Waiting',DATE_ADD(date(now()), INTERVAL 18 HOUR)),
+('BARIJ_a5_/Content/Photos/1.jpg','/Content/Photos/1.jpg','kidzsgBARIJ070820','BARIJ_a5','A5P1','Printing',DATE_ADD(date(now()), INTERVAL 17 HOUR)),
+('BARIJ_a5_/Content/Photos/2.jpg','/Content/Photos/2.jpg','kidzsgBARIJ070820','BARIJ_a5','A5P2','Printing',DATE_ADD(date(now()), INTERVAL 17 HOUR)),
+('CAVXG_a5_/Content/Photos/3.jpg','/Content/Photos/3.jpg','kidzsgCAVXG270720','CAVXG_a5','A5P1','Completed',DATE_ADD(date(now()), INTERVAL 17 HOUR)),
+('CJTFI_a5_/Content/Photos/1.jpg','/Content/Photos/1.jpg','kidzsgCJTFI270720','CJTFI_a5','A5P2','Collected',DATE_ADD(date(now()), INTERVAL 17 HOUR)),
+('CJTFI_a5_/Content/Photos/2.jpg','/Content/Photos/2.jpg','kidzsgCJTFI270720','CJTFI_a5','A5P1','Collected',DATE_ADD(date(now()), INTERVAL 17 HOUR)),
+('CJTFI_a5_/Content/Photos/3.jpg','/Content/Photos/3.jpg','kidzsgCJTFI270720','CJTFI_a5','A5P2','Collected',DATE_ADD(date(now()), INTERVAL 17 HOUR));

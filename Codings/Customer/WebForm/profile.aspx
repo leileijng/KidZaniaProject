@@ -251,7 +251,7 @@
             <span class="heading1">Photo Selection</span>
         </div>
          <div id="pfimg" style="text-align: center; margin-top: 10px;">
-            <img src='Content/img/selection.png' />
+            <img src='Content/photos/PU4.jpg' />
         </div>
         <div style="width: 100%; text-align:center;margin-top: 10px;margin:0 auto;" id="user_profile">
             <div id="profile_photo" runat="server"></div>

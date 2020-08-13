@@ -27,7 +27,8 @@ namespace WebForm
                 Dictionary<string, string> photoprofile = new Dictionary<string, string>();
                 photoprofile.Add("photoID1", "1.jpg");
                 photoprofile.Add("photoID2", "2.jpg");
-                photoprofile.Add("photoID3", "3.jpg");
+                photoprofile.Add("photoID3", "12.jpg");
+                
 
                string currentApplicationPath = HttpContext.Current.Request.PhysicalApplicationPath;
 
