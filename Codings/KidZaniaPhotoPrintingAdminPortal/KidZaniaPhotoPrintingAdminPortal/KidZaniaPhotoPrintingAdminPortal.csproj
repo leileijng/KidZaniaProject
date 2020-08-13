@@ -1433,6 +1433,8 @@
       <DependentUpon>DBModels.edmx</DependentUpon>
       <LastGenOutput>DBModels.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\additional-methods.js" />
+    <Content Include="Scripts\additional-methods.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

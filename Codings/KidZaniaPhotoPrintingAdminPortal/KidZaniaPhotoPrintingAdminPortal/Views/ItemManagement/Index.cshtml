@@ -82,7 +82,7 @@
                         <div style="display: flex;">
                             <div style="-ms-flex:1; flex:1;">
                                 <img onclick="$('#fileid').click();" id="uploadhover" src="~/assets/images/upload.png" alt="upload" style="width:200px; margin-top: -14px;">
-                                <input id='fileid' onchange="readURL(this);" type='file' hidden />
+                                <input name="addFile" id='fileid' onchange="readURL(this);" class="form-control" type='file' hidden />
                                 <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
                                     <p>Visibility<span class="compulsoryInput d-inline"> *</span></p>
                                     <!-- Rounded switch -->
@@ -177,7 +177,7 @@
                                 <div class="imgContainer">
                                     <img alt="upload" style="width:200px; margin-top: -14px;" id="editPhoto">
                                     <div onclick="$('#newphoto').click();" class="editImgbutton"><a href="#"> Change Photo </a></div>
-                                    <input id='newphoto' onchange="editPhoto(this); del = true;" type='file' hidden />
+                                    <input id='newphoto' name="editFile" onchange="editImg(this); del = true;" type='file' hidden />
                                 </div>
                                 <div class="form-group col-md-6" style="float: left; margin-right: -9px;">
                                     <p class="p-0">Visibility<span class="compulsoryInput d-inline"> *</span></p>
@@ -240,7 +240,7 @@
                         </div>
                         <input type="hidden" id="idInp" />
                         <div class="modal-footer">
-                            <button type="reset" class="btn btn-grey">Reset</button>
+                            <button type="button" onclick="resetForm()" class="btn btn-grey">Reset</button>
                             <button type="button" onclick="updateSouvenir()" class="btn btn-primary" id="SubmitBtn">Save Changes</button>
                         </div>
                     </form>
@@ -327,6 +327,7 @@
 <script src="~/Scripts/noty/themes/bootstrap.js"></script>
 <script src="~/Scripts/noty/themes/default.js"></script>
 <script src="~/Scripts/noty/themes/relax.js"></script>
+<script src="~/Scripts/additional-methods.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -691,7 +692,7 @@
     }
 
     //Replace picture in the edit modal
-    function editPhoto(input) {
+    function editImg(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function (e) {
@@ -937,7 +938,9 @@
             });
         }
     }
-
+    function resetForm() {
+        loadEdit($('#idInp').val());
+    }
     //JQuery Validation
     $().ready(function () {
         jQuery.validator.addMethod("price", function (value, element) {
@@ -964,13 +967,23 @@
             }
             return checker;
         });
+        $.validator.addMethod('filesize', function (value, element, param) {
+            return this.optional(element) || (element.files[0].size <= param)
+        }, 'File size must be less than 5MB');
+
         $("#editModalForm").validate({
+            ignore: "",
             rules: {
                 ItemNameInp: {
                     required: true,
                     whitespace: true,
                     maxlength: 50,
                     alphanumeric: true,
+                },
+                editFile: {
+                    required: true,
+                    filesize: 5 * 1024 * 1024,
+                    extension: "jpg|jpeg|png|ico|bmp",
                 },
                 priceNameInp: {
                     required: true,
@@ -994,6 +1007,10 @@
                     required: "Please enter Item Name",
                     maxlength: "Please reduce the item id to below 50 characters",
                 },
+                editFile: {
+                    required: "Please upload an image",
+                    extension: "Please upload file in these format only (jpg, jpeg, png, ico, bmp).",
+                },
                 priceNameInp: {
                     required: "Please enter Original price",
                     number: "Please enter a valid number",
@@ -1006,9 +1023,19 @@
                 commentsInp: {
                     maxlength: "Please reduce description to below 300 characters",
                 },
+            },
+            errorPlacement: function (error, element) {
+                console.log(element);
+                if (element.attr("name") == "editFile") {
+                    error.insertAfter($('#editPhoto'));
+                }
+                else {
+                    error.insertAfter(element);
+                }
             }
         });
         $("#addModalForm").validate({
+            ignore: "",
             rules: {
                 addItemId: {
                     required: true,
@@ -1016,6 +1043,11 @@
                     maxlength: 50,
                     alphanumeric: true,
                     exist: true,
+                },
+                addFile: {
+                    required: true,
+                    filesize: 5 * 1024 * 1024,
+                    extension: "jpg|jpeg|png|ico|bmp",
                 },
                 addNameInput: {
                     required: true,
@@ -1046,6 +1078,10 @@
                     maxlength: "Please reduce the item id to below 50 characters",
                     exist: "The Item Id already exists"
                 },
+                addFile: {
+                    required: "Please upload an image",
+                    extension: "Please upload file in these format only (jpg, jpeg, png, ico, bmp).",
+                },
                 addNameInput: {
                     required: "Please enter Item Name",
                     maxlength: "Please reduce the item id to below 50 characters",
@@ -1063,6 +1099,15 @@
                     maxlength: "Please reduce description to below 300 characters",
                 },
             },
+            errorPlacement: function (error, element) {
+                console.log(element);
+                if (element.attr("name") == "addFile") {
+                    error.insertAfter($('#uploadhover'));
+                }
+                else {
+                    error.insertAfter(element);
+                }
+            }
         });
     });
 </script>
