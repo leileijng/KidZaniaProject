@@ -553,7 +553,7 @@
                 } else {
                     $('#visibilityInp').prop('checked', false);
                 }
-                $('#editPhoto').attr('src', data.image);
+                $('#editPhoto').attr('src', $(`#img${id}`).attr('src'));
             },
             error: function (data) {
                 console.log(data);
@@ -620,8 +620,16 @@
                                         url: `/api/products/${id}`,
                                         dataType: "json",
                                         success: function (record) {
-                                            $(`#img${id}`).attr('src', '');
-                                            $(`#img${id}`).attr('src', record.image);
+
+                                            var reader = new FileReader();
+
+                                            reader.onload = function (e) {
+
+                                                $(`#img${id}`)
+                                                    .attr('src', e.target.result);
+                                            };
+
+                                            reader.readAsDataURL(file.files[0]);
 
                                             if (record.quantity_constraint == "Even Numbered Units") {
                                                 $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
