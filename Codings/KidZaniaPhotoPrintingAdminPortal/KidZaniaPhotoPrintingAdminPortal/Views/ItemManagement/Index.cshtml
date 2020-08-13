@@ -958,7 +958,7 @@
             var table = document.getElementById('example');
             let checker = true;
             for (var r = 1, n = table.rows.length; r < n; r++) {
-                if (value == table.rows[r].cells[0].innerHTML) {
+                if (value.toLowerCase() == table.rows[r].cells[0].innerHTML.toLowerCase()) {
                     checker = false;
                 }
             }
