@@ -480,7 +480,7 @@
             $cellElement = $(`<td><span id="pwpPrice${record.product_id}">-</span><small id="pwpGST${record.product_id}" class="text-mute"></small></td>`);
         }
         $rowElement.append($cellElement);
-        $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}">
+        $cellElement = $(`<td><select class="custom-select d-block w-100" id="input-select${record.product_id}" disabled>
                                             <option>--None--</option>
                                             <option>Even Numbered Units</option>
                                             <option>Max 1 Unit</option>
