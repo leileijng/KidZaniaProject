@@ -228,7 +228,7 @@
     <br />
     <div id="summary_session" style="display:none" runat="server"></div>
     <div id="ticketBtn">
-        <input type="button" style="font-size:18px" onclick="jsWebClientPrint.print('summary=' + $('#summary_session').html());" value="Print Collection Ticket" />
+        <input type="button" id="PrintTicket" style="font-size:18px" onclick="jsWebClientPrint.print('summary=' + $('#summary_session').html());" value="Print Collection Ticket" />
     </div>
     <br />
     <div style="width:66px; margin:0 auto;">
