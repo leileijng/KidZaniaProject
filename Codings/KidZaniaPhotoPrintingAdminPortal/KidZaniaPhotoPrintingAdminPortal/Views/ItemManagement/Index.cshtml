@@ -620,17 +620,17 @@
                                         url: `/api/products/${id}`,
                                         dataType: "json",
                                         success: function (record) {
+                                            if (file.files[0]) {
+                                                var reader = new FileReader();
 
-                                            var reader = new FileReader();
+                                                reader.onload = function (e) {
 
-                                            reader.onload = function (e) {
+                                                    $(`#img${id}`)
+                                                        .attr('src', e.target.result);
+                                                };
 
-                                                $(`#img${id}`)
-                                                    .attr('src', e.target.result);
-                                            };
-
-                                            reader.readAsDataURL(file.files[0]);
-
+                                                reader.readAsDataURL(file.files[0]);
+                                            }
                                             if (record.quantity_constraint == "Even Numbered Units") {
                                                 $(`#input-select${record.product_id}`)[0].selectedIndex = 1;
                                             }
@@ -989,7 +989,6 @@
                     alphanumeric: true,
                 },
                 editFile: {
-                    required: true,
                     filesize: 5 * 1024 * 1024,
                     extension: "jpg|jpeg|png|ico|bmp",
                 },
