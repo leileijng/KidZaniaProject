@@ -41,7 +41,7 @@ namespace OrderNotificationSystem.APIs
                 {
                     orderid = x.order_id,
                     status = x.status
-                }).Where(x => x.status == "Preparing").ToList();
+                }).Where(x => x.status == "Preparing" || x.status == "Waiting").ToList();
                 return Ok(orders);
             }
             catch (Exception e)

@@ -767,6 +767,12 @@ a:active {
     #pfimg {
         margin-top: -50px !important;
     }
+    #PrintTicket {
+        display: none;
+    }
+    .dropdown-menu{
+        top: -226px !important;
+    }
 }
 
     /*--------------------------------------------------------------

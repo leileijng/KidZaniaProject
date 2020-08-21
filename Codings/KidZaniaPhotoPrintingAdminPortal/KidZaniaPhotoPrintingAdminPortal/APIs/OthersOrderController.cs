@@ -133,7 +133,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     itemphoto.printing_status = "Paused";
                 }
                 database.SaveChanges();
-                return Ok("Update Successful!");
+                return Ok("Pause order successful!");
             }
             catch (Exception e)
             {
@@ -483,7 +483,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 }
                 else
                 {
-                    return BadRequest("Do not submit more than two files!");
+                    return BadRequest("Please submit only two files!");
                 }
             }
             catch (Exception e)

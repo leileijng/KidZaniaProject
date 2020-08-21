@@ -35,7 +35,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     description = x.description,
                     pwp_price = x.pwp_price,
                     pwp_GST = x.pwp_GST,
-                    updated_by = x.updated_by,
+                    updated_by = x.staff.name,
                     updated_at = x.updated_at
                 }
                 ).ToList();
@@ -66,7 +66,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     quantity_constraint = x.quantity_constraint,
                     description = x.description,
                     pwp_price = x.pwp_price,
-                    updated_by = x.updated_by,
+                    updated_by = x.staff.name,
                     updated_at = x.updated_at
                 }
                 ).FirstOrDefault(x => x.product_id == id);

@@ -172,6 +172,7 @@
             dataType: "json",
             success: function (data) {
                 data.forEach(function (record) {
+                    console.log(record);
                     let counter = 0;
                     let pausechecker = false;
                     for (let x = 0; x < record.product.length; x++) {
@@ -182,14 +183,20 @@
                             pausechecker = true;
                         }
                     }
+                    console.log(counter == record.product.length);
+                    console.log(!pausechecker);
                     if (counter == record.product.length) {
                         let $rowElement = createRow(record, false);
-                        $('#collectedTable').html("");
+                        if ($('#completedMsg')) {
+                            $('#completedMsg').remove();
+                        }
                         $('#collectedTable').append($rowElement);
                     }
                     else if (!pausechecker) {
                         let $rowElement = createRow(record, true);
-                        $('#myTable').html("");
+                        if ($('#waitingMsg')) {
+                            $('#waitingMsg').remove();
+                        }
                         $('#myTable').append($rowElement);
                     }
                     var effects = 'animate__animated animate__fadeIn animate__slower';
@@ -198,9 +205,9 @@
                         $(`#order${record.order_id}`).removeClass(effects);
                     });
                 });
-                window.setInterval(function () {
-                    checkOrder();
-                }, 5000);
+                //window.setInterval(function () {
+                //    checkOrder();
+                //}, 5000);
             },
             error: function (data) {
                 console.log(data);
