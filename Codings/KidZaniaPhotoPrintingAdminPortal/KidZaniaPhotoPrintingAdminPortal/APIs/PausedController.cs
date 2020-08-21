@@ -137,11 +137,11 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message.ToString());
             }
-            return Ok();
+            return Ok("The file has been saved successfully.");
         }
 
         [HttpPut]
@@ -156,7 +156,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 photoItem.photo = "/Content/Photos/" + data["imgName"].ToString();
                 string[] ids = photoid.Split('_');
                 database.SaveChanges();
-                return Ok(new { message = "Line Item status has been updated to " + data["status"] });
+                return Ok(new { message = "The photo path has been changed to " + "/Content/Photos/" + data["imgName"].ToString() });
             }
             catch (Exception e)
             {

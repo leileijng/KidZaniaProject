@@ -1492,7 +1492,6 @@ D:\FYP\fyp3\KidZaniaProject\Codings\Customer\WebForm\obj\Debug\WebForm.dll
 D:\FYP\fyp3\KidZaniaProject\Codings\Customer\WebForm\obj\Debug\WebForm.pdb
 C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\Codings\Customer\WebForm\bin\Gma.QrCodeNet.Encoding.dll
 C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\Codings\Customer\WebForm\bin\QRCoder.dll
-C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\Codings\Customer\WebForm\bin\Gma.QrCodeNet.Encoding.pdb
 C:\Users\Vanesssa Jiang Lei\Desktop\KidZaniaProject\Codings\Customer\WebForm\bin\Gma.QrCodeNet.Encoding.xml
 D:\FYP\fyp4\KidZaniaProject\Codings\Customer\WebForm\bin\WebForm.dll.config
 D:\FYP\fyp4\KidZaniaProject\Codings\Customer\WebForm\bin\WebForm.dll

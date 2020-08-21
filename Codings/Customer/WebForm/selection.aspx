@@ -375,7 +375,7 @@
         }
 
         .sidebar {
-            height: 76%;
+            height: 81%;
             width: 0;
             position: fixed;
             z-index: 5;
@@ -1674,7 +1674,7 @@
                     <span class="modal-title" style="margin-left: 10px">My Cart</span>
                     <button type="button" class="close" onclick="closeCart()">&times;</button>
                 </div>
-                <div id="cart_items" style="height: 76%; overflow-y: scroll; overflow-x: hidden;">
+                <div id="cart_items" style="height: 83%; overflow-y: scroll; overflow-x: hidden;">
                 </div>
                 <div class="totalPrice p-2 pl-3 bg-white" style="border-top: 1px solid #c3c3c3; height: 60px; display: flex; bottom: 0; position: fixed;width: 350px;">
                     <p style="-ms-flex: 1; flex: 1; font-size: 1.02rem" class="mt-2">

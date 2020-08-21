@@ -226,12 +226,11 @@
                 var processingPhotoNumber = 0;
 
                 var startAutoPrinting = false;
-
                 for (i = 0; i < data.length; i++) {
                     ordernum.push({ "id": data[i].photo_id, "status": data[i].photo_status });
                     if (data[i].lineitem_status == "Collected") {
                         collectedPhotoNumber++;
-                        createCollectedRow(data[i]);
+                        
                     }
                     else if (data[i].lineitem_status == "Completed") {
                         processingPhotoNumber++;
@@ -265,10 +264,49 @@
         });
     }
 
+    function loadCollectedTable() {
+        $(`#completedOrders`).html("");
+        $.ajax({
+            type: "GET",
+            url: "/api/hardcopys",
+            dataType: "json",
+            success: function (data) {
+                var i;
+                var collectedPhotoNumber = 0;
+                var allCollectedOrders = [];
+                for (i = 0; i < data.length; i++) {
+                    if (data[i].lineitem_status == "Collected") {
+                        console.log(data[i]);
+                        collectedPhotoNumber++;
+                        createNewRow = true;
+                        for (var x = 0; x < allCollectedOrders.length; x++) {
+                            if (data[i].order_id == allCollectedOrders[x]) {
+                                createNewRow = false;
+                            }
+                        }
+                        if (createNewRow) {
+                            allCollectedOrders.push(data[i].order_id);
+                            createCollectedRow(data[i]);
+                        }
+                        else {
+                            appendCollectedPhoto(data[i]);
+                        }
+                    }
+                    
+                }
+                
+                if (collectedPhotoNumber == 0) {
+                    $(`#completedOrders`).append($(`<tr class="noOrderFoundRow" id="noCollectedOrderFound"><td colspan="4"> No order found.</td></tr>`));
+                }
+            },
+            error: function (data) {
+            }
+        });
+    }
+
     function createCollectedRow(data) {
-        console.log("create collected row");
         orderNo = data.order_id;
-        if (!checkForOrderExist(data.order_id)) {
+            console.log("create row now");
             var $orderRow = null;
             var $photoRow = null;
             var d = new Date(data.updated_time);
@@ -295,17 +333,18 @@
                                     <td></td>
                                 </tr>`);
 
-            $(`#completedOrders tr:first`).before($orderRow);
+        $(`#completedOrders`).append($orderRow);
             $(`#completedOrders`).append($photoRow);
-        }
+    }
 
-        else {
+    function appendCollectedPhoto(data) {
+        console.log("create photo now");
+        orderNo = data.order_id;
             var previousPrinter = $(`#collectedprinter${orderNo}`).text();
             var printers = previousPrinter + ", " + data.assigned_printer;
             $(`#collectedprinter${orderNo}`).text(printers);
             $(`#collectedPhoto${orderNo}`).append(`<div class="m-r-10"><img src="${data.photo_path}" alt="user" class="rounded" width="55"></div>`);
-        }
-
+        
     }
 
     function checkForOrderExist(orderId) {
@@ -377,15 +416,18 @@
                 $(`#printingTable`).append($photoRow);
             }
 
-            var currentLineItemPrinter = $(`#printer${orderNo}`).text();
-            if (currentLineItemPrinter == "-") {
-                currentLineItemPrinter = "";
+            if (data.assigned_printer != null) {
+
+                var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+                if (currentLineItemPrinter == "-") {
+                    currentLineItemPrinter = "";
+                }
+                else {
+                    currentLineItemPrinter += " & ";
+                }
+                var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+                $(`#printer${orderNo}`).text(newLineItemPrinters);
             }
-            else {
-                currentLineItemPrinter += " & ";
-            }
-            var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
-            $(`#printer${orderNo}`).text(newLineItemPrinters);
         }
 
         else {
@@ -404,16 +446,18 @@
                                     <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
                 $(`#printingTable`).append($photoRow);
             }
+            if (data.assigned_printer != null) {
 
-            var currentLineItemPrinter = $(`#printer${orderNo}`).text();
-            if (currentLineItemPrinter == "-") {
-                currentLineItemPrinter = "";
+                var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+                if (currentLineItemPrinter == "-") {
+                    currentLineItemPrinter = "";
+                }
+                else {
+                    currentLineItemPrinter += " & ";
+                }
+                var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+                $(`#printer${orderNo}`).text(newLineItemPrinters);
             }
-            else {
-                currentLineItemPrinter += " & ";
-            }
-            var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
-            $(`#printer${orderNo}`).text(newLineItemPrinters);
         }
     }
 
@@ -507,15 +551,18 @@
                                     <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
                     $(`#printingTable`).append($photoRow);
                 }
-                var currentLineItemPrinter = $(`#printer${orderNo}`).text();
-                if (currentLineItemPrinter == "-") {
-                    currentLineItemPrinter = "";
+                if (data.assigned_printer != null) {
+
+                    var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+                    if (currentLineItemPrinter == "-") {
+                        currentLineItemPrinter = "";
+                    }
+                    else {
+                        currentLineItemPrinter += " & ";
+                    }
+                    var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+                    $(`#printer${orderNo}`).text(newLineItemPrinters);
                 }
-                else {
-                    currentLineItemPrinter += " & ";
-                }
-                var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
-                $(`#printer${orderNo}`).text(newLineItemPrinters);
             }
             else {
                 if (data.photo_status == "Completed") {
@@ -533,15 +580,18 @@
                                     <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
                     $(`#printingTable`).append($photoRow);
                 }
-                var currentLineItemPrinter = $(`#printer${orderNo}`).text();
-                if (currentLineItemPrinter == "-") {
-                    currentLineItemPrinter = "";
+                if (data.assigned_printer != null) {
+
+                    var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+                    if (currentLineItemPrinter == "-") {
+                        currentLineItemPrinter = "";
+                    }
+                    else {
+                        currentLineItemPrinter += " & ";
+                    }
+                    var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+                    $(`#printer${orderNo}`).text(newLineItemPrinters);
                 }
-                else {
-                    currentLineItemPrinter += " & ";
-                }
-                var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
-                $(`#printer${orderNo}`).text(newLineItemPrinters);
             }
         }
         
@@ -573,35 +623,42 @@
                 $photoRow = $(`<tr class="completed${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
                                     <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
                 $(`#completedTable`).append($photoRow);
-                var currentLineItemPrinter = $(`#printer${orderNo}`).text();
-                if (currentLineItemPrinter == "-") {
-                    currentLineItemPrinter = "";
+                if (data.assigned_printer != null) {
+
+                    var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+                    if (currentLineItemPrinter == "-") {
+                        currentLineItemPrinter = "";
+                    }
+                    else {
+                        currentLineItemPrinter += " & ";
+                    }
+                    var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+                    $(`#printer${orderNo}`).text(newLineItemPrinters);
                 }
-                else {
-                    currentLineItemPrinter += " & ";
-                }
-                var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
-                $(`#printer${orderNo}`).text(newLineItemPrinters);
             }
             else {
 
                 $photoRow = $(`<tr class="completed${orderNo} collapse colspan="7"><td></td><td><img src="${data.photo_path}" alt="user" class="rounded" width="55"></td>
                                     <td id="status${orderPhotoId}">Status: ${data.photo_status}</td><td>${data.assigned_printer}</td><td></td><td></td><td></td></tr>`);
                 $(`#completedTable`).append($photoRow);
-                var currentLineItemPrinter = $(`#printer${orderNo}`).text();
-                if (currentLineItemPrinter == "-") {
-                    currentLineItemPrinter = "";
+                if (data.assigned_printer != null) {
+
+                    var currentLineItemPrinter = $(`#printer${orderNo}`).text();
+                    if (currentLineItemPrinter == "-") {
+                        currentLineItemPrinter = "";
+                    }
+                    else {
+                        currentLineItemPrinter += " & ";
+                    }
+                    var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
+                    $(`#printer${orderNo}`).text(newLineItemPrinters);
                 }
-                else {
-                    currentLineItemPrinter += " & ";
-                }
-                var newLineItemPrinters = currentLineItemPrinter + data.assigned_printer;
-                $(`#printer${orderNo}`).text(newLineItemPrinters);
             }
         }
     }
 
     function updateStatusRow(record) {
+        console.log("update");
         $(`#order${record.order_id}`).closest("tr").remove();
         $(`#order${record.order_id}`).remove();
         if (record.lineitem_status == "Printing") {
@@ -631,7 +688,6 @@
                 if (record.lineitem_status == "Waiting") {
                     console.log(data);
                     for (i = 0; i < data.length; i++) {
-
                         createWaitingRow(data[i]);
                     }
                 }
@@ -675,6 +731,16 @@
 
                                 $(`#status${orderPhotoId}`).text("Status: Queueing");
                             }
+                            if (record.photo_status == "Completed" && record.lineitem_status == "Completed") {
+                                var trStatus = $(`#order${record.order_id}`).attr("class");
+                                if (trStatus.indexOf("completed") >= 0) {
+                                    checker = true;
+                                }
+                                else {
+                                    checker = true;
+                                    updateStatusRow(record);
+                                }
+                            }
                             // but different status
                             if (ordernum[x].status != record.photo_status) {
                                 if (record.photo_status == "Collected" || record.photo_status == "Paused") {
@@ -688,8 +754,8 @@
                                     var orderPhotoIds = record.photo_id.split(".");
                                     var orderPhotoId = orderPhotoIds[0];
                                     orderPhotoId = orderPhotoId.replace(/\//g, "_");
-                                    var trStatus = $(`#status${orderPhotoId}`).closest('tr').attr("class");
-
+                                    var trStatus = $(`#order${record.order_id}`).attr("class");
+                                    
                                     if (trStatus.indexOf(record.lineitem_status.toLowerCase()) >= 0) {
                                         checker = true;
                                         //change status only , no need change row
@@ -703,7 +769,6 @@
                                         $(`#printer${orderPhotoId}`).text(record.assigned_printer);
                                     }
                                     else {
-                                        console.log("is it here?");
                                         checker = true;
                                         updateStatusRow(record);
                                     }
@@ -718,7 +783,11 @@
                             if (record.lineitem_status == "Waiting") {
                                 $('#noProcessingOrderFound').css("display", "none");
                                 if (autoPrintingOn) {
+                                    console.log("Now is on");
                                     startAutoPrinting = true;
+                                }
+                                else {
+                                    console.log("cannot becasue" + autoPrintingOn);
                                 }
                                 createWaitingRow(record);
                                 $(`#order${orderNo}`).addClass(effects).one(effectsend, function () {
@@ -734,7 +803,7 @@
                             }
                             else if (record.lineitem_status == "Collected") {
                                 $('#noCollectedOrderFound').css("display", "none");
-                                createCollectedRow(record);
+                                //createCollectedRow(record);
                             }
                             else if (record.lineitem_status == "Completed") {
                                 $('#noProcessingOrderFound').css("display", "none");
@@ -747,7 +816,6 @@
                         }
                     }
                 });
-                
                 if (startAutoPrinting) {
                     function checkPrintingStatus() {
                         //console.log("Now there are jobs?" + autoPrintingStatus);
@@ -798,6 +866,8 @@
             currentTable = "processingOrders";
         }
         else if ($('#home-tab-justify').hasClass("active")) {
+            console.log("View Collected Orders");
+            loadCollectedTable();
             currentTable = "completedOrders";
         }
     }
@@ -934,14 +1004,13 @@
     $(document).ready(function () {
         $('#menuHardcopy').addClass("active");
         // Fetch the initial table
-        //loadTable();
+        loadTable();
         
         updatePrinterInfo();
         updatePrintingStatus();
         setInterval(checkOrder, 5000);
         setInterval(loadPrinterInfo, 5000);
     });
-    
     
     $('#autoPrintingChk').change(function () {
         if ($("#autoPrintingChk").is(':checked')) {
@@ -976,8 +1045,18 @@
                     autoPrintingStatus = true;
                     console.log("There is something to print");
                     //jsWebClientPrint.print(`photoId=${photos[0].photo_id}`);
-                    sendPrintingJobs(`${photos[0].photo_id}`);
-                    setTimeout(startAutoPrintingFunc, 5000);
+                    var webformdata = { "photoId":  photos[0].photo_id };
+                    url = `/api/hardcopys/autoPrintingChangeStatus`;
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        contentType: 'application/json',
+                        data: JSON.stringify(webformdata)
+                    }).done(function (data, textStatus, jqXHR) {
+                        sendPrintingJobs(`${photos[0].photo_id}`);
+                            setTimeout(startAutoPrintingFunc, 5000);
+                        });
+
                 }
                 else {
                     console.log("nothing to print now");
@@ -988,9 +1067,7 @@
     }
 
     function sendPrintingJobs(photoId) {
-
         webformdata = { "photoId": photoId, "borderless": borderlessOn };
-        console.log(webformdata);
         url = `/api/hardcopys/autoPrinting`;
 
         $.ajax({
@@ -1002,7 +1079,6 @@
             .done(function (data, textStatus, jqXHR) {
                 console.log(data);
             });
-    
     }
 
     function loadPausePrinter(printerId) {

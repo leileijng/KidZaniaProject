@@ -6,17 +6,16 @@ DELETE FROM kidzania.`order`;
 INSERT INTO `order` VALUES 
 ('AKWAW','kidzsgAKWAW280720',30.00,'Preparing',DATE_ADD(date(now()), INTERVAL 18 HOUR)),
 ('AVVGW','kidzsgAVVGW280720',30.00,'Preparing',DATE_ADD(date(now()), INTERVAL 18 HOUR)),
-('BARIJ','kidzsgBARIJ070820',106.00,'Preparing',DATE_ADD(date(now()), INTERVAL 17 HOUR)),
-
+('BARIJ','kidzsgBARIJ070820',106.00,'Preparing',DATE_ADD(date(now()), INTERVAL 17 HOUR));
 
 INSERT INTO `lineitem` VALUES 
 ('AKWAW_a5','kidzsgAKWAW280720','a5','/Content/Photos/1.jpg',30.00,'Paused',1,DATE_ADD(date(now()), INTERVAL 18 HOUR)),
 ('AVVGW_a5','kidzsgAVVGW280720','a5','/Content/Photos/1.jpg',30.00,'Paused',1,DATE_ADD(date(now()), INTERVAL 18 HOUR)),
-('BARIJ_a5','kidzsgBARIJ070820','a5','/Content/Photos/1.jpg|/Content/Photos/2.jpg',20.00,'Paused',2,DATE_ADD(date(now()), INTERVAL 17 HOUR)),
+('BARIJ_a5','kidzsgBARIJ070820','a5','/Content/Photos/1.jpg|/Content/Photos/2.jpg',20.00,'Paused',2,DATE_ADD(date(now()), INTERVAL 17 HOUR));
 
 
 INSERT INTO `itemphoto` VALUES 
 ('AKWAW_a5_/Content/Photos/1.jpg','/Content/Photos/1.jpg','kidzsgAKWAW280720','AKWAW_a5',NULL,'Paused',DATE_ADD(date(now()), INTERVAL 18 HOUR)),
 ('AVVGW_a5_/Content/Photos/1.jpg','/Content/Photos/1.jpg','kidzsgAVVGW280720','AVVGW_a5',NULL,'Paused',DATE_ADD(date(now()), INTERVAL 18 HOUR)),
 ('BARIJ_a5_/Content/Photos/1.jpg','/Content/Photos/1.jpg','kidzsgBARIJ070820','BARIJ_a5','A5P1','Paused',DATE_ADD(date(now()), INTERVAL 17 HOUR)),
-('BARIJ_a5_/Content/Photos/2.jpg','/Content/Photos/2.jpg','kidzsgBARIJ070820','BARIJ_a5','A5P2','Paused',DATE_ADD(date(now()), INTERVAL 17 HOUR)),
+('BARIJ_a5_/Content/Photos/2.jpg','/Content/Photos/2.jpg','kidzsgBARIJ070820','BARIJ_a5','A5P2','Paused',DATE_ADD(date(now()), INTERVAL 17 HOUR));

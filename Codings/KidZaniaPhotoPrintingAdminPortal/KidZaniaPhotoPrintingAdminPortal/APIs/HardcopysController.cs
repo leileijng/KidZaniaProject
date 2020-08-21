@@ -64,7 +64,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     photo_qty = x.lineitem.quantity,
                     photo_path = x.photo,
                     photo_status = x.printing_status,
-                    assigned_printer = x.printer.name,
+                    assigned_printer = x.printer.printer_id,
                     lineitem_status = x.lineitem.status,
                     updated_time = x.updated_at,
                     lineItem_name = x.lineitem.product.name
@@ -143,8 +143,9 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     bool allCompleted = true;
                     foreach (var photo in itemPhotos)
                     {
-                        if (photo.printing_status != "Completed")
+                        if (photo.printing_status != "Completed" && photo.itemphoto_id != itemPhoto.itemphoto_id)
                         {
+                           
                             allCompleted = false;
                         }
                     }
@@ -240,7 +241,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 printer foundPrinter = database.printers.SingleOrDefault(i => i.printer_id.Equals(printerId));
                 foundPrinter.error = error;
                 foundPrinter.manuallyOff = true;
-
+                CancelPrintingJobsForPrinter(printerId);
                 database.SaveChanges();
 
                 return Ok();
@@ -343,13 +344,16 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                                     }
                                     localPrinter.updated_at = DateTime.Now;
                                     var foundPrinter = database.printers.SingleOrDefault(i => i.printer_id.Equals(localPrinter.printer_id));
-                                    if (foundPrinter != null && !foundPrinter.manuallyOff)
+                                    if (foundPrinter != null)
                                     {
-                                        foundPrinter.name = localPrinter.name;
-                                        foundPrinter.port = localPrinter.port;
-                                        foundPrinter.status = localPrinter.status;
-                                        foundPrinter.updated_at = DateTime.Now;
-                                        foundPrinter.error = localPrinter.error;
+                                        if(!foundPrinter.manuallyOff && foundPrinter.error == null)
+                                        {
+                                            foundPrinter.name = localPrinter.name;
+                                            foundPrinter.port = localPrinter.port;
+                                            foundPrinter.status = localPrinter.status;
+                                            foundPrinter.updated_at = DateTime.Now;
+                                            foundPrinter.error = localPrinter.error;
+                                        }
                                     }
                                     else
                                     {
@@ -382,6 +386,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 {
                     while (true)
                     {
+                        updateLineItemStatusToComplete();
                         ManagementObjectSearcher searchPrintJobs = new ManagementObjectSearcher(searchQuery);
                         ManagementObjectCollection prntJobCollection = searchPrintJobs.Get();
 
@@ -399,7 +404,6 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                                 if(jobStatus.Trim(' ') != "")
                                 {
                                     photoItem.printing_status = jobStatus;
-                                    Debug.WriteLine(jobStatus);
                                     if (jobStatus.Equals("Printing"))
                                     {
                                         photoItem.lineitem.status = "Printing";
@@ -466,14 +470,21 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                                 var checkStatusPhotos = database.itemphotoes.Where(x => x.lineitem.lineitem_id.Equals(photolineItemId)).ToList();
                                 foreach (var p in checkStatusPhotos)
                                 {
-                                    if (p.printing_status.Equals("Completed"))
+                                    if (p.printing_status.Equals("Completed") && p.itemphoto_id != printingPhotos[i].itemphoto_id)
                                     {
                                         lineItemComplete++;
                                     }
                                 }
-                                if (lineItemComplete == printingPhotos[i].lineitem.quantity)
+                                if (lineItemComplete == printingPhotos[i].lineitem.quantity - 1)
                                 {
                                     printingPhotos[i].lineitem.status = "Completed";
+                                }
+                                else
+                                {
+                                        Debug.WriteLine("Why cannot print?");
+                                        Debug.WriteLine(printingPhotos[i].order.order_id);
+                                        Debug.WriteLine(lineItemComplete+ " has Completed ," + printingPhotos[i].lineitem.quantity +" is required");
+                                     
                                 }
                             }
                         }
@@ -489,7 +500,67 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
         }
 
-        
+        public void updateLineItemStatusToComplete()
+        {
+            List<lineitem> printingLineItems = database.lineitems.Where(i => i.status == "Printing").ToList();
+            foreach(lineitem l in printingLineItems)
+            {
+                string reason = "";
+                List<itemphoto> ps = l.itemphotoes.ToList();
+                var allCompleted = true;
+                foreach (itemphoto i in ps)
+                {
+                    if (i.printing_status != "Completed")
+                    {
+                        reason += i.itemphoto_id;
+                            allCompleted = false;
+                    }
+
+                }
+                if (allCompleted)
+                {
+                    l.status = "Completed";
+                    Debug.WriteLine("Changed here");
+                    database.SaveChanges();
+                    Debug.WriteLine(l.order.order_id + " change to completed");
+                }
+                else
+                {
+
+                    Debug.WriteLine(l.order.order_id + " not change to completed coz " + reason + "not finish printing ");
+                }
+            }
+        }
+
+        [HttpPost]
+        [Route("api/hardcopys/autoPrintingChangeStatus")]
+        public IHttpActionResult autoPrintingChangeStatus([FromBody]JObject data)
+        {
+            string photoId = data["photoId"].ToString();
+            try
+            {
+                List<string> availablePris = availablePrinters();
+                string bestPrinterId = leastJobs(availablePris);
+                string bestPrinter = database.printers.SingleOrDefault(p => p.printer_id.Equals(bestPrinterId)).name.ToString();
+                if (bestPrinter != null && bestPrinter != "")
+                {
+                    var photos = database.itemphotoes.SingleOrDefault(i => i.itemphoto_id.Equals(photoId));
+                    photos.printing_status = "Queueing";
+                    database.SaveChanges();
+                }
+                else
+                {
+                    return BadRequest("There is no Printer available.");
+                }
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest();
+            }
+            return Ok("This photo is ready to print.");
+        }
+
         [HttpPost]
         [Route("api/hardcopys/autoPrinting")]
         public IHttpActionResult AutoPrinting([FromBody]JObject data)
@@ -502,6 +573,10 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 var photos = database.itemphotoes.SingleOrDefault(i => i.itemphoto_id.Equals(photoId));
 
                 List<string> availablePris = availablePrinters();
+                if(availablePris == null || availablePris.Count == 0)
+                {
+                    return BadRequest("No Printer is available.");
+                }
                 string bestPrinterId = leastJobs(availablePris);
                 string bestPrinter = database.printers.SingleOrDefault(p => p.printer_id.Equals(bestPrinterId)).name.ToString();
 
@@ -534,6 +609,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     }
 
                     string current_photo_path = System.Web.HttpContext.Current.Server.MapPath("~/Content/Photos/" + photoName);
+                    current_photo_path = System.Web.HttpContext.Current.Server.MapPath("~/Content/AutoPrintingTest/" + photoName);
                     pd.PrintPage += (sndr, args) =>
                     {
                         System.Drawing.Image i = System.Drawing.Image.FromFile(current_photo_path);
@@ -592,7 +668,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                     pd.PrinterSettings.PrinterName = bestPrinter;
                     
                     pd.Print();
-                    return Ok();
+                    return Ok("The photo has been sent to print successfully");
                 }
                 else
                 {
@@ -624,6 +700,7 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
                 // Look for the job you want to delete/cancel.
                 foreach (ManagementObject prntJob in prntJobCollection)
                 {
+                
                     string jobDocument = prntJob.Properties["Document"].Value.ToString();
                     
                     if (jobDocument.Contains(order) && jobDocument.Contains(photoId))
@@ -649,6 +726,55 @@ namespace KidZaniaPhotoPrintingAdminPortal.APIs
             }
         }
 
+        public void CancelPrintingJobsForPrinter(string printerId)
+        {
+            Debug.WriteLine("Cancel Printing jobs for " + printerId);
+            string searchQuery;
+            ManagementObjectSearcher searchPrintJobs;
+            ManagementObjectCollection prntJobCollection;
+            try
+            {
+                // Query to get all the queued printer jobs.
+                searchQuery = "SELECT * FROM Win32_PrintJob";
+                // Create an object using the above query.
+                searchPrintJobs = new ManagementObjectSearcher(searchQuery);
+                // Fire the query to get the collection of the printer jobs.
+                prntJobCollection = searchPrintJobs.Get();
+
+                // Look for the job you want to delete/cancel.
+                foreach (ManagementObject prntJob in prntJobCollection)
+                {
+
+                    string printerName = prntJob.Properties["Name"].Value.ToString();
+
+                    Debug.WriteLine("printerName: " + printerName);
+                    if (printerName.Contains(printerId))
+                    {
+                        string jobDocument = prntJob.Properties["Document"].Value.ToString();
+                        string jobStatus = Convert.ToString(prntJob.Properties["JobStatus"]?.Value);
+                        if (jobStatus != "Printing")
+                        {
+                            prntJob.Delete();
+                            List<itemphoto> ps = database.itemphotoes.Where(i => i.printing_status != "Printing" && i.printing_status != "Completed" && i.printing_status != "Collected" && i.printing_status != "Paused").ToList();
+                            foreach(itemphoto i in ps)
+                            {
+                                string[] photoNames = i.photo.Split('/');
+                                string photoId = photoNames[photoNames.Length - 1];
+                                if (jobDocument.Contains(i.order.order_id) && jobDocument.Contains(photoId))
+                                {
+                                    i.printing_status = "Waiting";
+                                    database.SaveChanges();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception sysException)
+            {
+                Debug.WriteLine("Exception: " + sysException.Message.ToString());
+            }
+        }
 
         public List<string> availablePrinters()
         {
